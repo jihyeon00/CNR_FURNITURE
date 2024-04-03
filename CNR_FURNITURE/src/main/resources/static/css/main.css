@@ -3,3 +3,8 @@
 body{
 	font-family: "Noto Sans KR", sans-serif;
 }
+
+.content{
+	min-height: 1024px;
+}
+
