@@ -1,0 +1,54 @@
+
+/* 버튼 css */
+.btn {
+    height: 38px;
+    padding: 0.375rem 0.75rem;
+}
+.headerBar {
+    border-top: 1px solid #858585;
+    border-bottom: 1px solid #858585;
+    margin: 0px 8px 0px 8px;
+    display: flex;
+   
+}
+
+.machineSearch {
+    display: flex;
+    
+}
+
+.machineSearch .machineBox{
+    width: 150px;
+    margin: 10px 15px 10px 15px;
+
+}
+
+.machineName, .machineType, .machinePosition{
+    display: flex;
+  
+}
+
+.searchMachine {
+    padding: 15px;
+    background-color: #D8D8D8;
+    
+}
+
+
+.searchbtn {
+    float: right;
+  
+		
+    
+   
+}
+
+.machineName, .machineType{
+	  margin-bottom: 2%;
+	
+}
+
+
+
+
+
