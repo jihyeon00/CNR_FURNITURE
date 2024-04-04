@@ -1,0 +1,203 @@
+@charset "UTF-8";
+*{margin: 0; padding: 0; box-sizing: border-box;}
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background: #ECDBA0;
+}
+/*@   로고 이미지   @*/
+.LogoB {
+  width: 270px;
+  height: 160px;
+}
+
+/*@   버튼   @*/
+/* 로그인 버튼 */
+.login-btn {
+  background-color: #ECDBA0;
+  border-radius: 5px;
+  border: 0px;
+  width: 100px;
+  height: 40px;
+	font-weight: 400;
+	font-size: 18px;
+}
+/* 비밀번호 변경 버튼 */
+.pwd-btn {
+  background-color: #ECDBA0;
+  border-radius: 5px;
+  border: 0px;
+  width: 130px;
+  height: 40px;
+	font-weight: 400;
+	font-size: 16px;
+}
+/* 발송 버튼 */
+.put-btn {
+  background-color: #ECDBA0;
+  border-radius: 5px;
+  border: 0px;
+  width: 50px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+/*@   로그인 페이지  @*/
+/* 로그인 폼 */
+.login-area {
+  display: flex;
+  flex-wrap: wrap;
+	justify-content: center;
+  width: 500px;
+  height: 510px;
+	background-color: white;
+	border-radius: 10px;
+}
+
+/* 이미지 영역 */
+.img-area {
+  display: flex;
+	justify-content: center;
+	align-items: flex-end;
+  width: 500px;
+  height: 210px;
+}
+
+/* 텍스트 영역 */
+.loginText-area {
+  display: flex;
+  flex-wrap: wrap;
+	justify-content: center;
+  width: 500px;
+  height: 280px;
+}
+.loginInt-area {
+  display: flex;
+  flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+/* 입력 내용명 */
+.int-area-name {
+  display: flex;
+	align-items: center;
+  width: 300px;
+  height: 20px;
+}
+/* 입력 내용 */
+.int-area-input {
+  display: flex;
+	justify-content: center;
+  width: 300px;
+  height: 40px;
+	font-family: Inter;
+	font-weight: 400;
+	font-size: 18px;
+  padding: 10px;
+}
+/* 비밀번호 변경 텍스트 */
+.pwChange {
+  display: flex;
+	align-items: center;
+  width: 300px;
+  height: 20px;
+}
+.pwChange a {
+	color: #1762F2;
+	font-weight: 300;
+	text-decoration: none;
+}
+/* 버튼 영역 */
+.btn-area {
+  display: flex;
+	justify-content: center;
+  width: 300px;
+  height: 40px;
+}
+
+
+
+
+/*@   비밀번호 변경 페이지  @*/
+/* 비밀번호 변경 폼 */
+.pwChange-area {
+  display: flex;
+  flex-wrap: wrap;
+	justify-content: center;
+  width: 500px;
+  height: 560px;
+	background-color: white;
+	border-radius: 10px;
+}
+/* 이미지 영역 */
+.pwChange-area .pwdImg-area {
+  display: flex;
+	justify-content: center;
+	align-items: flex-end;
+  width: 500px;
+  height: 200px;
+}
+/* 텍스트 영역 */
+.pwChange-area .pwdText-area {
+  display: flex;
+  flex-wrap: wrap;
+	justify-content: center;
+  width: 500px;
+  height: 340px;
+}
+/* [이메일/인증번호] 영역 */
+.pwChange-area .pwdText-area .pwdInt-area {
+  display: flex;
+  flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+  width: 500px;
+  height: 140px;
+}
+/* [이메일/인증번호] */
+.pwChange-area .pwdText-area .pwdInt-area .pwdInt-area-name {
+  display: flex;
+	align-items: center;
+  width: 350px;
+  height: 20px;
+}
+/* 인증번호가 일치할 경우에만 보임 */
+/* [새 비밀번호/한번 더 입력] 영역 */
+.pwChange-area .pwdText-area .pw-area {
+  display: flex;
+  flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+  width: 500px;
+  height: 200px;
+}
+/* [새 비밀번호/한번 더 입력] */
+.pwChange-area .pwdText-area .pw-area .pwdInt-area-name {
+  display: flex;
+	align-items: center;
+  width: 350px;
+  height: 20px;
+}
+/* [새 비밀번호/한번 더 입력] 입력칸 */
+.pwChange-area .pwdText-area .pw-area .pwdInt-area-input {
+  display: flex;
+	justify-content: center;
+  width: 300px;
+  height: 40px;
+	font-family: Inter;
+	font-weight: 400;
+	font-size: 18px;
+  padding: 10px;
+  margin-right: 60px;
+}
+/* [비밀번호 변경 버튼] 영역 */
+.pwChange-area .pwdText-area .pw-area .pw-btn-area {
+  display: flex;
+	justify-content: center;
+	align-items: center;
+  width: 500px;
+  height: 50px;
+}
