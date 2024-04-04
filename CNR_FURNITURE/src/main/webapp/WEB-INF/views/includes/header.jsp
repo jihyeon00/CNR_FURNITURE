@@ -8,10 +8,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>C&R Furniture</title>
-
+  <!-- favicon -->
+  <link rel="icon" href="/resources/img/favicon.ico" type="image/x-icon">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   <link rel="stylesheet" href="/resources/plugins/fontawesome-free/css/all.min.css">
   <!-- IonIcons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -24,6 +26,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
   <!-- Table style -->
   <link rel="stylesheet" href="/resources/css/table.css">
+  <!-- jQuery -->
+  <script defer src="/resources/js/jquery-3.7.1.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -78,30 +82,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <!-- 
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="/resources/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-        </div>
-      </div>
-       -->
-
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -205,12 +185,17 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="pages/layout/top-nav.html" class="nav-link">
-                  <p>&nbsp;&nbsp;제조지시서</p>
+                  <p>&nbsp;&nbsp;제조지시</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/layout/top-nav.html" class="nav-link">
-                  <p>&nbsp;&nbsp;공정관리</p>
+                  <p>&nbsp;&nbsp;제조수행지시</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/layout/top-nav.html" class="nav-link">
+                  <p>&nbsp;&nbsp;공정정보관리</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -229,6 +214,35 @@
             <a href="#" class="nav-link">
               <p style="font-size: 18px;">
                 제품관리
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="pages/layout/top-nav.html" class="nav-link">
+                  <p>&nbsp;&nbsp;제품입고현황</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/layout/top-nav.html" class="nav-link">
+                  <p>&nbsp;&nbsp;제품출고현황</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/layout/top-nav.html" class="nav-link">
+                  <p>&nbsp;&nbsp;제품재고조회</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/layout/top-nav.html" class="nav-link">
+                  <p>&nbsp;&nbsp;수주정보조회</p>
+                </a>
+              </li>
+            </ul>
+          </li><li class="nav-item">
+            <a href="#" class="nav-link">
+              <p style="font-size: 18px;">
+                설비관리
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>

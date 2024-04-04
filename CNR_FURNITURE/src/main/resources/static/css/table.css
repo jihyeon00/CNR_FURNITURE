@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+.titleAndTable{
+	margin-left: 15px;
+}
+.title{
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-weight: 600;
+}
+
 .table{
 	height:300px;
 	overflow-y: auto;
