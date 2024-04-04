@@ -34,3 +34,4 @@ build/
 
 ### .DS_Store 파일 삭제 ###
 .DS_Store
+/.metadata/
