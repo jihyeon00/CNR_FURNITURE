@@ -11,6 +11,6 @@ public class MaterialInfoController {
 
     @GetMapping("/materialInfo")
     public String materialInfo() {
-        return "materialInfo/materialInfo";
+        return "standardInfo/materialInfo";
     }
 }
