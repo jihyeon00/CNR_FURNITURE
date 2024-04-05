@@ -12,4 +12,10 @@ public class ProcessController {
         return "process/instruction";
     }
 
+    @GetMapping("/processPlan")
+    public String processPlan(){
+        return "process/instructionPlan";
+    }
+
+
 }

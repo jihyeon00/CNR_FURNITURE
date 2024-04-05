@@ -39,9 +39,9 @@
           <div class="col-md-12 searchBer">
             <div class="col-sm-1 sb-name">계획일자</div>
             <div class="col-sm-2 sb-text">
-                <input type="date" class="col-sm-12 sb-text1" id="" name=""/> 
+                <input type="date" class="col-sm-12 sb-text1" id="" name=""/>
                 <p class="textPro"> ~ </p>
-                <input type="date" class="col-sm-12 sb-text1" id="" name=""/> 
+                <input type="date" class="col-sm-12 sb-text1" id="" name=""/>
             </div>
             <div class="col-sm-1 sb-name">제품번호</div>
               <select class="col-sm-2 sb-text" aria-label=".form-select-sm example">
@@ -205,7 +205,7 @@
               </table>
               <!-- /.table -->
 	          </div>
-          </div>  
+          </div>
           </div>
           </div>
         <!-- /.row -->
@@ -215,8 +215,8 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
-  
+
+
   <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -234,10 +234,10 @@
 
           <label for="modalProductAmount" class="form-label">계약번호</label>
           <input type="text" name="modalProductAmount" id="modalProductAmount" class="form-control" autocomplete="off">
-          
+
           <label for="modalProductAmount" class="form-label">계획착수일</label>
           <input type="date" name="modalProductAmount" id="modalProductAmount" class="form-control" autocomplete="off">
-          
+
           <label for="modalProductAmount" class="form-label">계획완수일</label>
           <input type="date" name="modalProductAmount" id="modalProductAmount" class="form-control" autocomplete="off">
 
@@ -271,7 +271,7 @@
     </div>
   </div>
 
-  
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
