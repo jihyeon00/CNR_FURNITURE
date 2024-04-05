@@ -12,188 +12,177 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">자재 정보 관리</h1>
+          <div class="col-md-6">
+            <h1 class="m-0"><i class="far fa-clipboard"></i> 자재 정보 관리</h1>
           </div><!-- /.col -->
-          <div class="col-sm-6">
+          <div class="col-md-6 ml-auto">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/main">Home</a></li>
-              <li class="breadcrumb-item active">자재 목록</li>
+              <li class="breadcrumb-item active">자재 정보</li>
             </ol>
-          </div><!-- /.col -->       
-        </div><!-- /.row -->
-        <br/>
-        <div class="row mb-3">
-          <div class="col-sm-5">
-            <div class="m-search">
-            	<select style="padding: 5px;">
-            		<option value="">--선택--</option>
-				    <option>자재번호</option>
-				    <option>자재명</option>
-            	</select>
-            	<input type="text" style="padding: 5px;"/>
-            	<button style="padding: 5px;">조회</button>
+          </div><!-- /.col -->
+        <div class="col-md-12">
+            <div class="member-btn">
+              <button type="button" class="btn btn-Default" data-toggle="modal" data-target="#myModal1">자재등록</button>
             </div>
-          </div><!-- /.col -->
-          <div class="col-sm-2">
-          	<!-- ===================================== -->
-			<!-- <button type="button" class="btn btn-block btn-primary">자재등록</button> -->
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-			  자재등록
-			</button>
-			
-			<!-- Modal -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-			      </div>
-			      <div class="modal-body">
-			        ...
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary">Save changes</button>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-			<!-- ===================================== -->
-			
-			
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+        </div>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+    </div>
 
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-		  <div class="table" style="height: 700px;">
-		    <table cellpadding="0" cellspacing="0" border="0" style="height: 700px;">
-		      <thead class="tbl-header">
-		        <tr>
-		          <th>NO</th>
-		          <th>자재 번호</th>
-		          <th>자재명</th>
-		          <th>자재 용도</th>
-		          <th>수정</th>
-		          <th>삭제</th>
-		        </tr>
-		      </thead>
-		      <tbody class="tbl-content">
-		        <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td class="modify">수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		        <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-		         <tr>
-		          <td>1</td>
-		          <td>20000001</td>
-		          <td>소나무</td>
-		          <td>원자재</td>
-		          <td>수정</td>
-		          <td>X</td>
-		        </tr>
-	         </tbody>
-			</table>
-			<!-- /.table -->
-	     </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
+          <!-- 검색창 -->
+          <div class="col-md-12 searchBar">
+            <div class="col-sm-1">
+            	<select>
+            		<option value="">--선택--</option>
+				    		<option>자재번호</option>
+				    		<option>자재명</option>
+            	</select>
+            </div>
+            <div class="col-sm-1">
+              <input type="text" id="" name="" />
+            </div>
+            <div class="col-sm-1 ml-auto">
+              <button type="button" class="btn btn-primary search" id="" name="" style="margin: 5px;">검색</button>
+            </div>
+          </div>
+        
+		      <div class="ETableName">
+			      <div class="icon"><i class="fa fa-list"></i></div>
+			      <div class="employee">자재 목록</div>
+		      </div>  
+				  <div class="table ETable" style="height: 700px;">
+				    <table cellpadding="0" cellspacing="0" border="0" style="height: 700px;">
+				      <thead class="tbl-header">
+				        <tr>
+				          <th>NO</th>
+				          <th>자재 번호</th>
+				          <th>자재명</th>
+				          <th>자재 용도</th>
+				          <th>수정</th>
+				          <th>삭제</th>
+				        </tr>
+				      </thead>
+				      <tbody class="tbl-content">
+				        <tr>
+				          <td>1</td>	  
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>		
+				          <td>  	
+								  	<div class="modify-btn" data-toggle="modal" data-target="#myModal2">
+									  수정
+										</div>
+						  		</td>
+						
+					
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				        <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				         <tr>
+				          <td>1</td>
+				          <td>20000001</td>
+				          <td>소나무</td>
+				          <td>원자재</td>
+				          <td>수정</td>
+				          <td>X</td>
+				        </tr>
+				        </tbody>
+						</table>
+						<!-- /.table -->
+				     </div>
+			        <!-- /.row -->
+			      </div>
+			      <!-- /.container-fluid -->
+			    </div>
+		    <!-- /.content -->
+		  </div>
+	  <!-- /.content-wrapper -->
   </div>
-  <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -201,8 +190,79 @@
   </aside>
   <!-- /.control-sidebar -->
   
-  
-	
-	
+  <!-- 모달창 등록  -->
+	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+			  <div class="modal-dialog" role="document">
+				  <div class="modal-content">
+				    <div class="modal-header">
+		        	<h4 class="modal-title" id="myModalLabel">자재정보 등록</h4>
+			      </div>
+			      <div class="modal-body">
+			        <form id="materialModify-form">
+			          <label for="modalUpdateName" class="form-label">자재명</label>
+			          <input type="text" name="modalUpdateName" id="modalUpdateName" class="form-control" autocomplete="off">
+			
+			          <label for="modalProductAmount" class="form-label">자재 용도</label>
+			          <input type="text" name="modalProductAmount" id="modalProductAmount" class="form-control" autocomplete="off">
+			          
+			          <label for="modalProductAmount" class="form-label">자재 규격</label>
+			          <input type="text" name="modalProductAmount" id="modalProductAmount" class="form-control" autocomplete="off">						          
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			      	<button type="button" class="btn btn-primary">등록</button>
+			       	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+			      </div>
+			    </div>
+			  </div>
+	</div>
+	  <!-- 모달창 등록 끝============================ -->
+	  
+	<!-- 모달창 수정  -->
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+				 <div class="modal-dialog" role="document">
+				   <div class="modal-content">
+				      <div class="modal-header">
+		        <h4 class="modal-title" id="myModalLabel">자재정보 수정</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form id="materialModify-form">
+		        	
+		        	<div class="row modal-content1">
+								<div class="col-md-6">
+					          <label for="modalProductAmount" class="form-label">자재 번호</label>
+					          <input type="text" name="" id="" class="form-control" autocomplete="off" readonly>
+		          	</div>
+		          	<div class="col-md-6">
+				          <label for="modalProductAmount" class="form-label">자재명</label>
+				          <input type="text" name="" id="" class="form-control" autocomplete="off">
+			          </div>		
+		          </div>	
+							
+							<div class="row modal-content2">
+								<div class="col-md-6">
+					          <label for="modalProductAmount" class="form-label">자재 용도</label>
+					          <input type="text" name="" id="" class="form-control" autocomplete="off">
+		          	</div>
+		          	<div class="col-md-6">
+				          <label for="modalProductAmount" class="form-label">자재 규격</label>
+				          <input type="text" name="" id="" class="form-control" autocomplete="off">
+			          </div>		
+		          </div>
+		          				          
+		        </form>
+		      </div>				     
+				     <div class="modal-footer">
+				       <button type="button" class="btn btn-info">수정</button>
+				       <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+				     </div>
+			    </div>
+			  </div>
+	</div>
+	<!-- 모달창 수정 끝============================ -->
+								
+								
+								
+								
 
 <%@ include file="../includes/footer.jsp" %>
