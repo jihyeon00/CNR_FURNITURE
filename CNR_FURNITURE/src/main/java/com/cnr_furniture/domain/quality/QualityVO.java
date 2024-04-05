@@ -1,4 +1,4 @@
-package com.cnr_furniture.domain;
+package com.cnr_furniture.domain.quality;
 
 import lombok.Data;
 

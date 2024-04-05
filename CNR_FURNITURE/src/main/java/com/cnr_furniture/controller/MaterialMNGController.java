@@ -1,8 +1,5 @@
 package com.cnr_furniture.controller;
 
-import com.cnr_furniture.domain.MaterialMNGVO;
-import com.cnr_furniture.utils.Constants;
-import com.cnr_furniture.utils.UtilDateTime;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import lombok.extern.log4j.Log4j;
@@ -18,14 +15,23 @@ public class MaterialMNGController {
 
     /**
      * Desc: 자재관리-자재입고현황-조회
-     * @return materialManagement/materialIB
+     * @return: materialManagement/materialIB
      */
     @GetMapping("/materialIB")      // localhost:8085/materialIB
-    public String materialMNG() throws Exception {
+    public String materialIB() throws Exception {
         /* 날짜 검색 */
         /*materialMNGVO.setShOptionDate(materialMNGVO.getShOptionDate() == null ? 1 : materialMNGVO.getShOptionDate());
         materialMNGVO.setShDateStart(materialMNGVO.getShDateStart() == null ? UtilDateTime.calculateDayString(UtilDateTime.nowLocalDateTime(), constants.DATE_INTERVAL) : materialMNGVO.getShDateStart());
         materialMNGVO.setShDateEnd(materialMNGVO.getShDateEnd() == null ? UtilDateTime.nowString() : materialMNGVO.getShDateEnd());*/
         return "materialManagement/materialIB";
+    }
+
+    /**
+     * Desc: 자재관리-자재출고현황-조회
+     * @return: materialManagement/materialOB
+     */
+    @GetMapping("/materialOB")      // localhost:8085/materialOB
+    public String materialOB() {
+        return "materialManagement/materialOB";
     }
 }
