@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<link rel="stylesheet" href="/resources/css/login&pwd.css">
+<link rel="stylesheet" href="/resources/css/login.css">
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -26,7 +26,7 @@
                 autocomplete="off" placeholder="Password"/>
         </div>
         <div class="pwChange">
-            <a href="/pwChange">비밀번호를 잊으셨나요?</a>
+            <a href="/PasswordChange">비밀번호를 잊으셨나요?</a>
         </div>
         <div class="btn-area">
             <input type="submit" class="login-btn" id="loginBtn" value="로그인"/>
