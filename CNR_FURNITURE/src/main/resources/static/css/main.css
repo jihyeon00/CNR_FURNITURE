@@ -4,8 +4,33 @@ body{
 	font-family: "Noto Sans KR", sans-serif;
 }
 
-.content{
-	min-height: 1024px;
+.content-wrapper{
+  min-height: 100%;
+  position: relative;
 }
 
+footer{
+  height: 30px;
+  bottom: 0px;
+  position: absolute;
+  width:100%
+}
+.copyright{
+	vertical-align: middle;
+}
 
+.reset{
+	border:1px solid #777;
+	width: 30px; 
+	height: 30px;
+	text-align: center;
+	padding-bottom: 2px;
+	vertical-align: middle;
+	background-color: #fff;
+}
+
+.resetPng{
+	margin-bottom: 5px;
+	width: 20px; 
+	height: 20px;
+}

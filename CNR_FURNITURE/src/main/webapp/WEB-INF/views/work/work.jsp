@@ -32,7 +32,7 @@
 	        <i class="fa fa-list"></i>
 	        <span>목록입니다.</span>
 	        <div class="reset">
-	        	<img class="resetPng" alt="reset" src="/resources/img/reset.png">
+	        	<img alt="reset" src="/resources/img/reset.png" style="width: 20px; height: 20px;">
 	        </div>
 	      </div>
 		  <div class="table">
