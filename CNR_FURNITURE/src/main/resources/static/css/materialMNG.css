@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+/* 자재입고 테이블 양식 */
+.matIB-titleAndTable,
+.matOB-titleAndTable {
+	margin-left: 15px;
+}
+.matIB-title,
+.matOB-title {
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-weight: 600;
+}
+.matIB-table {
+	/* CSS 코드로 헤더의 글자 크기에 따라 x축 스크롤 적용 */
+	overflow-x: auto; /* x축 스크롤 적용을 위한 오버플로우 속성 설정 */
+	width: 100%;			/* 테이블 전체 너비 지정 */
+}
+.matIB-table,
+.matOB-table {
+	height: 600px;
+	overflow-y: auto;
+}
+.matIB-table table,
+.matOB-table table {
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top:none;
+  border-collapse: separate;
+	border-spacing: 0;
+}
+.matOB-table table {
+	width:100%;
+}
+.matIB-table-header,
+.matOB-table-header {
+  background-color: #374056;
+  position : sticky;
+  top : 0;  
+ }
+ /* 테이블 좌우 길이 조절 */
+.matIB-table-header th,
+.matIB-table-content td,
+.matOB-table-header th,
+.matOB-table-content td {
+	white-space: nowrap;
+}
+.matIB-table-header tr th {
+	padding: 5px 15px; /* 상&하, 좌&우 */
+}
+.matOB-table-header tr th {
+	padding: 15px;
+}
+.matIB-table-header tr th,
+.matOB-table-header tr th {
+	text-align: center;
+  font-weight: 500;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+  border-right: 1px solid #fff;
+}
+
+.matIB-table-header tr th:last-child,
+.matOB-table-header tr th:last-child {
+  border-right: none;
+}
+.matIB-table-content,
+.matOB-table-content {
+  margin-top: 0px;
+}
+.matIB-table-content tr:hover,
+.matIB-table-content tr:nth-child(even):hover,
+.matOB-table-content tr:hover,
+.matOB-table-content tr:nth-child(even):hover {
+  background: #d9d9d9;
+}
+.matIB-table-content tr:nth-child(even),
+.matOB-table-content tr:nth-child(even) {
+  background: #eaeaed;
+}
+.matIB-table-content td,
+.matOB-table-content td {
+  padding: 15px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000;
+  border-right: 1px solid #BDBDBD;
+}
+.matIB-table-content tr td:last-child,
+.matOB-table-content tr td:last-child {
+  border-right: none;
+}
+
+/* 조회버튼 */
+.matIB-search-btn,
+.matOB-search-btn {
+	float: right;
+}
+/*   검색창   */
+.matIB-searchBar,
+.matOB-searchBar {
+  display: flex;
+	align-items: center;
+  height: 10%;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-bottom: 2%;
+}
+/*   검색명   */
+.matIB-search-title,
+.matOB-search-title {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 43px;
+  background-color: #D9D9D9;
+}
+.matOB-LOT-ID {
+	padding: 0 1%;
+}
+/*   검색내용   */
+.matIB-search-content,
+.matOB-search-content {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.matIB-search-content input[type="text"],
+.matOB-search-content input[type="text"] {
+  height: 3%;
+}
