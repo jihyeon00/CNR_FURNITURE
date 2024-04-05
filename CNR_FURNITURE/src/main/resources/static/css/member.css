@@ -1,0 +1,135 @@
+/*   검색창   */
+.searchBer {
+  display: flex;
+	align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+/*   검색명   */
+.sb-name {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 46px;
+  background-color: #D9D9D9;
+}
+/*   검색내용   */
+.sb-text {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.sb-text input[type="text"] {
+  height: 40px;
+}
+.sb-text select {
+  height: 40px;
+}
+
+.search-btn {
+  float: right;
+  width: 80px;
+  height: 40px;
+}
+.member-btn {
+  float: right;
+}
+
+/*   표 이름   */
+.ETableTitle {
+  display: flex;
+	align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: #F1F1F1;
+  border-top: 2px solid #999;
+	font-family: Inter;
+	font-weight: 400;
+  font-size: 16px;
+}
+/*   아이콘 div   */
+.icon {
+  display: flex;
+	justify-content: center;
+	align-items: center;
+  width: 30px;
+  margin-left: 5px;
+}
+/*   테이블 이름   */
+.employee {
+  display: flex;
+	align-items: center;
+}
+
+
+/*   사원테이블 긴 높이 조절   */
+.table.ETable {
+  height: 555px;
+}
+/*   테이블 행 높이 조절   */
+.tbl-content.ETable {
+  height: 0px;
+}
+
+.tbl-content.ETable td{
+  padding: 5px;
+  height: 45px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000;
+  border-right: 1px solid #BDBDBD;
+}
+
+/*   디렉터/매니저테이블 중간 높이 조절   */
+.table.DTable {
+  height: 250px;
+}
+.tbl-content.DTable {
+  height: 0px;
+}
+.tbl-content.DTable td{
+  padding: 5px;
+  height: 45px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000;
+  border-right: 1px solid #BDBDBD;
+}
+
+
+/*   모달창 테이블 높이 조절   */
+.table.MTable {
+  height: 230px;
+}
+.tbl-content.MTable {
+  height: 0px;
+}
+.tbl-content.MTable td{
+  padding: 5px;
+  height: 45px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000;
+  border-right: 1px solid #BDBDBD;
+}
+
+
+
+
+
+
+
+
+
+
+
