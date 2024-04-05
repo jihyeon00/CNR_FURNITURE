@@ -7,9 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @Log4j
 public class BomController {
-    @GetMapping("/bomInfo")
+    @GetMapping("/bom")
     public String bomInfo() {
-        return "standardInfo/bomInfo";
+        return "standardInfo/bom";
+    }
+
+    @GetMapping("/bomInsert")
+    public String bomInsert() {
+        return "standardInfo/bomInsert";
     }
 
 }

@@ -10,16 +10,60 @@
   background-color: #fff;
 }
 
+.bomInsertSearch {
+	display: flex;
+	margin:auto;
+}
+
+
+/*   검색버튼   */
+
 .search {
   float: right;
   width: 80px;
   height: 40px;
+}
+
+.searchItem {
+  float: right;
+  width: 70px;
+  height: 34px;
+}
+
+.addLine {
+	height: 50px;
+}
+
+
+.addBom,
+.insertBom,
+.cancelBom
+ {
+  float: right;
+  width: 70px;
+  height: 34px;
+}
+
+.insertBom-btn {
+	display: flex;
+	justify-content:end;
+	padding-top: 70px;	
+}
+
+.insertBom-btn button {
+	
 }
 .member-btn {
   float: right;
 }
 
 /*   표 이름   */
+
+.bomInsertBox {
+	margin-top: -24px;
+}
+
+
 .ETableName {
   display: flex;
 	align-items: center;
@@ -32,6 +76,17 @@
   font-size: 16px;
 }
 
+.ITableName {
+	display: flex;
+	align-items: center;
+  width: 100%;
+  height: 60px;
+  background-color: #F1F1F1;
+  border-top: 2px solid #999;
+	font-family: Inter;
+	font-weight: 400;
+  font-size: 16px;
+}
 
 /*   아이콘 div   */
 .icon {
@@ -41,11 +96,7 @@
   width: 30px;
   margin-left: 5px;
 }
-/*   테이블 이름   */
-.employee {
-  display: flex;
-	align-items: center;
-}
+
 
 
 /*   사원테이블 길이 조절   */

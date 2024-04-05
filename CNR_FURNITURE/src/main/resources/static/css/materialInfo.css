@@ -34,6 +34,8 @@
 	border: 1px solid #999;
 }
 
+/*  검색창   */
+
 .searchBar {
 	display: flex;
 	border-bottom: 2px solid #999;
@@ -42,6 +44,10 @@
 	margin-top: 40px;
 }
 
+.bomItemSearch {
+	display: flex;
+	margin: auto;
+}
 
 .col-sm-1 select {
 	height:40px;
