@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+
+/*   표 이름   */
+.ETableName {
+  display: flex;
+	align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: #F1F1F1;
+  border-top: 2px solid #999;
+	font-family: Inter;
+	font-weight: 400;
+  font-size: 16px;
+}
+
+/*   표 이름   */
+.ETableName {
+  display: flex;
+	align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: #F1F1F1;
+  border-top: 2px solid #999;
+	font-family: Inter;
+	font-weight: 400;
+  font-size: 16px;
+}
+
+
+.member-btn button {
+	position: absolute;
+		 right: 0;
+	border: 1px solid #999;
+}
+
+.searchBar {
+	display: flex;
+	border-bottom: 2px solid #999;
+	border-top: 2px solid #999;
+	margin-bottom: 10px;
+	margin-top: 40px;
+}
+
+
+.col-sm-1 select {
+	height:40px;
+	margin: 5px;
+}
+
+.col-sm-1 input {
+	height:40px;
+	margin: 5px;
+}
+
+.tbl-content td {
+  padding: 15px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 16px;
+  color: #000;
+  border-right: 1px solid #BDBDBD;
+}
+
+.modify-btn { 
+	cursor: pointer;
+	border: none;
+}
+
+.delete-btn { 
+	cursor: pointer;
+	border: none;
+}
+
+.modify-btn:hover { 
+	color: #17A2B8;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.delete-btn:hover { 
+	color: red;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.modal-content1,
+.modal-content2,
+.modal-content3 {
+	display:flex;
+}
+
+
+.modal-title {
+	text-align: center
+}
+
+.modal-header h4 {
+	position: relative;
+	right: -165px;
+}
