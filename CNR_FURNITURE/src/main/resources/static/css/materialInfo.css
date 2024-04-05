@@ -2,6 +2,18 @@
 
 
 /*   표 이름   */
+.ItemTableName {
+  display: flex;
+	align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: #F1F1F1;
+  border-top: 2px solid #999;
+	font-family: Inter;
+	font-weight: 400;
+  font-size: 16px;
+}
+
 .ETableName {
   display: flex;
 	align-items: center;

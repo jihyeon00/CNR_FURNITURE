@@ -14,4 +14,6 @@ public class ItemInfoVO {
     private String i_standard;
     private String i_type;
     private String i_uses;
+
+    private int rn;
 }
