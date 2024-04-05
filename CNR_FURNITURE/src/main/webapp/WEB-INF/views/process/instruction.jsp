@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
-<link rel="stylesheet" href="/resources/css/instruction.css">
+<link rel="stylesheet" href="/resources/css/process.css">
 <%@ include file="../includes/header.jsp" %>
 
   <!-- Content Wrapper. Contains page content -->
@@ -22,9 +22,9 @@
             </ol>
           </div><!-- /.col -->
         <div class="col-md-12">
-            <div class="member-btn">
-              <button type="button" id="searchbtn" class="btn btn-primary">조희</button>
-	            <button type="button" id="addBtn" class="btn btn-default" data-toggle="modal" data-target="#myModal" >등록</button>
+            <div class="pro-btn">
+              <button type="button" id="prosearchbtn" class="btn btn-primary">조희</button>
+	            <button type="button" id="proaddBtn" class="btn btn-default" data-toggle="modal" data-target="#myModal" >등록</button>
             </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -36,15 +36,15 @@
       <div class="container-fluid">
         <div class="row">
           <!-- 검색창 -->
-          <div class="col-md-12 searchBer">
-            <div class="col-sm-1 sb-name">계획일자</div>
-            <div class="col-sm-2 sb-text">
+          <div class="col-md-12 prosearchBer">
+            <div class="col-sm-1 prosb-name">계획일자</div>
+            <div class="col-sm-2 prosb-text">
                 <input type="date" class="col-sm-12 sb-text1" id="" name=""/> 
                 <p class="textPro"> ~ </p>
                 <input type="date" class="col-sm-12 sb-text1" id="" name=""/> 
             </div>
-            <div class="col-sm-1 sb-name">제품번호</div>
-              <select class="col-sm-2 sb-text" aria-label=".form-select-sm example">
+            <div class="col-sm-1 prosb-name">제품번호</div>
+              <select class="col-sm-2 prosb-text" aria-label=".form-select-sm example">
                     <option selected></option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -52,10 +52,10 @@
               </select>
             </div>
           <div class="col-md-12">
-            <!-- 사원테이블 -->
+            <!--제조지시 테이블 -->
             <div class="ETableName">
               <div class="icon"><i class="fa fa-list"></i></div>
-              <div class="employee">사원</div>
+              <div class="process">제조지시목록</div>
             </div>
             <div class="table ETable">
               <table cellpadding="0" cellspacing="0" border="0">
@@ -67,7 +67,6 @@
                        <th>계획완수일</th>
                        <th>제품번호</th>
                        <th>계획수량</th>
-                       <th></th>
                 </thead>
                 <tbody class="tbl-content ETable">
                       <tr>
@@ -78,7 +77,6 @@
                         <td>5</td>
                         <td>6</td>
                         <td>7</td>
-                        <td class ="help"><a id="delete" data-toggle="modal" data-target="#deleteModal">삭제</a></td>
 
                       </tr>
                       <tr>
@@ -89,7 +87,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -99,7 +96,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -109,7 +105,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       <tr>
                         <td>1</td>
                             <td>2</td>
@@ -118,7 +113,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -128,7 +122,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -138,7 +131,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -148,7 +140,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -158,7 +149,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -168,7 +158,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -178,7 +167,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                         <td>1</td>
@@ -188,7 +176,6 @@
                             <td>5</td>
                             <td>6</td>
                             <td>7</td>
-                            <td>X</td>
                       </tr>
                       <tr>
                           <td>1</td>
@@ -198,7 +185,6 @@
                              <td>5</td>
                              <td>6</td>
                              <td>7</td>
-                             <td>X</td>
                       </tr>
 
                 </tbody>
@@ -250,26 +236,6 @@
     </div>
   </div>
 </div>
-
-  <!-- 삭제 모달 -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel">데이터 삭제</h4>
-        </div>
-        <div class="modal-body">
-          <div class="madalUpdate">
-            <div class="updateName">정말로 삭제하시겠습니까?</div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" >삭제</button>
-          <button type="button" class="btn btn-defalut" data-dismiss="modal" >닫기</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   
 

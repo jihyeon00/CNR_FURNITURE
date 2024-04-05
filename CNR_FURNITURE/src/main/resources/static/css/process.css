@@ -1,0 +1,246 @@
+/*   검색창   */
+.prosearchBer {
+  display: flex;
+	align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-bottom: 10px;
+
+
+ 
+}
+/*   검색명   */
+.prosb-name {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 46px;
+  background-color: #D9D9D9;
+  margin-right: 20%;
+  right: 8px;
+
+  
+}
+
+/*   검색내용   */
+.prosb-text {
+  display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	width:30%;
+	right:19%;
+
+}
+
+.prosearchBer .protextPro {
+  margin: 5px;
+ 
+}
+
+
+.prosb-text input[type="text"] {
+  height: 40px;
+}
+
+.prosearch {
+  float: right;
+  width: 80px;
+  height: 40px;
+}
+.pro-btn {
+  float: right;
+}
+
+/*   표 이름   */
+.ETableName {
+  display: flex;
+	align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: #F1F1F1;
+  border-top: 2px solid #999;
+	font-family: Inter;
+	font-weight: 400;
+  font-size: 16px;
+}
+/*   아이콘 div   */
+.icon {
+  display: flex;
+	justify-content: center;
+	align-items: center;
+  width: 30px;
+  margin-left: 5px;
+}
+/*   테이블 이름   */
+.process {
+  display: flex;
+	align-items: center;
+}
+
+
+
+
+
+
+
+/*   사원테이블 길이 조절   */
+.table.ETable {
+  height: 70%;
+}
+
+
+/*   사원테이블 길이 조절   */
+.table{
+	height:50%;
+	overflow-y: auto;
+}
+
+.table table{
+  width:100%;
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top:none;
+  border-collapse: separate;
+	border-spacing: 0;
+}
+.tbl-header{
+  background-color: #374056;
+  position : sticky;
+  top : 0;
+ }
+.tbl-header tr th{
+  padding: 15px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+  border-right: 1px solid #fff;
+}
+.tbl-header tr th:last-child{
+  border-right: none;
+}
+.tbl-content{
+  height:300px;
+  margin-top: 0px;
+}
+.tbl-content tr:hover,
+.tbl-content tr:nth-child(even):hover{
+  background: #d9d9d9;
+}
+.tbl-content tr:nth-child(even) {
+  background: #eaeaed;
+}
+.tbl-content td{
+  padding: 15px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000;
+  border-right: 1px solid #BDBDBD;
+}
+.tbl-content tr td:last-child{
+  border-right: none;
+}
+
+/* for custom scrollbar for webkit browser*/
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+
+
+
+
+.proheaderBar {
+    border-top: 1px black solid;
+    margin: 0px 8px 0px 8px;
+    display: flex;
+
+    
+}
+
+.process1Search {
+    display: flex;
+
+}
+
+.process1Search .processBox{
+    width: 120px;
+    margin: 10px 15px 10px 15px;
+
+
+}
+
+.proName, .proType, .proPosition{
+    display: flex;
+
+}
+
+.searchProbar {
+    padding: 15px;
+    background-color: #D8D8D8;
+}
+
+.pro-btn{
+    margin-left: auto;
+    display: flex;
+
+}
+
+#prosearchbtn, #proaddBtn{
+    width: 10xp;
+    margin: 3px;
+
+}
+
+
+
+/*instructionPlan*/
+
+
+
+/*제조 수행지시등록 모달*/
+.process-highlight, .process-th, .process-td {
+    border: 1px solid black; /* 테두리를 검은색으로 설정 */
+    padding: 10px; /* 패딩 설정 */
+    background-color: #374056; /* 헤더 배경색 */
+    color: #ffffff; /* 텍스트 색상 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.process-select, .process-input-date, .process-input-text, .process-textarea {
+    width: 98%; /* 너비 조정, 셀 내부 여백 고려 */
+    box-sizing: border-box; /* 박스 크기 계산 방식 설정 */
+    border: 1px solid #ccc; /* 테두리 색상 설정 */
+    padding: 5px; /* 패딩 추가 */
+    margin: 2px 0; /* 상하 여백 추가 */
+}
+
+.process-textarea {
+    resize: none; /* 텍스트 영역 크기 조정 비활성화 */
+    height: 100px; /* 텍스트 영역의 높이 설정 */
+}
+
+.process-highlight2 {
+    border: 1px solid black; /* 테두리를 검은색으로 설정 */
+    padding: 10px; /* 패딩 설정 */
+    color: #ffffff; /* 텍스트 색상 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+.register-Process-Modal-Dialog {
+	min-width: 70%;
+}
+
+
