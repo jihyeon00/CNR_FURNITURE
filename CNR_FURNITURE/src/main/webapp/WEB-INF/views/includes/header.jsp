@@ -18,13 +18,25 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="/resources/css/adminlte.min.css">
-  <!-- Main style and Font -->
-  <link rel="stylesheet" href="/resources/css/main.css">
+  <!-- Main Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-  <!-- Table style -->
+  <!-- style -->
+  <link rel="stylesheet" href="/resources/css/main.css">
   <link rel="stylesheet" href="/resources/css/table.css">
+  <link rel="stylesheet" href="/resources/css/login.css">
+  <link rel="stylesheet" href="/resources/css/bom.css">
+  <link rel="stylesheet" href="/resources/css/materialInfo.css">
+  <link rel="stylesheet" href="/resources/css/itemInfo.css">
+  <link rel="stylesheet" href="/resources/css/materialMNG.css">
+  <link rel="stylesheet" href="/resources/css/itemMNG.css">
+  <link rel="stylesheet" href="/resources/css/machine.css">
+  <link rel="stylesheet" href="/resources/css/member.css">
+  <link rel="stylesheet" href="/resources/css/process.css">
+  <link rel="stylesheet" href="/resources/css/work.css">
+  <link rel="stylesheet" href="/resources/css/qualityInspection.css">
+  
   <!-- jQuery -->
   <script defer src="/resources/js/jquery-3.7.1.min.js"></script>
 </head>
@@ -108,7 +120,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar.html" class="nav-link">
+                <a href="materialInfo" class="nav-link">
                   <p>&nbsp;&nbsp;자재정보등록</p>
                 </a>
               </li>
@@ -133,13 +145,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
-                  <p>&nbsp;&nbsp;생산진행현황</p>
+                <a href="productionStatus" class="nav-link">
+                  <p>&nbsp;&nbsp;생산현황</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                  <p>&nbsp;&nbsp;비가동이력조회</p>
+                <a href="machineOperationStatus" class="nav-link">
+                  <p>&nbsp;&nbsp;공정별 설비가동현황</p>
                 </a>
               </li>
             </ul>
@@ -153,7 +165,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="materialIB" class="nav-link">
                   <p>&nbsp;&nbsp;자재입고현황</p>
                 </a>
               </li>
@@ -183,7 +195,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="instruction" class="nav-link">
                   <p>&nbsp;&nbsp;제조지시</p>
                 </a>
               </li>
@@ -203,7 +215,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="work" class="nav-link">
                   <p>&nbsp;&nbsp;작업관리</p>
                 </a>
               </li>
@@ -247,13 +259,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="machineInfo" class="nav-link">
                   <p>&nbsp;&nbsp;설비정보관리</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/layout/top-nav.html" class="nav-link">
-                  <p>&nbsp;&nbsp;설비관리 기준 정보</p>
+                  <p>&nbsp;&nbsp;설비체크기준관리</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -317,18 +329,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="productionStatus" class="nav-link">
                   <p>&nbsp;&nbsp;생산현황</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/layout/top-nav.html" class="nav-link">
                   <p>&nbsp;&nbsp;출하현황</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
-                  <p>&nbsp;&nbsp;공정진척현황</p>
                 </a>
               </li>
             </ul>
@@ -342,7 +349,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="memberRole" class="nav-link">
                   <p>&nbsp;&nbsp;사용자별 권한관리</p>
                 </a>
               </li>
