@@ -1,5 +1,5 @@
 /*   검색창   */
-.searchBer {
+.searchBar {
   display: flex;
 	align-items: center;
   height: 50px;
@@ -22,7 +22,11 @@
 	align-items: center;
 	justify-content: center;
 }
-.sb-text input[type="text"] {
+/* 검색바의 input 박스 높이 지정*/
+.sb-text input[type="text"],
+.sb-text input[type="date"],
+#workCompanyName, 
+#workItemName {
   height: 40px;
 }
 
@@ -32,6 +36,28 @@
   height: 40px;
 }
 
-.member-btn {
-  float: right;
+/*   표 이름   */
+.workTableTitle {
+  display: flex;
+	align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: #F1F1F1;
+  border-top: 2px solid #999;
+	font-family: Inter;
+	font-weight: 600;
+  font-size: 16px;
+}
+/*   아이콘 div   */
+.icon {
+  display: flex;
+	justify-content: center;
+	align-items: center;
+  width: 30px;
+  margin-left: 5px;
+}
+/*   테이블 이름   */
+.workTableName {
+  display: flex;
+	align-items: center;
 }
