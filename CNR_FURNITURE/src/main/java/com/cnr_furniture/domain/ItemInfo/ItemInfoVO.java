@@ -1,4 +1,4 @@
-package com.cnr_furniture.domain;
+package com.cnr_furniture.domain.ItemInfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

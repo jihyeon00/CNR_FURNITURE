@@ -1,6 +1,7 @@
 package com.cnr_furniture.service;
 
-import com.cnr_furniture.domain.ItemInfoVO;
+import com.cnr_furniture.domain.ItemInfo.ItemInfoSearch;
+import com.cnr_furniture.domain.ItemInfo.ItemInfoVO;
 import com.cnr_furniture.mapper.ItemInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,14 @@ public class ItemInfoServiceImpl implements ItemInfoService{
     private ItemInfoMapper itemInfoMapper;
 
     @Override
-    public List<ItemInfoVO> getItemInfoList() {
-        return itemInfoMapper.getItemInfoList();
+    public List<ItemInfoVO> getItemInfoList(ItemInfoSearch itemInfoSearch) {
+
+        return itemInfoMapper.getItemInfoList(itemInfoSearch);
+    }
+
+    @Override
+    public ItemInfoVO getOneItem(int i_id) {
+        return itemInfoMapper.getOneItem(i_id);
     }
 
     @Override

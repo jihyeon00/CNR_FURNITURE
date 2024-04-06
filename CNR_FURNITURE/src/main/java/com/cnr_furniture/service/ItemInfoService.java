@@ -1,12 +1,15 @@
 package com.cnr_furniture.service;
 
-import com.cnr_furniture.domain.ItemInfoVO;
+import com.cnr_furniture.domain.ItemInfo.ItemInfoSearch;
+import com.cnr_furniture.domain.ItemInfo.ItemInfoVO;
 
 import java.util.List;
 
 public interface ItemInfoService {
 
-    List<ItemInfoVO> getItemInfoList();
+    List<ItemInfoVO> getItemInfoList(ItemInfoSearch itemInfoSearch);
+
+    ItemInfoVO getOneItem(int i_id);
 
     int insertItem(
           String i_name,
