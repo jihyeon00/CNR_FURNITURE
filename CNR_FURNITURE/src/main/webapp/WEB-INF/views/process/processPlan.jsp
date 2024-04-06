@@ -16,17 +16,11 @@
             <h1 class="m-0"><i class="far fa-clipboard"></i> 제조수행지시</h1>
           </div><!-- /.col -->
           <div class="col-md-6 ml-auto">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/main">Home</a></li>
-              <li class="breadcrumb-item active">제조수행지시</li>
-            </ol>
-          </div><!-- /.col -->
-        <div class="col-md-12">
             <div class="pro-btn">
               <button type="button" id="prosearchbtn" class="btn btn-primary">조희</button>
 	            <button type="button" id= proaddBtn class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
             </div>
-        </div>
+          </div><!-- /.col -->
       </div><!-- /.container-fluid -->
     </div>
       <div class="proheaderBar">
@@ -68,7 +62,7 @@
             <!-- 제조수행테이블 -->
             <div class="ETableName">
               <div class="icon"><i class="fa fa-list"></i></div>
-              <div class="employee">제조지시목록</div>
+              <div class="employee">제조수행지시목록</div>
             </div>
             <div class="table ETable">
               <table cellpadding="0" cellspacing="0" border="0">
@@ -239,7 +233,7 @@
       <div class="modal-body">
 					<table class="processtable">
 					  <tr>
-					    <th scope="col" class="process-highlight">제조lot번호</th>
+					    <th scope="col" class="process-highlight">제조LOT번호</th>
 					    <th scope="col"  class="process-highlight2">
 					        <select name="search_pro" id="process_search_pro1" class="process-select" autocomplete="off">
 					          <option selected></option>

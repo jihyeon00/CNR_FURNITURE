@@ -11,13 +11,13 @@ public class ProcessController {
     /*제조지시*/
     @GetMapping("/process")
     public String Process(){
-        return "process/instruction";
+        return "process/processMain";
     }
 
     /*제조수행지시*/
     @GetMapping("/processPlan")
     public String processPlan(){
-        return "process/instructionPlan";
+        return "process/processPlan";
     }
 
     /*공정정보*/
