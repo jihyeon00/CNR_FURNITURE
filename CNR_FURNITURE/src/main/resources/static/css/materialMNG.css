@@ -3,10 +3,11 @@
 /* 자재입고 테이블 양식 */
 .matIB-titleAndTable,
 .matOB-titleAndTable {
-	margin-left: 15px;
+	margin-left: 0;
 }
 .matIB-title,
 .matOB-title {
+	padding-left: 1%;
 	margin-bottom: 10px;
 	font-size: 18px;
 	font-weight: 600;
@@ -18,7 +19,7 @@
 }
 .matIB-table,
 .matOB-table {
-	height: 600px;
+	height: auto;
 	overflow-y: auto;
 }
 .matIB-table table,
@@ -93,13 +94,10 @@
 .matOB-table-content tr td:last-child {
   border-right: none;
 }
-
-/* 조회버튼 */
-.matIB-search-btn,
-.matOB-search-btn {
-	float: right;
-}
 /*   검색창   */
+.matIB-search-row {
+	padding-left: 2%;
+}
 .matIB-searchBar,
 .matOB-searchBar {
   display: flex;
