@@ -25,7 +25,6 @@
   <!-- style -->
   <link rel="stylesheet" href="/resources/css/main.css">
   <link rel="stylesheet" href="/resources/css/table.css">
-  <link rel="stylesheet" href="/resources/css/login.css">
   <link rel="stylesheet" href="/resources/css/bom.css">
   <link rel="stylesheet" href="/resources/css/materialInfo.css">
   <link rel="stylesheet" href="/resources/css/itemInfo.css">
@@ -110,12 +109,12 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                <a href="bom" class="nav-link">
                   <p>&nbsp;&nbsp;BOM관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
+                <a href="itemInfo" class="nav-link">
                   <p>&nbsp;&nbsp;제품정보등록</p>
                 </a>
               </li>
@@ -195,17 +194,17 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="instruction" class="nav-link">
+                <a href="process" class="nav-link">
                   <p>&nbsp;&nbsp;제조지시</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="processPlan" class="nav-link">
                   <p>&nbsp;&nbsp;제조수행지시</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="processInfo" class="nav-link">
                   <p>&nbsp;&nbsp;공정정보관리</p>
                 </a>
               </li>
