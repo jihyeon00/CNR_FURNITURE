@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="/resources/css/member.css">
   <link rel="stylesheet" href="/resources/css/process.css">
   <link rel="stylesheet" href="/resources/css/work.css">
-  <link rel="stylesheet" href="/resources/css/qualityInspection.css">
+  <link rel="stylesheet" href="/resources/css/quality.css">
   
   <!-- jQuery -->
   <script defer src="/resources/js/jquery-3.7.1.min.js"></script>
