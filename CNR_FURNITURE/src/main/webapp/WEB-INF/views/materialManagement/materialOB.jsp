@@ -17,25 +17,26 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-12">
+          <ol class="breadcrumb float-sm-left">
             <h1 class="m-0"><i class="far fa-clipboard"></i>자재출고현황</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/main">Home</a></li>
-              <li class="breadcrumb-item active">제목</li>
-            </ol>
-          </div><!-- /.col -->
-          <div class="col-md-12">
-            <div class="matOB-search-btn">
-              <button type="button" class="btn btn-primary">조회</button>
+          </ol>
+          <ol class="breadcrumb float-sm-right">
+            <div class="reset">
+              <img class="resetPng" alt="reset" src="/resources/img/reset.png" >
             </div>
-        	</div>
+            <div class="col-sm-1 ml-auto">
+              <button type="submit" class="btn btn-primary search-btn" id="" onClick="javascript: search();">
+                <i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색
+              </button>
+            </div>
+          </ol>
+        </div><!-- /.col -->
         </div><!-- /.row -->
         <!-- 검색 키워드 영역 -->
-        <div class="row">
+        <div class="row matOB-search-row">
         	<!-- 검색창 -->
-          <div class="col-md-12 matOB-searchBar">
+          <div class="col-sm-12 matOB-searchBar">
           	<!-- 자재번호 -->
             <div class="col-sm-1 matOB-search-title">자재번호</div>
             <div class="col-sm-2 matOB-search-content">
@@ -53,10 +54,8 @@
             	<input type="date" class="col-sm-12" id="" name=""/>
             </div><!-- /.출고일자 -->
             <!-- 제조LOT번호 -->
-            <!-- <div class="col-sm-1 matOB-search-title">제조LOT번호</div> -->
             <div class="matOB-search-title matOB-LOT-ID">제조LOT번호</div>
             <div class="form-select matOB-search-content matOB-LOT-ID">
-            	<!-- <input type="text" class="col-sm-12" id="" name=""/> -->
             	<select class="col-sm-12" aria-label="Default select example">
             		<option selected>제조LOT번호 선택</option>
 							  <option value="1">One</option>
@@ -95,6 +94,141 @@
 										</tr>
 									</thead>
 									<tbody class="matOB-table-content">
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+										</tr>
 										<tr>
 											<td>1열</td>
 											<td>2열</td>
