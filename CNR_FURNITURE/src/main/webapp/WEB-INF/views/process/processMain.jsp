@@ -16,17 +16,11 @@
             <h1 class="m-0"><i class="far fa-clipboard"></i> 제조지시</h1>
           </div><!-- /.col -->
           <div class="col-md-6 ml-auto">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/main">Home</a></li>
-              <li class="breadcrumb-item active">제조시시</li>
-            </ol>
-          </div><!-- /.col -->
-        <div class="col-md-12">
             <div class="pro-btn">
               <button type="button" id="prosearchbtn" class="btn btn-primary">조희</button>
 	            <button type="button" id="proaddBtn" class="btn btn-default" data-toggle="modal" data-target="#myModal" >등록</button>
             </div>
-        </div>
+          </div><!-- /.col -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
@@ -186,14 +180,13 @@
                              <td>6</td>
                              <td>7</td>
                       </tr>
-
-                </tbody>
-              </table>
-              <!-- /.table -->
-	          </div>
-          </div>  
-          </div>
-          </div>
+              		 </tbody>
+              	</table>
+               <!-- /.table -->
+	           </div>
+        	  </div>  
+       	  </div>
+         </div>
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
@@ -212,21 +205,39 @@
       </div>
       <div class="modal-body">
         <form id="manufacture-form">
-          <label for="modalUpdateName" class="form-label">담당자(사원번호)</label>
-          <input type="text" name="modalUpdateName" id="modalUpdateName" class="form-control" autocomplete="off">
-
-          <label for="modalUpdateType" class="form-label">제품번호</label>
-          <input type="text" name="modalUpdateType" id="modalUpdateType" class="form-control" autocomplete="off">
-
-          <label for="modalProductAmount" class="form-label">계약번호</label>
-          <input type="text" name="modalProductAmount" id="modalProductAmount" class="form-control" autocomplete="off">
-          
-          <label for="modalProductAmount" class="form-label">계획착수일</label>
-          <input type="date" name="modalProductAmount" id="modalProductAmount" class="form-control" autocomplete="off">
-          
-          <label for="modalProductAmount" class="form-label">계획완수일</label>
-          <input type="date" name="modalProductAmount" id="modalProductAmount" class="form-control" autocomplete="off">
-
+ <!--  등록 -->
+             <div class="pporBox">                
+                    <div class="row pporBox1">
+                           <div class="col-md-6">
+                         담당자(사원번호)
+                         <input type="text" name="" id="" class="form-control1" autocomplete="off">
+                      </div>
+                      <div class="col-md-6">
+                         제품번호
+                         <input type="text" name="" id="" class="form-control1" autocomplete="off">
+                      </div>      
+                    </div>   
+                        <div class="row pporBox1">
+                           <div class="col-md-6">
+                         계약번호
+                         <input type="text" name="" id="" class="form-control1" autocomplete="off">
+                      </div>
+                      <div class="col-md-6">
+                          계획수량
+                         <input type="text" name="" id="" class="form-control1" autocomplete="off">
+                      </div>      
+                   </div>
+                        <div class="row pporBox2">
+                           <div class="col-md-6">
+                         계획착수일
+                         <input type="date" name="" id="" class="form-control1" autocomplete="off">
+                      </div>
+                      <div class="col-md-6">
+                          계획완수일
+                         <input type="date" name="" id="" class="form-control1" autocomplete="off">
+                      </div>      
+                   </div>                                    
+              </div>       
         </form>
       </div>
       <div class="modal-footer">
