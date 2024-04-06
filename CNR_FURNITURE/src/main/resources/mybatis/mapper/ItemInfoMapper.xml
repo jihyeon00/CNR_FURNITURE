@@ -3,10 +3,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.ItemInfoMapper">
 
-    <select id="getItemInfoList" resultType="com.cnr_furniture.domain.ItemInfoVO">
+    <select id="getItemInfoList" resultType="com.cnr_furniture.domain.ItemInfo.ItemInfoVO">
         SELECT ROWNUM rn, I_ID, I_NAME, I_COLOR, I_STANDARD, I_TYPE, I_USES
         FROM ITEM
+        where 1=1
+        <foreach item="type" collection="typeArr">
+            <if test="type == 'INum'.toString()">
+                and  I_ID like '%' || #{keyword} || '%'
+            </if>
+            <if test="type == 'IName'.toString()">
+                and I_NAME like '%' || #{keyword} || '%'
+            </if>
+            <if test="type == 'IUses'.toString()">
+                and I_USES like '%' || #{keyword} || '%'
+            </if>
+        </foreach>
         ORDER BY I_ID ASC
+    </select>
+
+    <select id="getOneItem" resultType="com.cnr_furniture.domain.ItemInfo.ItemInfoVO">
+        SELECT * FROM ITEM WHERE I_ID = #{i_id}
     </select>
 
     <insert id="addItem">
