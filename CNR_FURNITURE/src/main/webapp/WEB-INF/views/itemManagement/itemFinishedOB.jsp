@@ -125,7 +125,9 @@
 										<td>9열</td>
 										<td>10열</td>
 										<td>11열</td>
-										
+										<td class="edit-FinishedOB-row" onclick="editFinishedOBRow(this);">
+											수정
+										</td>
                   </tr>
                   <tr>
                     <!-- 완제품 2행 -->
@@ -140,6 +142,7 @@
 										<td>9열</td>
 										<td>10열</td>
 										<td>11열</td>
+										<td class="edit-FinishedOB-row">수정</td>
                   </tr>
                   <tr>
                     <!-- 완제품 3행 -->
@@ -154,6 +157,7 @@
 										<td>9열</td>
 										<td>10열</td>
 										<td>11열</td>
+										<td class="edit-FinishedOB-row">수정</td>
                   </tr>
                   <!-- 추가적인 행들 -->
                 </tbody>
@@ -175,131 +179,62 @@
         <div class="FinishedItemOBModalTitle" id="register-FinishedItemOB-ModalLabel" style="font-size: 150%; font-weight:800;">완제품출고등록</div>
       </div>
       <!-- modal-body -->
-      <div class="col-sm-12 modal-body">
+      <div class="col-sm-12 modal-body itemOB-modal-body">
       	<!-- 등록 행1 -->
       	<div class="row register-FinishedItemOB-modal-body">
-      		<!-- 제조LOT번호 -->
-      		<div class="FinishedItemOB-modal-subTitle FinishedItemOB-modal-1st-colTitle">제조LOT번호</div>
-      		<div class="select-form FinishedItemOB-modal-subContent FinishedItemOB-modal-1st-colContent">
+      		<!-- 계약번호 -->
+      		<div class="col-sm-1 finishedItemOB-modal-subTitle">계약번호</div>
+      		<div class="col-sm-2 select-form finishedItemOB-modal-subContent">
       			<select 
       				class="col-sm-12"
       				name=""
       				id=""
      				>
-	              <option selected>제조LOT번호 선택</option>
+	              <option selected>계약번호 선택</option>
 	              <option value="1">One</option>
 	              <option value="2">Two</option>
 	              <option value="3">Three</option>
             </select>
-      		</div><!-- /.제조LOT번호 -->
-      		<!-- 공정번호 -->
-      		<div class="col-sm-1 FinishedItemOB-modal-subTitle FinishedItemOB-modal-2nd-colTitle">공정번호</div>
-      		<div class="col-sm-2 FinishedItemOB-modal-subContent FinishedItemOB-modal-2nd-colContent">
-      			<select 
-      				class="col-sm-12"
-      				name=""
-      				id=""
-     				>
-	              <option selected>공정번호 선택</option>
-	              <option value="1">One</option>
-	              <option value="2">Two</option>
-	              <option value="3">Three</option>
-            </select>
-      		</div><!-- /.공정번호 -->
-      		<!-- 작업번호 -->
-      		<div class="col-sm-1 FinishedItemOB-modal-subTitle FinishedItemOB-modal-3rd-colTitle">작업번호</div>
-      		<div class="col-sm-2 FinishedItemOB-modal-subContent FinishedItemOB-modal-3rd-colContent">
-      			<select 
-      				class="col-sm-12"
-      				name=""
-      				id=""
-     				>
-	              <option selected>작업번호 선택</option>
-	              <option value="1">One</option>
-	              <option value="2">Two</option>
-	              <option value="3">Three</option>
-            </select>
-      		</div><!-- /.작업번호 -->
+      		</div><!-- /.계약번호 -->
+      		<!-- 거래처명 -->
+      		<div class="col-sm-1 finishedItemOB-modal-subTitle">거래처명</div>
+      		<div class="col-sm-2 finishedItemOB-modal-subContent">
+      			<input type="text" class="col-sm-12" id="" name="" readonly="readonly"/>
+      		</div><!-- /.거래처명 -->
       	</div><!-- /.등록 행1 -->
       	
       	<!-- 등록 행2 -->
       	<div class="row register-FinishedItemOB-modal-body">
-      		<!-- 단위 -->
-      		<div class="col-sm-1 FinishedItemOB-modal-subTitle FinishedItemOB-modal-1st-colTitle">단위</div>
-      		<div class="col-sm-2 FinishedItemOB-modal-subContent FinishedItemOB-modal-1st-colContent">
-      			<select 
-      				class="col-sm-12"
-      				name=""
-      				id=""
-     				>
-	              <option selected>단위 선택</option>
-	              <option value="1">One</option>
-	              <option value="2">Two</option>
-	              <option value="3">Three</option>
-            </select>
+      		<!-- 제품명 -->
+      		<div class="col-sm-1 finishedItemOB-modal-subTitle">제품명</div>
+      		<div class="col-sm-2 finishedItemOB-modal-subContent">
+      			<input type="text" class="col-sm-12" id="" name="" readonly="readonly"/>
       		</div><!-- /.단위 -->
-      		<!-- 일일총생산수량 -->
-      		<div class="FinishedItemOB-modal-subTitle FinishedItemOB-modal-2nd-colTitle">일일총생산수량</div>
-      		<div class="col-sm-2 FinishedItemOB-modal-subContent FinishedItemOB-modal-2nd-colContent">
-      			<select 
-      				class="col-sm-12"
-      				name=""
-      				id=""
-     				>
-	              <option selected>일일총생산수량 선택</option>
-	              <option value="1">One</option>
-	              <option value="2">Two</option>
-	              <option value="3">Three</option>
-            </select>
-      		</div><!-- /.일일총생산수량 -->
-      		<!-- 불량수량 -->
-      		<div class="col-sm-1 FinishedItemOB-modal-subTitle FinishedItemOB-modal-3rd-colTitle">불량수량</div>
-      		<div class="col-sm-2 FinishedItemOB-modal-subContent FinishedItemOB-modal-3rd-colContent">
-      			<input type="number" class="col-sm-12" id="" name=""/>
-      		</div><!-- /.일일총생산수량 -->
+      		<!-- 제품규격 -->
+      		<div class="finishedItemOB-modal-subTitle">제품규격</div>
+      		<div class="col-sm-2 finishedItemOB-modal-subContent">
+      			<input type="text" class="col-sm-12" id="" name="" readonly="readonly"/>
+      		</div><!-- /.제품규격 -->
       	</div><!-- /.등록 행2 -->
       	
       	<!-- 등록행3 -->
       	<div class="row register-FinishedItemOB-modal-body">
-      		<!-- 불량유형1 -->
-      		<div class="FinishedItemOB-modal-subTitle">불량유형1</div> 
-      		<div class="col-sm-2 FinishedItemOB-modal-subContent">
-      			<select 
-      				class="col-sm-12"
-      				name=""
-      				id=""
-     				>
-	              <option selected>불량유형1 선택</option>
-	              <option value="1">One</option>
-	              <option value="2">Two</option>
-	              <option value="3">Three</option>
-            </select>
-      		</div><!-- /.불량유형1 -->
-      		<!-- 불량유형2 -->
-      		<div class="FinishedItemOB-modal-subTitle">불량유형2</div> 
-      		<div class="col-sm-2 FinishedItemOB-modal-subContent">
-      			<select 
-      				class="col-sm-12"
-      				name=""
-      				id=""
-     				>
-	              <option selected>불량유형2 선택</option>
-	              <option value="1">One</option>
-	              <option value="2">Two</option>
-	              <option value="3">Three</option>
-            </select>
-      		</div><!-- /.불량유형2 -->
+      		<!-- 출고일자 -->
+      		<div class="col-sm-1 finishedItemOB-modal-subTitle">불량수량</div>
+      		<div class="col-sm-2 finishedItemOB-modal-subContent">
+      			<input type="date" class="col-sm-12" id="" name=""/>
+      		</div><!-- /.출고일자 -->
+      		<!-- 출고단위 -->
+      		<div class="finishedItemOB-modal-subTitle">출고단위</div>
+      		<div class="col-sm-2 finishedItemOB-modal-subContent">
+      			<input type="text" class="col-sm-12" id="" name="" />
+      		</div><!-- /.출고단위 -->
+      		<!-- 출고수량 -->
+      		<div class="finishedItemOB-modal-subTitle">출고수량</div>
+      		<div class="col-sm-2 finishedItemOB-modal-subContent">
+      			<input type="number" class="col-sm-12" id="" name="" />
+      		</div><!-- /.출고수량 -->
       	</div><!-- /.등록행3 -->
-      	
-      	<!-- 등록행4 -->
-      	<div class="row register-FinishedItemOB-modal-body">
-      		<!-- 비고 -->
-      		<div class="col-sm-1 FinishedItemOB-modal-subTitle">비고</div>
-      		<div class="col-sm-10 FinishedItemOB-modal-subContent">
-      			<input type="text" class="col-sm-12" id="" name=""/>
-      		</div>
-      	</div><!-- /.등록행4 -->
-      	
       </div><!-- /.modal-body -->
       <div class="modal-footer">
 	        <button type="button" class="btn btn-primary">등록</button>

@@ -177,12 +177,35 @@
 
 
 /* 모달창 */
-.semiItemOB-modal-subTitle {
+/* 등록 모달 각 행 스타일링 */
+.itemOB-modal-body {
+	margin: 3% 4%;
+}
+.register-FinishedItemOB-modal-body {
+	display: flex;
+	align-items: center; /* 수직 중앙 정렬 */
+	border: 1px solid rgba(0,0,0,0.3);
+}
+.finishedItemOB-modal-subTitle {
+	flex: 0 0 9%;		/* 라벨 너비 고정:  각 라벨이 고정된 너비를 가지고 확장되거나 축소되지 않도록 설정 */
 	background-color: #374056;
 	color: #fff;
-	text-align: center;
-	justify-content: center;
-}
-.semiItemOB-modal-subContent {
+	display: flex;
+	justify-content: center;	/* 수평 중앙 정력 */
+	align-items: center;			/* 수직 중앙 정렬 */
 	padding: 1%;
+}
+/* 모든 입력 필드를 감싸는 컨테이너에 flex-grow 속성 할당 */
+.finishedItemOB-modal-subContent {
+	flex-grow: 1;		/* 입력 필드가 각 행에서 남은 공간을 차지하도록 함 */
+	display: flex;
+	align-items: center;
+  padding: 0.7% 0;
+  margin: 0 1%;
+}
+
+/* readonly 입력 필드 스타일링 - 테두리 없음 */
+.finishedItemOB-modal-subContent input[readonly] {
+  background-color: #D9D9D9;
+  border: 1px solid #D9D9D9;
 }

@@ -9,6 +9,7 @@ $(document).ready(function() {
         'overflow-y': 'auto'
     });
 
+
     /* '반제품' 행들 중 마지막 행에 대한 스타일 변경 */
     function addBorderToLastSemiItemRow() {
         // '반제품'이 포함된 모든 행을 찾기
@@ -27,6 +28,20 @@ $(document).ready(function() {
     addBorderToLastSemiItemRow(); // 테이블 업데이트 후 호출
 
     });*/
-
+    
+    
+    /* Finished Item - 선택한 행을 수정 */
+    function editFinishedOBRow(td) {
+			// 'td' 요소가 속한 'tr'을 찾기
+			var row = td.parentNode;
+			while(row.tagName.toLowerCase() !== 'tr') {
+				row = row.parentNode;
+			}
+			
+			// 수정 로직(모달창 열기), 일단 alert로 디버깅
+			alert('수정로직 구현하기');
+		}
+		
+		editFinishedOBRow(td);
 
 });
