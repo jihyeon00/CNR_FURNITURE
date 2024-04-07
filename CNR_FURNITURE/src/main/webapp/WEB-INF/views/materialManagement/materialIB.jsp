@@ -21,7 +21,7 @@
       <div class="row mb-2">
         <div class="col-sm-12">
           <ol class="breadcrumb float-sm-left">
-            <h1 class="m-0"><i class="far fa-clipboard"></i>자재입고현황</h1>
+            <h1 class="m-0"><i class="far fa-clipboard"></i>&nbsp;자재입고현황</h1>
           </ol>
           <ol class="breadcrumb float-sm-right">
             <div class="reset">
