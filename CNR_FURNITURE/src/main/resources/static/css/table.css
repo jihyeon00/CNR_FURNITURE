@@ -1,20 +1,24 @@
 @charset "UTF-8";
 
+/* 테이블 제목 및 테이블 양쪽 여백*/
 .titleAndTable{
 	margin-left: 7.5px;
 	margin-right: 7.5px;
 }
+/* 테이블 제목 */
 .title{
 	margin-bottom: 10px;
 	font-size: 18px;
 	font-weight: 600;
 }
 
+/* 테이블 스타일 높이 지정 및 높이 초과에 따른 스크롤 생성*/
 .table{
 	height:300px;
 	overflow-y: auto;
 }
 
+/* table div 안 table 설정 */
 .table table{
   width:100%;
   table-layout: fixed;
@@ -23,11 +27,14 @@
   border-collapse: separate;
 	border-spacing: 0;
 }
+/* thead 스타일 및 스크롤 이동 시 헤더 고정 */
 .tbl-header{
   background-color: #374056;
   position : sticky;
   top : 0;  
  }
+ 
+ /* thead의 th 스타일 지정*/
 .tbl-header tr th{
   padding: 15px;
   text-align: center;
@@ -37,19 +44,28 @@
   text-transform: uppercase;
   border-right: 1px solid #fff;
 }
+/* thead의 마지막 th의 오른쪽 선 없애기*/
 .tbl-header tr th:last-child{
   border-right: none;
 }
+
+/* tbody와 thead의 여백 삭제 */
 .tbl-content{
   margin-top: 0px;
 }
+
+/* tr 호버 시 색상 변경 */
 .tbl-content tr:hover,
 .tbl-content tr:nth-child(even):hover{
   background: #d9d9d9;
 }
+
+/* 짝수 tr 색상 흰색 */
 .tbl-content tr:nth-child(even) {
   background: #eaeaed;
 }
+
+/* 테이블 내용 스타일 지정 */
 .tbl-content td{
   padding: 15px;
   text-align: center;
@@ -59,12 +75,14 @@
   color: #000;
   border-right: 1px solid #BDBDBD;
 }
+
+/* 테이블 마지막 td 맨밑 border 선 삭제 */
 .tbl-content tr td:last-child{
   border-right: none;
 }
 
 /* for custom scrollbar for webkit browser*/
-
+/* 스크롤바 스타일 지정 */
 ::-webkit-scrollbar {
     width: 10px;
 } 

@@ -1,5 +1,11 @@
+/* 큰제목과 클립보드 사이 여백 */
+.fa-clipboard{
+	margin-right: 10px;
+}
+
 /*   검색창   */
 .searchBar {
+	margin-top: 20px;
   display: flex;
 	align-items: center;
   height: 50px;
@@ -36,6 +42,46 @@
   height: 40px;
 }
 
+/* divBorder 이용해 선 긋기 */
+.divBorder{
+	display: flex;
+  width: 100%;
+  background-color: #f4f6f9;
+  border-top: 2px solid #999;
+	font-family: Inter;
+	font-weight: 600;
+  font-size: 18px;
+  margin: 40px 7.5px 30px 7.5px;
+}
+
+/* workSelectBtn 아래 여백 */
+.workSelectBtn{
+	margin: 0px 0px 30px 7.5px;
+}
+
+/*  */
+.workSelect{
+	width:150px;
+	height: 40px;
+	border-radius: 0px;
+	font-weight: 600;
+  font-size: 18px;
+	
+}
+.workSelect:hover,
+.workSelect:active{
+  background: #374056;
+  color: white;
+}
+
+/*  */
+#selectMaterialInput,
+#selectWorker{
+	margin-left: -6px;
+	
+}
+
+
 /*   표 이름   */
 .workTableTitle {
   display: flex;
@@ -46,7 +92,7 @@
   border-top: 2px solid #999;
 	font-family: Inter;
 	font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
 }
 /*   아이콘 div   */
 .icon {
@@ -60,4 +106,87 @@
 .workTableName {
   display: flex;
 	align-items: center;
+}
+
+/* 테이블 제목 및 테이블 양쪽 여백*/
+.titleAndTable{
+	margin-left: 7.5px;
+	margin-right: 7.5px;
+}
+
+/* 테이블 스타일 높이 지정 및 높이 초과에 따른 스크롤 생성*/
+.workTable{
+	height:auto;
+	max-height: 259px;
+	overflow: auto;
+}
+
+/* table div 안 table 설정 */
+.workTable table{
+  width:100%;
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top:none;
+  border-collapse: separate;
+	border-spacing: 0;
+}
+/* thead 스타일 및 스크롤 이동 시 헤더 고정 */
+.work-tbl-header{
+  background-color: #374056;
+  position : sticky;
+  top : 0;  
+ }
+ 
+ /* thead의 th 스타일 지정*/
+.work-tbl-header tr th{
+  padding: 15px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 13px;
+  color: #fff;
+  text-transform: uppercase;
+  border-right: 1px solid #fff;
+}
+
+/* thead의 마지막 th의 오른쪽 선 없애기*/
+.work-tbl-header tr th:last-child{
+  border-right: none;
+}
+
+/* tbody와 thead의 여백 삭제 */
+.work-tbl-content{
+  margin-top: 0px;
+}
+
+/* tr 호버 시 색상 변경 */
+.work-tbl-content tr:hover,
+.work-tbl-content tr:nth-child(even):hover{
+  background: #d9d9d9;
+}
+
+/* 짝수 tr 색상 흰색 */
+.work-tbl-content tr:nth-child(even) {
+  background: #eaeaed;
+}
+
+/* 테이블 내용 스타일 지정 */
+.work-tbl-content td{
+  padding: 3px 15px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 13px;
+  color: #000;
+  height:42px;
+  border-right: 1px solid #BDBDBD;
+}
+
+/* 테이블 마지막 td 맨밑 border 선 삭제 */
+.work-tbl-content tr td:last-child{
+  border-right: none;
+}
+
+/* divBorder 이용해 선 긋기 */
+.divBorder{
+	border-top: 1px solid #999;
 }
