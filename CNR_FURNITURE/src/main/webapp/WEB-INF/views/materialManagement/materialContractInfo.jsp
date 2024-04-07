@@ -19,7 +19,7 @@
         <div class="row mb-2">
           <div class="col-sm-12">
           <ol class="breadcrumb float-sm-left">
-            <h1 class="m-0"><i class="far fa-clipboard"></i>자재재고조회</h1>
+            <h1 class="m-0"><i class="far fa-clipboard"></i>&nbsp;발주정보조회</h1>
           </ol>
           <ol class="breadcrumb float-sm-right">
             <div class="reset">
@@ -34,12 +34,28 @@
         </div><!-- /.col -->
         </div><!-- /.row -->
         <!-- 검색 키워드 영역 -->
-        <div class="row matInventory-search-row">
+        <div class="row matContInfo-search-row">
         	<!-- 검색창 -->
-          <div class="col-sm-12 matInventory-searchBar">
-          	<!-- 자재번호 -->
-            <div class="col-sm-1 matInventory-search-title">자재번호</div>
-            <div class="col-sm-2 matInventory-search-content">
+          <div class="col-sm-12 matContInfo-searchBar">
+          	<!-- 계약번호 -->
+            <div class="col-sm-1 matContInfo-search-title">계약번호</div>
+            <div class="col-sm-2 matContInfo-search-content">
+            	<!-- <input type="text" class="col-sm-12" id="" name=""/> -->
+            	<select class="col-sm-12" aria-label="Default select example">
+            		<option selected>계약번호 선택</option>
+							  <option value="1">One</option>
+							  <option value="2">Two</option>
+							  <option value="3">Three</option>
+            	</select>
+            </div><!-- /.계약번호 -->
+            <!-- 발주일자 -->
+            <div class="col-sm-1 matContInfo-search-title">발주일자</div>
+            <div class="col-sm-2 matContInfo-search-content">
+            	<input type="date" class="col-sm-12" id="" name=""/>
+            </div><!-- /.발주일자 -->
+            <!-- 자재번호 -->
+            <div class="col-sm-1 matContInfo-search-title">자재번호</div>
+            <div class="col-sm-2 matContInfo-search-content">
             	<!-- <input type="text" class="col-sm-12" id="" name=""/> -->
             	<select class="col-sm-12" aria-label="Default select example">
             		<option selected>자재번호 선택</option>
@@ -49,8 +65,8 @@
             	</select>
             </div><!-- /.자재번호 -->
             <!-- 자재명 -->
-            <div class="col-sm-1 matInventory-search-title">자재명</div>
-            <div class="col-sm-2 matOInventory-search-content">
+            <div class="col-sm-1 matContInfo-search-title">자재명</div>
+            <div class="col-sm-2 matContInfo-search-content">
             	<input type="text" class="col-sm-12" id="" name=""/>
             </div><!-- /.자재명 -->
           </div><!-- /.searchBar -->
@@ -63,26 +79,30 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-					<div class="matInventory-titleAndTable">
-						<div class="matInventory-title">
+					<div class="matContInfo-titleAndTable">
+						<div class="matContInfo-title">
 							<i class="fa fa-list"></i>
-							<span>자재재고조회</span>
+							<span>발주정보조회</span>
 						</div>
 						<!-- 자재테이블 -->
 						<div class="col-sm-9">
-							<div class="matInventory-table">
+							<div class="matContInfo-table">
 								<table cellpadding="0" cellspacing="0" border="0">
-									<thead class="matInventory-table-header">
+									<thead class="matContInfo-table-header">
 										<tr>
 											<th>No</th>
-											<th>자재번호</th>
-											<th>자재용도</th>
+											<th>발주번호</th>
+											<th>계약번호</th>
+											<th>발주일자</th>
+											<th>입고일자</th>
 											<th>자재명</th>
+											<th>계획수량</th>
 											<th>단위</th>
-											<th>재고수량</th>
+											<th>단가(₩)</th>
+											<th>합계(₩)</th>
 										</tr>
 									</thead>
-									<tbody class="matInventory-table-content">
+									<tbody class="matContInfo-table-content">
 										<tr>
 											<td>1열</td>
 											<td>2열</td>
@@ -90,38 +110,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
-										</tr>
-										<tr>
-											<td>1열</td>
-											<td>2열</td>
-											<td>3열</td>
-											<td>4열</td>
-											<td>5열</td>
-											<td>6열</td>
-										</tr>
-										<tr>
-											<td>1열</td>
-											<td>2열</td>
-											<td>3열</td>
-											<td>4열</td>
-											<td>5열</td>
-											<td>6열</td>
-										</tr>
-										<tr>
-											<td>1열</td>
-											<td>2열</td>
-											<td>3열</td>
-											<td>4열</td>
-											<td>5열</td>
-											<td>6열</td>
-										</tr>
-										<tr>
-											<td>1열</td>
-											<td>2열</td>
-											<td>3열</td>
-											<td>4열</td>
-											<td>5열</td>
-											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -131,6 +123,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -140,6 +136,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -149,6 +149,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -158,6 +162,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -167,6 +175,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -176,6 +188,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -185,6 +201,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -194,6 +214,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -203,6 +227,10 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 										
 										<tr>
@@ -212,6 +240,127 @@
 											<td>4열</td>
 											<td>5열</td>
 											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
+										</tr>
+										
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
+										</tr>
+										
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
+										</tr>
+										
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
+										</tr>
+										
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
+										</tr>
+										
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
+										</tr>
+										
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
+										</tr>
+										
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
+										</tr>
+										
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
+										</tr>
+										
+										<tr>
+											<td>1열</td>
+											<td>2열</td>
+											<td>3열</td>
+											<td>4열</td>
+											<td>5열</td>
+											<td>6열</td>
+											<td>7열</td>
+											<td>8열</td>
+											<td>9열</td>
+											<td>10열</td>
 										</tr>
 									</tbody>
 								</table>

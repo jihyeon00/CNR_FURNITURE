@@ -1,0 +1,188 @@
+@charset "UTF-8";
+
+/* 테이블 및 타이틀 스타일링 */
+.itemIB-titleAndTable,
+.itemSemiItem-titleAndTable,
+.itemFinishedItem-titleAndTable {
+  margin-left: 0;
+}
+.itemIB-title,
+.itemSemiItem-title,
+.itemFinishedItem-title {
+  padding-left: 1%;
+  margin: 0.5% 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* 완제품출고등록 버튼 스타일 */
+.addFinishedItemOB-btn {
+	display: flex;
+	justify-content: flex-end;	/* 버튼을 오른쪽으로 정렬 */
+	margin: 0.5% 0;
+	padding-right: 15px; /* 테이블과 버튼의 우측 패딩을 일치시키기 위함 */
+}
+.addFinishedItemOB-btn .btn {
+	width: auto;	/* 버튼의 너비를 자동으로 설정하여 텍스트에 맞게 조정 */
+	padding: 0.375rem 0.75rem; /* Bootstrap 기본 버튼 패딩 */
+}
+.add-circle-icon {
+	/* width: 20px; */
+	width: 13%;
+	height: auto;
+	margin-bottom: 1%;
+}
+
+.itemIB-table,
+.itemSemiItem-table,
+.itemFinishedItem-table {
+  height: auto;
+  overflow-y: auto;
+}
+.itemIB-table table,
+.itemSemiItem-table table,
+.itemFinishedItem-table table {
+  width: 100%;
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* 테이블 헤더 및 컨텐츠 공통 스타일 */
+.itemIB-table-header,
+.itemSemiItem-table-header,
+.itemFinishedItem-table-header,
+.itemIB-table-header th,
+.itemSemiItem-table-header th,
+.itemFinishedItem-table-header th,
+.itemIB-table-content td,
+.itemSemiItem-table-content td,
+.itemFinishedItem-table-content td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+  font-size: 12px;
+}
+
+/* 테이블 헤더 특정 스타일 */
+.itemIB-table-header,
+.semiItemIB-header,
+.finishedItemIB-header,
+.itemSemiItem-table-header,
+.itemFinishedItem-table-header {
+  background-color: #374056;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;  
+  border-right: 1px solid #fff;
+}
+.itemIB-table-subHeader th,
+.itemSemiItem-table-subHeader th,
+.itemFinishedItem-table-subHeader th {
+  border-top: 1px solid #fff;
+}
+.itemIB-table-header th:last-child,
+.itemIB-table-content td:last-child {
+  border-right: none;
+}
+/* 상단 헤더의 세로 구분선 추가 */
+.itemIB-table-header tr:first-child th,
+.itemSemiItem-table-header tr:first-child th,
+.itemFinishedItem-table-header th,
+.itemIB-table-subHeader th,
+.itemSemiItem-table-subHeader th,
+.itemFinishedItem-table-subHeader th {
+  border-right: 1px solid #fff;
+}
+
+/* 상단 헤더의 가로 구분선 추가 */
+.itemIB-table-subHeader th,
+.itemSemiItem-table-subHeader th,
+.itemFinishedItem-table-subHeader th {
+  border-bottom: 1px solid #fff;
+}
+
+/* 마지막 행(th)의 오른쪽 테두리 제거 */
+.itemIB-table-subHeader th:nth-last-child(1) {
+  border-right: none;
+}
+/* '제품용도' 열의 아래쪽 테두리 추가 */
+.itemIB-table-header th[rowspan],
+.semiItemIB-header {
+  border-bottom: 1px solid #fff;
+}
+/* 테이블 컨텐츠 특정 스타일 */
+.itemIB-table-content tr:hover,
+.itemSemiItem-table-content tr:hover,
+.itemFinishedItem-table-content tr:hover,
+.itemIB-table-content tr:nth-child(even):hover,
+.itemSemiItem-table-content tr:nth-child(even):hover,
+.itemFinishedItem-table-content tr:nth-child(even):hover {
+  background: #d9d9d9;
+}
+.itemIB-table-content tr:nth-child(even),
+.itemSemiItem-table-content tr:nth-child(even),
+.itemFinishedItem-table-content tr:nth-child(even) {
+  background: #eaeaed;
+}
+.itemIB-table-content td,
+.itemSemiItem-table-content td,
+.itemFinishedItem-table-content td {
+  border-right: 1px solid #BDBDBD;
+}
+
+
+/*   검색창   */
+.itemIB-searchBar,
+.itemSemiItem-searchBar,
+.itemFinishedItem-searchBar {
+  display: flex;
+	align-items: center;
+  height: 10%;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-bottom: 2%;
+}
+/*   검색명   */
+.itemIB-search-title,
+.itemSemiItem-search-title,
+.itemFinishedItem-search-title {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 43px;
+  background-color: #D9D9D9;
+}
+.itemOB-LOT-ID {
+	padding: 0 1%;
+}
+/*   검색내용   */
+.itemIB-search-content,
+.itemSemiItem-search-content,
+.itemFinishedItem-search-content {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.itemIB-search-content input[type="text"],
+.itemSemiItem-search-content input[type="text"],
+.itemFinishedItem-search-content input[type="text"] {
+  height: 3%;
+}
+
+
+/* 모달창 */
+.semiItemOB-modal-subTitle {
+	background-color: #374056;
+	color: #fff;
+	text-align: center;
+	justify-content: center;
+}
+.semiItemOB-modal-subContent {
+	padding: 1%;
+}

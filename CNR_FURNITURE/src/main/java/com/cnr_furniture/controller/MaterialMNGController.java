@@ -43,4 +43,13 @@ public class MaterialMNGController {
     public String materialInventory() {
         return "materialManagement/materialInventory";
     }
+
+    /**
+     * Desc: 자재관리-발주정보-조회
+     * @return: materialManagement/materialContractInfo
+     */
+    @GetMapping("/materialContractInfo")    // localhost:8085/materialInventory
+    public String materialContractInfo() {
+        return "materialManagement/materialContractInfo";
+    }
 }
