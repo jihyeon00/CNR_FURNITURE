@@ -104,7 +104,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="memberInfo" class="nav-link">
                   <p>&nbsp;&nbsp;사원정보조회</p>
                 </a>
               </li>
@@ -124,12 +124,12 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar.html" class="nav-link">
+                <a href="companyInfo" class="nav-link">
                   <p>&nbsp;&nbsp;거래처관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar.html" class="nav-link">
+                <a href="contractInfo" class="nav-link">
                   <p>&nbsp;&nbsp;계약관리</p>
                 </a>
               </li>
@@ -169,17 +169,17 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                <a href="materialOB" class="nav-link">
                   <p>&nbsp;&nbsp;자재출고현황</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
+                <a href="materialInventory" class="nav-link">
                   <p>&nbsp;&nbsp;자재재고조회</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar.html" class="nav-link">
+                <a href="materialContractInfo" class="nav-link">
                   <p>&nbsp;&nbsp;발주정보조회</p>
                 </a>
               </li>
@@ -194,12 +194,12 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="process" class="nav-link">
+                <a href="manufacturingInstruction" class="nav-link">
                   <p>&nbsp;&nbsp;제조지시</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="processPlan" class="nav-link">
+                <a href="manufacturingPerform" class="nav-link">
                   <p>&nbsp;&nbsp;제조수행지시</p>
                 </a>
               </li>
@@ -209,7 +209,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="workerManagement" class="nav-link">
                   <p>&nbsp;&nbsp;작업자관리</p>
                 </a>
               </li>
@@ -229,22 +229,22 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="itemIB" class="nav-link">
                   <p>&nbsp;&nbsp;제품입고현황</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="itemOB" class="nav-link">
                   <p>&nbsp;&nbsp;제품출고현황</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="itemInventory" class="nav-link">
                   <p>&nbsp;&nbsp;제품재고조회</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="itemContractInfo" class="nav-link">
                   <p>&nbsp;&nbsp;수주정보조회</p>
                 </a>
               </li>
@@ -263,27 +263,27 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="machineCheckInfo" class="nav-link">
                   <p>&nbsp;&nbsp;설비체크기준관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="machineCheck" class="nav-link">
                   <p>&nbsp;&nbsp;설비 체크리스트 작성</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="machineManagement" class="nav-link">
                   <p>&nbsp;&nbsp;설비관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="machineRepair" class="nav-link">
                   <p>&nbsp;&nbsp;설비수리이력관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="machineOperationStatus" class="nav-link">
                   <p>&nbsp;&nbsp;설비가동현황</p>
                 </a>
               </li>
@@ -298,23 +298,28 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="IBInspection" class="nav-link">
                   <p>&nbsp;&nbsp;수입검사관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="processInspection" class="nav-link">
                   <p>&nbsp;&nbsp;공정검사관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="OBInspection" class="nav-link">
                   <p>&nbsp;&nbsp;출하검사관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
-                  <p>&nbsp;&nbsp;불량실적조회</p>
+                <a href="processDefective" class="nav-link">
+                  <p>&nbsp;&nbsp;공정불량실적</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="itemDefective" class="nav-link">
+                  <p>&nbsp;&nbsp;제품불량실적</p>
                 </a>
               </li>
             </ul>

@@ -12,7 +12,7 @@
          <form action="" id="searchForm" class="col-md-12" onSubmit="return false">
 	          <div class="col-sm-12" >
 	          	<ol class="breadcrumb float-sm-left">
-	          		<h1 class="m-0"><i class="far fa-clipboard"></i> 제목</h1>
+	          		<h1 class="m-0"><i class="far fa-clipboard"></i>작업관리</h1>
 	          	</ol>
 	            <ol class="breadcrumb float-sm-right">
 		            <div class="reset">
@@ -96,11 +96,18 @@
             <table cellpadding="0" cellspacing="0" border="0">
               <thead class="tbl-header">
                 <tr>
-                  <th>Code</th>
-                  <th>안녕하세요</th>
-                  <th>Price</th>
-                  <th>Change</th>
-                  <th>Change %</th>
+                  <th>No</th>
+                  <th>제조LOT번호</th>
+                  <th>제품번호</th>
+                  <th>제품명</th>
+                  <th>수주업체</th>
+                  <th>착수일</th>
+                  <th>완수(예정)일</th>
+                  <th>진행상황</th>
+                  <th>계획수량</th>
+                  <th>단위</th>
+                  <th>누적생산수량</th>
+                  <th>누적불량수량</th>
                 </tr>
               </thead>
               <tbody class="tbl-content">
@@ -110,26 +117,12 @@
                   <td>$1.38</td>
                   <td>+2.01</td>
                   <td>-0.36%</td>
-                </tr>
-                <tr>
-                  <td>AAD</td>
-                  <td>AUSENCO</td>
-                  <td>$2.38</td>
-                  <td>-0.01</td>
-                  <td>-1.36%</td>
-                </tr>
-                <tr>
-                  <td>XXD</td>
-                  <td>ADITYA BIRLA</td>
-                  <td>$1.02</td>
-                  <td>-1.01</td>
-                  <td>+2.36%</td>
-                </tr>
-                <tr>
-                  <td>AAC</td>
-                  <td>AUSTRALIAN COMPANY </td>
-                  <td>$1.38</td>
-                  <td>+2.01</td>
+                  <td>-0.36%</td>
+                  <td>-0.36%</td>
+                  <td>-0.36%</td>
+                  <td>-0.36%</td>
+                  <td>-0.36%</td>
+                  <td>-0.36%</td>
                   <td>-0.36%</td>
                 </tr>
               </tbody>
