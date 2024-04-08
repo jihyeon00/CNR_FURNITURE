@@ -1,0 +1,130 @@
+.headerBar {
+    border-top: 1px black solid;
+    margin: 0px 8px 0px 8px;
+    display: flex;
+}
+
+.table{
+    height: 550px;
+    overflow-y: auto;
+}
+
+.machineSearch {
+    display: flex;
+}
+
+.machineSearch .machineBox{
+    width: 150px;
+    margin: 10px 15px 10px 15px;
+
+}
+
+.machineName, .machineType, .machinePosition{
+    display: flex;
+}
+
+.searchMachine {
+    padding: 15px;
+    background-color: #D8D8D8;
+}
+
+.searchbtn{
+    margin-left: auto;
+    display: flex;
+}
+
+#searchbtn, #addBtn{
+    width: 80px;
+    margin: 8px;
+}
+
+#update{
+    color: #00c0ef;
+}
+
+#delete{
+    color: #dd4b39;
+}
+
+.nameaddmodal, .typeaddmodal{
+    display: flex;
+}
+
+.addName, .addType{
+    margin: 20px;
+}
+
+.modalAddName, .modalAddType{
+    height: 50px;
+}
+
+.modalAddType{
+    margin-left: 51px;
+}
+
+.modalAddName{
+    margin-left: 65px;
+}
+
+.numberupdatemodal, .nameupdatemodal, .typeupdatemodal, .positionupdatemodal{
+    display: flex;
+}
+
+.updateNumber, .updateName, .updateType, .updatePosition{
+    margin: 20px;
+}
+
+.modalUpdateNumber, .modalUpdateName, .modalUpdateType, .modalUpdatePosition{
+    height: 50px;
+}
+
+.modalUpdateNumber, .modalUpdateType, .modalUpdatePosition{
+    margin-left: 51px;
+}
+
+.modalUpdateName{
+    margin-left: 65px;
+}
+
+/*   설비별 체크리스트   */
+
+.machineSearch .onchangeMethod, .onchangeType{
+    width: 100px;
+    margin: 10px 15px 10px 15px;
+
+}
+
+.onchangeMethod, .onchangeType{
+    border: 2px solid black;
+}
+
+.onchangeMachine {
+    padding: 15px;
+    background-color: #D8D8D8;
+}
+
+/*   체크리스트 추가 모달   */
+
+.addMachineNumber, .addMachineType, .addMachineMethod, .addMachineCondition{
+    display: flex;
+}
+
+.addNumberMachine, .addTypeMachine, .addMethodMachine, .addConditionMachine{
+    margin: 20px;
+}
+
+.modalAddNumber, .modalAddTypeCheck, .modalAddMethod, .modalUpdatePosition{
+    height: 50px;
+}
+
+.modalAddNumber, .modalAddMethod{
+    margin-left: 51px;
+}
+
+.modalAddTypeCheck{
+    margin-left: 22px;
+}
+
+.modalAddCondition{
+    margin-left: 81px;
+}

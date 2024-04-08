@@ -2,4 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.MachineInfoMapper">
+    <!--설비 정보 리스트-->
+    <select id="getMachineList" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineVO">
+        SELECT ROWNUM, MI.*
+        FROM  (SELECT mi_id, mi_name, mi_position, mi_type
+                FROM MACHINE_INFO
+                order by mi_id) MI
+    </select>
+
+    <!-- 설비 등록 -->
+    <insert id="addMachine">
+        insert into MACHINE_INFO (MI_ID, MI_NAME, MI_TYPE)
+        values (MACHINE_INFO_SEQ.NEXTVAL, #{modalAddName}, #{modalAddType})
+    </insert>
+
+    <!-- 마지막 설비 하나만 보여주기 -->
+    <select id="getMachineOne" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineVO">
+        SELECT ROWNUM, mi_id, mi_name, mi_position, mi_type
+        FROM  (Select
+                    mi_id, mi_name, mi_position, mi_type
+                from
+                    MACHINE_INFO
+                ORDER BY mi_id
+                    DESC FETCH FIRST 1 ROW ONLY) MI
+    </select>
+
 </mapper>
