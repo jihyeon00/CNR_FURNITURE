@@ -42,6 +42,46 @@
   height: 40px;
 }
 
+/* 당일작업등록 버튼 설정 */
+.todayWorkInsertBtn {
+   display: flex;
+   justify-content: flex-end;   /* 버튼을 오른쪽으로 정렬 */
+   margin: 0.5% 0;
+   padding-right: 15px; /* 테이블과 버튼의 우측 패딩을 일치시키기 위함 */
+}
+
+/* 당일작업등록 안 btn 설정 */
+.todayWorkInsertBtn .btn {
+   width: auto;   /* 버튼의 너비를 자동으로 설정하여 텍스트에 맞게 조정 */
+   padding: 0.375rem 0.75rem; /* Bootstrap 기본 버튼 패딩 */
+}
+/* 테이블 안 버튼 스타일 지정 */
+#materialInputTd,
+#workDetailTd,
+#todatWorkDeleteTd,
+#workerInsertTd{
+	font-weight: 600; 
+	padding: 5px 10px;
+	background: transparent;
+	border: transparent;
+}
+
+/* 자재투입(추가) 버튼 스타일*/
+#materialInputTd,
+#workerInsertTd{
+	color: #6c757d;
+}
+
+/* 작업상세(상세) 버튼 스타일*/
+#workDetailTd{
+	color: #007bff;
+}
+
+/* 작업삭제(삭제) 버튼 스타일*/
+#todatWorkDeleteTd{
+	color: #c82333;
+}
+
 /* divBorder 이용해 선 긋기 */
 .divBorder{
 	display: flex;
@@ -51,42 +91,74 @@
 	font-family: Inter;
 	font-weight: 600;
   font-size: 18px;
-  margin: 40px 7.5px 30px 7.5px;
+  margin: 20px 7.5px 30px 7.5px;
 }
 
 /* workSelectBtn 아래 여백 */
 .workSelectBtn{
 	margin: 0px 0px 30px 7.5px;
+	
 }
 
-/*  */
+/* workSelect 버튼  스타일 */
 .workSelect{
 	width:150px;
 	height: 40px;
 	border-radius: 0px;
 	font-weight: 600;
   font-size: 18px;
-	
+  border-color: #374056;
+  color: #374056;
 }
+
+/* workSelect 버튼 클릭시 색변경*/
 .workSelect:hover,
 .workSelect:active{
   background: #374056;
   color: white;
 }
-
-/*  */
-#selectMaterialInput,
-#selectWorker{
+/* 생산실적 버튼 처음부터 색상 지정 */
+#selectProductionBtn{
+	background: #374056;
+  color: white;
+}
+/* select 버튼 간의 여백 설정 */
+#selectMaterialInputBtn,
+#selectWorkerBtn{
 	margin-left: -6px;
-	
 }
 
+/* 생산실적, 자재투입내역, 작업자 테이블 밑 푸터와의 여백 */
+#selectProduction,
+#selectMaterialInput,
+#selectWorker{
+	margin-bottom: 40px;
+	overflow-x: auto;
+}
+
+/*  */
+#selectManufacturingPerformInfo,
+#selectWorkTable{
+	overflow-x: auto;
+}
 
 /*   표 이름   */
 .workTableTitle {
   display: flex;
 	align-items: center;
   width: 100%;
+  height: 40px;
+  background-color: #F1F1F1;
+  border-top: 2px solid #999;
+	font-family: Inter;
+	font-weight: 600;
+  font-size: 18px;
+}
+/*   표 이름   */
+.workerTableTitle {
+  display: flex;
+	align-items: center;
+  width: auto;
   height: 40px;
   background-color: #F1F1F1;
   border-top: 2px solid #999;
@@ -103,27 +175,46 @@
   margin-left: 5px;
 }
 /*   테이블 이름   */
-.workTableName {
+.workTableName,
+.workerTableName {
   display: flex;
 	align-items: center;
 }
 
 /* 테이블 제목 및 테이블 양쪽 여백*/
 .titleAndTable{
-	margin-left: 7.5px;
-	margin-right: 7.5px;
+	margin: 0 7.5px 10px 7.5px;
 }
 
 /* 테이블 스타일 높이 지정 및 높이 초과에 따른 스크롤 생성*/
 .workTable{
 	height:auto;
 	max-height: 259px;
-	overflow: auto;
+	width: auto;
+	overflow-y: auto;
+	
+}
+/* 테이블 스타일 높이 지정 및 높이 초과에 따른 스크롤 생성*/
+.workerTable{
+	height:auto;
+	max-height: 600px;
+	width: auto;
+	overflow-y: auto;
 }
 
+/* 작업자등록 모달창 속 width 100% 초과에 따른 스크롤 생성*/
+.workerSelectTable{
+		height:auto;
+		max-height: 300px;
+    display: inline-block; /* 요소를 인라인 블록 요소로 설정합니다. */
+}
+
+
+
 /* table div 안 table 설정 */
-.workTable table{
-  width:100%;
+.workTable table,
+.workerTable table,
+.workerSelectTable table{
   table-layout: fixed;
   border: 1px solid rgba(0,0,0,0.3);
   border-top:none;
@@ -131,10 +222,12 @@
 	border-spacing: 0;
 }
 /* thead 스타일 및 스크롤 이동 시 헤더 고정 */
-.work-tbl-header{
+.work-tbl-header,
+.worker-tbl-header{
   background-color: #374056;
   position : sticky;
   top : 0;  
+  white-space: nowrap;
  }
  
  /* thead의 th 스타일 지정*/
@@ -146,31 +239,48 @@
   color: #fff;
   text-transform: uppercase;
   border-right: 1px solid #fff;
+  white-space: nowrap;
+}
+ /* thead의 th 스타일 지정*/
+.worker-tbl-header tr th{
+  padding: 15px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 13px;
+  color: #fff;
+  text-transform: uppercase;
+  border-right: 1px solid #fff;
 }
 
 /* thead의 마지막 th의 오른쪽 선 없애기*/
-.work-tbl-header tr th:last-child{
+.work-tbl-header tr th:last-child,
+.worker-tbl-header tr th:last-child{
   border-right: none;
 }
 
 /* tbody와 thead의 여백 삭제 */
-.work-tbl-content{
+.work-tbl-content,
+.worker-tbl-content{
   margin-top: 0px;
 }
 
 /* tr 호버 시 색상 변경 */
 .work-tbl-content tr:hover,
-.work-tbl-content tr:nth-child(even):hover{
+.work-tbl-content tr:nth-child(even):hover,
+.worker-tbl-content tr:hover,
+.worker-tbl-content tr:nth-child(even):hover{
   background: #d9d9d9;
 }
 
 /* 짝수 tr 색상 흰색 */
-.work-tbl-content tr:nth-child(even) {
+.work-tbl-content tr:nth-child(even),
+.worker-tbl-content tr:nth-child(even){
   background: #eaeaed;
 }
 
 /* 테이블 내용 스타일 지정 */
-.work-tbl-content td{
+.work-tbl-content td,
+.worker-tbl-content td{
   padding: 3px 15px;
   text-align: center;
   vertical-align:middle;
@@ -179,14 +289,65 @@
   color: #000;
   height:42px;
   border-right: 1px solid #BDBDBD;
+  white-space: nowrap;
 }
 
 /* 테이블 마지막 td 맨밑 border 선 삭제 */
-.work-tbl-content tr td:last-child{
+.work-tbl-content tr td:last-child,
+.worker-tbl-content tr td:last-child{
   border-right: none;
 }
 
-/* divBorder 이용해 선 긋기 */
-.divBorder{
-	border-top: 1px solid #999;
+/*   모달창   */
+
+.todayWorkInsert-modal-body{
+	margin-top: 10px;
+}
+
+
+/*   입력창   */
+.todayWorkInsert-modal-input {
+  display: flex;
+	align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border: 1px solid #999;
+}
+.todayWorkInsert-modal-input:nth-child(2),
+.todayWorkInsert-modal-input:nth-child(3){
+	margin-top: -1px;
+}
+
+/*   입력명   */
+.todayWorkInsert-name {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 48px;
+  background-color: #374056;
+  color: #fff;
+}
+/*   입력내용   */
+.todayWorkInsert-text {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+/* 검색바의 input 박스 높이 지정*/
+.todayWorkInsert-text input[type="text"],
+.todayWorkInsert-text input[type="date"]{
+  height: 40px;
+}
+
+/* emptyModal 입력창 빈곳 배경색 회색 지정 */
+.emptyModal{
+	border-left: 1px solid #374056;
+	background-color: #D9D9D9;
+	height: 48px;
+}
+
+/* 모달창 구분선 */
+.divBorderModal{
+  width: 100%;
+  border-top: 1px solid #e9ecef;
 }
