@@ -4,10 +4,19 @@ $(document).ready(function() {
     var maxHeight = $(window).height() * 0.7;
 
     // .itemIB-table에 최대 높이 설정 및 overflow-y 속성 추가
-    $('.itemIB-table, .matOB-table').css({
+    $('.itemIB-table, .itemSemiOB-table', '.itemFinishedOB-table').css({
         'max-height': maxHeight + 'px',
         'overflow-y': 'auto'
     });
+    
+    /* 테이블의 x축 스크롤 자동 조정 */
+    // 화면 너비의 70%를 계산
+    var maxWidth = $(window).height() * 0.7;
+    // .table에 최대 너비 설정 및 overflow-x 속성 추가
+    $('.itemIB-table, .itemSemiOB-table', '.itemFinishedOB-table').css({
+			'max-width': maxWidth + 'px',
+			'overflow-x': 'auto'
+		});
 
 
     /* '반제품' 행들 중 마지막 행에 대한 스타일 변경 */

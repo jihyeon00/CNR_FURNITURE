@@ -34,4 +34,21 @@ public class ItemMNGController {
         return "itemManagement/itemFinishedOB";
     }
 
+    /**
+     * Desc: 제품관리-제품재고-조회
+     * @return: itemManagement/itemInventory
+     */
+    @GetMapping("/itemInventory")
+    public String itemInventory() {
+        return "itemManagement/itemInventory";
+    }
+
+    /**
+     * Desc: 제품관리-수주정보-조회
+     * @return: itemManagement/itemContractInfo
+     */
+    @GetMapping("/itemContractInfo")
+    public String itemContractInfo() {
+        return "itemManagement/itemContractInfo";
+    }
 }

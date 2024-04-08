@@ -1,18 +1,246 @@
 @charset "UTF-8";
+/*   검색창   */
+.itemIB-search-row.first-search-row .itemIB-searchBar,
+.itemSemiOB-search-row.first-search-row .itemSemiOB-searchBar {
+	margin-bottom: 0%;
+}
+.itemIB-search-row.second-search-row .itemIB-searchBar,
+.itemSemiOB-search-row.second-search-row .itemSemiOB-searchBar {
+	margin-top: -0.5%;
+}
+.itemIB-searchBar,
+.itemSemiOB-searchBar,
+.itemFinishedOB-searchBar,
+.itemInventory-searchBar,
+.itemContractInfo-searchBar {
+  display: flex;
+	align-items: center;
+  height: 10%;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-bottom: 2%;
+}
+/* 첫 번째 검색 행에 대한 스타일 */
+.itemIB-search-row.first-search-row .itemIB-searchBar,
+.itemSemiOB-search-row.first-search-row .itemSemiOB-searchBar {
+	display: flex;
+	justify-content: space-between;
+}
+/* 두 번째 검색 행에 대한 스타일 */
+.itemIB-search-row.second-search-row .itemIB-searchBar,
+.itemSemiOB-search-row.second-search-row .itemSemiOB-searchBar {
+	display: flex;
+	justify-content: space-between;
+}
+/*   검색명   */
+.itemIB-search-title,
+.itemSemiOB-search-title,
+.itemFinishedOB-search-title,
+.itemInventory-search-title,
+.itemContractInfo-search-title {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 43px;
+  background-color: #D9D9D9;
+  flex: 1;	/* flex 항목들이 동일한 비율로 공간을 차지하도록 설정 */
+}
+.itemIB-search-title.first-search-col,
+.itemSemiOB-search-title.first-search-col,
+.itemFinishedOB-search-title.first-search-col,
+.itemInventory-search-title.first-search-col,
+.itemContractInfo-search-title.first-search-col {
+	max-width: 110px;
+	margin-left: -0.8%;
+}
+/*   검색내용   */
+.itemIB-search-content,
+.itemSemiOB-search-content,
+.itemFinishedOB-search-content,
+.itemInventory-search-content,
+.itemContractInfo-search-content {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.itemIB-search-content input[type="text"],
+.itemSemiOB-search-content input[type="text"],
+.itemFinishedOB-search-content input[type="text"],
+.itemInventory-search-content input[type="text"],
+.itemContractInfo-search-content input[type="text"] {
+  height: 3%;
+}
+
 
 /* 테이블 및 타이틀 스타일링 */
 .itemIB-titleAndTable,
-.itemSemiItem-titleAndTable,
-.itemFinishedItem-titleAndTable {
+.itemSemiOB-titleAndTable,
+.itemFinishedOB-titleAndTable,
+.itemInventory-titleAndTable,
+.itemContractInfo-titleAndTable {
   margin-left: 0;
+  padding-right: 0;
 }
 .itemIB-title,
-.itemSemiItem-title,
-.itemFinishedItem-title {
+.itemSemiOB-title,
+.itemFinishedOB-title,
+.itemInventory-title,
+.itemContractInfo-title {
   padding-left: 1%;
   margin: 0.5% 0;
   font-size: 18px;
   font-weight: 600;
+}
+
+.itemIB-table,
+.itemSemiOB-table,
+.itemFinishedOB-table,
+.itemInventory-table,
+.itemContractInfo-table {
+  height: auto;
+  overflow-y: auto;
+  width: auto;
+  overflow-x: auto;
+}
+/* x축이 긴 경우, width:100%;를 주면 overflow-x: auto; 불가능 */
+.itemIB-table table,
+.itemSemiOB-table table,
+.itemFinishedOB-table table,
+.itemInventory-table table,
+.itemContractInfo-table table {
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.itemInventory-table table,
+.itemContractInfo-table table {
+	width: 100%;
+}
+
+/* 테이블 헤더 및 컨텐츠 공통 스타일 */
+.itemIB-table-header,
+.semiItemIB-header,
+.finishedItemIB-header,
+.itemSemiOB-table-header,
+.itemFinishedOB-table-header,
+.itemInventory-table-header,
+.itemContractInfo-table-header,
+.itemIB-table-header th,
+.itemSemiOB-table-header th,
+.itemFinishedOB-table-header th,
+.itemInventory-table-header th,
+.itemContractInfo-table-header th,
+.itemIB-table-content td,
+.itemSemiOB-table-content td,
+.itemFinishedOB-table-content td,
+.itemInventory-table-content td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+  font-size: 12px;
+  white-space: nowrap;
+  border-right: 1px solid #fff;
+}
+
+/* 테이블 헤더 특정 스타일 */
+.itemIB-table-header,
+.semiItemIB-header,
+.finishedItemIB-header,
+.itemSemiOB-table-header,
+.itemFinishedOB-table-header,
+.itemInventory-table-header,
+.itemContractInfo-table-header {
+  background-color: #374056;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;  
+}
+/* 제목행 이동시, 고정 */
+.itemFinishedOB-table-header th:first-child,
+.itemIB-table-header th:first-child,
+.itemInventory-table-header th:first-child,
+.itemContractInfo-table-header th:first-child,
+.itemFinishedOB-table-content th[rowspan],
+.itemIB-table-content th[rowspan],
+.itemInventory-table-content th[rowspan] {
+	background-color: #374056;
+	position: sticky;
+	left: 0;
+	z-index: 100;	/* 다른 내용보다 위에 위치 */
+}
+.itemIB-table-subHeader th,
+.itemSemiOB-table-subHeader th,
+.itemFinishedOB-table-subHeader th {
+  border-top: 1px solid #fff;
+}
+.itemIB-table-header th:last-child,
+.itemInventory-table-header th:last-child,
+.itemIB-table-content td:last-child,
+.itemInventory-table-content td:last-child {
+  border-right: none;
+}
+/* 상단 헤더의 세로 구분선 추가 */
+.itemIB-table-header tr:first-child th,
+.itemSemiOB-table-header tr:first-child th,
+.itemFinishedOB-table-header th,
+.itemInventory-table-header th,
+.itemIB-table-subHeader th,
+.itemSemiOB-table-subHeader th,
+.itemFinishedOB-table-subHeader th,
+.itemInventory-table-subHeader th {
+  border-right: 1px solid #fff;
+}
+
+/* 상단 헤더의 가로 구분선 추가 */
+.itemIB-table-subHeader th,
+.itemSemiOB-table-subHeader th,
+.itemFinishedOB-table-subHeader th {
+  border-bottom: 1px solid #fff;
+}
+
+/* 마지막 행(th)의 오른쪽 테두리 제거 */
+.itemIB-table-subHeader th:nth-last-child(1) {
+  border-right: none;
+}
+/* '제품용도' 열의 아래쪽 테두리 추가 */
+.itemIB-table-header th[rowspan],
+.semiItemIB-header {
+  border-bottom: 1px solid #fff;
+}
+/* 테이블 컨텐츠 특정 스타일 */
+.itemIB-table-content tr:hover,
+.itemSemiOB-table-content tr:hover,
+.itemFinishedOB-table-content tr:hover,
+.itemIB-table-content tr:nth-child(even):hover,
+.itemSemiOB-table-content tr:nth-child(even):hover,
+.itemFinishedOB-table-content tr:nth-child(even):hover {
+  background: #d9d9d9;
+}
+.itemIB-table-content tr:nth-child(even),
+.itemSemiOB-table-content tr:nth-child(even),
+.itemFinishedOB-table-content tr:nth-child(even),
+.itemInventory-table-content tr:nth-child(even) {
+  background: #eaeaed;
+}
+.itemIB-table-content td,
+.itemSemiOB-table-content td,
+.itemFinishedOB-table-content td,
+.itemInventory-table-content td {
+  border-right: 1px solid #BDBDBD;
+}
+.itemContractInfo-table-content td {
+	padding: 15px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000;
+  border-right: 1px solid #BDBDBD;
 }
 
 /* 완제품출고등록 버튼 스타일 */
@@ -33,179 +261,56 @@
 	margin-bottom: 1%;
 }
 
-.itemIB-table,
-.itemSemiItem-table,
-.itemFinishedItem-table {
-  height: auto;
-  overflow-y: auto;
-}
-.itemIB-table table,
-.itemSemiItem-table table,
-.itemFinishedItem-table table {
-  width: 100%;
-  table-layout: fixed;
-  border: 1px solid rgba(0,0,0,0.3);
-  border-top: none;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-/* 테이블 헤더 및 컨텐츠 공통 스타일 */
-.itemIB-table-header,
-.itemSemiItem-table-header,
-.itemFinishedItem-table-header,
-.itemIB-table-header th,
-.itemSemiItem-table-header th,
-.itemFinishedItem-table-header th,
-.itemIB-table-content td,
-.itemSemiItem-table-content td,
-.itemFinishedItem-table-content td {
-  text-align: center;
-  vertical-align: middle;
-  padding: 15px;
-  font-size: 12px;
-}
-
-/* 테이블 헤더 특정 스타일 */
-.itemIB-table-header,
-.semiItemIB-header,
-.finishedItemIB-header,
-.itemSemiItem-table-header,
-.itemFinishedItem-table-header {
-  background-color: #374056;
-  color: #fff;
-  font-weight: 500;
-  text-transform: uppercase;
-  position: sticky;
-  top: 0;  
-  border-right: 1px solid #fff;
-}
-.itemIB-table-subHeader th,
-.itemSemiItem-table-subHeader th,
-.itemFinishedItem-table-subHeader th {
-  border-top: 1px solid #fff;
-}
-.itemIB-table-header th:last-child,
-.itemIB-table-content td:last-child {
-  border-right: none;
-}
-/* 상단 헤더의 세로 구분선 추가 */
-.itemIB-table-header tr:first-child th,
-.itemSemiItem-table-header tr:first-child th,
-.itemFinishedItem-table-header th,
-.itemIB-table-subHeader th,
-.itemSemiItem-table-subHeader th,
-.itemFinishedItem-table-subHeader th {
-  border-right: 1px solid #fff;
-}
-
-/* 상단 헤더의 가로 구분선 추가 */
-.itemIB-table-subHeader th,
-.itemSemiItem-table-subHeader th,
-.itemFinishedItem-table-subHeader th {
-  border-bottom: 1px solid #fff;
-}
-
-/* 마지막 행(th)의 오른쪽 테두리 제거 */
-.itemIB-table-subHeader th:nth-last-child(1) {
-  border-right: none;
-}
-/* '제품용도' 열의 아래쪽 테두리 추가 */
-.itemIB-table-header th[rowspan],
-.semiItemIB-header {
-  border-bottom: 1px solid #fff;
-}
-/* 테이블 컨텐츠 특정 스타일 */
-.itemIB-table-content tr:hover,
-.itemSemiItem-table-content tr:hover,
-.itemFinishedItem-table-content tr:hover,
-.itemIB-table-content tr:nth-child(even):hover,
-.itemSemiItem-table-content tr:nth-child(even):hover,
-.itemFinishedItem-table-content tr:nth-child(even):hover {
-  background: #d9d9d9;
-}
-.itemIB-table-content tr:nth-child(even),
-.itemSemiItem-table-content tr:nth-child(even),
-.itemFinishedItem-table-content tr:nth-child(even) {
-  background: #eaeaed;
-}
-.itemIB-table-content td,
-.itemSemiItem-table-content td,
-.itemFinishedItem-table-content td {
-  border-right: 1px solid #BDBDBD;
-}
-
-
-/*   검색창   */
-.itemIB-searchBar,
-.itemSemiItem-searchBar,
-.itemFinishedItem-searchBar {
-  display: flex;
-	align-items: center;
-  height: 10%;
-  background-color: #fff;
-  border-top: 2px solid #999;
-  border-bottom: 2px solid #999;
-  margin-bottom: 2%;
-}
-/*   검색명   */
-.itemIB-search-title,
-.itemSemiItem-search-title,
-.itemFinishedItem-search-title {
-  display: flex;
-	align-items: center;
-	justify-content: center;
-  height: 43px;
-  background-color: #D9D9D9;
-}
-.itemOB-LOT-ID {
-	padding: 0 1%;
-}
-/*   검색내용   */
-.itemIB-search-content,
-.itemSemiItem-search-content,
-.itemFinishedItem-search-content {
-  display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.itemIB-search-content input[type="text"],
-.itemSemiItem-search-content input[type="text"],
-.itemFinishedItem-search-content input[type="text"] {
-  height: 3%;
-}
-
 
 /* 모달창 */
-/* 등록 모달 각 행 스타일링 */
-.itemOB-modal-body {
-	margin: 3% 4%;
+.itemOB-modal-body{
+   margin-top: 10px;
 }
-.register-FinishedItemOB-modal-body {
-	display: flex;
-	align-items: center; /* 수직 중앙 정렬 */
-	border: 1px solid rgba(0,0,0,0.3);
+/*   모달-입력창   */
+.itemFinishedOB-board {
+  display: flex;
+   align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border: 1px solid #999;
 }
-.finishedItemOB-modal-subTitle {
-	flex: 0 0 9%;		/* 라벨 너비 고정:  각 라벨이 고정된 너비를 가지고 확장되거나 축소되지 않도록 설정 */
-	background-color: #374056;
-	color: #fff;
-	display: flex;
-	justify-content: center;	/* 수평 중앙 정력 */
-	align-items: center;			/* 수직 중앙 정렬 */
-	padding: 1%;
+.itemFinishedOB-board:nth-child(2),
+.itemFinishedOB-board:nth-child(3){
+   margin-top: -1px;
 }
-/* 모든 입력 필드를 감싸는 컨테이너에 flex-grow 속성 할당 */
-.finishedItemOB-modal-subContent {
-	flex-grow: 1;		/* 입력 필드가 각 행에서 남은 공간을 차지하도록 함 */
-	display: flex;
-	align-items: center;
-  padding: 0.7% 0;
-  margin: 0 1%;
+/*   모달-입력명   */
+.itemFinishedOB-name {
+  display: flex;
+   align-items: center;
+   justify-content: center;
+  height: 48px;
+  background-color: #374056;
+  color: #fff;
 }
-
-/* readonly 입력 필드 스타일링 - 테두리 없음 */
-.finishedItemOB-modal-subContent input[readonly] {
+/*   모달-입력내용   */
+.itemFinishedOB-text {
+  display: flex;
+   align-items: center;
+   justify-content: center;
+}
+/* 모달-검색바의 input 박스 높이 지정*/
+.itemFinishedOB-text input[type="text"],
+.itemFinishedOB-text input[type="date"],
+.itemFinishedOB-text input[type="number"] {
+  height: 40px;
+}
+/* 모달-emptyModal 입력창 빈곳 배경색 회색 지정 */
+.emptyModal{
+   border-left: 1px solid #374056;
+   background-color: #D9D9D9;
+   height: 48px;
+}
+/* 모달창 구분선 */
+.divBorderModal{
+  width: 100%;
+  border-top: 1px solid #e9ecef;
+}
+/* 모달-readonly 입력 필드 스타일링 - 테두리 없음 */
+.itemFinishedOB-text input[readonly] {
   background-color: #D9D9D9;
-  border: 1px solid #D9D9D9;
 }

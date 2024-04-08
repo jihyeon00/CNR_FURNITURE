@@ -1,1 +1,213 @@
 @charset "UTF-8";
+
+/* 상단 검색 section */
+/* 검색창 1~2줄 상/하 */
+.inspIB-search-row.first-search-row .inspIB-searchBar,
+.inspIB-search-row.first-search-row .inspIB-searchBar {
+	margin-bottom: 0%;
+	display: flex;
+	justify-content: space-between;
+}
+.inspIB-search-row.second-search-row .inspIB-searchBar,
+.inspIB-search-row.second-search-row .inspIB-searchBar {
+	margin-top: -0.5%;
+	display: flex;
+	justify-content: space-between;
+}
+/* 검색Bar */
+.inspIB-searchBar {
+	display: flex;
+	align-items: center;
+  height: 10%;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-bottom: 2%;
+}
+/* 검색명 */
+.inspIB-search-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+  height: 43px;
+  background-color: #D9D9D9;
+  flex: 1;	/* flex 항목들이 동일한 비율로 공간을 차지하도록 설정 */
+  white-space: nowrap;
+}
+
+.inspIB-search-title.first-search-col {
+	max-width: 110px;
+	margin-left: -0.8%;
+}
+/*   검색내용   */
+.inspIB-search-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+/* 검색 입력칸 높이 */
+.inspIB-search-content input[type="text"],
+.inspIB-search-content input[type="date"],
+.inspIB-search-content input[type="number"] {
+	height: 3%;
+}
+
+/* 테이블명, 등록버튼 */
+.inspIB-titleAndTable {
+	margin-left: 0;
+  padding-right: 0;
+}
+/* 테이블명 */
+.inspIB-title {
+  padding-left: 1%;
+  margin: 0.5% 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+
+
+
+.inspIB-table {
+  height: auto;
+  overflow-y: auto;
+  width: auto;
+  overflow-x: auto;
+}
+/* x축이 긴 경우, width:100%;를 주면 overflow-x: auto; 불가능 */
+.inspIB-table table {
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+/* .inspIB-table table {
+	width: 100%;
+} */
+/* 테이블 헤더 및 컨텐츠 공통 스타일 */
+.inspIB-table-header,
+.inspIB-table-header th,
+.inspIB-table-content td {
+	text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+  font-size: 12px;
+  white-space: nowrap;
+  border-right: 1px solid #fff;
+}
+/* 테이블 헤더 특정 스타일 */
+.inspIB-table-header {
+	background-color: #374056;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0; 
+}
+/* 제목행 이동시, 고정 */
+.inspIB-table-header th:first-child,
+.inspIB-table-content th[rowspan] {
+	background-color: #374056;
+	position: sticky;
+	left: 0;
+	z-index: 100;	/* 다른 내용보다 위에 위치 */
+}
+/* 상단 헤더의 세로 구분선 추가 */
+.inspIB-table-header th {
+	border-right: 1px solid #fff;
+}
+/* 상단 헤더의 가로 구분선 추가(제목행 있는 경우) */
+/* .itemIB-table-subHeader th {
+	border-bottom: 1px solid #fff;
+} */
+/* 제목행의 아래쪽 테두리 추가 */
+/* .inspIB-table-header th[rowspan] {
+  border-bottom: 1px solid #fff;
+} */
+/* 테이블 컨텐츠 특정 스타일 */
+.inspIB-table-content tr:hover,
+.inspIB-table-content tr:nth-child(even):hover {
+	background: #d9d9d9;
+}
+.inspIB-table-content tr:nth-child(even) {
+	background: #eaeaed;
+}
+.inspIB-table-content td {
+	border-right: 1px solid #BDBDBD;
+}
+
+/* 등록 버튼 스타일 */
+.addIBinspIBBtn {
+	display: flex;
+	justify-content: flex-end;	/* 버튼을 오른쪽으로 정렬 */
+	margin: 0.5% 0;
+	padding-right: 15px; /* 테이블과 버튼의 우측 패딩을 일치시키기 위함 */
+}
+/* 버튼 크기 */
+.addIBinspIBBtn .btn {
+	width: auto;	/* 버튼의 너비를 자동으로 설정하여 텍스트에 맞게 조정 */
+	padding: 0.375rem 0.75rem; /* Bootstrap 기본 버튼 패딩 */
+}
+/* 버튼-추가 아이콘 */
+.add-circle-icon {
+	/* width: 20px; */
+	width: 13%;
+	height: auto;
+	margin-bottom: 1%;
+}
+
+/* 모달창 */
+.itemOB-modal-body{
+   margin-top: 10px;
+}
+/*   모달-입력창   */
+.itemFinishedOB-board {
+  display: flex;
+   align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border: 1px solid #999;
+}
+.itemFinishedOB-board:nth-child(2),
+.itemFinishedOB-board:nth-child(3){
+   margin-top: -1px;
+}
+/*   모달-입력명   */
+.itemFinishedOB-name {
+  display: flex;
+   align-items: center;
+   justify-content: center;
+  height: 48px;
+  background-color: #374056;
+  color: #fff;
+}
+/*   모달-입력내용   */
+.itemFinishedOB-text {
+  display: flex;
+   align-items: center;
+   justify-content: center;
+}
+/* 모달-검색바의 input 박스 높이 지정*/
+.itemFinishedOB-text input[type="text"],
+.itemFinishedOB-text input[type="date"],
+.itemFinishedOB-text input[type="number"] {
+  height: 40px;
+}
+/* 모달-emptyModal 입력창 빈곳 배경색 회색 지정 */
+.emptyModal{
+   border-left: 1px solid #374056;
+   background-color: #D9D9D9;
+   height: 48px;
+}
+/* 모달창 구분선 */
+.divBorderModal{
+  width: 100%;
+  border-top: 1px solid #e9ecef;
+}
+/* 모달-readonly 입력 필드 스타일링 - 테두리 없음 */
+.itemFinishedOB-text input[readonly] {
+  background-color: #D9D9D9;
+}
