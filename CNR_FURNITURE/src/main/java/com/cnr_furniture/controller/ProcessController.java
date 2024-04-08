@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ProcessController {
 
     /*제조지시*/
-    @GetMapping("/process")
+    @GetMapping("/manufacturingInstruction")
     public String Process(){
-        return "process/processMain";
+        return "process/manufacturingInstruction";
     }
 
     /*제조수행지시*/
-    @GetMapping("/processPlan")
+    @GetMapping("/manufacturingPerform")
     public String processPlan(){
-        return "process/processPlan";
+        return "process/manufacturingPerform";
     }
 
     /*공정정보*/
