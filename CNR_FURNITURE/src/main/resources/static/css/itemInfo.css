@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+
 /* reset button */
 
 .resetBtn {
@@ -17,6 +18,9 @@
     cursor: pointer;
 }
 
+
+
+resetBtn
 /*   표 이름   */
 .ItemTableName {
   display: flex;
@@ -30,57 +34,32 @@
   font-size: 16px;
 }
 
-.ETableName {
-  display: flex;
-	align-items: center;
-  width: 100%;
-  height: 40px;
-  background-color: #F1F1F1;
-  border-top: 2px solid #999;
-	font-family: Inter;
-	font-weight: 400;
-  font-size: 16px;
-}
-
-/*   표 이름   */
-.ETableName {
-  display: flex;
-	align-items: center;
-  width: 100%;
-  height: 40px;
-  background-color: #F1F1F1;
-  border-top: 2px solid #999;
-	font-family: Inter;
-	font-weight: 400;
-  font-size: 16px;
-}
-
-
+/*  제품등록   */
 .member-btn button {
 	position: absolute;
-		 right: 0;
-	border: 1px solid #999;
+		top: 6px;
 }
 
 /*  검색창   */
 
-.materialSearchBar {
+.itemSearchBar {
 	border-bottom: 2px solid #999;
 	border-top: 2px solid #999;
 	margin-bottom: 10px;
 }
 
-#searchMaterialForm {
+#searchItemForm {
 	display: flex;
 }
 
-#searchMtBtn {
+#searchItemBtn {
 	margin: 5px;
 	position: absolute;
 		right: -660px;
 		top: 1px;
 	height: 38px;
 }
+
 
 .col-sm-1 select {
 	height:40px;
@@ -96,24 +75,29 @@
   padding: 15px;
   text-align: center;
   vertical-align:middle;
-  font-weight: 300;
-  font-size: 16px;
+  font-weight: 350;
+  font-size: 13px;
   color: #000;
   border-right: 1px solid #BDBDBD;
 }
 
-.modifyMT { 
+.modifyItem { 
 	cursor: pointer;
 	border: none;
 }
 
-.modifyMT:hover { 
+.deleteItem { 
+	cursor: pointer;
+	border: none;
+}
+
+.modifyItem:hover { 
 	color: #17A2B8;
 	font-weight: bold;
 	font-size: 15px;
 }
 
-.delete-btn:hover { 
+.deleteItem:hover { 
 	color: red;
 	font-weight: bold;
 	font-size: 15px;

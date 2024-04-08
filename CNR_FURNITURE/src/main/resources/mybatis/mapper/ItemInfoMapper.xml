@@ -6,7 +6,7 @@
     <select id="getItemInfoList" resultType="com.cnr_furniture.domain.ItemInfo.ItemInfoVO">
         SELECT ROWNUM rn, I_ID, I_NAME, I_COLOR, I_STANDARD, I_TYPE, I_USES
         FROM ITEM
-        where 1=1
+        WHERE 1=1
         <foreach item="type" collection="typeArr">
             <if test="type == 'INum'.toString()">
                 and  I_ID like '%' || #{keyword} || '%'
@@ -41,4 +41,5 @@
             , I_USES = #{i_uses}
         WHERE I_ID = #{i_id}
     </update>
+
 </mapper>
