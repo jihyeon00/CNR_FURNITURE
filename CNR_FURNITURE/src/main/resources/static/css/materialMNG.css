@@ -6,6 +6,7 @@
 .matInventory-titleAndTable,
 .matContInfo-titleAndTable {
 	margin-left: 0;
+	padding-right: 0;
 }
 .matIB-title,
 .matOB-title,
