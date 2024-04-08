@@ -23,7 +23,12 @@
               <li class="breadcrumb-item"><a href="/main">Home</a></li>
               <li class="breadcrumb-item active">제품 정보</li>
             </ol>
-          </div>/.col -->   
+          </div>/.col -->
+          <div class="col-md-6">         
+            <div class="resetBtn">
+               <a href="./itemInfo"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+            </div>
+          </div>
       	</div><!-- /.container-fluid -->
     	</div>
     <!-- /.content-header -->
@@ -36,7 +41,7 @@
           <!-- 제품번호/명 검색창 -->
           <div class="col-md-12 itemSearchBar">
           	<form id='searchItemForm' action='./itemInfo' method='get'>
-		           <div class="col-sm-1">
+		           <div class="col-sm-1">		
 		           	<select name='type'>
 		           		<option value="">--선택--</option>
 					    		<option value="INum"<c:out value="${itemSearch.type == 'INum' ? 'selected' : ''}" />>제품번호</option>
@@ -47,15 +52,14 @@
 		           <div class="col-sm-1">
 		             <input type="text" name='keyword' value='<c:out value="${itemSearch.keyword}"/>' />
 		           </div>
-		           <div class="col-sm-1">
-		             <!--  <div class="reset"><img class="resetPng" alt="reset" src="/resources/img/reset.png" /></div>   -->      
+		           <div class="col-sm-1">    
 		             <button type="button" class="btn btn-primary search" id="searchItemBtn" name="">
 		             <i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색
 		             </button>
 		           </div>		           
 		      	</form>
 		      	<div class="member-btn">
-              <button type="button" class="btn btn-Default" data-toggle="modal" data-target="#myModal1">제품등록</button>
+             <button type="button" class="btn btn-Default" data-toggle="modal" data-target="#myModal1">제품등록</button>
             </div>
           </div>
         
@@ -146,7 +150,7 @@
 			    </div>
 			  </div>
 	</div>
-
+  <!--============================================================== -->
 	  
 	<!-- 모달창 수정  -->
 	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
@@ -156,7 +160,7 @@
 		        <h4 class="modal-title" id="myModalLabel">제품정보 수정</h4>
 		      </div>
 		      <div class="modal-body">
-		        <form  action="./itemUpdate" method="post" id="insertUpdateForm"	onSubmit="return false">        	
+		        <form  action="./itemUpdate" method="post" id="itemUpdateForm"	onSubmit="return false">        	
 		        	<div class="row modal-content1">
 								<div class="col-md-6">
 					          <label for="modalProductAmount" class="form-label">제품 번호</label>

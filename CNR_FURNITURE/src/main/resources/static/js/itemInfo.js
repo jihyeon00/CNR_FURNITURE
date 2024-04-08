@@ -24,7 +24,7 @@
 	
 	
 	
-    /*등록시 사용  */
+    /*제품 등록시 사용  */
 	function checkAllFields() {
 	    return ($('#i_name').val() && $('#i_color').val() && $('#i_standard').val() && $('#i_type').val() && $('#i_uses').val());
 	}
@@ -87,9 +87,7 @@
     }
 	
     /* 수정시 사용  */
- 	function updateItemBox() {
-		   console.log("수정이야~");
-		   
+ 	function updateItemBox() {		   
 	 Swal.fire({
 	   	    title: '수정 하시겠습니까?',
 	   	    text: '',
@@ -104,7 +102,7 @@
 	   	    if (result.isConfirmed) {
 	   	        Swal.fire('수정 되었습니다.', '', 'success');
 	   	        setTimeout(function() {
-	   	         document.getElementById('insertUpdateForm').submit();
+	   	         document.getElementById('itemUpdateForm').submit();
 	   	        }, 2000); // 2초 후에 폼 제출
 	   	    } else if (result.isDismissed) { // 만약 모달창에서 cancel 버튼을 눌렀다면
 	   	        Swal.fire('수정 취소되었습니다.', '', 'info');
