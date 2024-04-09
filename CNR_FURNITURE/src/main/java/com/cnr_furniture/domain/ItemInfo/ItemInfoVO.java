@@ -17,17 +17,4 @@ public class ItemInfoVO {
 
     private int rn;
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ItemInfoVO {
-        private int i_id;
-        private String i_name;
-        private String i_color;
-        private String i_standard;
-        private String i_type;
-        private String i_uses;
-
-        private int rn;
-    }
 }
