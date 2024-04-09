@@ -239,7 +239,7 @@
       <div class="modal-footer">
            <button type="button" class="btn btn-primary">등록</button>
            <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
-      </div><!-- /.modal-body -->
+      </div><!-- /.modal-footer -->
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->     
