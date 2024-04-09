@@ -9,6 +9,15 @@
     overflow-y: auto;
 }
 
+.resetAndMachineInfo{
+    display: flex;
+    justify-content: space-between;
+}
+
+.resetMachine{
+    margin-left: auto;
+}
+
 .machineSearch {
     display: flex;
 }
@@ -19,7 +28,7 @@
 
 }
 
-.machineName, .machineType, .machinePosition{
+.machineName, .machineType, .machinePosition, .machineCheckWriter, .machineCheckDate{
     display: flex;
 }
 
@@ -28,22 +37,19 @@
     background-color: #D8D8D8;
 }
 
-.searchbtn{
+.searchbtn, .machineCheckSave{
     margin-left: auto;
     display: flex;
 }
 
-#searchbtn, #addBtn{
+#searchbtn, #addBtn, #machineCheckSave{
     width: 80px;
     margin: 8px;
 }
 
-#update{
+#updateMachine{
     color: #00c0ef;
-}
-
-#delete{
-    color: #dd4b39;
+    cursor:pointer;
 }
 
 .nameaddmodal, .typeaddmodal{
@@ -88,7 +94,7 @@
 
 /*   설비별 체크리스트   */
 
-.machineSearch .onchangeMethod, .onchangeType{
+.machineSearch .onchangeMethod, .onchangeType, .onchangeMachineName{
     width: 100px;
     margin: 10px 15px 10px 15px;
 
@@ -96,6 +102,11 @@
 
 .onchangeMethod, .onchangeType{
     border: 2px solid black;
+}
+
+.checkType,
+.checkMethod {
+    color: #ebebeb; /* checkType와 checkMethod 클래스의 글자 색을 #ebebeb으로 지정 */
 }
 
 .onchangeMachine {
@@ -127,4 +138,15 @@
 
 .modalAddCondition{
     margin-left: 81px;
+}
+
+/* 체크리스트 작성 */
+.machineCheckText{
+    width: 100%;
+    height: 30%;
+}
+
+.machineCheckSave{
+    position: absolute;
+    right: 1%;
 }

@@ -8,6 +8,16 @@
         FROM  (SELECT mi_id, mi_name, mi_position, mi_type
                 FROM MACHINE_INFO
                 order by mi_id) MI
+        where 1=1
+            <if test="find_machine_name != null and find_machine_name != ''">
+                AND mi_name Like '%' || #{find_machine_name} || '%'
+            </if>
+            <if test="find_machine_type != null and find_machine_type != ''">
+                AND mi_type Like '%' || #{find_machine_type} || '%'
+            </if>
+            <if test="find_machine_position != null and find_machine_position != ''">
+                AND mi_position Like '%' || #{find_machine_position} || '%'
+            </if>
     </select>
 
     <!-- 설비 등록 -->
@@ -27,4 +37,13 @@
                     DESC FETCH FIRST 1 ROW ONLY) MI
     </select>
 
+    <!-- 설비 위치 업데이트 -->
+    <update id="updateMachinePosition">
+        update
+            MACHINE_INFO
+        set
+            mi_position = #{modalUpdatePosition}
+        where
+            mi_id = #{modalUpdateNumber}
+    </update>
 </mapper>

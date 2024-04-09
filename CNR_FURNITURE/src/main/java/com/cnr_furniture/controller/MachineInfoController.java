@@ -2,7 +2,9 @@ package com.cnr_furniture.controller;
 
 import com.cnr_furniture.domain.Machine.MachineAddVO;
 import com.cnr_furniture.domain.Machine.MachineVO;
+import com.cnr_furniture.domain.Machine.SearhMachine;
 import com.cnr_furniture.service.machine.MachineInfoService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import lombok.extern.log4j.Log4j;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Controller
 @Log4j
+@AllArgsConstructor
 public class MachineInfoController {
 
     // 설비 정보 리스트
@@ -21,8 +24,10 @@ public class MachineInfoController {
     private MachineInfoService machineInfoService;
 
     @GetMapping("/machineInfo")
-    public String machineInfo(Model model) {
-        List<MachineVO> machineVOList = machineInfoService.getMachineList();
+    public String machineInfo(SearhMachine searhMachine, Model model) {
+        model.addAttribute("searchMachine", searhMachine);
+
+        List<MachineVO> machineVOList = machineInfoService.getMachineList(searhMachine);
 
         model.addAttribute("machineVOList", machineVOList);
 
@@ -30,7 +35,7 @@ public class MachineInfoController {
     }
 
     // 설비 등록
-    @PostMapping("/machineInfo")
+    @PostMapping("/machineInfoAdd")
     @ResponseBody
     public MachineVO insertMachine(
             @RequestBody MachineAddVO machineAddVO,
@@ -54,10 +59,25 @@ public class MachineInfoController {
         return machineVO;
     }
 
+    // 설비 수정
+    @PostMapping("/machineInfoUpdate")
+    public String updateMachinePosition(MachineAddVO machineAddVO, RedirectAttributes rttr){
+        int rtn = machineInfoService.updateMachinePosition(machineAddVO);
+        rttr.addFlashAttribute("updateSuccessCount", rtn);
 
-    @GetMapping("/machineCheckInfo")
-    public String machineCheckInfo() {
-        return "machine/machineCheckInfo";
+        return "redirect:/machineInfo";
+    }
+
+    // 설비 수리 이력 관리
+    @GetMapping("/machineRepair")
+    public String machineRepair(){
+        return "machine/machineRepair";
+    }
+
+    // 설비 가동 현황
+    @GetMapping("/machineOperationStatus")
+    public String machineOperationStatus(){
+        return "machine/machineOperationStatus";
     }
 
 }

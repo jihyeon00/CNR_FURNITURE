@@ -2,4 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.MachineMNGMapper">
+    <!-- 설비 체크리스트 정보 리스트 -->
+    <select id="getMachineCheckList" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineCheckVO">
+        SELECT
+            MCI_ID,
+            MAX(MCI_DIV) AS MCI_DIV,
+            MAX(MCI_CONDITION) AS MCI_CONDITION,
+            MAX(MCI_METHOD) AS MCI_METHOD
+        FROM
+            MACHINE_CHECK_INFO
+        GROUP BY
+            MCI_ID
+        ORDER BY
+            MCI_ID
+    </select>
+
+    <!-- 체크리스트 등록 -->
+    <insert id="addMachineCheck">
+        insert into MACHINE_CHECK_INFO(mci_id, mci_mi_id, mci_div, mci_method, mci_condition)
+        values (MACHINE_CHECK_INFO_SEQ.NEXTVAL, #{modalAddNumber}, #{modalAddTypeCheck}, #{modalAddMethod}, #{modalAddCondition})
+
+    </insert>
+
+    <!-- 마지막 체크리스트 하나만 보여주기 -->
+    <select id="getMachineCheckOne" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineCheckVO">
+        SELECT MCI_ID, MCI_DIV, MCI_METHOD, MCI_CONDITION
+        FROM  (Select
+                    MCI_ID, MCI_DIV, MCI_METHOD, MCI_CONDITION
+                from
+                    MACHINE_CHECK_INFO
+                ORDER BY MCI_MI_ID
+                    DESC FETCH FIRST 1 ROW ONLY) MI
+    </select>
+
+    <!-- 설비명과 설비ID 가져오기 -->
+    <select id="getMachineInfo" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineVO">
+        SELECT mi_id, mi_name
+        FROM MACHINE_INFO
+        order by mi_id
+    </select>
+
+    <!-- 해당하는 체크리스트 불러오기 -->
+    <select id="getMachineCheckAll" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineCheckVO">
+        SELECT ROWNUM, MI.MCI_DIV, MI.MCI_METHOD, MI.MCI_CONDITION
+        FROM  (SELECT MCI_DIV, MCI_METHOD, MCI_CONDITION
+                FROM MACHINE_CHECK_INFO
+                <if test="find_machine_id != null">
+                    WHERE MCI_MI_ID = #{find_machine_id}
+                </if>
+                <if test="find_machine_id == ">
+                    where 1=2
+                </if>
+                ORDER BY MCI_ID) MI
+    </select>
 </mapper>
