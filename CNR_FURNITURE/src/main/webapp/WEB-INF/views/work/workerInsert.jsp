@@ -128,12 +128,12 @@
      		<!-- 등록행 1 -->
       	<div class="workerInsert-modal-input">
 	      	<div class="searchBar">
-      			<div class="col-sm-2 sb-name">공정번호</div>
+      			<div class="col-sm-2 sb-name">부서명</div>
             <div class="col-sm-3 sb-text">
               <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
                 value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
             </div>
-            <div class="col-sm-2 sb-name">공정명</div>
+            <div class="col-sm-2 sb-name">사원번호</div>
             <div class="col-sm-3 sb-text">
               <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
                 value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
@@ -152,13 +152,13 @@
 		           <div class="workTableTitle">
 		              <div class="icon"><i class="fa fa-list"></i></div>
 		              <div class="workTableName" >사원목록</div>
-		              <i class="far fa-plus-square" style="float:right;"></i>
+		              <i class="far fa-plus-square" id="plus-square"></i>
 		            </div>
 		          <div class="table" style="max-height: 300px;">
 		            <table cellpadding="0" cellspacing="0" border="0">
 		              <thead class="tbl-header">
 		                <tr>
-		                  <th>ㅁ</th>
+		                  <th><input type='checkbox' name='member' value='memberSelectAll' onclick="memberSelectAll(this)"/></th>
 		                  <th>부서명</th>
 		                  <th>사원번호</th>
 		                  <th>사원명</th>
@@ -166,25 +166,13 @@
 		              </thead>
 		              <tbody class="tbl-content" style="height: 42px;">
 		                <tr>
-		                  <td>ㅁ</td>
+		                  <td><input type='checkbox' name='member' value='사원번호'/></td>
 		                  <td>생산1팀</td>
 		                  <td>10000001</td>
 		                  <td>ㅇㅇㅇ</td>
 		                </tr>
 		                <tr>
-		                  <td>ㅁ</td>
-		                  <td>생산1팀</td>
-		                  <td>10000001</td>
-		                  <td>ㅇㅇㅇ</td>
-		                </tr>
-		                <tr>
-		                  <td>ㅁ</td>
-		                  <td>생산1팀</td>
-		                  <td>10000001</td>
-		                  <td>ㅇㅇㅇ</td>
-		                </tr>
-		                <tr>
-		                  <td>ㅁ</td>
+		                  <td><input type='checkbox' name='member' value='사원번호'/></td>
 		                  <td>생산1팀</td>
 		                  <td>10000001</td>
 		                  <td>ㅇㅇㅇ</td>
@@ -199,12 +187,13 @@
 		           <div class="workTableTitle">
 		              <div class="icon"><i class="fa fa-list"></i></div>
 		              <div class="workTableName" >작업자목록</div>
+		              <i class="fa-regular fa-square-minus" id="minus-spuare"></i>
 		            </div>
 		          <div class="table" style="max-height: 300px;">
 		            <table cellpadding="0" cellspacing="0" border="0">
 		              <thead class="tbl-header">
 		                <tr>
-		                  <th>ㅁ</th>
+		                  <th><input type='checkbox' name='worker' value='workerSelectAll' onclick="workerSelectAll(this)"/></th>
 		                  <th>부서명</th>
 		                  <th>사원번호</th>
 		                  <th>사원명</th>
@@ -212,49 +201,7 @@
 		              </thead>
 		              <tbody class="tbl-content" style="height: 42px;">
 		                <tr>
-		                  <td>ㅁ</td>
-		                  <td>생산1팀</td>
-		                  <td>10000001</td>
-		                  <td>ㅇㅇㅇ</td>
-		                </tr>
-		                <tr>
-		                  <td>ㅁ</td>
-		                  <td>생산1팀</td>
-		                  <td>10000001</td>
-		                  <td>ㅇㅇㅇ</td>
-		                </tr>
-		                <tr>
-		                  <td>ㅁ</td>
-		                  <td>생산1팀</td>
-		                  <td>10000001</td>
-		                  <td>ㅇㅇㅇ</td>
-		                </tr>
-		                <tr>
-		                  <td>ㅁ</td>
-		                  <td>생산1팀</td>
-		                  <td>10000001</td>
-		                  <td>ㅇㅇㅇ</td>
-		                </tr>
-		                <tr>
-		                  <td>ㅁ</td>
-		                  <td>생산1팀</td>
-		                  <td>10000001</td>
-		                  <td>ㅇㅇㅇ</td>
-		                </tr>
-		                <tr>
-		                  <td>ㅁ</td>
-		                  <td>생산1팀</td>
-		                  <td>10000001</td>
-		                  <td>ㅇㅇㅇ</td>
-		                </tr>
-		                <tr>
-		                  <td>ㅁ</td>
-		                  <td>생산1팀</td>
-		                  <td>10000001</td>
-		                  <td>ㅇㅇㅇ</td>
-		                </tr>
-		                <tr>
-		                  <td>ㅁ</td>
+		                  <td><input type='checkbox' name='worker' value='사원번호'/></td>
 		                  <td>생산1팀</td>
 		                  <td>10000001</td>
 		                  <td>ㅇㅇㅇ</td>
@@ -420,8 +367,6 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-
   
 <script type="text/javascript">
 //검색창
@@ -429,7 +374,24 @@ function search() {
  	// 검색 로직 실행
 	document.getElementById('searchForm').submit();
 }
-
+// 작업자 등록의 사원목록 체크박스 전체 선택
+function memberSelectAll(memberSelectAll)  {
+  const memberCheckboxes 
+       = document.getElementsByName('member');
+  
+  memberCheckboxes.forEach((memberCheckbox) => {
+    memberCheckbox.checked = memberSelectAll.checked;
+  })
+}
+// 작업자 등록의 작업자목록 체크박스 전체 선택
+function workerSelectAll(workerSelectAll)  {
+  const workerCheckboxes 
+       = document.getElementsByName('worker');
+  
+  workerCheckboxes.forEach((workerCheckbox) => {
+    workerCheckbox.checked = workerSelectAll.checked;
+  })
+}
 	
 </script>
 <script defer src="/resources/js/work.js"></script>
