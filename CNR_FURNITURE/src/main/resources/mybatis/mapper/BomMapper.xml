@@ -2,4 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.BomMapper">
+
+    <select id="getBomInfoList" resultType="com.cnr_furniture.domain.ItemInfo.ItemInfoVO">
+        SELECT ROWNUM rn, I_ID, I_NAME
+        FROM ITEM
+        WHERE 1=1
+        <foreach item="type" collection="typeArr">
+            <if test="type == 'INum'.toString()">
+                and  I_ID like '%' || #{keyword} || '%'
+            </if>
+            <if test="type == 'IName'.toString()">
+                and I_NAME like '%' || #{keyword} || '%'
+            </if>
+        </foreach>
+        ORDER BY I_ID ASC
+    </select>
+
+    <select id="getListBom" resultType="com.cnr_furniture.domain.bom.BomVO">
+        SELECT rownum AS rn, bm.*
+        FROM (
+            SELECT b.B_ITEM_ID, b.B_MATERIAL_ID, m.M_NAME, b.B_UNIT, b.B_MATERIAL_QUANTITY
+            FROM BOM b, MATERIAL m
+            WHERE b.B_MATERIAL_ID = m.M_ID AND b.B_ITEM_ID = #{i_id}
+            ORDER BY b.B_ITEM_ID, b.B_MATERIAL_ID ASC
+            ) bm
+    </select>
+
+    <select id="getBomDetails" resultType="com.cnr_furniture.domain.bom.BomVO">
+        SELECT rownum AS rn, bm.*
+        FROM (
+            SELECT b.B_ITEM_ID, b.B_MATERIAL_ID, m.M_NAME, b.B_UNIT, b.B_MATERIAL_QUANTITY
+            FROM BOM b, MATERIAL m
+            WHERE b.B_MATERIAL_ID = m.M_ID
+            ORDER BY b.B_ITEM_ID, b.B_MATERIAL_ID ASC
+            ) bm
+    </select>
+
+
 </mapper>

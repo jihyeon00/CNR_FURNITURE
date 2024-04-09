@@ -71,7 +71,7 @@
 				          <th>수정</th>
 				        </tr>
 				      </thead>
-				      <tbody class="tbl-content">
+				      <tbody class="table-content">
 				      	<c:forEach var="MT" items="${mtList}">
 					        <tr>
 					          <td><c:out value="${MT.rn}" /></td>	  

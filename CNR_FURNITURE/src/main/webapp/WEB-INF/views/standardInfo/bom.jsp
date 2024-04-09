@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <link rel="stylesheet" href="/resources/css/bom.css">
-
 <%@ include file="../includes/header.jsp" %>
 
   <!-- Content Wrapper. Contains page content -->
@@ -14,21 +13,16 @@
         <div class="row mb-2">
           <div class="col-md-6">
             <h1 class="m-0"><i class="far fa-clipboard"></i> BOM 관리</h1>
-          </div><!-- /.col -->
-          <div class="col-md-6 ml-auto">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/main">Home</a></li>
-              <li class="breadcrumb-item active">BOM 정보</li>
-            </ol>
-          </div><!-- /.col -->
-        <div class="col-md-12">
-            <div class="member-btn">
-              <button type="button" class="btn btn-Default"><a href="addBom" style="color: #000;">BOM 등록</a></button>
+          </div><!-- /.col -->     
+         <div class="col-md-6">         
+            <div class="resetBtn">
+               <a href="./bom"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
             </div>
-        </div>
+          </div>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+   </div>
 
     <!-- Main content -->
     <div class="content">
@@ -36,28 +30,35 @@
         <div class="row">
           <!-- 검색창 -->
           <div class="col-md-12 bomSearchBar">
-             <div class="col-sm-1">
-            	<select>
-            		<option value="">--선택--</option>
-				    		<option>제품번호</option>
-				    		<option>제품명</option>
-            	</select>
-            </div>
-            <div class="col-sm-1">
-              <input type="text" id="" name="" />
-            </div>
-            <div class="col-sm-1 ml-auto">
-              <button type="button" class="btn btn-primary search" id="" name="" style="margin: 5px;">검색</button>
-            </div>
+          	<form id='searchBomForm' action='./bom' method='get'>
+            	<div class="col-sm-1">
+	            	<select name='type'>
+	            		<option value="">--선택--</option>
+					    		<option value="INum"<c:out value="${bomSearch.type == 'INum' ? 'selected' : ''}" />>제품번호</option>
+					    		<option value="IName"<c:out value="${bomSearch.type == 'IName' ? 'selected' : ''}" />>제품명</option>
+	            	</select>
+            	</div>
+	            <div class="col-sm-1">
+	              <input type="text" name="keyword" />
+	            </div>
+	            <div class="col-sm-1">
+	              <button type="button" class="btn btn-primary search" id="searchBomBtn" style="margin: 5px;">
+	              <i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색</button>
+	            </div>
+						</form>
+            <div class="member-btn">
+              <button type="button" class="btn btn-Default"><a href="bomInsert" style="color: #000;">
+              BOM 등록
+              </a></button>
+        		</div>
           </div>
 
           <div class="col-md-6">
-            <!-- 사원테이블 -->
-            <div class="ETableName">
+            <div class="BomTableName">
               <div class="icon"><i class="fa fa-list"></i></div>
-              <div class="employee">BOM 목록</div>
+              <div class="employee">제품 목록</div>
             </div>
-            <div class="table ETable" style="height: 700px;">
+            <div class="table" style="height: 700px;">
               <table cellpadding="0" cellspacing="0" border="0" style="height: 700px;">
                 <thead class="tbl-header">
                   <tr>
@@ -65,54 +66,23 @@
                     <th>제품 번호</th>
                     <th>제품명</th>
                     <th>수정</th>
-                    <th>삭제</th>
                   </tr>
                 </thead>
-                <tbody class="tbl-content ETable">
-                  <tr>
-                    <td>1</td>
-                    <td>10000001</td>
-                    <td>의자-A</td>
-                    <td>
-                    	<div class="modify-btn" data-toggle="modal" data-target="#myModal2">
-							  			수정
-											</div>
-										</td>
-                    <td class="delete-btn">삭제</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>10000001</td>
-                    <td>의자-A</td>
-                    <td>
-                    	<div class="modify-btn" data-toggle="modal" data-target="#myModal2">
-							  			수정
-											</div>
-										</td>
-                    <td>삭제</td>
-                  </tr>
-                   <tr>
-                    <td>1</td>
-                    <td>10000001</td>
-                    <td>의자-A</td>
-                    <td>
-                    	<div class="modify-btn" data-toggle="modal" data-target="#myModal2">
-							  			수정
-											</div>
-										</td>
-                    <td>삭제</td>
-                  </tr>
-                   <tr>
-                    <td>1</td>
-                    <td>10000001</td>
-                    <td>의자-A</td>
-                    <td>
-                    	<div class="modify-btn" data-toggle="modal" data-target="#myModal2">
-							  			수정
-											</div>
-										</td>
-                    <td>삭제</td>
-                  </tr>
+                <tbody class="table-content">
+                	<c:forEach var="Item" items="${itemList}">
+	                  <tr>
+	                    <td><c:out value="${Item.rn}" /></td>
+	                    <td onClick='showBomList(<c:out value="${Item.i_id}"/>)' class="itemNumBtn">
+	                    	<c:out value="${Item.i_id}" />
+	                    </td>
+	                    <td><c:out value="${Item.i_name}" /></td>
+	                    <td>
+	                    	<div class="modifyBom">
+								  			수정
+												</div>
+											</td>
+	                  </tr>     
+	                 </c:forEach>    
                 </tbody>
               </table>
               <!-- /.table -->
@@ -121,7 +91,7 @@
 
           <div class="col-md-6">
             <!-- BOM 세부목록 테이블 -->
-            <div class="ETableName">
+            <div class="BomTableName">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div class="employee">BOM 세부목록</div>
             </div>
@@ -136,14 +106,16 @@
                     <th>수량</th>
                   </tr>
                 </thead>
-                <tbody class="tbl-content">
-                  <tr>
-                    <td>1</td>
-                    <td>20000001</td>
-                    <td>소나무</td>
-                    <td>m</td>
-                    <td>1</td>
-                  </tr>
+                <tbody class="table-content checkBomList">
+                	<%-- <c:forEach var="Bom" items="${bomList}" varStatus="status">
+	                  <tr>
+	                    <td id="rn<c:out value="${status.index}" />"><c:out value="${Bom.rn}" /></td>
+	                    <td id="b_material_id<c:out value="${status.index}" />"><c:out value="${Bom.b_material_id}" /></td>
+	                    <td id="m_name<c:out value="${status.index}" />"><c:out value="${Bom.m_name}" /></td>
+	                    <td id="b_unit<c:out value="${status.index}" />"><c:out value="${Bom.b_unit}" /></td>
+	                    <td id="b_material_quantity<c:out value="${status.index}" />"><c:out value="${Bom.b_material_quantity}" /></td>
+	                  </tr>
+                  </c:forEach> --%>
                 </tbody>
               </table>
               <!-- /.table -->
@@ -167,3 +139,60 @@
 
 	
 <%@ include file="../includes/footer.jsp" %>
+
+<script>
+	
+	let bomListUL = $(".checkBomList");
+	
+	function showBomList(i_id) { //i_id를 가져와서 화면에 뿌려주는 함수 선언 i_id=B_ITEM_ID
+	    
+			$.get("/bomList/" + i_id, function(result) {  // 1. Bom 목록 rest ajax로 가져오기, ajax 함수 콜 성공시 처리
+	        
+	    		console.log("showBomList:", result);
+	        
+	    		var str = "";
+	        if (!result || result.length === 0) {
+	            bomListUL.html(""); // 제품에 등록된 bom이 없을 때 비우기
+	            return;
+	        }
+	    	 // 제품에 등록된 bom이 있을 경우 아래를 뿌려준다
+	        for (var i = 0; i < result.length; i++) {
+	            str += "<tr>";
+	            str += "<td>" + result[i].rn + "</td>";
+	            str += "<td>" + result[i].b_material_id + "</td>";
+	            str += "<td>" + result[i].m_name + "</td>";
+	            str += "<td>" + result[i].b_unit + "</td>";
+	            str += "<td>" + result[i].b_material_quantity + "</td>";
+	            str += "</tr>";
+	        }
+	        bomListUL.html(str); // 결과를 HTML에 삽입(html 렌더링한다)
+	    }).fail(function(xhr, status, err) {
+	        console.error("showBomList error:", err);
+	    });
+	}
+
+	// 특정 i_id에 대한 showBomList 호출, 가져와서 화면에 뿌려주는 함수 실행
+	showBomList(1);  
+
+	
+	
+	
+	
+/* Bom 목록의 제품번호 값과 일치하면 Bom세부목록에 Bom내용 불러오기  */
+	/*  function bomList(i_id) {
+	  $.get("/bomList/"+i_id , function(result) {
+	      console.log("bomList:", result);
+	
+	      /* $('#b_material_id').val(result.b_material_id);
+	      $('#m_name').val(result.m_name);
+	      $('#b_unit').val(result.b_unit);
+	      $('#b_material_quantity').val(result.b_material_quantity); 
+	
+	
+	    }).fail(function(xhr, status, err){
+	        console.log("bomList err:", err);
+	    });
+		} */
+
+
+</script>

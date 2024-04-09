@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <link rel="stylesheet" href="/resources/css/bom.css">
-<link rel="stylesheet" href="/resources/css/materialInfo.css">
 <%@ include file="../includes/header.jsp" %>
 
   <!-- Content Wrapper. Contains page content -->
@@ -15,12 +14,11 @@
           <div class="col-md-6">
             <h1 class="m-0"><i class="far fa-clipboard"></i> BOM 등록</h1>
           </div><!-- /.col -->
-          <div class="col-md-6 ml-auto">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/main">Home</a></li>
-              <li class="breadcrumb-item active">BOM 정보</li>
-            </ol>
-          </div><!-- /.col -->
+          <div class="col-md-6">         
+            <div class="resetBtn2">
+               <a href="./bomInsert"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+            </div>
+          </div>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
@@ -68,12 +66,12 @@
 		          	</div>		          				          
 	        		</form>
 		        		<div class="col-sm-1 ml-auto addLine">
-	              	<button type="button" class="btn btn-Primary addBom" id="" name="">추가</button>
+	              	<button type="button" class="btn btn-Primary bomBtn" id="" name="">추가</button>
 	           	  </div>
            	</div>
 
             <div class="table">
-            <table cellpadding="0" cellspacing="0" border="0">
+            <table cellpadding="0" cellspacing="0" border="0" class="bomInsertTable">
               <thead class="tbl-header">
                 <tr>
                   <th>NO</th>
@@ -83,7 +81,7 @@
                   <th>수량</th>
                 </tr>
               </thead>
-              <tbody class="tbl-content ETable">
+              <tbody class="tbl-content">
                 <tr>
                   <td>1</td>
                   <td>10000001</td>
@@ -110,9 +108,9 @@
             <!-- /.table -->
          </div>
 	         <div class="insertBom-btn">
-		          <button type="button" class="btn btn-primary insertBom" id="" name="">등록</button>
+		          <button type="button" class="btn btn-primary bomBtn" id="" name="">등록</button>
 		          <div style="width: 10px;"></div>    
-		          <button type="button" class="btn btn-danger cancelBom" id="" name="">취소</button>
+		          <button type="button" class="btn btn-danger bomBtn" id="" name="">취소</button>
 			    </div>
         </div>
 
@@ -121,22 +119,24 @@
             <div class="ITableName">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div>제품 목록</div>
-             	<div class="bomInsertSearch">
-	            	<select>
-	            		<option value="">--선택--</option>
-					    		<option>제품번호</option>
-					    		<option>제품명</option>
-	            	</select>
-                <div>
+              <form id='itemSearch' action='./bomInsert' method='get' class="bomSearchBtn"> 
+	             	<div class="col-sm-1">
+		            	<select>
+		            		<option value="">--선택--</option>
+						    		<option>제품번호</option>
+						    		<option>제품명</option>
+		            	</select>
+	            	</div>
+                <div class="col-sm-1">
 	        	      <input type="text" id="" name="" />
-	          	  </div>
-         	  	</div>
-	            <div class="col-sm-1 ml-auto">
-	              <button type="button" class="btn btn-primary searchItem" id="" name="" >검색</button>
-	            </div>
+	          	  </div> 
+		            <div class="col-sm-1">
+		              <button type="button" class="btn btn-primary searchItem" id="" name="" >검색</button>
+		            </div>
+	            </form>
             </div>
-            <div class="table">
-              <table cellpadding="0" cellspacing="0" border="0">
+            <div class="table" style="height: auto;">
+              <table cellpadding="0" cellspacing="0" border="0" class="bomInsertTable">
                 <thead class="tbl-header">
                   <tr>
                     <th>NO</th>
@@ -158,23 +158,25 @@
             <!-- 매니저 테이블 -->
             <div class="ITableName">
               <div class="icon"><i class="fa fa-list"></i></div>
-              <div class="employee">자재 목록</div>
-              <div class="bomInsertSearch">
-	            	<select>
-	            		<option value="">--선택--</option>
-					    		<option>자재번호</option>
-					    		<option>자재명</option>
-	            	</select>
-                <div>
+              <div>자재 목록</div>
+              <form id='' action='./bomInsert' method='get' class="bomSearchBtn"> 
+	              <div class="col-sm-1">
+		            	<select>
+		            		<option value="">--선택--</option>
+						    		<option>자재번호</option>
+						    		<option>자재명</option>
+		            	</select>
+		            </div>
+                <div class="col-sm-1">
 	        	      <input type="text" id="" name="" />
 	          	  </div>
-         	  	</div>
-	            <div class="col-sm-1 ml-auto">
-	              <button type="button" class="btn btn-primary searchItem" id="" name="" >검색</button>
-	            </div>
+		            <div class="col-sm-1">
+		              <button type="button" class="btn btn-primary searchItem" id="" name="" >검색</button>
+		            </div>
+	            </form>
             </div>
             <div class="table">
-              <table cellpadding="0" cellspacing="0" border="0">
+              <table cellpadding="0" cellspacing="0" border="0" class="bomInsertTable">
                 <thead class="tbl-header">
                   <tr>
                     <th>NO</th>

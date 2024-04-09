@@ -18,12 +18,6 @@
           <div class="col-md-6">
             <h1 class="m-0"><i class="far fa-clipboard"></i> 제품 정보 관리</h1>
           </div><!-- /.col -->
-<!--           <div class="col-md-6 ml-auto">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/main">Home</a></li>
-              <li class="breadcrumb-item active">제품 정보</li>
-            </ol>
-          </div>/.col -->
           <div class="col-md-6">         
             <div class="resetBtn">
                <a href="./itemInfo"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
@@ -53,7 +47,7 @@
 		             <input type="text" name='keyword' value='<c:out value="${itemSearch.keyword}"/>' />
 		           </div>
 		           <div class="col-sm-1">    
-		             <button type="button" class="btn btn-primary search" id="searchItemBtn" name="">
+		             <button type="button" class="btn btn-primary search" id="searchItemBtn">
 		             <i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색
 		             </button>
 		           </div>		           
@@ -61,8 +55,7 @@
 		      	<div class="member-btn">
              <button type="button" class="btn btn-Default" data-toggle="modal" data-target="#myModal1">제품등록</button>
             </div>
-          </div>
-        
+          </div>        
        <div class="ItemTableName">
 	      <div class="icon"><i class="fa fa-list"></i></div>
 	      <div>제품 목록</div>
@@ -81,7 +74,7 @@
 		          <th>수정</th>    
 		        </tr>
 		      </thead>
-		      <tbody class="tbl-content">
+		      <tbody class="table-content">
 		      	<c:forEach var="Item" items="${itemList}">
 		        <tr>
 		       		<td><c:out value="${Item.rn}" /></td>	

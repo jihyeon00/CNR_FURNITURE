@@ -19,8 +19,6 @@
 }
 
 
-
-resetBtn
 /*   표 이름   */
 .ItemTableName {
   display: flex;
@@ -55,7 +53,7 @@ resetBtn
 #searchItemBtn {
 	margin: 5px;
 	position: absolute;
-		right: -660px;
+		left: 659px;
 		top: 1px;
 	height: 38px;
 }
@@ -71,11 +69,11 @@ resetBtn
 	margin: 5px;
 }
 
-.tbl-content td {
+.table-content td {
   padding: 15px;
   text-align: center;
   vertical-align:middle;
-  font-weight: 350;
+  font-weight: 400;
   font-size: 13px;
   color: #000;
   border-right: 1px solid #BDBDBD;
