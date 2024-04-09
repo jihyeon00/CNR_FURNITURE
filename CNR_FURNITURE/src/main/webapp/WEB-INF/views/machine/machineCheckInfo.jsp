@@ -11,14 +11,15 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0"><i class="far fa-clipboard"></i>설비관리체크기준관리</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/main">Home</a></li>
-              <li class="breadcrumb-item active">제목</li>
-            </ol>
+          <div class="col-sm-12">
+              <ol class="breadcrumb float-sm-left">
+                <h1 class="m-0"><i class="far fa-clipboard"></i>설비관리체크기준관리</h1>
+              </ol>
+              <ol class="breadcrumb float-sm-right">
+                <div class="reset">
+                  <a href="./machineCheckInfo"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+                </div>
+              </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -28,7 +29,7 @@
             <div class="machineName">
                 <div class="onchangeMachine">설비관리유형</div>
                 <select id="onchangeType" name="onchangeType" class="onchangeType" onchange="changeSelect();">
-                    <option value="rownum">---</option>
+                    <option value="" class="checkType">유형</option>
                     <option value="">전기</option>
                     <option value="">부품</option>
                     <option value="">외관</option>
@@ -41,7 +42,7 @@
             <div class="machineType">
                 <div class="onchangeMachine">점검방법</div>
                     <select id="onchangeMethod" name="onchangeMethod" class="onchangeMethod" onchange="changeSelect();">
-                        <option value="rownum">---</option>
+                        <option value="" class="checkMethod">점검 방법</option>
                         <option value="">육안</option>
                         <option value="">수평자</option>
                         <option value="">청음기</option>
@@ -54,7 +55,7 @@
             </div>
         </div>
         <div class="searchbtn">
-            <button type="button" id="searchbtn" class="btn btn-block btn-primary">검색</button>
+            <button type="button" id="searchbtn" class="btn btn-block btn-primary"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색</button>
             <button type="button" id="addBtn" class="btn btn-block btn-default" data-toggle="modal" data-target="#AddModal">추가</button>
         </div>
     </div>
@@ -65,7 +66,7 @@
         <div class="content">
           <div class="container-fluid">
             <div class="row">
-              <div class="table">
+              <div class="table" style="height:550px; overflow-y: auto;">
                 <table cellpadding="0" cellspacing="0" border="0">
                   <thead class="tbl-header">
                     <tr>
@@ -76,48 +77,14 @@
                     </tr>
                   </thead>
                   <tbody class="tbl-content">
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                    <c:forEach items="${machineCheckVOList}" var="machineCheckVOList">
+                        <tr>
+                          <td id="checkId"><c:out value="${machineCheckVOList.mci_id}" /></td>
+                          <td id="checkType"><c:out value="${machineCheckVOList.mci_div}" /></td>
+                          <td id="checkMethod"><c:out value="${machineCheckVOList.mci_method}" /></td>
+                          <td id="checkCondition"><c:out value="${machineCheckVOList.mci_condition}" /></td>
+                        </tr>
+                    </c:forEach>
                   </tbody>
                 </table>
                 <!-- /.table -->
@@ -158,7 +125,7 @@
            </div>
        </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">등록</button>
+          <button type="button" id="insertMachineCheck" class="btn btn-primary">등록</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
         </div>
       </div>
@@ -171,6 +138,56 @@
   </aside>
   <!-- /.control-sidebar -->
 
+<script>
+    // 체크리스트 등록 모달
+    $(document).ready(function(){
+        $('#insertMachineCheck').on('click', function() {
+            var modalAddNumber = $('#modalAddNumber').val();
+            var modalAddTypeCheck = $('#modalAddTypeCheck').val();
+            var modalAddMethod = $('#modalAddMethod').val();
+            var modalAddCondition = $('#modalAddCondition').val();
 
+            // 입력된 값을 객체로 생성
+            var data = {
+                modalAddNumber: modalAddNumber,
+                modalAddTypeCheck: modalAddTypeCheck,
+                modalAddMethod: modalAddMethod,
+                modalAddCondition: modalAddCondition
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/machineCheckInfo', // 서버의 컨트롤러 매핑 주소
+                data : JSON.stringify(data),
+                contentType : "application/json; charset=utf-8",
+                success: function(response) {
+                    // 성공 시 처리
+                    alert('등록되었습니다.');
+                    // 새로운 데이터 행 추가
+                    var newRow = "<tr>" +
+                        "<td>" + response.mci_id + "</td>" +
+                        "<td>" + response.modalAddTypeCheck + "</td>" +
+                        "<td>" + response.modalAddMethod + "</td>" +
+                        "<td>" + response.modalAddCondition + "</td>" +
+                        "</tr>";
+                    $(".tbl-content").append(newRow);
+
+                    // 모달 숨기기
+                    document.getElementById('AddModal').style.display = 'none';
+                    document.getElementsByClassName('modal-backdrop fade')[0].style.display = 'none';
+
+                },
+                error: function(xhr, status, error) {
+                    // 실패 시 처리
+                    console.log('error: ', error);
+
+                    alert('등록에 실패하였습니다.');
+                }
+            });
+        });
+    });
+
+
+</script>
 
 <%@ include file="../includes/footer.jsp" %>
