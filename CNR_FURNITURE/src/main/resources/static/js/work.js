@@ -4,10 +4,6 @@ window.onload = function() {
   $('#selectMaterialInput').css('display', 'none');
   $('#selectWorker').css('display', 'none');
   
-  // 생산실적의 스타일을 유지한다.
-  $('#selectProductionBtn').css('background', '#374056');
-  $('#selectProductionBtn').css('color', '#fff');
-  
   // 생산실적 버튼을 누를 경우
 	$('#selectProductionBtn').click(function(){
 		$('#selectProduction').css('display', 'block');

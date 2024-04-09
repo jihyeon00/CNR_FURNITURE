@@ -50,7 +50,7 @@
                  </datalist>
                </div>
                <div class="col-sm-1 sb-name">지시일자</div>
-               <div class="col-sm-2 sb-text" style="margin-left: 4px;">
+               <div class="col-sm-3 sb-text" style="margin-left: 4px;">
                  <input type="date" class="col-sm-6 input-text"  id="workDate1" name="workDate1"
                    value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
                    ~
@@ -60,7 +60,7 @@
              </div>
              <!-- 검색창 2줄 -->
              <div class="searchBar" style="margin-top: -12px;">
-               <div class="col-sm-1 sb-name">제조LOT번호</div>
+               <div class="col-sm-1 sb-name">제조<br>LOT번호</div>
                  <div class="col-sm-2 sb-text">
                  <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
                    value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
@@ -330,18 +330,6 @@
 	            </div>
 	          <div class="workTable" id="selectProductionTable" style="max-height: 174px">
 	            <table cellpadding="0" cellspacing="0" border="0">
-								<colgroup>
-                  <col style="width: 70px" />
-                  <col style="width: 120px" />
-                  <col style="width: 80px" />
-                  <col style="width: 100px" />
-                  <col style="width: 120px" />
-                  <col style="width: 130px" />
-                  <col style="width: 110px" />
-                  <col style="width: 80px" />
-                  <col style="width: 120px" />
-                  <col style="width: 80px" />
-              </colgroup>
 	              <thead class="work-tbl-header">
 	                <tr>
 	                  <th>No</th>
@@ -381,16 +369,6 @@
 	            </div>
 	          <div class="workTable" style="max-height: 174px">
 	            <table cellpadding="0" cellspacing="0" border="0">
-	            	<colgroup>
-                  <col style="width: 60px" />
-                  <col style="width: 120px" />
-                  <col style="width: 160px" />
-                  <col style="width: 100px" />
-                  <col style="width: 80px" />
-                  <col style="width: 70px" />
-                  <col style="width: 140px" />
-                  <col style="width: 140px" />
-              	</colgroup>
 	              <thead class="work-tbl-header">
 	                <tr>
 	                  <th>No</th>

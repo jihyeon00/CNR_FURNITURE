@@ -33,8 +33,11 @@
   <link rel="stylesheet" href="/resources/css/machine.css">
   <link rel="stylesheet" href="/resources/css/member.css">
   <link rel="stylesheet" href="/resources/css/process.css">
+  <link rel="stylesheet" href="/resources/css/production.css">
   <link rel="stylesheet" href="/resources/css/work.css">
-  <link rel="stylesheet" href="/resources/css/quality.css">
+	<link rel="stylesheet" href="/resources/css/quality/quality.css">
+	<link rel="stylesheet" href="/resources/css/quality/defectiveItem.css">
+	<link rel="stylesheet" href="/resources/css/quality/defectiveProcess.css">
   
   <!-- jQuery -->
   <script defer src="/resources/js/jquery-3.7.1.min.js"></script>
@@ -49,7 +52,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="main" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -85,7 +88,7 @@
  <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="main" class="brand-link">
       <img src="/resources/img/C&RLogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .9">
       <span class="brand-text font-weight-light">C&R Furniture</span>
     </a>
@@ -149,7 +152,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="machineOperationStatus" class="nav-link">
+                <a href="machineOperationStatusByProcess" class="nav-link">
                   <p>&nbsp;&nbsp;공정별 설비가동현황</p>
                 </a>
               </li>
@@ -298,27 +301,27 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="IBInspection" class="nav-link">
+                <a href="inspectionIB" class="nav-link">
                   <p>&nbsp;&nbsp;수입검사관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="processInspection" class="nav-link">
+                <a href="inspectionProcess" class="nav-link">
                   <p>&nbsp;&nbsp;공정검사관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="OBInspection" class="nav-link">
+                <a href="inspectionOB" class="nav-link">
                   <p>&nbsp;&nbsp;출하검사관리</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="processDefective" class="nav-link">
+                <a href="defectiveProcess" class="nav-link">
                   <p>&nbsp;&nbsp;공정불량실적</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="itemDefective" class="nav-link">
+                <a href="defectiveItem" class="nav-link">
                   <p>&nbsp;&nbsp;제품불량실적</p>
                 </a>
               </li>
