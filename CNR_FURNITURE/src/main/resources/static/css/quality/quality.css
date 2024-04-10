@@ -1,6 +1,42 @@
 @charset "UTF-8";
 
 /* 상단 검색 section */
+/*   검색창   */
+.inspection-searchBar {
+	display: flex;
+	align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+/*   검색명   */
+.inspection-name {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 46px;
+  background-color: #D9D9D9;
+}
+/*   검색내용   */
+.inspection-text {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.inspection-text input[type="text"],
+.inspection-text input[type="date"] {
+  height: 40px;
+}
+.inspection-text select {
+  height: 40px;
+}
+
+
+
+
 /* 검색창 1~2줄 상/하 */
 .inspIB-search-row.first-search-row .inspIB-searchBar,
 .inspIB-search-row.first-search-row .inspIB-searchBar {
@@ -160,10 +196,12 @@
 }
 
 /* 모달창 */
-.itemOB-modal-body{
+.inspection-modal-body,
+.itemOB-modal-body {
    margin-top: 10px;
 }
 /*   모달-입력창   */
+.inspection-modal-board,
 .itemFinishedOB-board {
   display: flex;
    align-items: center;
@@ -176,21 +214,27 @@
    margin-top: -1px;
 }
 /*   모달-입력명   */
+.inspection-modal-name,
 .itemFinishedOB-name {
   display: flex;
-   align-items: center;
-   justify-content: center;
+  align-items: center;
+  justify-content: center;
   height: 48px;
   background-color: #374056;
   color: #fff;
 }
 /*   모달-입력내용   */
+.inspection-modal-text,
 .itemFinishedOB-text {
   display: flex;
-   align-items: center;
-   justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 /* 모달-검색바의 input 박스 높이 지정*/
+.inspection-modal-text input[type="text"],
+.inspection-modal-text input[type="date"],
+.inspection-modal-text input[type="number"],
+.inspection-modal-text select,
 .itemFinishedOB-text input[type="text"],
 .itemFinishedOB-text input[type="date"],
 .itemFinishedOB-text input[type="number"] {
@@ -208,6 +252,7 @@
   border-top: 1px solid #e9ecef;
 }
 /* 모달-readonly 입력 필드 스타일링 - 테두리 없음 */
+.inspection-modal-text input[readonly],
 .itemFinishedOB-text input[readonly] {
   background-color: #D9D9D9;
 }

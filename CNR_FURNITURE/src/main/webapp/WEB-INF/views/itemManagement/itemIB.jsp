@@ -29,53 +29,43 @@
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
-      <!-- 검색행 1 -->
-      <div class="row itemIB-search-row first-search-row">
-        <div class="col-sm-12 itemIB-searchBar">
-          <!-- 제조LOT번호 -->
-          <div class="itemIB-search-title first-search-col">제조LOT번호</div>
-          <div class="col-sm-2 select-form itemIB-search-content first-search-col">
-            <select class="col-sm-12" aria-label="Default select example">
-              <option selected>제조LOT번호 선택</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+      <!-- 검색창 -->
+      <form action="" id="itemIBSearchForm" class="col-md-12" onSubmit="return false">
+      	<!-- 검색행1 -->
+        <div class="itemIB-searchBar">
+        	<!-- 제조LOT번호 -->
+          <div class="col-sm-2 itemIB-name">제조LOT번호</div>
+          <div class="col-sm-2 itemIB-text">
+          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
           </div><!-- /.제조LOT번호 -->
-          <!-- 입고일자 -->
-          <div class="col-sm-1 itemIB-search-title second-search-col">입고일자</div>
-          <div class="col-sm-2 itemIB-search-content second-search-col">
-            <input type="date" class="col-sm-12" id="" name=""/>
+        	<!-- 입고일자 -->
+          <div class="col-sm-1 itemIB-name">입고일자</div>
+          <div class="col-sm-2 itemIB-text">
+          	<input type="date" class="col-sm-12" id="" name=""/>
           </div><!-- /.입고일자 -->
-          <div class="col-sm-5"></div>
-        </div><!-- /.searchBar -->
-      </div><!-- /.row -->
-      <!-- 검색행 2 -->
-      <div class="row itemIB-search-row second-search-row">
-        <div class="col-sm-12 itemIB-searchBar">
-          <!-- 제품번호 -->
-          <div class="itemIB-search-title first-search-col">제품번호</div>
-          <div class="col-sm-2 itemIB-search-content first-search-col">
-            <select class="col-sm-12" aria-label="Default select example">
-              <option selected>제품번호 선택</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div><!-- /.제품번호 -->
-          <!-- 제품용도 -->
-          <div class="col-sm-1 itemIB-search-title second-search-col">제품용도</div>
-          <div class="col-sm-2 itemIB-search-content second-search-col">
-            <select class="col-sm-12" aria-label="Default select example">
+          <div class="col-sm-4"></div>
+        </div><!-- /.검색행1 -->
+        <!-- 검색행2 -->
+        <div class="itemIB-searchBar" style="margin-top: -7px;">
+        	<!-- 제품번호 -->
+        	<div class="col-sm-1 itemIB-name">제품번호</div>
+        	<div class="col-sm-2 itemIB-text">
+        		<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+        	</div><!-- /.제품번호 -->
+        	<div class="col-sm-1"></div>
+        	<!-- 제품용도 -->
+        	<div class="col-sm-1 itemIB-name">제품용도</div>
+        	<div class="col-sm-2 itemIB-text">
+        		<select class="col-sm-12" aria-label="Default select example">
               <option selected>제품용도 선택</option>
               <option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>
             </select>
-          </div><!-- /.제품용도 -->
-          <div class="col-sm-5"></div>
-        </div><!-- /.searchBar -->
-      </div><!-- /.row -->
+        	</div><!-- /.제품용도 -->
+        </div><!-- /.검색행2 -->
+      </form><!-- /.검색창 -->
+      
     </div><!-- /.container-fluid -->
   </div><!-- /.content-header -->
 

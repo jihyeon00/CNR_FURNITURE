@@ -3,8 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
+<!-- stickyOnTable.css 연결 -->
+<link rel="stylesheet" href="/resources/css/quality/stickyOnTable.css">
 <!-- jQuery 연결 -->
-<script defer src="/resources/js/quality.js"></script>
+<script defer src="/resources/js//quality/defectiveItem.js"></script>
+<script defer src="/resources/js//quality/stickyOnTable.js"></script>
 
 <!-- 공통 header 연결 -->
 <%@ include file="../includes/header.jsp" %>
@@ -17,14 +20,14 @@
       <div class="row mb-2">
         <div class="col-sm-12">
           <ol class="breadcrumb float-sm-left">
-            <h1 class="m-0"><i class="far fa-clipboard"></i>&nbsp;출하검사관리</h1>
+            <h1 class="m-0"><i class="far fa-clipboard"></i>&nbsp;제품불량실적</h1>
           </ol>
           <ol class="breadcrumb float-sm-right">
             <div class="reset">
               <img class="resetPng" alt="reset" src="/resources/img/reset.png" >
             </div>
             <div class="col-sm-1 ml-auto">
-              <button type="submit" class="btn btn-primary processInspSearchBtn" id="" onClick="javascript: search();">
+              <button type="submit" class="btn btn-primary defectiveItemSearchBtn" id="" onClick="javascript: search();">
                 <i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색
               </button>
             </div>
@@ -32,30 +35,12 @@
         </div><!-- /.col -->
       </div><!-- /.row -->
       <!-- 검색창 -->
-      <form action="" id="searchForm" class="col-md-12" onSubmit="return false">
+      <form action="" id="defectiveItemSearchForm" class="col-md-12" onSubmit="return false">
       	<!-- 검색행1 -->
-        <div class="col-md-12 insp-searchBar">
-        	<!-- 제조LOT번호 -->
-          <div class="col-sm-2 insp-name" style="margin-left: -1%;">제조LOT번호</div>
-          <div class="col-sm-2 insp-text">
-          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-          </div><!-- /.제조LOT번호 -->
-          <!-- 제품번호 -->
-          <div class="col-sm-1 insp-name">제품번호</div>
-          <div class="col-sm-2 insp-text">
-          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-          </div><!-- /.제품번호 -->
-          <!-- 제품명 -->
-          <div class="col-sm-1 insp-name">제품명</div>
-          <div class="col-sm-2 insp-text">
-          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-          </div><!-- /.제품명 -->
-        </div><!-- /.검색행1 -->
-        <!-- 검색행2 -->
-        <div class="col-md-12 searchBar" style="margin-top: -7px;">
+        <div class="col-md-12 defectiveItem-searchBar">
         	<!-- 불량유형 -->
-          <div class="col-sm-1 insp-name" style="margin-left: -1%;">불량유형</div>
-          <div class="col-sm-3 insp-text">
+          <div class="col-sm-1 defectiveItem-name" style="margin-left: -1%;">불량유형</div>
+          <div class="col-sm-3 defectiveItem-text">
           	<!-- 불량유형1 -->
           	<select class="col-sm-6"  id="find_Role" name="find_Role">
               <option value="">불량유형1 선택</option>
@@ -76,19 +61,20 @@
               </c:forEach>
             </select><!-- /.불량유형2 -->
           </div><!-- /.불량유형 -->
-        	<!-- 작업번호 -->
-          <div class="col-sm-1 insp-name">작업번호</div>
-          <div class="col-sm-2 insp-text">
+          <!-- 생산일자 -->
+          <div class="col-sm-1 defectiveItem-name">생산일자</div>
+          <div class="col-sm-2 defectiveItem-text">
+          	<input type="date" class="col-sm-6" id="" name="" />
+          	&nbsp;
+          	<input type="date" class="col-sm-6" id="" name="" />
+          </div><!-- /.생산일자 -->
+          <!-- 제조LOT번호 -->
+          <div class="col-sm-2 defectiveItem-name">제조LOT번호</div>
+          <div class="col-sm-2 defectiveItem-text">
           	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-          </div><!-- /.작업번호 -->
-          <!-- 공정번호 -->
-          <div class="col-sm-1 insp-name">공정번호</div>
-          <div class="col-sm-2 insp-text">
-            <input type="text" class="col-sm-12" id="find_emp_name" name="find_emp_name"
-              value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
-          </div><!-- /.공정번호 -->
-        </div><!-- /.검색행2 -->
-      </form>
+          </div><!-- /.제조LOT번호 -->
+        </div><!-- /.검색행1 -->
+      </form><!-- /.검색창 -->
     </div><!-- /.container-fluid -->
   </div><!-- /.content-header -->
 
@@ -96,274 +82,206 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-12 inspection-titleAndTable">
+        <div class="col-sm-12 defectiveItem-titleAndTable">
         	<!-- 테이블목록 title -->
-        	<div class="row inspection-titleAndBtn">
-	          <div class="col-sm-9 inspection-title">
-	            <i class="fa fa-list"></i>
-	            <span>출하검사현황</span>
-	          </div><!-- /.테이블목록 title -->
-	          <!-- 제품불량 등록 버튼 -->
-	          <div class="col-sm-3 addIBinspectionBtn">
-	          	<button type="button" id="" class="btn btn-default search-btn" data-toggle="modal" data-target="#registerIBInspection">
-	              <img class="add-circle-icon" alt="add" src="/resources/img/add-circle-outline.svg" >
-	              제품불량등록
-	            </button>
-	          </div><!-- /.제품불량 등록 버튼 -->
-          </div><!-- /.row -->
-          <!-- 제품테이블 -->
-          <div class="col-sm-12">
-            <div class="inspection-table">
-              <table cellpadding="0" cellspacing="0" border="0">
-                <thead class="inspection-table-header">
-                  <tr>
-                    <th>No</th>
-                    <th>제품번호</th>
-                    <th>제조LOT번호</th>
-                    <th>공정번호</th>
-                    <th>작업번호</th>
-                    <th>제품명</th>
-                    <th>단위</th>
-                    <th>일일총작업수량</th>
-                    <th>양품수량</th>
-                    <th>불량수량</th>
-                    <th>불량유형1</th>
-                    <th>불량유형2</th>
-                    <th>불량등록일자</th>
-                    <th>비고</th>
-                    <th>수정</th>
-                    <th>삭제</th>
-                  </tr>
-                </thead>
-                <tbody class="inspection-table-content">
-                  <tr>
-                    <td>1열</td>
-										<td>2열</td>
-										<td>3열</td>
-										<td>4열</td>
-										<td>5열</td>
-										<td>6열ddddddddddddddddddddddddddddddddd</td>
-										<td>7열</td>
-										<td>8열</td>
-										<td>9열</td>
-										<td>10열dddddddddddddddddddddddddddddddddddddddddddd</td>
-										<td>11열</td>
-										<td>12열</td>
-										<td>13열</td>
-										<td>14열</td>
-										<td class="edit-processInsp-row" onclick="editProcessInspRow(this);" style="color:#17a2b8;">
-											수정
-										</td>
-										<td class="remove-processInsp-row" onclick="removeProcessInspRow(this);" style="color:#c82333;">
-											삭제
-										</td>
-                  </tr>
-                  <tr>
-                    <td>1열</td>
-										<td>2열</td>
-										<td>3열</td>
-										<td>4열</td>
-										<td>5열</td>
-										<td>6열ddddddddddddddddddddddddddddddddd</td>
-										<td>7열</td>
-										<td>8열</td>
-										<td>9열</td>
-										<td>10열dddddddddddddddddddddddddddddddddddddddddddd</td>
-										<td>11열</td>
-										<td>12열</td>
-										<td>13열</td>
-										<td>14열</td>
-										<td class="edit-processInsp-row" onclick="editProcessInspRow(this);" style="color:#17a2b8;">
-											수정
-										</td>
-										<td class="remove-processInsp-row" onclick="removeProcessInspRow(this);" style="color:#c82333;">
-											삭제
-										</td>
-                  </tr>
-                  <!-- 추가적인 행들 -->
-                </tbody>
-              </table>
-              <!-- /.table -->
-            </div>
-          </div><!-- /.col-sm-11 -->
-        </div><!-- /.col-sm-12 -->
+        	<div class="defectiveItem-title">
+            <i class="fa fa-list"></i>
+            <span>공정별 불량실적목록</span>
+          </div><!-- /.titleAndBtn -->
+        </div><!-- /.defectiveItem-titleAndTable -->
+        
+        <!-- 평균불량률 총계 -->
+        <div class="col-sm-12 total-defect-avg">
+        	<div class="defect-title">평균불량률 총계(%)</div>
+        	<div class="col-sm-1 defect-text">숫자숫자</div>
+        </div><!-- /.평균불량률 총계 -->
+        
+        <div class="col-sm-12">
+	        <div class="sot defectiveItem-table" data-sot-top="2" data-sot-left="2">
+	        	<table cellpadding="0" cellspacing="0" border="0">
+	        		<thead class="defectiveItem-table-header">
+		        		<!-- 제목 -->
+		        		<tr>
+						      <th colspan="2">구분</th>
+						      <th rowspan="2">NO</th>
+						      <th colspan="2">생산일자</th>
+						      <th colspan="5">제조LOT번호별 불량률(%)</th>
+						      <th rowspan="2">평균불량률(%)</th>
+						    </tr>
+						    <tr>
+						      <th>불량유형1</th>
+						      <th>불량유형2</th>
+						      <th>생산착수일</th>
+						      <th>생산완수일</th>
+						      <th>라인1</th>
+						      <th>라인2</th>
+						      <th>라인3</th>
+						      <th>라인4</th>
+						      <th>라인5</th>
+						    </tr>
+	        		</thead>
+	        		<tbody class="defectiveItem-table-content">
+	        			<!-- 유형1: 손상 -->
+	        			<tr>
+						      <th rowspan="4">손상</th>
+						      <th>균열(갈라짐)</th>
+						      <td>1</td>
+						      <td>날짜1</td>
+						      <td>날짜1</td>
+						      <td>라인1 불량률</td>
+						      <td>라인2 불량률</td>
+						      <td>라인3 불량률</td>
+						      <td>라인4 불량률</td>
+						      <td>라인5 불량률</td>
+						      <td>평균 불량률1</td>
+						      <!-- 나머지 셀들 -->
+						    </tr>
+						    <tr>
+						      <th>파손</th>
+						      <td>2</td>
+						      <td>날짜2</td>
+						      <td>날짜2</td>
+						      <td>라인1 불량률</td>
+						      <td>라인2 불량률</td>
+						      <td>라인3 불량률</td>
+						      <td>라인4 불량률</td>
+						      <td>라인5 불량률</td>
+						      <td>평균 불량률2</td>
+						      <!-- 나머지 셀들 -->
+						    </tr>
+						    <tr>
+						      <th>찍힘</th>
+						      <td>3</td>
+						      <td>날짜3</td>
+						      <td>날짜3</td>
+						      <td>라인1 불량률</td>
+						      <td>라인2 불량률</td>
+						      <td>라인3 불량률</td>
+						      <td>라인4 불량률</td>
+						      <td>라인5 불량률</td>
+						      <td>평균 불량률3</td>
+						      <!-- 나머지 셀들 -->
+						    </tr>
+						    <tr>
+						    	<th></th>
+						      <th colspan="3">평균불량률 소계(%)</th>
+						      <td>라인1 불량률 소계</td>
+						      <td>라인2 불량률 소계</td>
+						      <td>라인3 불량률 소계</td>
+						      <td>라인4 불량률 소계</td>
+						      <td>라인5 불량률 소계</td>
+						      <td>유형1 전체 평균불량률</td>
+						    </tr><!-- /.유형1: 손상 -->
+						    
+						    <!-- 유형1: 형태변형 -->
+	        			<tr>
+						      <th rowspan="4">형태변형</th>
+						      <th>휨</th>
+						      <td>4</td>
+						      <td>날짜1</td>
+						      <td>날짜1</td>
+						      <td>라인1 불량률</td>
+						      <td>라인2 불량률</td>
+						      <td>라인3 불량률</td>
+						      <td>라인4 불량률</td>
+						      <td>라인5 불량률</td>
+						      <td>평균 불량률1</td>
+						    </tr>
+						    <tr>
+						      <th>꺼짐(찌그러짐)</th>
+						      <td>5</td>
+						      <td>날짜2</td>
+						      <td>날짜2</td>
+						      <td>라인1 불량률</td>
+						      <td>라인2 불량률</td>
+						      <td>라인3 불량률</td>
+						      <td>라인4 불량률</td>
+						      <td>라인5 불량률</td>
+						      <td>평균 불량률2</td>
+						    </tr>
+						    <tr>
+						      <th>찍힘</th>
+						      <td>6</td>
+						      <td>날짜3</td>
+						      <td>날짜3</td>
+						      <td>라인1 불량률</td>
+						      <td>라인2 불량률</td>
+						      <td>라인3 불량률</td>
+						      <td>라인4 불량률</td>
+						      <td>라인5 불량률</td>
+						      <td>평균 불량률3</td>
+						    </tr>
+						    <tr>
+						    	<th></th>
+						      <th colspan="3">평균불량률 소계(%)</th>
+						      <td>라인1 불량률 소계</td>
+						      <td>라인2 불량률 소계</td>
+						      <td>라인3 불량률 소계</td>
+						      <td>라인4 불량률 소계</td>
+						      <td>라인5 불량률 소계</td>
+						      <td>유형1 전체 평균불량률</td>
+						    </tr><!-- /.유형1: 형태변형 -->
+						    
+						    <!-- 유형1: test -->
+	        			<tr>
+						      <th rowspan="4">test</th>
+						      <th>test</th>
+						      <td>7</td>
+						      <td>날짜1</td>
+						      <td>날짜1</td>
+						      <td>라인1 불량률</td>
+						      <td>라인2 불량률</td>
+						      <td>라인3 불량률</td>
+						      <td>라인4 불량률</td>
+						      <td>라인5 불량률</td>
+						      <td>평균 불량률1</td>
+						    </tr>
+						    <tr>
+						      <th>test</th>
+						      <td>8</td>
+						      <td>날짜2</td>
+						      <td>날짜2</td>
+						      <td>라인1 불량률</td>
+						      <td>라인2 불량률</td>
+						      <td>라인3 불량률</td>
+						      <td>라인4 불량률</td>
+						      <td>라인5 불량률</td>
+						      <td>평균 불량률2</td>
+						    </tr>
+						    <tr>
+						      <th>test</th>
+						      <td>9</td>
+						      <td>날짜3</td>
+						      <td>날짜3</td>
+						      <td>라인1 불량률</td>
+						      <td>라인2 불량률</td>
+						      <td>라인3 불량률</td>
+						      <td>라인4 불량률</td>
+						      <td>라인5 불량률</td>
+						      <td>평균 불량률3</td>
+						    </tr>
+						    <tr>
+						    	<th></th>
+						      <th colspan="3">평균불량률 소계(%)</th>
+						      <td>라인1 불량률 소계</td>
+						      <td>라인2 불량률 소계</td>
+						      <td>라인3 불량률 소계</td>
+						      <td>라인4 불량률 소계</td>
+						      <td>라인5 불량률 소계</td>
+						      <td>유형1 전체 평균불량률</td>
+						    </tr><!-- /.유형1: test -->
+						    <!-- 다른 불량유형 행들 -->	        		
+		        		
+	        		</tbody>
+	        	</table>
+	        </div><!-- /.talbe-container -->
+        </div>
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
 
-<!-- 출하검사-제품불량등록 모달 -->
-<div class="modal fade" id="registerIBInspection" aria-labelledby="#register-IBInspection-ModalLabel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
-  <div class="modal-dialog register-FinishedItemOB-Modal-Dialog" role="document" style="min-width: 60%;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="inspectionModalTitle" id="register-IBInspection-ModalLabel" style="font-size: 150%; font-weight:800;">출하검사 - 제품불량등록</div>
-      </div>
-      <!-- modal-body -->
-      <div class="modal-body inspection-modal-body">
-	      <!-- 등록행 1 -->
-	      <div class="inspection-board">
-	      	<!-- 제조LOT번호 -->
-	        <div class="col-sm-2 inspection-name">제조LOT번호</div>
-	        <div class="col-sm-2 inspection-text">
-	          <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-	        </div><!-- /.제조LOT번호 -->
-	        <!-- 공정번호 -->
-	        <div class="col-sm-2 inspection-name">공정번호</div>
-	        <div class="col-sm-2 inspection-text">
-	        	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-	        </div><!-- /.공정번호 -->
-	        <!-- 작업번호 -->
-	        <div class="col-sm-2 inspection-name">작업번호</div>
-	        <div class="col-sm-2 inspection-text">
-	        	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-	        </div><!-- /.작업번호 -->
-	      </div><!-- /.등록행 1 -->
-	      <!-- 등록행 2 -->
-	      <div class="inspection-board">
-	      	<!-- 단위 -->
-	        <div class="col-sm-2 inspection-name">단위</div>
-	        <div class="col-sm-2 inspection-text">
-	          <input type="text" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-	        </div><!-- /.단위 -->
-	        <!-- 일일총생산수량 -->
-	        <div class="col-sm-2 inspection-name">일일총생산수량</div>
-	        <div class="col-sm-2 inspection-text">
-	        	<input type="number" class="col-sm-12" id="" name="" />
-	        </div><!-- /.일일총생산수량 -->
-	        <!-- 불량수량 -->
-	        <div class="col-sm-2 inspection-name">불량수량</div>
-	        <div class="col-sm-2 inspection-text">
-	        	<input type="number" class="col-sm-12" id="" name="" />
-	        </div><!-- /.불량수량 -->
-	      </div><!-- /.등록행 2 -->
-	      <!-- 등록행 4 -->
-	      <div class="inspection-board">
-	      	<!-- 불량유형1 -->
-	      	<div class="col-sm-2 inspection-name">불량유형1</div>
-	        <div class="col-sm-2 inspection-text">
-	          <select class="col-sm-12" id="" name="">
-	        		<option selected="selected">불량유형1 선택</option>
-	        		<option >1</option>
-	        		<option >2</option>
-	        	</select>
-	        </div><!-- /.불량유형1 -->
-	        <!-- 불량유형2 -->
-	      	<div class="col-sm-2 inspection-name">불량유형2</div>
-	        <div class="col-sm-2 inspection-text">
-	          <select class="col-sm-12" id="" name="">
-	        		<option selected="selected">불량유형2 선택</option>
-	        		<option >1</option>
-	        		<option >2</option>
-	        	</select>
-	        </div><!-- /.불량유형2 -->
-	      	<div class="col-sm-4 emptyModal"></div>
-	      </div><!-- /.등록행 4 -->
-	      <!-- 등록행 5 -->
-	      <div class="inspection-board">
-	      	<!-- 비고 -->
-	      	<div class="col-sm-2 inspection-name">비고</div>
-	      	<div class="col-sm-10 inspection-text">
-	      		<input type="text" class="col-sm-12" id="" name=""/>
-	      	</div><!-- /.비고 -->
-	      </div><!-- /.등록행 5 -->
-	      <!-- 추가버튼 -->
-	      <div class="row modal-add-btn">
-	      	<div class="col-sm-12 addInspection-btn">
-	         	<button type="button" id="" class="btn btn-primary search-btn">
-	            <svg class="add-circle-icon2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>
-	            추가
-	          </button>
-	        </div><!-- /.추가버튼 -->
-        </div><!-- /.row -->
-        <!-- 제품불량 목록 -->
-        <div class="row newInspList">
-        	<!-- Title -->
-        	<div class="col-sm-6 newInspTitle">
-        		<i class="fa fa-list"></i>
-            <span>제품불량목록</span>
-        	</div><!-- /.Title -->
-        	<!-- Table -->
-        	<div class="col-sm-12">
-	        	<div class="newInspTable">
-	        		<table cellpadding="0" cellspacing="0" border="0">
-	            	<thead class="newInspTable-header">
-	            		<tr>
-	            			<th>No</th>
-	                  <th>자재번호</th>
-	                  <th>제조LOT번호</th>
-	                  <th>공정번호</th>
-	                  <th>설비번호</th>
-	                  <th>자재명</th>
-	                  <th>단위</th>
-	                  <th>일일총작업수량</th>
-	                  <th>양품수량</th>
-	                  <th>불량수량</th>
-	                  <th>불량유형1</th>
-	                  <th>불량유형2</th>
-	                  <th>불량등록일자</th>
-	                  <th>비고</th>
-	                  <th>삭제</th>
-	            		</tr>
-	              </thead>
-	              <tbody class="newInspTable-content">
-		              <tr>
-                    <td>1열</td>
-										<td>2열</td>
-										<td>3열</td>
-										<td>4열</td>
-										<td>5열</td>
-										<td>6열ddddddddddddddddddddddddddddddddd</td>
-										<td>7열</td>
-										<td>8열</td>
-										<td>9열</td>
-										<td>10열dddddddddddddddddddddddddddddddddddddddddddd</td>
-										<td>11열</td>
-										<td>12열</td>
-										<td>13열</td>
-										<td>14열</td>
-										<td class="remove-newProcessInsp-row" onclick="removeNewProcessInspRow(this);" style="color:#c82333;">
-											삭제
-										</td>
-                  </tr>
-                  <tr>
-                    <td>1열</td>
-										<td>2열</td>
-										<td>3열</td>
-										<td>4열</td>
-										<td>5열</td>
-										<td>6열ddddddddddddddddddddddddddddddddd</td>
-										<td>7열</td>
-										<td>8열</td>
-										<td>9열</td>
-										<td>10열dddddddddddddddddddddddddddddddddddddddddddd</td>
-										<td>11열</td>
-										<td>12열</td>
-										<td>13열</td>
-										<td>14열</td>
-										<td class="remove-newProcessInsp-row" onclick="removeNewProcessInspRow(this);" style="color:#c82333;">
-											삭제
-										</td>
-                  </tr>
-                  
-	              </tbody>
-	            </table>  
-	        	</div><!-- /.Table -->
-        	</div><!-- /.col -->
-        </div><!-- /.제품불량 목록 -->
-      </div><!-- /.modal-body -->
-      
-      <!-- 구분선 -->
-      <div class=divBorderModal></div>
-      
-      <div class="modal-footer">
-           <button type="button" class="btn btn-primary">등록</button>
-           <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
-      </div><!-- /.modal-footer -->
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal --> 
 
 <!-- 공통 footer 연결 -->
 <%@ include file="../includes/footer.jsp" %>
