@@ -53,7 +53,7 @@
         		</div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-5">
             <div class="BomTableName">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div class="employee">제품 목록</div>
@@ -65,7 +65,6 @@
                     <th>NO</th>
                     <th>제품 번호</th>
                     <th>제품명</th>
-                    <th>수정</th>
                   </tr>
                 </thead>
                 <tbody class="table-content">
@@ -76,11 +75,6 @@
 	                    	<c:out value="${Item.i_id}" />
 	                    </td>
 	                    <td><c:out value="${Item.i_name}" /></td>
-	                    <td>
-	                    	<div class="modifyBom">
-								  			수정
-												</div>
-											</td>
 	                  </tr>     
 	                 </c:forEach>    
                 </tbody>
@@ -89,11 +83,11 @@
 	          </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-7">
             <!-- BOM 세부목록 테이블 -->
             <div class="BomTableName">
               <div class="icon"><i class="fa fa-list"></i></div>
-              <div class="employee">BOM 세부목록</div>
+              <div>BOM 세부목록</div>
             </div>
             <div class="table" style="height: 700px;">
               <table cellpadding="0" cellspacing="0" border="0" style="height: 700px;">
@@ -104,6 +98,7 @@
                     <th>자재명</th>
                     <th>단위</th>
                     <th>수량</th>
+                    <th>수정</th>
                   </tr>
                 </thead>
                 <tbody class="table-content checkBomList">
@@ -141,6 +136,29 @@
 <%@ include file="../includes/footer.jsp" %>
 
 <script>
+
+	/*Bom 검색*/
+
+let searchBomForm = $("#searchBomForm");
+	$("#searchBomForm button").on("click",
+    function(e) {
+        if (!searchBomForm.find("option:selected").val()) {
+            alert("검색종류를 선택하세요");
+            return false;
+        }
+
+        if (!searchBomForm.find("input[name='keyword']").val()) {
+            alert("키워드를 입력하세요");
+            return false;
+        }
+
+        e.preventDefault();
+
+        searchBomForm.submit();
+    });
+	
+	
+	
 	
 	let bomListUL = $(".checkBomList");
 	
@@ -158,11 +176,14 @@
 	    	 // 제품에 등록된 bom이 있을 경우 아래를 뿌려준다
 	        for (var i = 0; i < result.length; i++) {
 	            str += "<tr>";
-	            str += "<td>" + result[i].rn + "</td>";
-	            str += "<td>" + result[i].b_material_id + "</td>";
-	            str += "<td>" + result[i].m_name + "</td>";
-	            str += "<td>" + result[i].b_unit + "</td>";
-	            str += "<td>" + result[i].b_material_quantity + "</td>";
+	            str += "	<td>" + result[i].rn + "</td>";
+	            str += "	<td>" + result[i].b_material_id + "</td>";
+	            str += "	<td>" + result[i].m_name + "</td>";
+	            str += "	<td>" + result[i].b_unit + "</td>";
+	            str += "	<td>" + result[i].b_material_quantity + "</td>";
+	            str += "	<td>";
+	            str += "		<div class='modifyBom'  id='modifyBom-" + result[i].b_material_id + "' data-bmid='" + result[i].b_material_id + "'>수정</div>";
+	            str += "	</td>";
 	            str += "</tr>";
 	        }
 	        bomListUL.html(str); // 결과를 HTML에 삽입(html 렌더링한다)
@@ -174,7 +195,6 @@
 	// 특정 i_id에 대한 showBomList 호출, 가져와서 화면에 뿌려주는 함수 실행
 	showBomList(1);  
 
-	
 	
 	
 	

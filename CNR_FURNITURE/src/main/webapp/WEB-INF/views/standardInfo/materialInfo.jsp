@@ -46,10 +46,10 @@
 	              <input type="text" name="keyword" value='<c:out value="${mtSearch.keyword}"/>'/>
 	            </div>
 	            <div class="col-sm-1">
-	              <button type="button" class="btn btn-primary search" id="searchMtBtn" name="">
+	              <button type="button" class="btn btn-primary search" id="searchMtBtn">
 	              <i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색
 	              </button>
-            </div>
+            	</div>
            </form>
            <div class="member-btn">
             <button type="button" class="btn btn-Default" data-toggle="modal" data-target="#myModal1">자재등록</button>

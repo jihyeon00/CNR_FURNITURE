@@ -33,4 +33,9 @@ public class BomServiceImpl implements BomService{
     public List<BomVO> getBomDetails() {
         return bomMapper.getBomDetails();
     }
+
+    @Override
+    public List<BomVO> getBomListForInsert(BomSearch bomSearch) {
+        return bomMapper.getBomListForInsert(bomSearch);
+    }
 }
