@@ -1,215 +1,109 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
+<!--날짜 포맷팅-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 
 <link rel="stylesheet" href="/resources/css/process.css">
 <%@ include file="../includes/header.jsp" %>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-md-6">
-            <h1 class="m-0"><i class="far fa-clipboard"></i> 제조지시</h1>
-          </div><!-- /.col -->
-          <div class="col-md-6 ml-auto">
-            <div class="pro-btn">
-              <button type="button" id="prosearchbtn" class="btn btn-primary">조희</button>
-                <button type="button" id= proaddBtn class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
-            </div>
-          </div><!-- /.col -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <h1 class="m-0"><i class="far fa-clipboard"></i> 제조지시</h1>
+                </div><!-- /.col -->
+                <div class="col-md-6 ml-auto">
+                    <form action="/manufacturingInstruction" method="get">
+                        <div class="pro-btn">
+                            <button type="submit" class="btn btn-primary">조회</button>
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
+                        </div>
 
-    <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <!-- 검색창 -->
-          <div class="col-md-12 prosearchBer">
-            <div class="col-sm-1 prosb-name">계획일자</div>
-            <div class="col-sm-2 prosb-text">
-                <input type="date" class="col-sm-12 sb-text1" id="" name=""/>
-                <p class="textPro"> ~ </p>
-                <input type="date" class="col-sm-12 sb-text1" id="" name=""/>
+                </div><!-- /.col -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- 검색창 -->
+                    <div class="col-md-12 prosearchBer">
+                        <div class="col-sm-1 prosb-name">계획일자</div>
+                        <div class="col-sm-2 prosb-text">
+                            <input type="date" class="col-sm-12 sb-text1" id="startDate" name="startDate" value='<c:out value="${processDate.startDate}"/>'/>
+                            <p class="textPro"> ~ </p>
+                            <input type="date" class="col-sm-12 sb-text1" id="endDate" name="endDate" value='<c:out value="${processDate.endDate}"/>' />
+                        </div>
+
+                        <div class="col-sm-1 prosb-name">제품번호</div>
+                        <select class="col-sm-2 prosb-text" aria-label=".form-select-sm example" name="find_item_process">
+                            <option value="">--선택--</option>
+                            <c:forEach items="${itemProList}" var="item">
+                                <option value="${item.i_id}" ${item.i_id == processDate.find_item_process ? 'selected' : ''}>${item.i_id} ${item.i_name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    </form>
+                </div><!-- /.row -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--제조지시 테이블 -->
+                        <div class="ProTableName">
+                            <div class="icon"><i class="fa fa-list"></i></div>
+                            <div class="process">제조지시목록</div>
+                        </div>
+                        <div class="table ProTable">
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <thead class="tbl-headerPro">
+                                <th>NO</th>
+                                <th>제조LOT번호</th>
+                                <th>공정번호</th>
+                                <th>계약번호</th>
+                                <th>계획착수일</th>
+                                <th>계획완수일</th>
+                                <th>제품번호</th>
+                                <th>계획수량</th>
+                                </thead>
+                                <tbody class="tbl-content ProTable">
+                                <c:forEach var="ProSearch" items="${proList}">
+                                    <tr>
+                                        <td><c:out value="${ProSearch.rn}"/></td>
+                                        <td><c:out value="${ProSearch.ins_lot_id}"/></td>
+                                        <td><c:out value="${ProSearch.ins_pi_id}"/></td>
+                                        <td><c:out value="${ProSearch.ins_ct_id}"/></td>
+                                        <td><c:out value="${ProSearch.ins_start_date}" /></td>
+                                        <td><c:out value="${ProSearch.ins_end_date}"  /></td>
+                                        <td><c:out value="${ProSearch.ins_item_id}"/></td>
+                                        <td><c:out value="${ProSearch.ins_lot_size}"/></td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-1 prosb-name">제품번호</div>
-              <select class="col-sm-2 prosb-text" aria-label=".form-select-sm example">
-                    <option selected></option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-              </select>
-            </div>
-          <div class="col-md-12">
-            <!--제조지시 테이블 -->
-            <div class="ETableName">
-              <div class="icon"><i class="fa fa-list"></i></div>
-              <div class="process">제조지시목록</div>
-            </div>
-            <div class="table ETable">
-              <table cellpadding="0" cellspacing="0" border="0">
-                <thead class="tbl-header">
-                       <th>NO</th>
-                       <th>제조LOT번호</th>
-                       <th>공정번호</th>
-                       <th>계약번호</th>
-                       <th>계획착수일</th>
-                       <th>계획완수일</th>
-                       <th>제품번호</th>
-                       <th>계획수량</th>
-                </thead>
-                <tbody class="tbl-content ETable">
-                      <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>7</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>7</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>7</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>7</td>
-                      <tr>
-                        <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>7</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>7</td>
-                      </tr>
-                      <tr>
-                         <td>1</td>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                          <td>5</td>
-                          <td>6</td>
-                          <td>7</td>
-                          <td>7</td>
-                      </tr>
-                      <tr>
-                          <td>1</td>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                          <td>5</td>
-                          <td>6</td>
-                          <td>7</td>
-                          <td>7</td>
-                      </tr>
-                      <tr>
-                          <td>1</td>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                          <td>5</td>
-                          <td>6</td>
-                          <td>7</td>
-                          <td>7</td>
-                      </tr>
-                      <tr>
-                          <td>1</td>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                          <td>5</td>
-                          <td>6</td>
-                          <td>7</td>
-                          <td>7</td>
-                      </tr>
-                      <tr>
-                          <td>1</td>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                          <td>5</td>
-                          <td>6</td>
-                          <td>7</td>
-                          <td>7</td>
-                      </tr>
-                      <tr>
-                          <td>1</td>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                          <td>5</td>
-                          <td>6</td>
-                          <td>7</td>
-                          <td>7</td>
-                      </tr>
-                      <tr>
-                          <td>1</td>
-                          <td>2</td>
-                          <td>3</td>
-                          <td>4</td>
-                          <td>5</td>
-                          <td>6</td>
-                          <td>7</td>
-                          <td>7</td>
-                      </tr>
-                     </tbody>
-                 </table>
-               <!-- /.table -->
-              </div>
-             </div>
-            </div>
-         </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+</div>
+<!-- /.content-wrapper -->
 
 
-  <!-- Modal -->
+<!-- Modal -->
 <!-- 등록 모달 -->
 <div class="modal fade" id="register-Process-Btn" tabindex="-1" role="dialog" aria-labelledby="registerProcessGridSystemModalLabel">
     <div class="modal-dialog register-Process-Modal-Dialog" role="document">
@@ -234,7 +128,16 @@
                                         <th class ="proTh">계약번호</th>
                                         <td class ="proTd"><input type="text" class="processInput"></td>
                                         <th class ="proTh">공정번호</th>
-                                        <td class ="proTd"><input type="text" class="processInput"></td>
+                                        <td class ="proTd">
+                                            <select class="col-sm-12 processInput" aria-label=".form-select-sm example" name="find_pi_process" >
+                                                <option value="">--선택--</option>
+                                                <c:forEach items="${piProList}" var="pi">
+                                                    <option value="${pi.pi_id}" >
+                                                            ${pi.pi_id}    ${pi.pi_name}  ( ${pi.pi_seq} )
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                        </td>
                                         <th class ="proTh">계획수량</th>
                                         <td class ="proTd"><input type="text" class="processInput"></td>
                                     </tr>
@@ -255,11 +158,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-7 maginPro">
-                        <!-- 설비목록 테이블 -->
+                    <div class="col-md-6 maginPro">
+                        <!-- 계약목록 테이블 -->
                         <div class="ETableTitle">
                             <div class="icon"><i class="fa fa-list"></i></div>
-                            <div class="employee">공정목록</div>
+                            <div class="employee">계약목록</div>
                         </div>
                         <div class="table DTable">
                             <table cellpadding="0" cellspacing="0" border="0">
@@ -270,66 +173,29 @@
                                     <col style="width: 10%" />
                                     <col style="width: 10%" />
                                     <col style="width: 10%" />
-                                    <col style="width: 10%" />
                                 </colgroup>
-                                <thead class="tbl-header">
+                                <thead class="tbl-headerPro">
                                 <tr>
-                                    <th></th>
-                                    <th>공정번호</th>
-                                    <th>공정명</th>
-                                    <th>공정위치</th>
-                                    <th>공정명</th>
-                                    <th>공정위치</th>
-                                    <th>공정위치</th>
+                                    <th>NO</th>
+                                    <th>계약번호</th>
+                                    <th>제품번호</th>
+                                    <th>계약수량</th>
+                                    <th>계약체결일</th>
+                                    <th>계약출고일</th>
                                 </tr>
                                 </thead>
-                                <tbody class="tbl-content DTable">
-                                <!-- 설비목록 데이터 -->
-                                <tr>
-                                    <td><input type="checkbox" name="check1"></td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" name="check1"></td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" name="check1"></td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" name="check1"></td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                <tr>
-                                <tr>
-                                    <td><input type="checkbox" name="check1"></td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                <tr>
+                                <tbody class="tbl-content ProTable">
+                                <!-- 계약 목록 데이터 -->
+                                <c:forEach var="ct" items="${ctProList}">
+                                    <tr>
+                                        <td><c:out value="${ct.rn}"/></td>
+                                        <td><c:out value="${ct.ct_id}"/></td>
+                                        <td><c:out value="${ct.ct_item_id}"/></td>
+                                        <td><c:out value="${ct.ct_quantity}"/></td>
+                                        <td><c:out value="${ct.ct_date}" /></td>
+                                        <td><c:out value="${ct.ct_ob_date}"  /></td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -345,13 +211,26 @@
     </div>
 </div>
 
-
-
-
 <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+<aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+</aside>
+<!-- /.control-sidebar -->
+
+<script>
+    function processDate() {
+        // 검색 폼을 서버에 전송
+        document.getElementById('searchPro').submit();
+    }
+
+    // 제품 옵션 선택 유지시키기
+    window.onload = function() {
+        var selectedItem = "<c:out value='${processDate.find_item_process}'/>";
+        if (selectedItem) {
+            var selectElement = document.querySelector('select[name="find_item_process"]');
+            selectElement.value = selectedItem;
+        }
+    };
+</script>
 
 <%@ include file="../includes/footer.jsp" %>
