@@ -60,13 +60,13 @@
         <div class="row">
           <div class="col-md-12">
             <!-- 제조수행테이블 -->
-            <div class="ETableName">
+            <div class="ProTableName">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div class="employee">제조수행지시목록</div>
             </div>
-            <div class="table ETable">
+            <div class="table ProTable">
               <table cellpadding="0" cellspacing="0" border="0">
-                <thead class="tbl-header">
+                <thead class="tbl-headerPro">
                        <th>NO</th>
                        <th>제조LOT번호</th>
                        <th>공정번호</th>
@@ -76,7 +76,7 @@
                        <th>진행사항</th>
                        <th>비고</th>
                 </thead>
-                <tbody class="tbl-content ETable">
+                <tbody class="tbl-content ProTable">
                       <tr>
                         <td>1</td>
                         <td>2</td>

@@ -49,7 +49,7 @@
             </div>
             <div class="table ETable">
               <table cellpadding="0" cellspacing="0" border="0">
-                <thead class="tbl-header">
+                <thead class="tbl-headerPro">
                        <th>NO</th>
                        <th>공정번호</th>
                        <th>공정명번호</th>
@@ -57,7 +57,7 @@
                        <th>설비번호</th>
 
                 </thead>
-                <tbody class="tbl-content ETable">
+                <tbody class="tbl-content ProTable">
                       <tr>
                         <td>1</td>
                         <td>2</td>
@@ -212,7 +212,7 @@
                   <col style="width: 10%" />
                   <col style="width: 10%" />
                 </colgroup>
-                <thead class="tbl-header">
+                <thead class="tbl-headerPro">
                   <tr>
                     <th></th>
                     <th>설비번호</th>
@@ -220,7 +220,7 @@
                     <th>설비유형</th>
                   </tr>
                 </thead>
-                <tbody class="tbl-content DTable">
+                <tbody class="tbl-content ProTable">
                   <!-- 설비목록 데이터 -->
                     <tr>
                         <td><input type="checkbox" name="check1"></td>
@@ -273,7 +273,7 @@
                   <col style="width: 10%" />
                   <col style="width: 10%" />
                 </colgroup>
-                <thead class="tbl-header">
+                <thead class="tbl-headerPro">
                   <tr>
                     <th></th>
                     <th>설비번호</th>
@@ -281,7 +281,7 @@
                     <th>설비유형</th>
                   </tr>
                 </thead>
-                <tbody class="tbl-content DTable">
+                <tbody class="tbl-content ProTable">
                   <!-- 추가된 설비목록 데이터 -->
                       <tr>
                         <td><input type="checkbox" name="check1"></td>
