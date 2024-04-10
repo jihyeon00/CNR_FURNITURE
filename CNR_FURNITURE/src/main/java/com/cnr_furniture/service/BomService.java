@@ -8,10 +8,12 @@ import java.util.List;
 
 public interface BomService {
 
-    List<ItemInfoVO> getBomInfoList(BomSearch bomSearch); //전체 조회
+    List<ItemInfoVO> getBomInfoList(BomSearch bomSearch); //BOM관리 제품목록 조회, 검색
 
-    List<BomVO> getListBom(int i_id); // 리스트 조회
+    List<BomVO> getBomDetails(); //BOM관리 bom 세부목록 조회
 
-    List<BomVO> getBomDetails();
+    List<BomVO> getListBom(int i_id); // BOM관리 제품번호 한개 값 가져오기
+
+    List<BomVO> getBomListForInsert(BomSearch bomSearch); //BOM 등록의 자재목록 조회, 검색
 
 }

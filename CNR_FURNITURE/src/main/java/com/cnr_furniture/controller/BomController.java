@@ -1,6 +1,5 @@
 package com.cnr_furniture.controller;
 
-import com.cnr_furniture.domain.ItemInfo.ItemInfoSearch;
 import com.cnr_furniture.domain.ItemInfo.ItemInfoVO;
 import com.cnr_furniture.domain.bom.BomSearch;
 import com.cnr_furniture.domain.bom.BomVO;
@@ -25,7 +24,10 @@ public class BomController {
     @Autowired
     BomService bomService;
 
-    //bom목록 제품조회
+    /**
+     * Desc: bom목록 - 제품조회 및 검색
+     * @return: standardInfo/bom
+     */
     @GetMapping("/bom")
     public String bomInfo(BomSearch bomSearch, Model model) {
         List<ItemInfoVO> itemInfoVOList = bomService.getBomInfoList(bomSearch);
@@ -38,21 +40,27 @@ public class BomController {
         return "standardInfo/bom";
     }
 
-    // bom 목록에서 세부목록 불러오기
+    /**
+     * Desc: bom목록 - 세부목록 조회
+     * @return: /bomList/{i_id}
+     */
     @ResponseBody
     @GetMapping(value = "/bomList/{i_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<BomVO>> get(@PathVariable("i_id") int i_id) {
         return new ResponseEntity<>(bomService.getListBom(i_id), HttpStatus.OK);
     }
 
-
+    /**
+     * Desc: bom 등록 - 제품 자재목록 조회 및 검색
+     * @return: standardInfo/bomInsert
+     */
     @GetMapping("/bomInsert")
     public String bomInsert(BomSearch bomSearch, Model model) {
         List<ItemInfoVO> itemInfoVOList = bomService.getBomInfoList(bomSearch);
         model.addAttribute("itemList", itemInfoVOList);
         model.addAttribute("bomSearch", bomSearch);
 
-        List<BomVO> bomVOList = bomService.getBomDetails();
+        List<BomVO> bomVOList = bomService.getBomListForInsert(bomSearch);
         model.addAttribute("bomList", bomVOList);
         model.addAttribute("bomSearch", bomSearch);
 

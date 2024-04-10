@@ -18,16 +18,6 @@
         ORDER BY I_ID ASC
     </select>
 
-    <select id="getListBom" resultType="com.cnr_furniture.domain.bom.BomVO">
-        SELECT rownum AS rn, bm.*
-        FROM (
-            SELECT b.B_ITEM_ID, b.B_MATERIAL_ID, m.M_NAME, b.B_UNIT, b.B_MATERIAL_QUANTITY
-            FROM BOM b, MATERIAL m
-            WHERE b.B_MATERIAL_ID = m.M_ID AND b.B_ITEM_ID = #{i_id}
-            ORDER BY b.B_ITEM_ID, b.B_MATERIAL_ID ASC
-            ) bm
-    </select>
-
     <select id="getBomDetails" resultType="com.cnr_furniture.domain.bom.BomVO">
         SELECT rownum AS rn, bm.*
         FROM (
@@ -38,5 +28,42 @@
             ) bm
     </select>
 
+    <select id="getListBom" resultType="com.cnr_furniture.domain.bom.BomVO">
+        SELECT rownum AS rn, bm.*
+        FROM (
+        SELECT b.B_ITEM_ID, b.B_MATERIAL_ID, m.M_NAME, b.B_UNIT, b.B_MATERIAL_QUANTITY
+        FROM BOM b, MATERIAL m
+        WHERE b.B_MATERIAL_ID = m.M_ID AND b.B_ITEM_ID = #{i_id}
+        ORDER BY b.B_ITEM_ID, b.B_MATERIAL_ID ASC
+        ) bm
+    </select>
+
+    <select id="getBomListForInsert" resultType="com.cnr_furniture.domain.bom.BomVO">
+        SELECT
+        rownum AS rn,
+        bm.*
+        FROM (
+            SELECT
+                b.B_ITEM_ID,
+                b.B_MATERIAL_ID,
+                m.M_NAME,
+                b.B_UNIT,
+                b.B_MATERIAL_QUANTITY
+            FROM
+                BOM b, MATERIAL m
+            WHERE
+                b.B_MATERIAL_ID = m.M_ID
+            <foreach item="type" collection="typeArr">
+                <if test="type == 'MNum'.toString()">
+                    AND b.I_ID LIKE '%' || #{keyword} || '%'
+                </if>
+                <if test="type == 'MName'.toString()">
+                    AND m.M_NAME LIKE '%' || #{keyword} || '%'
+                </if>
+            </foreach>
+            ORDER BY
+                b.B_ITEM_ID, b.B_MATERIAL_ID ASC
+            ) bm
+    </select>
 
 </mapper>

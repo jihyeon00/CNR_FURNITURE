@@ -81,7 +81,7 @@
                   <th>수량</th>
                 </tr>
               </thead>
-              <tbody class="tbl-content">
+              <tbody class="tbl-content" style="height: 400px;">
                 <tr>
                   <td>1</td>
                   <td>10000001</td>
@@ -119,23 +119,23 @@
             <div class="ITableName">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div>제품 목록</div>
-              <form id='itemSearch' action='./bomInsert' method='get' class="bomSearchBtn"> 
+              <form id='searchItemBominsert' action='./bomInsert' method='get' class="bomSearchBtn"> 
 	             	<div class="col-sm-1">
-		            	<select>
+		            	<select name='type'>
 		            		<option value="">--선택--</option>
-						    		<option>제품번호</option>
-						    		<option>제품명</option>
+						    		<option value="INum"<c:out value="${bomSearch.type == 'INum' ? 'selected' : ''}" />>제품번호</option>
+				    				<option value="IName"<c:out value="${bomSearch.type == 'IName' ? 'selected' : ''}" />>제품명</option>
 		            	</select>
 	            	</div>
                 <div class="col-sm-1">
-	        	      <input type="text" id="" name="" />
+	        	      <input type="text" name="keyword" />
 	          	  </div> 
 		            <div class="col-sm-1">
 		              <button type="button" class="btn btn-primary searchItem" id="" name="" >검색</button>
 		            </div>
 	            </form>
             </div>
-            <div class="table" style="height: auto;">
+            <div class="table" style="height: 300px;">
               <table cellpadding="0" cellspacing="0" border="0" class="bomInsertTable">
                 <thead class="tbl-header">
                   <tr>
@@ -145,37 +145,39 @@
                   </tr>
                 </thead>
                 <tbody class="tbl-content">
-                  <tr>
-                    <td>1</td>
-                    <td>10000001</td>
-                    <td>의자-A</td>
-                  </tr>
+                	<c:forEach var="Item" items="${itemList}">
+	                  <tr>
+	                    <td><c:out value="${Item.rn}" /></td>
+	                    <td><c:out value="${Item.i_id}" /></td>
+	                    <td><c:out value="${Item.i_name}" /></td>
+	                  </tr>
+                  </c:forEach>  
                 </tbody>
               </table>
               <!-- /.table -->
             </div>
 
-            <!-- 매니저 테이블 -->
+            <!-- 자재 목록 테이블 -->
             <div class="ITableName">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div>자재 목록</div>
-              <form id='' action='./bomInsert' method='get' class="bomSearchBtn"> 
+              <form id='searchMTBominsert' action='./bomInsert' method='get' class="bomSearchBtn"> 
 	              <div class="col-sm-1">
-		            	<select>
+		            	<select name='type'>
 		            		<option value="">--선택--</option>
-						    		<option>자재번호</option>
-						    		<option>자재명</option>
+						    		<option value="MNum"<c:out value="${bomSearch.type == 'MNum' ? 'selected' : ''}" />>자재번호</option>
+						    		<option value="MName"<c:out value="${bomSearch.type == 'MName' ? 'selected' : ''}" />>자재명</option>
 		            	</select>
 		            </div>
                 <div class="col-sm-1">
-	        	      <input type="text" id="" name="" />
+	        	      <input type="text" id="" name="keyword" />
 	          	  </div>
 		            <div class="col-sm-1">
 		              <button type="button" class="btn btn-primary searchItem" id="" name="" >검색</button>
 		            </div>
 	            </form>
             </div>
-            <div class="table">
+            <div class="table" style="height: 300px;">
               <table cellpadding="0" cellspacing="0" border="0" class="bomInsertTable">
                 <thead class="tbl-header">
                   <tr>
@@ -185,11 +187,13 @@
                   </tr>
                 </thead>
                 <tbody class="tbl-content">
-                  <tr>
-                    <td>1</td>
-                    <td>20000001</td>
-                    <td>소나무</td>
-                  </tr>
+                	<c:forEach var="Bom" items="${bomList}">
+	                  <tr>
+	                    <td><c:out value="${Bom.rn}" /></td>
+	                    <td><c:out value="${Bom.b_material_id}" /></td>
+	                    <td><c:out value="${Bom.m_name}" /></td>
+	                  </tr>
+                  </c:forEach>
                 </tbody>
               </table>
               <!-- /.table -->
@@ -213,3 +217,48 @@
 
 	
 <%@ include file="../includes/footer.jsp" %>
+
+<script>
+
+	/* 제품 목록 조회 */
+	let searchItemBominsert = $("#searchItemBominsert");
+	$("#searchItemBominsert button").on("click",
+	function(e) {
+	    if (!searchItemBominsert.find("option:selected").val()) {
+	        alert("검색종류를 선택하세요");
+	        return false;
+	    }
+	
+	    if (!searchItemBominsert.find("input[name='keyword']").val()) {
+	        alert("키워드를 입력하세요");
+	        return false;
+	    }
+	
+	    e.preventDefault();
+	
+	    searchItemBominsert.submit();
+	});
+	
+	
+	
+	/* 자재 목록 조회 */
+	let searchMTBominsert = $("#searchMTBominsert");
+	$("#searchMTBominsert button").on("click",
+	function(e) {
+	    if (!searchMTBominsert.find("option:selected").val()) {
+	        alert("검색종류를 선택하세요");
+	        return false;
+	    }
+	
+	    if (!searchMTBominsert.find("input[name='keyword']").val()) {
+	        alert("키워드를 입력하세요");
+	        return false;
+	    }
+	
+	    e.preventDefault();
+	
+	    searchMTBominsert.submit();
+	});
+
+
+</script>
