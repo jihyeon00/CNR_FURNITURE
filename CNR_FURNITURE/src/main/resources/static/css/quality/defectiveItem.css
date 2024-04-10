@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+/* 상단검색 section(ItemessInspection) */
+/* 검색창 */
+.defectiveItem-searchBar {
+	display: flex;
+	align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+/*   검색명   */
+.defectiveItem-name {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 46px;
+  background-color: #D9D9D9;
+}
+/*   검색내용   */
+.defectiveItem-text {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.defectiveItem-text input[type="text"] {
+  height: 40px;
+}
+.defectiveItem-text select {
+  height: 40px;
+}
+/* 검색버튼 */
+.defectiveItemSearchBtn {
+  float: right;
+  width: 80px;
+  height: 40px;
+}
+
+/* 평균불량률 총계(%) */
+.total-defect-avg {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	height: 50px;
+	margin-bottom: 1%;
+}
+.defect-title {
+	background-color: #374056;
+  color: #fff;
+  font-weight: 500;
+  padding: 0 1%;
+}
+.defect-text {
+	border: 1px solid rgba(0,0,0,0.3);
+}
+/* 평균불량률-높이 */
+.defect-title,
+.defect-text {
+	line-height: 46px;
+	border: 1px solid rgba(0,0,0,0.3);
+}
+
+/* 테이블명 */
+.defectiveItem-title {
+  margin: 0.5% 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+/* 테이블 */
+.defectiveItem-table {
+	width: 100%;			/* 부모 요소인 col-sm-12의 100%를 차지 */
+	max-height: 70vh;	/* 뷰포트 높이의 70%로 최대 높이 설정 */
+	overflow: auto;
+	margin: 0 auto;
+}
+.defectiveItem-table table {
+	width: 100%;		/* 부모 요소인 col-sm-12의 100%를 차지 */
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+/* 테이블 글씨 위치 및 크기 */
+.defectiveItem-table th,
+.defectiveItem-table-content td {
+	white-space: nowrap;	/* 셀 내용을 한 줄에 표시 */
+	text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+  font-size: 12px;
+}
+/* 테이블 헤더 특정 스타일 */
+.defectiveItem-table-header th,
+.defectiveItem-table-content th {
+	background-color: #374056;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-right: 1px solid #fff;
+}
+.target-col {
+	border-left: 1px solid #fff;
+}
+/* 마지막 헤더 셀의 오른쪽 테두리 없애기 */
+.defectiveItem-table th:last-child {
+	border-right: none;
+}
+/* 제목열 가로 구분선 */
+.defectiveItem-table-sub-header th,
+.defectiveItem-table-content th {
+	border-top: 1px solid #fff;
+}
+
+
+/* 테이블 컨텐츠 특정 스타일 */
+.defectiveItem-table-content tr:hover,
+.defectiveItem-table-content tr:nth-child(even):hover {
+	background: #d9d9d9;
+}
+.defectiveItem-table-content tr:nth-child(even) {
+	background: #eaeaed;
+}
+.defectiveItem-table-content td {
+	border-right: 1px solid #BDBDBD;
+}

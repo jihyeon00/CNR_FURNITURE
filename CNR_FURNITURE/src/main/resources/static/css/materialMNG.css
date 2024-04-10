@@ -1,139 +1,16 @@
 @charset "UTF-8";
 
-/* 테이블 양식 */
-.matIB-titleAndTable,
-.matOB-titleAndTable,
-.matInventory-titleAndTable,
-.matContInfo-titleAndTable {
-	margin-left: 0;
-	padding-right: 0;
-}
-.matIB-title,
-.matOB-title,
-.matInventory-title,
-.matContInfo-title {
-	padding-left: 1%;
-	margin-bottom: 10px;
-	font-size: 18px;
-	font-weight: 600;
-}
-.matIB-table {
-	/* CSS 코드로 헤더의 글자 크기에 따라 x축 스크롤 적용 */
-	overflow-x: auto; /* x축 스크롤 적용을 위한 오버플로우 속성 설정 */
-	width: 100%;			/* 테이블 전체 너비 지정 */
-}
-.matIB-table,
-.matOB-table,
-.matInventory-table,
-.matContInfo-table {
-	height: auto;
-	overflow-y: auto;
-}
-.matIB-table table,
-.matOB-table table,
-.matInventory-table table,
-.matContInfo-table table {
-  table-layout: fixed;
-  border: 1px solid rgba(0,0,0,0.3);
-  border-top:none;
-  border-collapse: separate;
-	border-spacing: 0;
-}
-.matOB-table table,
-.matInventory-table table,
-.matContInfo-table table {
-	width:100%;
-}
-.matIB-table-header,
-.matOB-table-header,
-.matInventory-table-header,
-.matContInfo-table-header {
-  background-color: #374056;
-  position : sticky;
-  top : 0;  
- }
- /* 테이블 좌우 길이 조절 */
-.matIB-table-header th,
-.matOB-table-header th,
-.matInventory-table-header th,
-.matContInfo-table-header th,
-.matIB-table-content td,
-.matOB-table-content td,
-.matInventory-table-content td,
-.matContInfo-table-content td {
-	white-space: nowrap;
-}
-.matIB-table-header tr th {
-	padding: 5px 15px; /* 상&하, 좌&우 */
-}
-.matOB-table-header tr th,
-.matInventory-table-header tr th,
-.matContInfo-table-header tr th {
-	padding: 15px;
-}
-.matIB-table-header tr th,
-.matOB-table-header tr th,
-.matInventory-table-header tr th,
-.matContInfo-table-header tr th {
-	text-align: center;
-  font-weight: 500;
-  font-size: 12px;
-  color: #fff;
-  text-transform: uppercase;
-  border-right: 1px solid #fff;
-}
-
-.matIB-table-header tr th:last-child,
-.matOB-table-header tr th:last-child,
-.matInventory-table-header tr th:last-child,
-.matContInfo-table-header tr th:last-child {
-  border-right: none;
-}
-.matIB-table-content,
-.matOB-table-content,
-.matInventory-table-content,
-.matContInfo-table-content {
-  margin-top: 0px;
-}
-.matIB-table-content tr:hover,
-.matOB-table-content tr:hover,
-.matInventory-table-content tr:hover,
-.matContInfo-table-content tr:hover,
-.matIB-table-content tr:nth-child(even):hover,
-.matOB-table-content tr:nth-child(even):hover,
-.matInventory-table-content tr:nth-child(even):hover,
-.matContInfo-table-content tr:nth-child(even):hover {
-  background: #d9d9d9;
-}
-.matIB-table-content tr:nth-child(even),
-.matOB-table-content tr:nth-child(even),
-.matInventory-table-content tr:nth-child(even),
-.matContInfo-table-content tr:nth-child(even) {
-  background: #eaeaed;
-}
-.matIB-table-content td,
-.matOB-table-content td,
-.matInventory-table-content td,
-.matContInfo-table-content td {
-  padding: 15px;
-  text-align: center;
-  vertical-align:middle;
-  font-weight: 300;
-  font-size: 12px;
-  color: #000;
-  border-right: 1px solid #BDBDBD;
-}
-.matIB-table-content tr td:last-child,
-.matOB-table-content tr td:last-child,
-.matInventory-table-content tr td:last-child,
-.matContInfo-table-content tr td:last-child {
-  border-right: none;
-}
-
-
 /*   검색창   */
-.matIB-searchBar,
-.matOB-searchBar,
+.material-searchBar {
+	display: flex;
+	align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 .matInventory-searchBar,
 .matContInfo-searchBar {
   display: flex;
@@ -145,8 +22,14 @@
   margin-bottom: 2%;
 }
 /*   검색명   */
-.matIB-search-title,
-.matOB-search-title,
+.material-name {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 46px;
+  background-color: #D9D9D9;
+}
+/*   검색명   */
 .matInventory-search-title,
 .matContInfo-search-title {
   display: flex;
@@ -160,17 +43,178 @@
 	padding: 0 1%;
 }
 /*   검색내용   */
-.matIB-search-content,
-.matOB-search-content,
+.material-text {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.material-text input[type="text"],
+.material-text input[type="date"] {
+  height: 40px;
+}
+.material-text select {
+  height: 40px;
+}
+/*   검색내용   */
 .matInventory-search-content,
 .matContInfo-search-content {
   display: flex;
 	align-items: center;
 	justify-content: center;
 }
-.matIB-search-content input[type="text"],
-.matOB-search-content input[type="text"],
+/* 검색-높이 */
 .matInventory-search-content input[type="text"],
 .matContInfo-search-content input[type="text"] {
   height: 3%;
+}
+
+
+/* 테이블 양식 */
+.matInventory-titleAndTable,
+.matContInfo-titleAndTable {
+	margin-left: 0;
+	padding-right: 0;
+}
+/* 테이블명 */
+.matIB-title,
+.material-table-title {
+	margin: 0.5% 0;
+	font-size: 18px;
+	font-weight: 600;
+}
+/* 테이블 */
+.matIB-table,
+.material-table {
+	width: 100%;			/* 부모 요소인 col-sm-12의 100%를 차지 */
+	max-height: 70vh;	/* 뷰포트 높이의 70%로 최대 높이 설정 */
+	overflow: auto;
+	margin: 0 auto;
+}
+.matIB-table table,
+.material-table table {
+	width: 100%;		/* 부모 요소인 col-sm-12의 100%를 차지 */
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+/* 테이블 글씨 위치 및 크기 */
+.matIB-table th,
+.matIB-table-content td,
+.material-table th,
+.material-table-content td {
+	white-space: nowrap;	/* 셀 내용을 한 줄에 표시 */
+	text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+  font-size: 12px;
+}
+/* 테이블 헤더 특정 스타일 */
+.material-table-header th,
+.material-table-content th {
+	background-color: #374056;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-right: 1px solid #fff;
+}
+
+/* 테이블명 */
+.matInventory-title,
+.matContInfo-title {
+	padding-left: 1%;
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-weight: 600;
+}
+/* 테이블 */
+.matInventory-table,
+.matContInfo-table {
+	height: auto;
+	overflow-y: auto;
+}
+.matInventory-table table,
+.matContInfo-table table {
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top:none;
+  border-collapse: separate;
+	border-spacing: 0;
+}
+.matInventory-table table,
+.matContInfo-table table {
+	width:100%;
+}
+.matInventory-table-header,
+.matContInfo-table-header {
+  background-color: #374056;
+  position : sticky;
+  top : 0;  
+ }
+ 
+/* 테이블 좌우 길이 조절 */
+.matInventory-table-header th,
+.matContInfo-table-header th,
+.matInventory-table-content td,
+.matContInfo-table-content td {
+	white-space: nowrap;
+}
+.matInventory-table-header tr th,
+.matContInfo-table-header tr th {
+	padding: 15px;
+}
+.matInventory-table-header tr th,
+.matContInfo-table-header tr th {
+	text-align: center;
+  font-weight: 500;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+  border-right: 1px solid #fff;
+}
+
+.matInventory-table-header tr th:last-child,
+.matContInfo-table-header tr th:last-child {
+  border-right: none;
+}
+.matInventory-table-content,
+.matContInfo-table-content {
+  margin-top: 0px;
+}
+
+
+
+
+
+/* 테이블 컨텐츠 스타일 */
+.material-table-content tr:hover,
+.material-table-content tr:nth-child(even):hover,
+
+.matInventory-table-content tr:hover,
+.matContInfo-table-content tr:hover,
+.matInventory-table-content tr:nth-child(even):hover,
+.matContInfo-table-content tr:nth-child(even):hover {
+  background: #d9d9d9;
+}
+.material-table-content tr:nth-child(even),
+.matInventory-table-content tr:nth-child(even),
+.matContInfo-table-content tr:nth-child(even) {
+  background: #eaeaed;
+}
+.material-table-content td,
+.matInventory-table-content td,
+.matContInfo-table-content td {
+  padding: 15px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #000;
+  border-right: 1px solid #BDBDBD;
+}
+.material-table-content tr td:last-child,
+.matInventory-table-content tr td:last-child,
+.matContInfo-table-content tr td:last-child {
+  border-right: none;
 }

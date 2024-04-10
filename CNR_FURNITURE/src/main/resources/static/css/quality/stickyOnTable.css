@@ -1,0 +1,61 @@
+/* 참고: https://phpschool.com/gnuboard4/bbs/board.php?bo_table=qna_html&wr_id=303748&sca=&sfl=wr_subject%7C%7Cwr_content&stx=%BD%BA%C5%A9%B7%D1+%B0%E8%BC%D3&sop=and */
+/* 테이블 x축, y축 틀 고정을 위한 css */
+
+.sot{
+  overflow: auto;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  padding: 0;
+}
+.sot > table{
+  table-layout: fixed;
+  position: relative;
+  border-collapse: separate !important;
+  border-spacing: 0;
+  padding: 0;
+  margin: 0;
+  width:100%;
+  border-width:0px;
+  overflow: visible;
+  background-color: #fff;
+}
+.sot-table-width-auto  > table{
+  width:auto !important;
+}
+.sot-table-width-100px  > table{
+  width:100px !important;
+}
+.sot td ,.sot th{
+  border: 1px solid #ffffff;
+}
+.sot-top{
+  position: sticky;
+  top:0;
+  z-index: 20;
+  background-color: #fff;
+}
+.sot-left{
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background-color: #fff;
+}
+.sot-bottom{
+  position: sticky;
+  bottom:0;
+  z-index: 20;
+  background-color: #fff;
+}
+.sot-right{
+  position: sticky;
+  right: 0;
+  z-index: 10;
+  background-color: #fff;
+}
+ 
+.sot-top.sot-left ,
+.sot-bottom.sot-left ,
+.sot-top.sot-right ,
+.sot-bottom.sot-right{
+  z-index: 30;
+}

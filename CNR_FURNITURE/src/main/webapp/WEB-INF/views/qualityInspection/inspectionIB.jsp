@@ -3,8 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
+<!-- stickyOnTable.css 연결 -->
+<link rel="stylesheet" href="/resources/css/quality/stickyOnTable.css">
 <!-- jQuery 연결 -->
 <script defer src="/resources/js/quality.js"></script>
+<script defer src="/resources/js//quality/stickyOnTable.js"></script>
 
 <!-- 공통 header 연결 -->
 <%@ include file="../includes/header.jsp" %>
@@ -29,62 +32,61 @@
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
-      <!-- 검색행 1 -->
-      <div class="row inspIB-search-row first-search-row">
-        <div class="col-sm-12 inspIB-searchBar">
-          <!-- 자재번호 -->
-          <div class="col-sm-2 inspIB-search-title first-search-col">자재번호</div>
-          <div class="col-sm-3 select-form inspIB-search-content first-search-col">
-            <select class="col-sm-12" aria-label="Default select example">
-              <option selected>자재번호 선택</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+      <!-- 검색창 -->
+      <form action="" id="inspectionSearchForm" class="col-md-12" onSubmit="return false">
+      	<!-- 검색행1 -->
+        <div class="inspection-searchBar">
+        	<!-- 자재번호 -->
+          <div class="col-sm-1 inspection-name">자재번호</div>
+          <div class="col-sm-2 inspection-text">
+          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
           </div><!-- /.자재번호 -->
           <!-- 계약번호 -->
-          <div class="col-sm-2 inspIB-search-title second-search-col">계약번호</div>
-          <div class="col-sm-3 select-form inspIB-search-content second-search-col">
-            <select class="col-sm-12" aria-label="Default select example">
-              <option selected>계약번호 선택</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div><!-- /.자재번호 -->
-          <div class="col-sm-5"></div>
-        </div><!-- /.searchBar -->
-      </div><!-- /.row -->
-      <!-- 검색행 2 -->
-      <div class="row inspIB-search-row second-search-row">
-        <div class="col-sm-12 inspIB-searchBar">
-          <!-- 불량유형 -->
-          <div class="col-sm-2 inspIB-search-title first-search-col">불량유형</div>
-          <div class="col-sm-3 inspIB-search-content first-search-col">
-            <select class="col-sm-5" aria-label="Default select example">
-              <option selected>불량유형1 선택</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+          <div class="col-sm-1 inspection-name">계약번호</div>
+          <div class="col-sm-2 inspection-text">
+          	<!-- <input type="date" class="col-sm-12" id="" name=""> -->
+          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+          </div><!-- /.계약번호 -->
+          <!-- 제조LOT번호 -->
+          <div class="col-sm-1 inspection-name">제조LOT번호</div>
+          <div class="col-sm-2 inspection-text">
+          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+          </div><!-- /.제조LOT번호 -->
+        </div><!-- /.검색행1 -->
+        <!-- 검색행2 -->
+        <div class="inspection-searchBar" style="margin-top: -7px;">
+        	<!-- 불량유형 -->
+          <div class="col-sm-1 inspection-name">불량유형</div>
+          <div class="col-sm-2 inspection-text">
+          	<!-- 불량유형1 -->
+          	<select class="col-sm-6"  id="find_Role" name="find_Role">
+              <option value="">불량유형1 선택</option>
+              <c:forEach var="list" items = "${roleList}">
+                <option value='${list.e_ROLE}'
+                  <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
+                </option>
+              </c:forEach>
+            </select><!-- /.불량유형1 -->
             &nbsp;
-            <select class="col-sm-5" aria-label="Default select example">
-              <option selected>불량유형2 선택</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div><!-- /.검사일자 -->
+            <!-- 불량유형2 -->
+            <select class="col-sm-6"  id="find_Role" name="find_Role">
+              <option value="">불량유형2 선택</option>
+              <c:forEach var="list" items = "${roleList}">
+                <option value='${list.e_ROLE}'
+                  <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
+                </option>
+              </c:forEach>
+            </select><!-- /.불량유형2 -->
+          </div><!-- /.불량유형 -->
           <!-- 검사일자 -->
-          <div class="col-sm-2 inspIB-search-title second-search-col">검사일자<br>(입고일자) </div>
-          <div class="col-sm-3 inspIB-search-content second-search-col">
-          	<input type="date" class="col-sm-5" id="" name="" />
+          <div class="col-sm-1 inspection-name">검사일자<br>(입고일자)</div>
+          <div class="col-sm-2 inspection-text">
+          	<input type="date" class="col-sm-6" id="" name="" />
           	&nbsp;
-          	<input type="date" class="col-sm-5" id="" name="" />
+          	<input type="date" class="col-sm-6" id="" name="" />
           </div><!-- /.검사일자 -->
-          <div class="col-sm-5"></div>
-        </div><!-- /.searchBar -->
-      </div><!-- /.row -->
+        </div><!-- /.검색행2 -->
+      </form><!-- /.검색창 -->
     </div><!-- /.container-fluid -->
   </div><!-- /.content-header -->
 
@@ -209,64 +211,113 @@
 </div><!-- /.content-wrapper -->
 
 
-<!-- 완제품출고등록 모달 -->
+<!-- 수입검사-자재불량 및 입고등록 모달 -->
 <div class="modal fade" id="registerIBInspection" aria-labelledby="#register-IBInspection-ModalLabel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
   <div class="modal-dialog register-FinishedItemOB-Modal-Dialog" role="document" style="min-width: 60%;">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="inspIBModalTitle" id="register-IBInspection-ModalLabel" style="font-size: 150%; font-weight:800;">완제품출고등록</div>
+        <div class="inspIBModalTitle" id="register-IBInspection-ModalLabel" style="font-size: 150%; font-weight:800;">수입검사 - 자재불량 및 입고등록</div>
       </div>
       <!-- modal-body -->
-      <div class="modal-body inspIB-modal-body">
+      <div class="modal-body inspection-modal-body">
 	      <!-- 등록행 1 -->
-	      <div class="inspIB-board">
+	      <div class="inspection-modal-board">
+	      	<!-- 자재번호 -->
+	        <div class="col-sm-2 inspection-modal-name">자재번호</div>
+	        <div class="col-sm-2 inspection-modal-text">
+	          <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+	        </div><!-- /.자재번호 -->
+	        <!-- 자재명 -->
+	        <div class="col-sm-2 inspection-modal-name">자재명</div>
+	        <div class="col-sm-2 inspection-modal-text">
+	          <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+	            value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" readonly="readonly"/>
+	        </div><!-- /.자재명 -->
+	        <!-- 단위 -->
+	        <div class="col-sm-2 inspection-modal-name">단위</div>
+	        <div class="col-sm-2 inspection-modal-text">
+	          <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+	            value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" readonly="readonly"/>
+	        </div><!-- /.단위 -->
+	      </div><!-- /.등록행 1 -->
+	      <!-- 등록행 2 -->
+	      <div class="inspection-modal-board">
 	      	<!-- 계약번호 -->
-	        <div class="col-sm-2 inspIB-name">계약번호</div>
-	        <div class="col-sm-2 inspIB-text">
+	        <div class="col-sm-2 inspection-modal-name">계약번호</div>
+	        <div class="col-sm-2 inspection-modal-text">
 	          <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
 	        </div><!-- /.계약번호 -->
 	        <!-- 거래처명 -->
-	        <div class="col-sm-2 inspIB-name">거래처명</div>
-	        <div class="col-sm-2 inspIB-text">
+	        <div class="col-sm-2 inspection-modal-name">거래처명</div>
+	        <div class="col-sm-2 inspection-modal-text">
 	          <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
 	            value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" readonly="readonly"/>
 	        </div><!-- /.거래처명 -->
-	        <div class="col-sm-4 emptyModal"></div>
-	      </div><!-- /.등록행 1 -->
-	      <!-- 등록행 2 -->
-	      <div class="inspIB-board">
-	      	<!-- 제품명 -->
-	        <div class="col-sm-2 inspIB-name">제품명</div>
-	        <div class="col-sm-2 inspIB-text">
-	          <input type="text" class="col-sm-12"  id="workCompanyName" name="workCompanyName" readonly="readonly" />
-	        </div><!-- /.제품명 -->
-	        <!-- 제품규격 -->
-	        <div class="col-sm-2 inspIB-name">제품규격</div>
-	        <div class="col-sm-2 inspIB-text">
-	          <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-	            value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" readonly="readonly"/>
-	        </div><!-- /.제품규격 -->
-	        <div class="col-sm-4 emptyModal"></div>
+	         <!-- 자재용도 -->
+	        <div class="col-sm-2 inspection-modal-name">자재용도</div>
+	        <div class="col-sm-2 inspection-modal-text">
+	        	<select class="col-sm-12">
+	        		<option selected="selected">자재용도 선택</option>
+	        		<option>1</option>
+	        		<option>2</option>
+	        		<option>3</option>
+	        	</select>
+	        </div><!-- /.자재용도 -->
 	      </div><!-- /.등록행 2 -->
 	      <!-- 등록행 3 -->
-	      <div class="inspIB-board">
-	      	<!-- 출고일자 -->
-	        <div class="col-sm-2 inspIB-name">출고일자</div>
-	        <div class="col-sm-2 inspIB-text">
-	          <!-- <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName"> -->
+	      <div class="inspection-modal-board">
+	      	<!-- 검사일자 -->
+	        <div class="col-sm-2 inspection-modal-name">검사일자</div>
+	        <div class="col-sm-2 inspection-modal-text">
 	          <input type="date" class="col-sm-12" id="" name="" />
-	        </div><!-- /.출고일자 -->
-	        <!-- 출고단위 -->
-	        <div class="col-sm-2 inspIB-name">출고단위</div>
-	        <div class="col-sm-2 inspIB-text">
-	          <input type="text" class="col-sm-12" id="" name="" />
-	        </div><!-- /.출고단위 -->
-	        <!-- 출고수량 -->
-	        <div class="col-sm-2 inspIB-name">출고수량</div>
-	        <div class="col-sm-2 inspIB-text">
+	        </div><!-- /.검사일자 -->
+	        <!-- 계약입고수량 -->
+	        <div class="col-sm-2 inspection-modal-name">계약입고수량</div>
+	        <div class="col-sm-2 inspection-modal-text">
+	          <input type="number" class="col-sm-12" id="" name="" readonly="readonly"/>
+	        </div><!-- /.계약입고수량 -->
+	        <!-- 검사수량 -->
+	        <div class="col-sm-2 inspection-modal-name">검사수량<br>(입고수량)</div>
+	        <div class="col-sm-2 inspection-modal-text">
 	          <input type="number" class="col-sm-12" id="" name="" />
-	        </div><!-- /.출고수량 -->
+	        </div><!-- /.검사수량 -->
 	      </div><!-- /.등록행 3 -->
+	      <!-- 등록행 4 -->
+	      <div class="inspection-modal-board">
+	      	<!-- 불량유형1 -->
+	        <div class="col-sm-2 inspection-modal-name">불량유형1</div>
+	        <div class="col-sm-2 inspection-modal-text">
+	        	<select class="col-sm-12">
+	        		<option selected="selected">불량유형1 선택</option>
+	        		<option>1</option>
+	        		<option>2</option>
+	        		<option>3</option>
+	        	</select>
+	        </div><!-- /.불량유형1 -->
+	        <!-- 불량유형2 -->
+	        <div class="col-sm-2 inspection-modal-name">불량유형2</div>
+	        <div class="col-sm-2 inspection-modal-text">
+	        	<select class="col-sm-12">
+	        		<option selected="selected">불량유형2 선택</option>
+	        		<option>1</option>
+	        		<option>2</option>
+	        		<option>3</option>
+	        	</select>
+	        </div><!-- /.불량유형2 -->
+	        <!-- 불량수량 -->
+	        <div class="col-sm-2 inspection-modal-name">불량수량</div>
+	        <div class="col-sm-2 inspection-modal-text">
+	          <input type="number" class="col-sm-12" id="" name="" />
+	        </div><!-- /.불량수량 -->
+	      </div><!-- /.등록행 4 -->
+	      <!-- 등록행 5 -->
+	      <div class="inspection-modal-board">
+	      	<!-- 비고 -->
+	      	<div class="col-sm-2 inspection-modal-name">비고</div>
+	      	<div class="col-sm-10 inspection-modal-text">
+	      		<input type="text" class="col-sm-12" id="" name=""/>
+	      	</div><!-- /.비고 -->
+	      </div><!-- /.등록행 5 -->
       </div><!-- /.modal-body -->
       
       <!-- 구분선 -->

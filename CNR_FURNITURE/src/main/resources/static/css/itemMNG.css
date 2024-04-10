@@ -1,14 +1,43 @@
 @charset "UTF-8";
 /*   검색창   */
-.itemIB-search-row.first-search-row .itemIB-searchBar,
 .itemSemiOB-search-row.first-search-row .itemSemiOB-searchBar {
 	margin-bottom: 0%;
 }
-.itemIB-search-row.second-search-row .itemIB-searchBar,
 .itemSemiOB-search-row.second-search-row .itemSemiOB-searchBar {
 	margin-top: -0.5%;
 }
-.itemIB-searchBar,
+/* 검색창 */
+.itemIB-searchBar {
+	display: flex;
+	align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+/*   검색명   */
+.itemIB-name {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 46px;
+  background-color: #D9D9D9;
+}
+/*   검색내용   */
+.itemIB-text {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.itemIB-text input[type="text"] {
+  height: 40px;
+}
+.itemIB-text select {
+  height: 40px;
+}
+
 .itemSemiOB-searchBar,
 .itemFinishedOB-searchBar,
 .itemInventory-searchBar,
