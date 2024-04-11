@@ -8,12 +8,20 @@ import java.util.List;
 
 @Mapper
 public interface ProcessMapper {
-    List<ProcessVO> selectProcess(ProcessDate processDate);   // 날짜 조회
+    /** 날짜 조회 **/
+    List<ProcessVO> selectProcess(ProcessDate processDate);
 
-    List<ProcessItemVO> selectAllItems(); // 제품 정보 조회
+    /** 제품 정보 조회 **/
+    List<ProcessItemVO> selectAllItems();
 
-    List<ProcessInfoVO> selectPi(); // 공정 정보 조회
-    List<ProcessCtVO> selecProCt(); // 계약 정보 조회
+    /** 공정 정보 조회 **/
+    List<ProcessInfoVO> selectPi();
+
+    /** 계약 정보 조회 **/
+    List<ProcessCtVO> selectProCt(ProcessDate processDate);
+
+    /** 제조지시 등록 **/
+    int insertProInstruction(ProcessVO processVO);
 }
 
 

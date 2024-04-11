@@ -2,6 +2,10 @@
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<script src="/resources/js/process.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <!--날짜 포맷팅-->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -90,14 +94,14 @@
                                 </tbody>
                             </table>
                             <!-- /.table -->
-                        </div>
+                          </div>
+                       </div>
                     </div>
+                 </div>
+                    <!-- /.row -->
                 </div>
-            </div>
-            <!-- /.row -->
+            <!-- /.container-fluid -->
         </div>
-        <!-- /.container-fluid -->
-    </div>
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
@@ -115,21 +119,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="processModal">
+                          <form action="./manufacturingInstructionInsert" method="post" id="insertProForm">
                             <div class="processModalBody">
                                 <table class="processtablegubun">
                                     <tr>
-                                        <th class ="proTh">담당사원번호</th>
-                                        <td class ="proTd"><input type="text" class="processInput"></td>
+                                        <th class ="proTh" >담당사원번호</th>
+                                        <td class ="proTd"><input type="text" class="processInput" id="ins_emp_id" name="ins_emp_id"></td>
                                         <th class ="proTh">제품번호</th>
-                                        <td class ="proTd"><input type="text" class="processInput"></td>
+                                        <td class ="proTd"><input type="text" class="processInput" id="ins_item_id" name="ins_item_id"> </td>
                                         <th class ="proTh">제조LOT번호</th>
-                                        <td class ="proTd"><input type="text" class="processInput"></td>
-                                    <tr>
+                                        <td class ="proTd"><input type="text" class="processInput" id="ins_lot_id" name="ins_lot_id"></td>
+                                    </tr>
                                         <th class ="proTh">계약번호</th>
-                                        <td class ="proTd"><input type="text" class="processInput"></td>
+                                        <td class ="proTd"><input type="text" class="processInput" id="ins_ct_id" name="ins_ct_id"></td>
                                         <th class ="proTh">공정번호</th>
                                         <td class ="proTd">
-                                            <select class="col-sm-12 processInput" aria-label=".form-select-sm example" name="find_pi_process" >
+                                            <select class="col-sm-12 processInput" aria-label=".form-select-sm example" id="ins_pi_id"  name="ins_pi_id">
                                                 <option value="">--선택--</option>
                                                 <c:forEach items="${piProList}" var="pi">
                                                     <option value="${pi.pi_id}" >
@@ -139,33 +144,43 @@
                                             </select>
                                         </td>
                                         <th class ="proTh">계획수량</th>
-                                        <td class ="proTd"><input type="text" class="processInput"></td>
+                                        <td class ="proTd"><input type="text" class="processInput" id="ins_lot_size" name="ins_lot_size"></td>
                                     </tr>
                                     <tr>
                                         <th class ="proTh">계획착수일</th>
-                                        <td class ="proTd"><input type="date" class="processInput"></td>
+                                        <td class ="proTd"><input type="date" class="processInput" id="ins_start_date" name ="ins_start_date"></td>
                                         <th class ="proTh">계획완수일</th>
-                                        <td class ="proTd"><input type="date" class="processInput"></td>
+                                        <td class ="proTd"><input type="date" class="processInput" id="ins_end_date" name="ins_end_date"></td>
                                     </tr>
                                 </table>
                             </div>
                         </div>
                     </div>
-
-                    <div class="InnputBody">
-                        <div class="inputmedle"><input type="text" class="processSearchInput"></div>
-                        <div class="inputmedle1"><button type="button" id="prosearchbtn" class="btn btn-primary sInput">조희</button></div>
-                    </div>
-                </div>
+                 </form>
+                        <form id="modalSearchForm" action="/manufacturingInstruction" method="get" onsubmit="return sendFormWithAjax();">
+                            <div class="InnputBody">
+                                <div class="inputmedle">
+                                    <input type="date" class="processSearchInput" id="ctStartDate" name="ctStartDate" value='<c:out value="${processDate.ctStartDate}"/>' />
+                                </div>
+                                <p class="textPro1"> ~ </p>
+                                <div class="inputmedle">
+                                    <input type="date" class="processSearchInput" id="ctEndDate" name="ctEndDate"  value='<c:out value="${processDate.ctEndDate}"/>'  />
+                                </div>
+                                <div class="inputmedle1">
+                                    <button type="submit" id="prosearchbtn" class="btn btn-primary sInput">조회</button>
+                                </div>
+                            </div>
+                        </form>
+                   </div>
                 <div class="row">
-                    <div class="col-md-6 maginPro">
+                    <div class="col-md-8 maginPro">
                         <!-- 계약목록 테이블 -->
                         <div class="ETableTitle">
                             <div class="icon"><i class="fa fa-list"></i></div>
                             <div class="employee">계약목록</div>
                         </div>
                         <div class="table DTable">
-                            <table cellpadding="0" cellspacing="0" border="0">
+                            <table cellpadding="0" cellspacing="0" border="0" id="contractListTable">
                                 <colgroup>
                                     <col style="width: 5%" />
                                     <col style="width: 10%" />
@@ -184,7 +199,7 @@
                                     <th>계약출고일</th>
                                 </tr>
                                 </thead>
-                                <tbody class="tbl-content ProTable">
+                                <tbody class="tbl-content ProTable1">
                                 <!-- 계약 목록 데이터 -->
                                 <c:forEach var="ct" items="${ctProList}">
                                     <tr>
@@ -193,7 +208,7 @@
                                         <td><c:out value="${ct.ct_item_id}"/></td>
                                         <td><c:out value="${ct.ct_quantity}"/></td>
                                         <td><c:out value="${ct.ct_date}" /></td>
-                                        <td><c:out value="${ct.ct_ob_date}"  /></td>
+                                        <td><c:out value="${ct.ct_ob_date}" /></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -204,7 +219,7 @@
             </div><!-- /.modal-body -->
             <!-- 모달 바닥글 -->
             <div class="modal-footer" style="margin-right: 3%;">
-                <button type="button" class="btn btn-primary">등록</button>
+                <button type="submit" class="btn btn-primary" onClick ="insertProBox()">등록</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
             </div>
         </div><!-- /.modal-content -->
@@ -215,15 +230,10 @@
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
 </aside>
-<!-- /.control-sidebar -->
+
+<%@ include file="../includes/footer.jsp" %>
 
 <script>
-    function processDate() {
-        // 검색 폼을 서버에 전송
-        document.getElementById('searchPro').submit();
-    }
-
-    // 제품 옵션 선택 유지시키기
     window.onload = function() {
         var selectedItem = "<c:out value='${processDate.find_item_process}'/>";
         if (selectedItem) {
@@ -232,5 +242,3 @@
         }
     };
 </script>
-
-<%@ include file="../includes/footer.jsp" %>

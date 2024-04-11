@@ -4,6 +4,9 @@ import lombok.*;
 
 import java.util.Date;
 
+/**
+ *제조지시 테이블 클래스
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,9 +20,6 @@ public class ProcessVO {
     private int ins_lot_size;
     private String ins_start_date;
     private String ins_end_date;
-
-
-
 }
 
 

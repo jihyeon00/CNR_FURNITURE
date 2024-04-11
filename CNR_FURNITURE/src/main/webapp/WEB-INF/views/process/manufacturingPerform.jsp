@@ -26,18 +26,22 @@
       <div class="proheaderBar">
         <div class="process1Search">
             <div class="proName">
-                <div class="searchProbar">제조LOT번호</div>     
-                 <select name="search_process" id="search_process" class="processBox" autocomplete="off">
-                    <option selected></option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-              	 </select>
+                <div class="searchProbar">제조LOT번호</div>
+                    <input list="processList" class="processBox" name="process" id="processInput" />
+
+                    <datalist id="processList">
+                        <option value="">--선택--</option>
+                        <c:forEach items="${proList}" var="pro">
+                            <option value="${pro.ins_lot_id}">
+                                ${pro.ins_lot_id} ${pro.ins_item_id} (${pro.ins_pi_id})
+                            </option>
+                        </c:forEach>
+                    </datalist>
             </div>
             <div class="proType">
                 <div class="searchProbar">지시일자</div>
                 <input type="date" name="search_proType" id="search_proType" class="processBox" autocomplete="off">
-                 <p class="textPro"> ~ </p>
+                 <p class="textPro5"> ~ </p>
                 <input type="date" name="search_proType" id="search_proType" class="processBox" autocomplete="off">
             </div>
             <div class="proPosition">
@@ -235,14 +239,18 @@
 					  <tr>
 					    <th scope="col" class="process-highlight">제조LOT번호</th>
 					    <th scope="col"  class="process-highlight2">
-					        <select name="search_pro" id="process_search_pro1" class="process-select" autocomplete="off">
-					          <option selected></option>
-					          <option value="1">One</option>
-					          <option value="2">Two</option>
-					          <option value="3">Three</option>
-					        </select>
+                          <input list="processList" name="process" id="processInput" class="process-select" />
+
+                          <datalist id="processList" >
+                              <option value="">--선택--</option>
+                              <c:forEach items="${proList}" var="pro">
+                                  <option value="${pro.ins_lot_id}">
+                                      ${pro.ins_lot_id} (${pro.ins_pi_id}) ${pro.ins_item_id}
+                                  </option>
+                              </c:forEach>
+                          </datalist>
 					    </th>
-					    <th scope="col" class="process-highlight">공정번호</th>
+					    <th scope="col" class="process-highlight">제품번호</th>
 					    <th scope="col" class="process-highlight2">
 					        <select name="search_machine" id="process_search_machine2" class="process-select" autocomplete="off">
 					          <option selected></option>
@@ -251,7 +259,7 @@
 					          <option value="3">Three</option>
 					        </select>
 					    </th>
-					    <th scope="col" class="process-highlight">제품번호</th>
+					    <th scope="col" class="process-highlight">공정번호</th>
 					    <th scope="col" class="process-highlight2">
 					        <select name="search_machine" id="process_search_machine3" class="process-select" autocomplete="off">
 					          <option selected></option>
