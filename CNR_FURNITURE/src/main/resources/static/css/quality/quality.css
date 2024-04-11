@@ -27,7 +27,8 @@
 	justify-content: center;
 }
 .inspection-text input[type="text"],
-.inspection-text input[type="date"] {
+.inspection-text input[type="date"],
+.inspection-text input[type="search"] {
   height: 40px;
 }
 .inspection-text select {
@@ -35,143 +36,85 @@
 }
 
 
-
-
-/* 검색창 1~2줄 상/하 */
-.inspIB-search-row.first-search-row .inspIB-searchBar,
-.inspIB-search-row.first-search-row .inspIB-searchBar {
-	margin-bottom: 0%;
-	display: flex;
-	justify-content: space-between;
-}
-.inspIB-search-row.second-search-row .inspIB-searchBar,
-.inspIB-search-row.second-search-row .inspIB-searchBar {
-	margin-top: -0.5%;
-	display: flex;
-	justify-content: space-between;
-}
-/* 검색Bar */
-.inspIB-searchBar {
-	display: flex;
-	align-items: center;
-  height: 10%;
-  background-color: #fff;
-  border-top: 2px solid #999;
-  border-bottom: 2px solid #999;
-  margin-bottom: 2%;
-}
-/* 검색명 */
-.inspIB-search-title {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-  height: 43px;
-  background-color: #D9D9D9;
-  flex: 1;	/* flex 항목들이 동일한 비율로 공간을 차지하도록 설정 */
-  white-space: nowrap;
-}
-
-.inspIB-search-title.first-search-col {
-	max-width: 110px;
-	margin-left: -0.8%;
-}
-/*   검색내용   */
-.inspIB-search-content {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-/* 검색 입력칸 높이 */
-.inspIB-search-content input[type="text"],
-.inspIB-search-content input[type="date"],
-.inspIB-search-content input[type="number"] {
-	height: 3%;
-}
-
 /* 테이블명, 등록버튼 */
-.inspIB-titleAndTable {
+.inspection-titleAndTable {
 	margin-left: 0;
   padding-right: 0;
 }
 /* 테이블명 */
-.inspIB-title {
-  padding-left: 1%;
+.inspection-title {
   margin: 0.5% 0;
   font-size: 18px;
   font-weight: 600;
 }
-
-
-
-
-
-.inspIB-table {
-  height: auto;
+/* 테이블 */
+.inspection-table {
+	max-height: 70vh;	/* 뷰포트 높이의 70%로 최대 높이 설정 */
   overflow-y: auto;
   width: auto;
   overflow-x: auto;
 }
-/* x축이 긴 경우, width:100%;를 주면 overflow-x: auto; 불가능 */
-.inspIB-table table {
+.inspection-table table {
   table-layout: fixed;
   border: 1px solid rgba(0,0,0,0.3);
   border-top: none;
   border-collapse: separate;
   border-spacing: 0;
 }
-/* .inspIB-table table {
-	width: 100%;
-} */
-/* 테이블 헤더 및 컨텐츠 공통 스타일 */
-.inspIB-table-header,
-.inspIB-table-header th,
-.inspIB-table-content td {
+/* 테이블 글씨 위치 및 크기 */
+.inspection-table-header,
+.inspection-table-header th,
+.inspection-table-content td {
+	white-space: nowrap;	/* 셀 내용을 한 줄에 표시 */
 	text-align: center;
   vertical-align: middle;
   padding: 15px;
   font-size: 12px;
-  white-space: nowrap;
   border-right: 1px solid #fff;
 }
 /* 테이블 헤더 특정 스타일 */
-.inspIB-table-header {
+.inspection-table-header {
 	background-color: #374056;
   color: #fff;
   font-weight: 500;
   text-transform: uppercase;
+  /* y축 스크롤 시, 헤더 고정 */
   position: sticky;
-  top: 0; 
+  top: 0;
 }
-/* 제목행 이동시, 고정 */
-.inspIB-table-header th:first-child,
-.inspIB-table-content th[rowspan] {
+/* x축 스크롤 시, th 헤더 고정 */
+.inspection-table-header th:first-child {
 	background-color: #374056;
 	position: sticky;
 	left: 0;
-	z-index: 100;	/* 다른 내용보다 위에 위치 */
+	z-index: 100;		/* 다른 내용보다 위에 위치 */
 }
-/* 상단 헤더의 세로 구분선 추가 */
-.inspIB-table-header th {
-	border-right: 1px solid #fff;
+/* x축 스크롤 시, td 헤더 고정 */
+.inspection-table-content td:first-child {
+	position: sticky;
+	left:0;
 }
-/* 상단 헤더의 가로 구분선 추가(제목행 있는 경우) */
-/* .itemIB-table-subHeader th {
-	border-bottom: 1px solid #fff;
-} */
-/* 제목행의 아래쪽 테두리 추가 */
-/* .inspIB-table-header th[rowspan] {
-  border-bottom: 1px solid #fff;
-} */
+/* x축 스크롤 시, td 헤더 - 짝수행 배경 */
+.inspection-table-content tr:nth-child(even) td:first-child,
+.inspection-table-content tr:nth-child(even) td:first-child:hover {
+	background-color: #eaeaed;
+	z-index:100;
+}
+/* x축 스크롤 시, td 헤더 - 홀수행 배경 */
+.inspection-table-content tr:nth-child(odd) td:first-child,
+.inspection-table-content tr:nth-child(odd) td:first-child:hover {
+	background-color: #fff;
+	z-index:100;
+}
 /* 테이블 컨텐츠 특정 스타일 */
-.inspIB-table-content tr:hover,
-.inspIB-table-content tr:nth-child(even):hover {
+.inspection-table-content tr:hover,
+.inspection-table-content tr:nth-child(even):hover {
 	background: #d9d9d9;
 }
-.inspIB-table-content tr:nth-child(even) {
+.inspection-table-content tr:nth-child(even) {
 	background: #eaeaed;
 }
-.inspIB-table-content td {
+.inspection-table-content td {
 	border-right: 1px solid #BDBDBD;
 }
 
