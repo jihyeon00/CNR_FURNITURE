@@ -3,101 +3,109 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
-<!-- stickyOnTable.css 연결 -->
-<link rel="stylesheet" href="/resources/css/quality/stickyOnTable.css">
+<!--날짜 포맷팅-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!-- jQuery 연결 -->
-<script defer src="/resources/js/quality.js"></script>
-<script defer src="/resources/js//quality/stickyOnTable.js"></script>
+<script defer src="/resources/js/inspectionIB.js"></script>
 
 <!-- 공통 header 연결 -->
 <%@ include file="../includes/header.jsp" %>
 
 <div class="content-wrapper">
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-12">
-          <ol class="breadcrumb float-sm-left">
-            <h1 class="m-0"><i class="far fa-clipboard"></i>&nbsp;수입검사관리</h1>
-          </ol>
-          <ol class="breadcrumb float-sm-right">
-            <div class="reset">
-              <img class="resetPng" alt="reset" src="/resources/img/reset.png" >
-            </div>
-            <div class="col-sm-1 ml-auto">
-              <button type="submit" class="btn btn-primary search-btn" id="" onClick="javascript: search();">
-                <i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색
-              </button>
-            </div>
-          </ol>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-      <!-- 검색창 -->
-      <form action="" id="inspectionSearchForm" class="col-md-12" onSubmit="return false">
-      	<!-- 검색행1 -->
-        <div class="inspection-searchBar">
-        	<!-- 자재번호 -->
-          <div class="col-sm-1 inspection-name">자재번호</div>
-          <div class="col-sm-2 inspection-text">
-          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-          </div><!-- /.자재번호 -->
-          <!-- 계약번호 -->
-          <div class="col-sm-1 inspection-name">계약번호</div>
-          <div class="col-sm-2 inspection-text">
-          	<!-- <input type="date" class="col-sm-12" id="" name=""> -->
-          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-          </div><!-- /.계약번호 -->
-          <!-- 제조LOT번호 -->
-          <div class="col-sm-1 inspection-name">제조LOT번호</div>
-          <div class="col-sm-2 inspection-text">
-          	<input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-          </div><!-- /.제조LOT번호 -->
-        </div><!-- /.검색행1 -->
-        <!-- 검색행2 -->
-        <div class="inspection-searchBar" style="margin-top: -7px;">
-        	<!-- 불량유형 -->
-          <div class="col-sm-1 inspection-name">불량유형</div>
-          <div class="col-sm-2 inspection-text">
-          	<!-- 불량유형1 -->
-          	<select class="col-sm-6"  id="find_Role" name="find_Role">
-              <option value="">불량유형1 선택</option>
-              <c:forEach var="list" items = "${roleList}">
-                <option value='${list.e_ROLE}'
-                  <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
-                </option>
-              </c:forEach>
-            </select><!-- /.불량유형1 -->
-            &nbsp;
-            <!-- 불량유형2 -->
-            <select class="col-sm-6"  id="find_Role" name="find_Role">
-              <option value="">불량유형2 선택</option>
-              <c:forEach var="list" items = "${roleList}">
-                <option value='${list.e_ROLE}'
-                  <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
-                </option>
-              </c:forEach>
-            </select><!-- /.불량유형2 -->
-          </div><!-- /.불량유형 -->
-          <!-- 검사일자 -->
-          <div class="col-sm-1 inspection-name">검사일자<br>(입고일자)</div>
-          <div class="col-sm-2 inspection-text">
-          	<input type="date" class="col-sm-6" id="" name="" />
-          	&nbsp;
-          	<input type="date" class="col-sm-6" id="" name="" />
-          </div><!-- /.검사일자 -->
-        </div><!-- /.검색행2 -->
-      </form><!-- /.검색창 -->
-    </div><!-- /.container-fluid -->
-  </div><!-- /.content-header -->
-
+	<!-- 검색 Form -->
+	<form action="/inspectionIB" id="searchInspIB" name="searchInspIB" class="col-md-12" method="get">
+	  <div class="content-header">
+	    <div class="container-fluid">
+	      <div class="row mb-2">
+	        <div class="col-sm-12">
+	          <ol class="breadcrumb float-sm-left">
+	            <h1 class="m-0"><i class="far fa-clipboard"></i>&nbsp;수입검사관리</h1>
+	          </ol>
+	          <ol class="breadcrumb float-sm-right">
+	            <div class="reset">
+	              <img class="resetPng" alt="reset" src="/resources/img/reset.png" >
+	            </div>
+	            <div class="col-sm-1 ml-auto">
+	              <button type="submit" class="btn btn-primary search-btn" id="" onClick="javascript: search();">
+	                <i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색
+	              </button>
+	            </div>
+	          </ol>
+	        </div><!-- /.col -->
+	      </div><!-- /.row -->
+	      <!-- 검색창 -->
+	     	<!-- 검색행1 -->
+	       <div class="inspection-searchBar">
+	       	<!-- 자재번호 -->
+	         <div class="col-sm-1 inspection-name">자재번호</div>
+	         <div class="col-sm-3 inspection-text">
+	         	<input type="search" list="matIDList" class="col-sm-12"  id="matID" name="matID" value="${cri.matID}">
+	         	<datalist id="matIDList">
+	         		<c:forEach items="${matIDList}" var="mat">
+								<option value="<c:out value='${mat.matID}' />" 
+											<c:if test="${param.matID != null && param.matID == mat.matID}">selected</c:if> >
+									<c:out value='${mat.matID}' />
+								</option>
+							</c:forEach>
+	         	</datalist>
+	         </div><!-- /.자재번호 -->
+	         <!-- 계약번호 -->
+	         <div class="col-sm-2 inspection-name">계약번호</div>
+	         <div class="col-sm-3 inspection-text">
+	         	<input type="search" list="contractIDList" class="col-sm-12" id="contractID" name="contractID" value="${cri.contractID}">
+	         	<datalist id="contractIDList">
+	         		<c:forEach items="${contractIDList}" var="contractIDs">
+								<option value="<c:out value='${contractIDs.contractID}' />" 
+											<c:if test="${param.contractID != null && param.contractID == contractIDs.contractID}">selected</c:if> >
+									<c:out value='${contractIDs.contractID}' />
+								</option>
+							</c:forEach>
+	         	</datalist>
+	         </div><!-- /.계약번호 -->
+	       </div><!-- /.검색행1 -->
+	       <!-- 검색행2 -->
+	       <div class="inspection-searchBar" style="margin-top: -7px;">
+	       	<!-- 불량유형 -->
+	         <div class="col-sm-1 inspection-name">불량유형</div>
+	         <div class="col-sm-3 inspection-text">
+	         	<!-- 불량유형1 -->
+	         	<select class="col-sm-6"  id="qsDiv1" name="qsDiv1">
+	         		<option>불량유형1 선택</option>
+	            <c:forEach items="${qsDiv1List}" var="qsDiv1s">
+	            	<option value="${qsDiv1s.qsDiv1}" ${qsDiv1s.qsDiv1 == cri.qsDiv1 ? 'selected' : ''}>${qsDiv1s.qsDiv1}</option>
+							</c:forEach>
+	          </select><!-- /.불량유형1 -->
+	          &nbsp;
+	          <!-- 불량유형2 -->
+	          <select class="col-sm-6"  id="qsDiv2" name="qsDiv2">
+	            <option value="">불량유형2 선택</option>
+	            <c:forEach var="qsDiv2List" items = "${qsDiv2s}">
+	            	<option value="${qsDiv2s.qsDiv2}" ${qsDiv2s.qsDiv2 == cri.qsDiv2 ? 'selected' : ''}>${qsDiv2s.qsDiv2}</option>
+	            </c:forEach>
+	          </select><!-- /.불량유형2 -->
+	         </div><!-- /.불량유형 -->
+	         <!-- 검사일자 -->
+	         <div class="col-sm-2 inspection-name">검사일자<br>(입고일자)</div>
+	         <div class="col-sm-3 inspection-text">
+	         	<input type="date" class="col-sm-6" id="inspectionDate1" name="inspectionDate1" value="<fmt:formatDate value="${cri.inspectionDate1}" pattern="yyyy-MM-dd" />" />
+	         	&nbsp;
+	         	<input type="date" class="col-sm-6" id="inspectionDate2" name="inspectionDate2" value="<fmt:formatDate value="${cri.inspectionDate2}" pattern="yyyy-MM-dd" />" />
+	         </div><!-- /.검사일자 -->
+	       </div><!-- /.검색행2 -->
+	     
+	    </div><!-- /.container-fluid -->
+	  </div><!-- /.content-header -->
+	</form><!-- 검색 Form -->
+	
+	
 	<!-- Main content -->
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-12 inspIB-titleAndTable">
+        <div class="col-sm-12 inspection-titleAndTable">
         	<!-- 테이블목록 title -->
-        	<div class="row inspIB-titleAndBtn">
-	          <div class="col-sm-9 inspIB-title">
+        	<div class="row inspection-titleAndBtn">
+	          <div class="col-sm-9 inspection-title">
 	            <i class="fa fa-list"></i>
 	            <span>수입검사현황</span>
 	          </div><!-- /.테이블목록 title -->
@@ -108,14 +116,15 @@
 	              자재불량등록
 	            </button>
 	          </div><!-- /.자재불량 등록 버튼 -->
-          </div><!-- /.row -->
+          </div><!-- /.inspection-titleAndBtn -->
           <!-- 제품테이블 -->
+          <div class="row"></div>
           <div class="col-sm-12">
-            <div class="inspIB-table">
+            <div class="inspection-table">
               <table cellpadding="0" cellspacing="0" border="0">
-                <thead class="inspIB-table-header">
+                <thead class="inspection-table-header">
                   <tr>
-                    <th id="index">No</th>
+                    <th>No</th>
                     <th>자재번호</th>
                     <th>자재명</th>
                     <th>자재용도</th>
@@ -123,87 +132,54 @@
                     <th>거래처명</th>
                     <th>단위</th>
                     <th>계약입고수량</th>
-                    <th>검사수량</th>
+                    <th>검사수량<br>(입고수량)</th>
                     <th>불량유형1</th>
                     <th>불량유형2</th>
                     <th>불량수량</th>
                     <th>불량률(%)</th>
-                    <th>양품수량<br>(입고수량)</th>
+                    <th>양품수량</th>
                     <th>검사일자<br>(입고일자)</th>
                     <th>비고</th>
                     <th>수정</th>
                   </tr>
                 </thead>
-                <tbody class="inspIB-table-content">
-                  <tr>
-                    <td id="index">1열</td>
-										<td>2열</td>
-										<td>3열</td>
-										<td>4열</td>
-										<td>5열</td>
-										<td>6열ddddddddddddddddddddddddddddddddd</td>
-										<td>7열</td>
-										<td>8열</td>
-										<td>9열</td>
-										<td>10열dddddddddddddddddddddddddddddddddddddddddddd</td>
-										<td>11열</td>
-										<td>12열</td>
-										<td>13열</td>
-										<td>14열</td>
-										<td>15열</td>
-										<td>16열</td>
-										<td class="edit-FinishedOB-row" onclick="editFinishedOBRow(this);">
-											수정
-										</td>
-                  </tr>
-                  <tr>
-                    <td id="index">1열</td>
-										<td>2열</td>
-										<td>3열</td>
-										<td>4열</td>
-										<td>5열</td>
-										<td>6열ddddddddddddddddddddddddddddddddd</td>
-										<td>7열</td>
-										<td>8열</td>
-										<td>9열</td>
-										<td>10열dddddddddddddddddddddddddddddddddddddddddddd</td>
-										<td>11열</td>
-										<td>12열</td>
-										<td>13열</td>
-										<td>14열</td>
-										<td>15열</td>
-										<td>16열</td>
-										<td class="edit-FinishedOB-row" onclick="editFinishedOBRow(this);">
-											수정
-										</td>
-                  </tr>
-                  <tr>
-                    <td id="index">1열</td>
-										<td>2열</td>
-										<td>3열</td>
-										<td>4열</td>
-										<td>5열</td>
-										<td>6열ddddddddddddddddddddddddddddddddd</td>
-										<td>7열</td>
-										<td>8열</td>
-										<td>9열</td>
-										<td>10열dddddddddddddddddddddddddddddddddddddddddddd</td>
-										<td>11열</td>
-										<td>12열</td>
-										<td>13열</td>
-										<td>14열</td>
-										<td>15열</td>
-										<td>16열</td>
-										<td class="edit-FinishedOB-row" onclick="editFinishedOBRow(this);">
-											수정
-										</td>
-                  </tr>
+                <tbody class="inspection-table-content">
+                	<c:forEach var="inspIB" items="${inspIBList}">
+	                  <tr>
+	                  	<td><c:out value="${inspIB.listSeq}" /></td>
+	                  	<td><c:out value="${inspIB.matID}" /></td>
+	                  	<td><c:out value="${inspIB.matName}" /></td>
+	                  	<td><c:out value="${inspIB.matUses}" /></td>
+	                  	<td><c:out value="${inspIB.contractID}" /></td>
+	                  	<td><c:out value="${inspIB.companyName}" /></td>
+	                  	<td><c:out value="${inspIB.units}" /></td>
+	                  	<td><c:out value="${inspIB.contractQuantity}" /></td>
+	                  	<td><c:out value="${inspIB.inspectionQuantity}" /></td>
+	                  	<td><c:out value="${inspIB.qsDiv1}" /></td>
+	                  	<td><c:out value="${inspIB.qsDiv2}" /></td>
+	                  	<td><c:out value="${inspIB.poorQuantity}" /></td>
+	                  	<td><c:out value="${inspIB.defectRate}" /></td>
+	                  	<td><c:out value="${inspIB.goodQuantity}" /></td>
+	                  	<td><c:out value="${inspIB.inspectionDate}" /></td>
+	                  	<td><c:out value="${inspIB.notes}" /></td>
+	                  	<td>
+	                  		<button type="button" onclick="editRow(${inspIB.listSeq})" style="color:#17a2b8;">
+	                  			수정
+	                  		</button>
+	                  	</td>
+	                  	<td>
+	                  		<button type="button" onclick="removeRow(${inspIB.listSeq})" style="color:#c82333;">
+	                  			삭제
+	                  		</button>
+	                  	</td>
+	                  </tr>
+                  </c:forEach>
                   <!-- 추가적인 행들 -->
                 </tbody>
               </table>
               <!-- /.table -->
             </div>
-          </div><!-- /.col-sm-11 -->
+          </div><!-- /.col-sm-12 -->
         </div><!-- /.col-sm-12 -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->

@@ -8,6 +8,6 @@ $(document).ready(function() {
 	 * x축 스크롤 시, 1~4번째 컬럼 고정 + y축 스크롤 시, 제목행 고정
 	*/
 	// StickyOnTable.apply(대상); //sticky on table 를 적용한다.
-	StickyOnTable.apply(document.querySelector(".sot"));
+	// StickyOnTable.apply(document.querySelector(".sot"));
   
 });

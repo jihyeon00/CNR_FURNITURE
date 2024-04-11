@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnr_furniture.mapper.quality.InspectionIBMapper">
+    <parameterMap id="criteriaParam" type="com.cnr_furniture.domain.quality.CriteriaInspIBVO"></parameterMap>
+    <!-- 검색창 - 자재번호 -->
+    <select id="getMatIDList" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">
+        SELECT
+            M_ID as matID
+        FROM
+            MATERIAL
+    </select>
+
+    <!-- 검색창 - 계약번호 -->
+    <select id="getContractIDList" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">
+        SELECT
+            CT_ID as contractID
+        FROM
+            CONTRACT
+    </select>
+    <!-- 검색창 - 불량유형1 -->
+    <select id="getQsDiv1List" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">
+        SELECT
+            qs.QS_DF_DIV1 AS qsDiv1
+        FROM
+            QUALITY_STANDARD qs
+            INNER JOIN (
+                SELECT
+                    MIN(QS_ID) AS MinQS_ID,
+                    QS_DF_DIV1
+                FROM
+                    QUALITY_STANDARD
+                GROUP BY
+                    QS_DF_DIV1
+                )
+            grouped_qs ON qs.QS_ID = grouped_qs.MinQS_ID
+        ORDER BY
+            qs.QS_ID ASC
+    </select>
+    <!-- 검색창 - 불량유형2 -->
+    <!--<select id="getQsDiv2ListByQsDiv1" parameterType="string" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">-->
+    <select id="getQsDiv2ListByQsDiv1" parameterType="string" resultType="string">
+        <!-- [불량유형2]의 option 값은 [불량유형1]의 option 값에 따라 다르다. -->
+        SELECT
+            DISTINCT qs.QS_DF_DIV2 AS qsDiv2
+        FROM
+            QUALITY_STANDARD qs
+        WHERE
+            QS_DF_DIV1 = #{qsDiv1}
+    </select>
+
+    <!-- 수입검사현황(자재IB 불량) 조회 및 검색 -->
+    <select id="getInspectionIBList" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO"
+            parameterType="com.cnr_furniture.domain.quality.CriteriaInspIBVO">
+        <![CDATA[
+        SELECT
+            ROWNUM AS listSeq,
+            T."M_ID" AS matID,
+            T."M_NAME" AS matName,
+            T."M_USES" AS matUses,
+            T."CT_ID" AS contractID,
+            T."C_NAME" AS companyName,
+            T."CT_UNIT" AS units,
+            T."CT_QUANTITY" AS contractQuantity,
+            T."INSPECTION_QUANTITY" AS inspectionQuantity,
+            T."QS_DF_DIV1" AS qsDiv1,
+            T."QS_DF_DIV2" AS qsDiv2,
+            T."QI_DFT_QUANTITY" AS poorQuantity,
+            (T."QI_DFT_QUANTITY" / T."INSPECTION_QUANTITY" * 100 ) AS defectRate,
+            T."QI_PASSED_QUANTITY" AS goodQuantity,
+            T."INSPECTION_DATE" AS inspectionDate,
+            T."NOTES" AS notes
+        FROM (
+            SELECT
+                mat.M_ID,
+                mat.M_NAME,
+                mat.M_USES,
+                con.CT_ID,
+                comp.C_NAME,
+                con.CT_UNIT,
+                con.CT_QUANTITY,
+                qi.QI_INSPECTION_QUANTITY AS "INSPECTION_QUANTITY",
+                qs.QS_DF_DIV1,
+                qs.QS_DF_DIV2,
+                qi.QI_DFT_QUANTITY,
+                qi.QI_PASSED_QUANTITY,
+                qi.QI_DATE AS "INSPECTION_DATE",
+                qi.QI_NOTE AS "NOTES"
+            FROM
+                CONTRACT con
+                JOIN COMPANY comp ON con.CT_COMPANY_ID = comp.C_ID
+                JOIN MATERIAL mat ON con.CT_MATERIAL_ID = mat.M_ID
+                LEFT JOIN QUALITY_INSPECTION qi ON con.CT_ID = qi.QI_CT_ID AND qi.QI_CT_ID IS NOT NULL AND qi.QI_MATERIAL_ID IS NOT NULL
+                LEFT JOIN QUALITY_STANDARD qs ON qi.QI_QS_ID = qs.QS_ID
+            WHERE
+                con.CT_DIV = '발주'
+                AND qi.QI_CT_ID IS NOT NULL
+                AND qi.QI_MATERIAL_ID IS NOT NULL
+        ]]>
+            <if test="matID != null and matID != ''">
+                AND mat.M_ID = #{matID}
+            </if>
+            <if test="contractID != null and contractID != ''">
+                and con.CT_ID = #{contractID}
+            </if>
+            <if test="qsDiv1 != null and qsDiv1 != ''">
+                and qs.QS_DF_DIV1 = #{qsDiv1}
+            </if>
+            <if test="qsDiv2 != null and qsDiv2 != ''">
+                and qs.QS_DF_DIV2 = #{qsDiv2}
+            </if>
+            <if test="inspectionDate1 != null and inspectionDate1 != ''">
+                and qi.QI_DATE >= #{inspectionDate1}
+            </if>
+            <if test="inspectionDate2 != null and inspectionDate2 != ''">
+                and #{inspectionDate2} >= qi.QI_DATE
+            </if>
+        <![CDATA[
+        ORDER BY
+            con.CT_ID ASC
+            ) T
+        ]]>
+    </select>
+</mapper>

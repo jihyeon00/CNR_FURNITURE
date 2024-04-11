@@ -1,4 +1,4 @@
-package com.cnr_furniture.service;
+package com.cnr_furniture.service.quality;
 
 import org.springframework.stereotype.Service;
 

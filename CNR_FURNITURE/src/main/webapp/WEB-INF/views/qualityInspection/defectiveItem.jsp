@@ -3,8 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
-<!-- stickyOnTable.css 연결 -->
-<link rel="stylesheet" href="/resources/css/quality/stickyOnTable.css">
 <!-- jQuery 연결 -->
 <script defer src="/resources/js//quality/defectiveItem.js"></script>
 <script defer src="/resources/js//quality/stickyOnTable.js"></script>
