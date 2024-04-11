@@ -56,7 +56,7 @@
           <div class="col-md-5">
             <div class="BomTableName">
               <div class="icon"><i class="fa fa-list"></i></div>
-              <div class="employee">제품 목록</div>
+              <div>제품 목록</div>
             </div>
             <div class="table" style="height: 700px;">
               <table cellpadding="0" cellspacing="0" border="0" style="height: 700px;">
@@ -161,41 +161,100 @@ let searchBomForm = $("#searchBomForm");
 	
 	
 	let bomListUL = $(".checkBomList");
+	let tempQuantity = 0;
 	
-	function showBomList(i_id) { //i_id를 가져와서 화면에 뿌려주는 함수 선언 i_id=B_ITEM_ID
-	    
-			$.get("/bomList/" + i_id, function(result) {  // 1. Bom 목록 rest ajax로 가져오기, ajax 함수 콜 성공시 처리
-	        
-	    		console.log("showBomList:", result);
-	        
-	    		var str = "";
+	function showBomList(i_id) {
+	    // i_id를 가져와서 화면에 뿌려주는 함수 선언 i_id=B_ITEM_ID
+	    $.get("/bomList/" + i_id, function(result) {
+	        // 1. Bom 목록 rest ajax로 가져오기, ajax 함수 콜 성공시 처리
+	        console.log("showBomList:", result);
+
+	        var str = "";
 	        if (!result || result.length === 0) {
 	            bomListUL.html(""); // 제품에 등록된 bom이 없을 때 비우기
 	            return;
 	        }
-	    	 // 제품에 등록된 bom이 있을 경우 아래를 뿌려준다
+
+	        // 제품에 등록된 bom이 있을 경우 아래를 뿌려준다
 	        for (var i = 0; i < result.length; i++) {
 	            str += "<tr>";
-	            str += "	<td>" + result[i].rn + "</td>";
-	            str += "	<td>" + result[i].b_material_id + "</td>";
-	            str += "	<td>" + result[i].m_name + "</td>";
-	            str += "	<td>" + result[i].b_unit + "</td>";
-	            str += "	<td>" + result[i].b_material_quantity + "</td>";
-	            str += "	<td>";
-	            str += "		<div class='modifyBom'  id='modifyBom-" + result[i].b_material_id + "' data-bmid='" + result[i].b_material_id + "'>수정</div>";
-	            str += "	</td>";
+	            str += "    <td>" + result[i].rn + "</td>";
+	            /* str += "		<td id='itemId-" + result[i].b_item_id + "' style='display: none;' data-itemid='" + result[i].b_item_id + "'>" + result[i].b_item_id + "</td>"; */
+	            str += "    <td>" + result[i].b_material_id + "</td>";
+	            str += "    <td>" + result[i].m_name + "</td>";
+	            str += "    <td>" + result[i].b_unit + "</td>";
+	            str += "    <td id='mQuantity-" + result[i].b_material_id + "'>" + result[i].b_material_quantity + "</td>";
+	            str += "    <td id='mQuantity-backup-" + result[i].b_material_id + "' style='display: none;'>" + result[i].b_material_quantity + "</td>";
+	            str += "    <td>";
+	            str += "        <div class='modifyBom' id='modifyBom-" + result[i].b_material_id + "' data-bmid='" + result[i].b_material_id + "' data-itemid='" + result[i].b_item_id + "'>수정</div>";
+	            str += "    </td>";
 	            str += "</tr>";
 	        }
+
 	        bomListUL.html(str); // 결과를 HTML에 삽입(html 렌더링한다)
+
+	        // 댓글 수정 버튼 처리
+	        $('.modifyBom').on('click', function(e) {
+	            var bmid = $(this).attr('data-bmid'); // BOM 자재ID 가져오기
+	            var itemId = $(this).attr('data-itemid'); 
+
+	            const mQuantity = $('#mQuantity-' + bmid).text(); // 실제 내용 가져오기
+	            console.log('modfiyBom', mQuantity);
+	            tempQuantity = mQuantity;
+	            
+	            $('#mQuantity-' + bmid).replaceWith("<input type='text' id='mQuantity-" + bmid + "' value='" + (mQuantity || $('#mQuantity-' + bmid).val()) + "' />"); 
+	            /* $('#mQuantity-' + bmid).replaceWith("<td id='mQuantity-" + bmid + "' value='" + (mQuantity || $('#mQuantity-' + bmid).val()) + "'></td>"); */
+
+	            bomUpdate(bmid, itemId); // BOM 수정 처리
+	        });
 	    }).fail(function(xhr, status, err) {
 	        console.error("showBomList error:", err);
 	    });
 	}
-
 	// 특정 i_id에 대한 showBomList 호출, 가져와서 화면에 뿌려주는 함수 실행
 	showBomList(1);  
 
 	
+	 //수정 버튼 실제 처리
+    function bomUpdate(bomMaterialId, bItemId) {
+
+    	console.log('bItemId:', bItemId);
+    	
+    	const bom = { 
+    			b_item_id: bItemId,
+    			b_material_id: bomMaterialId, 
+    			b_material_quantity: $('#mQuantity-' + bomMaterialId).val()
+  		};
+    	
+			$.ajax({
+            // request처리
+            type : 'post',                                      // form의 method속성 값
+            url : '/bom/' + bomMaterialId + "/" + bItemId,                               // form의 action값
+            //url : '/bom/' + bomMaterialId,                               // form의 action값
+            data : JSON.stringify(bom),                       // json으로 string처리하면서 파라미터 전달
+            contentType : "application/json; charset=utf-8",    // content-type지정
+            // response처리
+            success : function(result, status, xhr) {           // call 성공시 오는 처리되는 함수
+            	$('#mQuantity-backup-' + bomMaterialId).text($('#mQuantity-' + bomMaterialId).val());
+            	console.log('zzzzzzzzzz', $('#mQuantity-' + bomMaterialId).val());
+            	console.log('tempQuan22', tempQuantity);
+            	
+            	// 그림 원래대로
+            	/* console.log('aaaa:', $('#mQuantity-' + bomMaterialId).prop('tagName')); */
+            	if (tempQuantity != $('#mQuantity-' + bomMaterialId).val()) {
+            		$('#mQuantity-' + bomMaterialId).replaceWith("<td id='mQuantity-" + bomMaterialId + "'>" + $('#mQuantity-' + bomMaterialId).val() + "</td>");
+            		/* tempQuantity = $('#mQuantity-' + bomMaterialId).val(); */
+            	} 
+            	/* console.log('bbbb:', $('#mQuantity-' + bomMaterialId).prop('tagName')); */
+            },
+            error : function(xhr, status, er) {                 // call 실패시 오는 처리되는 함수
+                if (er) {
+                    console.log('error:', er);
+                }
+            }
+       });
+		 
+    }
 	
 	
 /* Bom 목록의 제품번호 값과 일치하면 Bom세부목록에 Bom내용 불러오기  */
