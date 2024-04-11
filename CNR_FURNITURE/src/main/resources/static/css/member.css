@@ -6,8 +6,6 @@
   background-color: #fff;
   border-top: 2px solid #999;
   border-bottom: 2px solid #999;
-  margin-top: 5px;
-  margin-bottom: 5px;
 }
 /*   검색명   */
 .sb-name {
@@ -15,6 +13,7 @@
 	align-items: center;
 	justify-content: center;
   height: 46px;
+  font-size: 14px;
   background-color: #D9D9D9;
 }
 /*   검색내용   */
@@ -29,14 +28,42 @@
 .sb-text select {
   height: 40px;
 }
-
+/*   검색버튼   */
+.member-btn {
+  height: 40px;
+  float: right;
+}
+.sb-btns {
+  float: right;
+  padding-top:1px;
+  width: 120px;
+  height: 40px;
+}
 .search-btn {
   float: right;
   width: 80px;
   height: 40px;
 }
-.member-btn {
-  float: right;
+
+/*   버튼   */
+.btn-reset{
+  width: 38px;
+  height: 38px;
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius:0px;
+  position: relative;
+}
+#roleUp {
+  margin-right:110px;
+}
+#addMembers {
+  margin-right:20px;
+}
+#btn-reset{
+  position: absolute;
+  right: 8px;
+  bottom: 3px;
 }
 
 /*   표 이름   */
@@ -67,15 +94,15 @@
 
 
 /*   사원테이블 긴 높이 조절   */
-.table.ETable {
+.table.member-ETable {
   height: 555px;
 }
 /*   테이블 행 높이 조절   */
-.tbl-content.ETable {
+.tbl-content.member-ETable {
   height: 0px;
 }
 
-.tbl-content.ETable td{
+.tbl-content.member-ETable td{
   padding: 5px;
   height: 45px;
   text-align: center;
@@ -87,13 +114,13 @@
 }
 
 /*   디렉터/매니저테이블 중간 높이 조절   */
-.table.DTable {
+.table.member-DTable {
   height: 250px;
 }
-.tbl-content.DTable {
+.tbl-content.member-DTable {
   height: 0px;
 }
-.tbl-content.DTable td{
+.tbl-content.member-DTable td{
   padding: 5px;
   height: 45px;
   text-align: center;
@@ -103,16 +130,18 @@
   color: #000;
   border-right: 1px solid #BDBDBD;
 }
+
+
 
 
 /*   모달창 테이블 높이 조절   */
-.table.MTable {
+.table.member-MTable {
   height: 230px;
 }
-.tbl-content.MTable {
+.tbl-content.member-MTable {
   height: 0px;
 }
-.tbl-content.MTable td{
+.tbl-content.member-MTable td{
   padding: 5px;
   height: 45px;
   text-align: center;
@@ -122,14 +151,4 @@
   color: #000;
   border-right: 1px solid #BDBDBD;
 }
-
-
-
-
-
-
-
-
-
-
 

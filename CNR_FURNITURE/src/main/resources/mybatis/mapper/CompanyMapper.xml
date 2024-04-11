@@ -2,4 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.CompanyMapper">
+  <select id="getCompanyList">
+    SELECT  C_ID,
+            C_NAME,
+            C_EMAIL,
+            C_DIV,
+            C_ADDRESS,
+            C_PH
+    FROM    COMPANY
+    WHERE   1 = 1
+    <!--  거래처유형 검색  -->
+    <if test="find_Role != null and find_Role != ''">
+      AND E_ROLE = #{find_Role}
+    </if>
+    <!--  거래처명 검색  -->
+    <if test="find_Role != null and find_Role != ''">
+      AND E_ROLE = #{find_Role}
+    </if>
+  </select>
 </mapper>
