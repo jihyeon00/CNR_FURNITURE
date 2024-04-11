@@ -38,6 +38,8 @@
 	<link rel="stylesheet" href="/resources/css/quality/quality.css">
 	<link rel="stylesheet" href="/resources/css/quality/defectiveItem.css">
 	<link rel="stylesheet" href="/resources/css/quality/defectiveProcess.css">
+	<!-- stickyOnTable.css 연결 -->
+  <link rel="stylesheet" href="/resources/css/quality/stickyOnTable.css">
   
   <!-- jQuery -->
   <script defer src="/resources/js/jquery-3.7.1.min.js"></script>
