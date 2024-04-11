@@ -1,28 +1,34 @@
 package com.cnr_furniture.controller;
 
 import com.cnr_furniture.domain.member.MemberVO;
-import com.cnr_furniture.domain.member.Search;
+import com.cnr_furniture.domain.member.MemberSearch;
 import com.cnr_furniture.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import lombok.extern.log4j.Log4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @AllArgsConstructor
 @Controller
 @Log4j
 public class MemberController {
-  public MemberService memberService;
+  private MemberService memberService;
 
   /**
    * Desc: 로그인 페이지
    * @return 로그인 view page
    */
   @GetMapping("/login")
-  public String login() {
+  public String login(@RequestParam(value = "error", required = false) String error,
+                      @RequestParam(value = "exception", required = false) String exception,
+                      Model model) {
+    model.addAttribute("error", error);
+    model.addAttribute("exception", exception);
 
     return "member/login";
   }
@@ -38,12 +44,13 @@ public class MemberController {
     return "member/pwChange";
   }
 
+
   /**
    * Desc: 사원정보조회
    * @return 사원정보조회 view page
    */
   @GetMapping("/memberInfo")
-  public String memberInfo(Search search, Model model) {
+  public String memberInfo(MemberSearch search, Model model) {
     // 검색창
     model.addAttribute("search", search);
 
@@ -58,9 +65,9 @@ public class MemberController {
 
     // 디렉터 리스트
     List<MemberVO> directorList = memberService.directorList(search);
-    model.addAttribute("directorList", directorList);
+    model.addAttribute("DirectorList", directorList);
 
-    return "member/memberInfo";
+    return "standardInfo/memberInfo";
   }
 
   /**
@@ -68,7 +75,7 @@ public class MemberController {
    * @return 사용자별 권한관리 view page
    */
   @GetMapping("/memberRole")
-  public String memberRole(Search search, Model model) {
+  public String memberRole(MemberSearch search, Model model) {
     // 검색창
     model.addAttribute("search", search);
 
@@ -84,5 +91,10 @@ public class MemberController {
     model.addAttribute("dpNameList", dpNameList);
 
     return "member/memberRole";
+  }
+
+  @RequestMapping(value = "/addMember", method = {RequestMethod.GET, RequestMethod.POST})
+  public void addMember() {
+    log.info("사원등록 페이지 진입");
   }
 }

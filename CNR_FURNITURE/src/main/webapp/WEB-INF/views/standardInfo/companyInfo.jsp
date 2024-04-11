@@ -12,14 +12,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-md-6">
-            <h1 class="m-0"><i class="far fa-clipboard"></i> 사용자별 권한 관리</h1>
+            <h1 class="m-0"><i class="far fa-clipboard"></i> 거래처관리</h1>
           </div><!-- /.col -->
           <div class="col-md-6 ml-auto">
             <ol class="breadcrumb float-sm-right">
               <div class="member-btn">
-                <button type="button" class="btn btn-info" id="roleUp">권한변경</button>
-                <button type="button" class="btn btn-default" id="addMembers" onClick="addMemberModal"
-                  data-toggle="modal" data-target="#addMember">사원등록</button>
               </div>
             </ol>
           </div><!-- /.col -->
@@ -28,30 +25,22 @@
           <!-- 검색창 -->
           <form action="" id="searchForm" class="col-md-12" onSubmit="return false">
             <div class="searchBer">
-              <div class="col-sm-1 sb-name">권한</div>
+              <div class="col-sm-1 sb-name">거래처유형</div>
               <div class="col-sm-2 sb-text">
                 <select class="col-sm-12"  id="find_Role" name="find_Role">
-                  <option value="">권한 선택</option>
-                  <c:forEach var="list" items = "${roleList}">
-                    <option value='${list.role}'
-                      <c:if test="${search.find_Role == list.role}">selected</c:if> >${list.role}
-                    </option>
-                  </c:forEach>
+                  <option value="">발주/수주</option>
+                  <option value='발주업체'>발주업체</option>
+                  <option value='수주업체'>수주업체</option>
                 </select>
               </div>
-              <div class="col-sm-1 sb-name">부서</div>
+              <div class="col-sm-1 sb-name">거래처명</div>
               <div class="col-sm-2 sb-text">
                 <input type="text" class="col-sm-12" id="find_DP_name" name="find_DP_name"
                   value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
               </div>
-              <div class="col-sm-1 sb-name">사원명</div>
-              <div class="col-sm-2 sb-text">
-                <input type="text" class="col-sm-12" id="find_emp_name" name="find_emp_name"
-                  value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
-              </div>
-              <div class="col-sm-3">
+              <div class="col-sm-6">
                 <div class="sb-btns">
-                  <button type="submit" class="btn btn-reset" id="" onClick="location.href='/memberRole'">
+                  <button type="submit" class="btn btn-reset" id="" onClick="location.href='/companyInfo'">
                     <img class="resetPng" alt="reset" id="btn-reset" src="/resources/img/reset.png" >
                   </button>
                   <button type="submit" class="btn btn-primary" id=""
@@ -79,35 +68,32 @@
             <div class="table member-ETable">
               <table cellpadding="0" cellspacing="0" border="0">
                 <colgroup>
-                  <col style="width: 5%" />
                   <col style="width: 13%" />
-                  <col style="width: 13%" />
-                  <col style="width: 13%" />
-                  <col style="width: 13%" />
-                  <col style="width: 20%" />
-                  <col style="width: 22%" />
+                  <col style="width: 15%" />
+                  <col style="width: 12%" />
+                  <col style="width: 12%" />
+                  <col style="width: 23%" />
+                  <col style="width: 25%" />
                 </colgroup>
                 <thead class="tbl-header">
                   <tr>
-                    <th></th>
-                    <th>사원번호</th>
-                    <th>사원명</th>
-                    <th>권한</th>
-                    <th>부서</th>
+                    <th>거래처번호</th>
+                    <th>거래처명</th>
+                    <th>거래처유형</th>
                     <th>연락처</th>
                     <th>이메일</th>
+                    <th>주소</th>
                   </tr>
                 </thead>
                 <tbody class="tbl-content member-ETable">
-                  <c:forEach var="list" items="${EmployeeList}">
+                  <c:forEach var="List" items="${getCompanyList}">
                     <tr>
-                      <td><input type="checkbox" id="" name=""></td>
-                      <td><c:out value="${list.id}"/></td>
-                      <td><c:out value="${list.name}"/></td>
-                      <td><c:out value="${list.role}"/></td>
-                      <td><c:out value="${list.dp_name}"/></td>
-                      <td><c:out value="${list.ph}"/></td>
-                      <td><c:out value="${list.email}"/></td>
+                      <td>${List.c_ID}</td>
+                      <td>${List.c_NAME}</td>
+                      <td>${List.c_DIV}</td>
+                      <td>${List.c_PH}</td>
+                      <td>${List.c_EMAIL}</td>
+                      <td>${List.c_ADDRESS}</td>
                     </tr>
                   </c:forEach>
                 </tbody>
@@ -124,16 +110,6 @@
   <!-- /.content-wrapper -->
 
 
-  <!-- 사원등록 모달 -->
-  <div class="modal fade" id="addMember" tabindex="-1" role="dialog" aria-labelledby="addMemberModalLabel">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-
-      </div>
-    </div>
-  </div>
-
-
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -141,11 +117,6 @@
   <!-- /.control-sidebar -->
 
   <script>
-    //
-    function addMemberModal() {
-      $('.modal-content').load("/member/addMember");
-    }
-
     // 검색창
   	function search() {
       // 검색 로직 실행

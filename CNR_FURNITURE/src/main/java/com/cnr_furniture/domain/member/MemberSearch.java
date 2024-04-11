@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Search {
+public class MemberSearch {
   private String type;            // 이름/번호 선택
   private String keyword;         // 검색 입력값
 

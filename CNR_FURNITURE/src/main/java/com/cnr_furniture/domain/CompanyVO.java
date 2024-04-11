@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class CompanyVO {
-  private String C_ID;
-  private String C_NAME;
-  private String C_EMAIL;
-  private String C_DIV;
-  private String C_ADDRESS;
-  private String C_PH;
+  private String c_ID;
+  private String c_NAME;
+  private String c_EMAIL;
+  private String c_DIV;
+  private String c_ADDRESS;
+  private String c_PH;
 }

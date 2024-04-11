@@ -2,8 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.MemberMapper">
+
+  <resultMap type="com.cnr_furniture.domain.member.MemberVO" id="mapping_memberVO">
+    <result property="id" column="E_ID"/>
+    <result property="name" column="E_NAME"/>
+    <result property="email" column="E_EMAIL"/>
+    <result property="ph" column="E_PH"/>
+    <result property="password" column="E_PWD"/>
+    <result property="dp_name" column="E_DP_NAME"/>
+    <result property="role" column="E_ROLE"/>
+  </resultMap>
+
   <!-- 사원정보 조회 -->
-  <select id="selectMember" resultType="com.cnr_furniture.domain.member.MemberVO">
+  <select id="selectByMember" resultType="com.cnr_furniture.domain.member.MemberVO" resultMap="mapping_memberVO">
     SELECT  E_ID,
             E_NAME,
             E_EMAIL,
@@ -12,11 +23,11 @@
             E_DP_NAME,
             E_ROLE
     FROM    EMPLOYEE
-    WHERE   E_EMAIL = #{E_EMAIL}
+    WHERE   E_EMAIL = #{email}
   </select>
 
   <!-- 직원목록 조회 -->
-  <select id="employeeList" resultType="com.cnr_furniture.domain.member.MemberVO">
+  <select id="employeeList" resultType="com.cnr_furniture.domain.member.MemberVO" resultMap="mapping_memberVO">
     SELECT  E_ID,
             E_NAME,
             E_EMAIL,
@@ -42,7 +53,7 @@
   </select>
 
   <!-- 사원리스트 조회 -->
-  <select id="staffList" resultType="com.cnr_furniture.domain.member.MemberVO">
+  <select id="staffList" resultType="com.cnr_furniture.domain.member.MemberVO" resultMap="mapping_memberVO">
     SELECT  E_ID,
             E_NAME,
             E_EMAIL,
@@ -51,7 +62,7 @@
             E_DP_NAME,
             E_ROLE
     FROM    EMPLOYEE
-    WHERE   E_ROLE = '사원'
+    WHERE   E_ROLE = 'Role_Staff'
     <!--  부서명 검색  -->
     <if test="find_DP_name != null and find_DP_name != ''">
       AND E_DP_NAME Like '%' || #{find_DP_name} || '%'
@@ -63,7 +74,7 @@
     ORDER BY E_ID
   </select>
   <!-- 매니저리스트 조회 -->
-  <select id="managerList" resultType="com.cnr_furniture.domain.member.MemberVO">
+  <select id="managerList" resultType="com.cnr_furniture.domain.member.MemberVO" resultMap="mapping_memberVO">
     SELECT  E_ID,
             E_NAME,
             E_EMAIL,
@@ -72,7 +83,7 @@
             E_DP_NAME,
             E_ROLE
     FROM    EMPLOYEE
-    WHERE   E_ROLE = '매니저'
+    WHERE   E_ROLE = 'Role_Manager'
     <!--  부서명 검색  -->
     <if test="find_DP_name != null and find_DP_name != ''">
       AND E_DP_NAME Like '%' || #{find_DP_name} || '%'
@@ -84,7 +95,7 @@
     ORDER BY E_ID
   </select>
   <!-- 디렉터리스트 조회 -->
-  <select id="directorList" resultType="com.cnr_furniture.domain.member.MemberVO">
+  <select id="directorList" resultType="com.cnr_furniture.domain.member.MemberVO" resultMap="mapping_memberVO">
     SELECT  E_ID,
             E_NAME,
             E_EMAIL,
@@ -93,7 +104,7 @@
             E_DP_NAME,
             E_ROLE
     FROM    EMPLOYEE
-    WHERE   E_ROLE = '디렉터'
+    WHERE   E_ROLE = 'Role_Director'
     <!--  부서명 검색  -->
     <if test="find_DP_name != null and find_DP_name != ''">
       AND E_DP_NAME Like '%' || #{find_DP_name} || '%'
@@ -106,14 +117,14 @@
   </select>
 
   <!-- 권한 조회  -->
-  <select id="roleList" resultType="com.cnr_furniture.domain.member.MemberVO">
+  <select id="roleList" resultType="com.cnr_furniture.domain.member.MemberVO" resultMap="mapping_memberVO">
     SELECT E_ROLE
     FROM EMPLOYEE
     GROUP BY E_ROLE
     ORDER BY E_ROLE
   </select>
   <!-- 부서 조회  -->
-  <select id="dpNameList" resultType="com.cnr_furniture.domain.member.MemberVO">
+  <select id="dpNameList" resultType="com.cnr_furniture.domain.member.MemberVO" resultMap="mapping_memberVO">
     SELECT E_DP_NAME
     FROM EMPLOYEE
     GROUP BY E_DP_NAME
