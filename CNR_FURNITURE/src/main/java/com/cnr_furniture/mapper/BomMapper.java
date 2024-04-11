@@ -16,4 +16,6 @@ public interface BomMapper {
 
     List<BomVO> getBomListForInsert(BomSearch bomSearch); //BOM 등록의 자재목록 조회, 검색
 
+    int update(BomVO bomVO);
+
 }

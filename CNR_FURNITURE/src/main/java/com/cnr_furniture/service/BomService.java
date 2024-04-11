@@ -16,4 +16,5 @@ public interface BomService {
 
     List<BomVO> getBomListForInsert(BomSearch bomSearch); //BOM 등록의 자재목록 조회, 검색
 
+    int modify(BomVO bomVO); // BOM관리의 BOM수정
 }

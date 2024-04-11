@@ -11,7 +11,7 @@ public class BomVO {
     
     private int rn; //번호순서
     
-    private String b_material_id; //자재번호
+    private int b_material_id; //자재번호
 
     private int b_item_id; //제품번호 = i_id ITEM
 

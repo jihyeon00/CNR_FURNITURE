@@ -92,6 +92,15 @@
   float: right;
 }
 
+/*   bom 수량 수정 텍스트박스   */
+
+#mQuantity- {
+	width: 32px;
+	position: relative;
+	bottom: -45px;
+	right: -30px;
+}
+
 /*   표 이름   */
 
 .bomInsertBox {

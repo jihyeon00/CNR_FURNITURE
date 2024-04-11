@@ -66,4 +66,11 @@
             ) bm
     </select>
 
+    <update id="update">
+        UPDATE BOM
+        SET B_MATERIAL_QUANTITY = #{b_material_quantity}
+        WHERE B_MATERIAL_ID = #{b_material_id}
+        AND B_ITEM_ID = #{b_item_id}
+    </update>
+
 </mapper>

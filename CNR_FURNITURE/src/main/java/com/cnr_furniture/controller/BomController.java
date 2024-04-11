@@ -11,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import lombok.extern.log4j.Log4j;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,6 +48,12 @@ public class BomController {
         return new ResponseEntity<>(bomService.getListBom(i_id), HttpStatus.OK);
     }
 
+
+
+
+
+
+
     /**
      * Desc: bom 등록 - 제품 자재목록 조회 및 검색
      * @return: standardInfo/bomInsert
@@ -68,5 +72,26 @@ public class BomController {
     }
 
 
+    /**
+     * Desc: bom목록 - bom수정
+     * @return: /bomList/{b_material_id}
+     */
+    @RequestMapping(method = { RequestMethod.POST }
+            ,value =  "/bom/{b_material_id}/{b_item_id}"
+    )
+    public ResponseEntity<String> modify(
+                                @RequestBody BomVO bomVO,
+                                @PathVariable("b_item_id") int b_item_id,
+                                @PathVariable("b_material_id") int b_material_id
+    ){
+        bomVO.setB_material_id(b_material_id);
+        bomVO.setB_item_id(b_item_id);
 
+        log.info("b_material_id: " + b_material_id);
+        log.info("modify: " + bomVO);
+        boolean isSuccessModify = bomService.modify(bomVO) == 1;
+
+        return  isSuccessModify ? new ResponseEntity<>("success", HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
