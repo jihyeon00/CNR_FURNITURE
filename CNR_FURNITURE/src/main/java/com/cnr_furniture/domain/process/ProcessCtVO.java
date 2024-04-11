@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ *계약 테이블 클래스
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

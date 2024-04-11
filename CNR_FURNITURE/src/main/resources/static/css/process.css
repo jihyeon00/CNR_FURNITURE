@@ -34,9 +34,14 @@
 
 }
 
-.prosearchBer .protextPro {
+.prosearchBer .textPro {
   margin: 5px;
  
+}
+
+.InnputBody .textPro1 {
+    margin: 8px;
+
 }
 
 
@@ -82,9 +87,7 @@
 
 
 /*  테이블 길이 조절   */
-.PoTable {
-  height: 450px;
-}
+
 
 .table table{
   width:100%;
@@ -112,7 +115,7 @@
   border-right: none;
 }
 .ProTable{
-  height:300px;
+  height:500px;
   margin-top: 0px;
 }
 .ProTable tr:hover,
@@ -181,6 +184,10 @@
     background-color: #D8D8D8;
 }
 
+.proType .textPro5{
+    margin-top: 15px;
+}
+
 .pro-btn{
     margin-left: auto;
     display: flex;
@@ -200,7 +207,8 @@
     padding: 10px; 
     background-color: #374056; 
     color: #ffffff; 
-    text-align: center; 
+    text-align: center;
+    width: 6px;
 }
 
 .process-select, .process-input-date, .process-input-text, .process-textarea {
@@ -220,7 +228,8 @@
     border: 1px solid black; 
     padding: 10px; 
     color: #ffffff; 
-    text-align: center; 
+    text-align: center;
+    width:20%;
 }
 
 .register-Process-Modal-Dialog {
@@ -254,13 +263,13 @@
   border: 1px solid #ddd; 
   padding: 8px; 
   background-color: #374056;
-  width: 7%; 
+  width: 10%;
 }
 
 .processtablegubun .proTd {
   border: 1px solid #ddd; 
   padding: 4px; 
-  width: 10%; 
+  width: 10%;
 }
 
  .processInput {
@@ -348,18 +357,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+/*날짜 바꾸기*/
 
 
 

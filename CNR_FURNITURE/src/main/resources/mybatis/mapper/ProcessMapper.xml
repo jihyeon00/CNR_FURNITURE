@@ -4,27 +4,27 @@
 <mapper namespace="com.cnr_furniture.mapper.ProcessMapper">
     <!-- 제조지시 목록 조회-->
     <select id="selectProcess" resultType="com.cnr_furniture.domain.process.ProcessVO">
-        SELECT ROWNUM rn,
-        INS_LOT_ID,
-        INS_ITEM_ID,
-        INS_EMP_ID,
-        INS_CT_ID,
-        INS_PI_ID,
-        INS_LOT_SIZE,
-        TO_CHAR(INS_START_DATE, 'YYYY-MM-DD HH24:MI:SS') AS INS_START_DATE,
-        TO_CHAR(INS_END_DATE, 'YYYY-MM-DD HH24:MI:SS') AS INS_END_DATE
+        SELECT ROWNUM rn
+                    , INS_LOT_ID
+                    , INS_ITEM_ID
+                    , INS_EMP_ID
+                    , INS_CT_ID
+                    , INS_PI_ID
+                    , INS_LOT_SIZE
+                    , TO_CHAR(INS_START_DATE, 'YYYY-MM-DD') AS INS_START_DATE
+                    , TO_CHAR(INS_END_DATE, 'YYYY-MM-DD') AS INS_END_DATE
         FROM INSTRUCTION
         WHERE 1=1
-        <if test="startDate != null and startDate !=''" >
-            AND INS_START_DATE >= #{startDate}
-        </if>
-        <if test="endDate != null and endDate !=''">
-            AND #{endDate} >=  INS_END_DATE
-        </if>
-        <if test="find_item_process != null and find_item_process !=''">
-            AND INS_ITEM_ID = #{find_item_process}
-        </if>
-        ORDER BY rn ASC
+                <if test="startDate != null and startDate !=''" >
+                    AND INS_START_DATE >= #{startDate}
+                </if>
+                <if test="endDate != null and endDate !=''">
+                    AND #{endDate} >=  INS_END_DATE
+                </if>
+                <if test="find_item_process != null and find_item_process !=''">
+                    AND INS_ITEM_ID = #{find_item_process}
+                </if>
+                ORDER BY rn ASC
     </select>
     <!-- 제조지시 목록 조회: 제품-->
     <select id="selectAllItems" resultType="com.cnr_furniture.domain.process.ProcessItemVO">
@@ -32,7 +32,28 @@
     </select>
 
     <!-- 제조지시 등록 -->
-
+    <insert id="insertProInstruction">
+        insert into INSTRUCTION (
+                                  INS_LOT_ID
+                                , INS_ITEM_ID
+                                , INS_EMP_ID
+                                , INS_CT_ID
+                                , INS_PI_ID
+                                , INS_LOT_SIZE
+                                , INS_START_DATE
+                                , INS_END_DATE
+                                )
+                                values (
+                                  #{ins_lot_id}
+                                , #{ins_item_id}
+                                , #{ins_emp_id}
+                                , #{ins_ct_id}
+                                , #{ins_pi_id}
+                                , #{ins_lot_size}
+                                , #{ins_start_date}
+                                , #{ins_end_date}
+                                )
+    </insert>
 
     <!-- 제조지시 등록 조회: 공정-->
     <select id="selectPi" resultType="com.cnr_furniture.domain.process.ProcessInfoVO">
@@ -42,14 +63,45 @@
         FROM PROCESS_INFO
     </select>
     <!-- 제조지시 등록 조회: 계약-->
-    <select id="selecProCt" resultType="com.cnr_furniture.domain.process.ProcessCtVO">
+    <select id="selectProCt" resultType="com.cnr_furniture.domain.process.ProcessCtVO">
         SELECT ROWNUM rn
-              ,CT_ID
-              ,CT_ITEM_ID
-              ,CT_QUANTITY
-              ,CT_DATE
-              ,CT_OB_DATE
+                     ,CT_ID
+                     ,CT_ITEM_ID
+                     ,CT_QUANTITY
+                     ,TO_CHAR(CT_DATE, 'YYYY-MM-DD') AS CT_DATE
+                     ,TO_CHAR(CT_OB_DATE, 'YYYY-MM-DD') AS CT_OB_DATE
         FROM CONTRACT
+        WHERE 1=1
+                    <if test="ctStartDate != null and ctEndDate !=''" >
+                        AND CT_DATE BETWEEN #{ctStartDate} AND #{ctEndDate}
+                    </if>
+        ORDER BY rn ASC
     </select>
+
+    <!-- 제조수행지시 목록-->
+    <select id="selectProcessRun" resultType="com.cnr_furniture.domain.process.ProcessRunVO">
+        SELECT ROWNUM rn
+                    , P_LOT_ID
+                    , P_PI_ID
+                    , P_B_ITEM_ID
+                    , P_PLAN_QUANTITY
+                    , P_ITEM_QUANTITY
+                    , P_DEFECTIVE_QUANTITY
+                    , TO_CHAR(P_START_DATE, 'YYYY-MM-DD') AS P_START_DATE
+                    , TO_CHAR(P_END_DATE, 'YYYY-MM-DD') AS P_END_DATE
+                    , P_STATUS
+                    , P_NOTE
+                    FROM PROCESS
+        WHERE 1=1
+        <if test="startDate != null and startDate !=''" >
+            AND P_START_DATE >= #{startDate}
+        </if>
+        <if test="endDate != null and endDate !=''">
+            AND #{endDate} >=  P_END_DATE
+        </if>
+        ORDER BY rn ASC
+    </select>
+
+
 
 </mapper>
