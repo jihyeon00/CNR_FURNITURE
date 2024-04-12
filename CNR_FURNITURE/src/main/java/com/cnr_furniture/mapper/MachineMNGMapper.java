@@ -1,8 +1,9 @@
 package com.cnr_furniture.mapper;
 
+import com.cnr_furniture.domain.Machine.MachineCheckRecordVO;
 import com.cnr_furniture.domain.Machine.MachineCheckVO;
-import com.cnr_furniture.domain.Machine.SearhMachine;
-import com.cnr_furniture.domain.MachineVO;
+import com.cnr_furniture.domain.Machine.SearchMachine;
+import com.cnr_furniture.domain.Machine.MachineVO;
 
 import java.util.List;
 
@@ -20,5 +21,8 @@ public interface MachineMNGMapper {
     List<MachineVO> getMachineInfo();
 
     // 체크리스트 가져오기
-    List<MachineCheckVO> getMachineCheckAll(SearhMachine searhMachine);
+    List<MachineCheckVO> getMachineCheckAll(SearchMachine searchMachine);
+
+    // 체크리스트 기록 추가
+    int insertMachineCheckRecord(MachineCheckRecordVO machineCheckRecordVO);
 }

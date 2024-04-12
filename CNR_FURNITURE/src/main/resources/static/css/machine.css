@@ -150,3 +150,15 @@
     position: absolute;
     right: 1%;
 }
+
+.onchangeMachineName, .machineCheckWriterBox, .machineCheckDateBox{
+    width: 180px;
+    height: 40px;
+    margin: 8px;
+}
+
+#machineCheckSave{
+    color: #6c757d;
+    border: none;
+    margin : auto;
+}

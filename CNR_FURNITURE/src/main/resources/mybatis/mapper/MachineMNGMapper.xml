@@ -44,15 +44,29 @@
 
     <!-- 해당하는 체크리스트 불러오기 -->
     <select id="getMachineCheckAll" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineCheckVO">
-        SELECT ROWNUM, MI.MCI_DIV, MI.MCI_METHOD, MI.MCI_CONDITION
-        FROM  (SELECT MCI_DIV, MCI_METHOD, MCI_CONDITION
+        SELECT ROWNUM, MI.MCI_ID, MI.MCI_DIV, MI.MCI_METHOD, MI.MCI_CONDITION
+        FROM  (SELECT MCI_ID, MCI_DIV, MCI_METHOD, MCI_CONDITION
                 FROM MACHINE_CHECK_INFO
-                <if test="find_machine_id != null">
+                <if test="find_machine_id != null and find_machine_id != ' '">
                     WHERE MCI_MI_ID = #{find_machine_id}
                 </if>
-                <if test="find_machine_id == ">
-                    where 1=2
+                <if test="find_machine_id == null and find_machine_id == ' '">
+                    WHERE 1=2
                 </if>
                 ORDER BY MCI_ID) MI
     </select>
+    
+    <!-- 체크리스트 기록 추가 -->
+    <insert id="insertMachineCheckRecord" >
+        INSERT INTO Machine_Check_Record (MCR_ID, MCR_MCI_ID, MCR_MI_ID, MCR_EMP_ID, MCR_DATE, MCR_ANSWER, MCR_NOTE)
+        VALUES
+                (
+        MACHINE_CHECK_RECORD_SEQ.NEXTVAL,
+        #{mcr_mci_id},
+        ${mcr_mi_id},
+        ${mcr_emp_id},
+        sysdate,
+        #{mcr_answer},
+        #{mcr_note} )
+    </insert>
 </mapper>

@@ -75,7 +75,7 @@
                       <td id="machineName"><c:out value="${machineList.mi_name}" /></td>
                       <td id="machineType"><c:out value="${machineList.mi_type}" /></td>
                       <td id="machinePosition"><c:out value="${machineList.mi_position}" /></td>
-                      <td><a id="updateMachine]" data-toggle="modal" data-target="#updateModal">수정</a></td>
+                      <td><a id="updateMachine" data-toggle="modal" data-target="#updateModal">수정</a></td>
                     </tr>
                   </c:forEach>
                   </tbody>
@@ -116,6 +116,43 @@
       </div>
     </div>
   </div>
+
+  <!-- 수정 모달 -->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">설비수정</h4>
+          </div>
+          <form id="updateForm" action="/machineInfoUpdate" method="post" onSubmit="return false" enctype="multipart/form-data">
+              <div class="modal-body">
+                  <div class="modalUpdate">
+                    <div class="numberupdatemodal">
+                        <div class="updateNumber">설비번호</div>
+                        <input type="text" name="modalUpdateNumber" id="modalUpdateNumber" class="modalUpdateNumber" autocomplete="off" readonly>
+                    </div>
+                    <div class="nameupdatemodal">
+                        <div class="updateName">설비명</div>
+                        <input type="text" name="modalUpdateName" id="modalUpdateName" class="modalUpdateName" autocomplete="off" readonly>
+                    </div>
+                    <div class="typeupdatemodal">
+                        <div class="updateType">설비유형</div>
+                        <input type="text" name="modalUpdateType" id="modalUpdateType" class="modalUpdateType" autocomplete="off" readonly>
+                    </div>
+                    <div class="positionupdatemodal">
+                        <div class="updatePosition">설비위치</div>
+                        <input type="text" name="modalUpdatePosition" id="modalUpdatePosition" class="modalUpdatePosition" value='<c:out value="${machineList.mi_position}" />' autocomplete="off">
+                    </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" id="updateMachine" class="btn btn-primary" onclick="javascript: modifySubmit();">등록</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
