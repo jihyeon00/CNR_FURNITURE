@@ -4,6 +4,10 @@ body{
 	font-family: "Noto Sans KR", sans-serif;
 }
 
+.sideBarSub{
+	margin-left: 20px;
+}
+
 .content-wrapper{
   min-height: 100%;
   position: relative;

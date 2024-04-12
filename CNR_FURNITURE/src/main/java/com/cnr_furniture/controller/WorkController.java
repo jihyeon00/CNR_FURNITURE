@@ -1,9 +1,11 @@
 package com.cnr_furniture.controller;
 
+import com.cnr_furniture.domain.process.ProcessDate;
 import com.cnr_furniture.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import lombok.extern.log4j.Log4j;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -19,7 +21,7 @@ public class WorkController {
      */
     
     @GetMapping("/work")
-    public String work(){
+    public String work(ProcessDate processDate, Model model){
         return "work/work";
     }
     

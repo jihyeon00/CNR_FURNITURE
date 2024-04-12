@@ -29,7 +29,7 @@
              <div class="searchBar">
                <div class="col-sm-1 sb-name">제조<br>LOT번호</div>
                <div class="col-sm-2 sb-text">
-                 <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+                 <input type="text" list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
                  <datalist id="workCompanyNameList">
                    <c:forEach var="list" items = "${roleList}">
                      <option value='${list.e_ROLE}'
@@ -39,16 +39,6 @@
                   </datalist>
                </div>
                <div class="col-sm-1 sb-name">공정번호</div>
-               <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-                   value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
-               </div>
-               <div class="col-sm-1 sb-name">공정명</div>
-               <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-                   value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
-               </div>
-               <div class="col-sm-1 sb-name">공정위치</div>
                <div class="col-sm-2 sb-text">
                  <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
                  <datalist id="workCompanyNameList">
