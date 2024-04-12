@@ -1,9 +1,6 @@
 package com.cnr_furniture.service.machine;
 
-import com.cnr_furniture.domain.Machine.MachineCheckRecordVO;
-import com.cnr_furniture.domain.Machine.MachineCheckVO;
-import com.cnr_furniture.domain.Machine.SearchMachine;
-import com.cnr_furniture.domain.Machine.MachineVO;
+import com.cnr_furniture.domain.Machine.*;
 import com.cnr_furniture.mapper.MachineMNGMapper;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +16,20 @@ public class MachineMNGServiceImpl implements MachineMNGService{
 
     // 설비 체크리스트 리스트
     @Override
-    public List<MachineCheckVO> getMachineCheckList(){
-        return machineMNGMapper.getMachineCheckList();
+    public List<MachineCheckVO> getMachineCheckList(SearchMachineCheckVO searchMachineCheckVO){
+        return machineMNGMapper.getMachineCheckList(searchMachineCheckVO);
+    }
+
+    // 설비 유형 가져오기
+    @Override
+    public List<MachineCheckVO> getMachineCheckType() {
+        return machineMNGMapper.getMachineCheckType();
+    }
+
+    // 점검 방법 가져오기
+    @Override
+    public List<MachineCheckVO> getMachineCheckMethod() {
+        return machineMNGMapper.getMachineCheckMethod();
     }
 
     // 체크리스트 추가
@@ -45,8 +54,8 @@ public class MachineMNGServiceImpl implements MachineMNGService{
 
     // 체크리스트 가져오기
     @Override
-    public List<MachineCheckVO> getMachineCheckAll(SearchMachine searchMachine) {
-        return machineMNGMapper.getMachineCheckAll(searchMachine);
+    public List<MachineCheckVO> getMachineCheckAll(SearchMachineVO searchMachineVO) {
+        return machineMNGMapper.getMachineCheckAll(searchMachineVO);
     }
 
     // 체크리스트 기록 추가

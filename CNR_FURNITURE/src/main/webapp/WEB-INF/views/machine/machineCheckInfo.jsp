@@ -17,48 +17,47 @@
               </ol>
               <ol class="breadcrumb float-sm-right">
                 <div class="reset">
-                  <a href="./machineCheckInfo"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+                  <a href="machineCheckInfo"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
                 </div>
               </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <div class="headerBar">
-        <div class="machineSearch">
-            <div class="machineName">
-                <div class="onchangeMachine">설비관리유형</div>
-                <select id="onchangeType" name="onchangeType" class="onchangeType" onchange="changeSelect();">
-                    <option value="" class="checkType">유형</option>
-                    <option value="">전기</option>
-                    <option value="">부품</option>
-                    <option value="">외관</option>
-                    <option value="">온도</option>
-                    <option value="">소음</option>
-                    <option value="">진동</option>
-                    <option value="">급유</option>
-                </select>
-            </div>
-            <div class="machineType">
-                <div class="onchangeMachine">점검방법</div>
-                    <select id="onchangeMethod" name="onchangeMethod" class="onchangeMethod" onchange="changeSelect();">
-                        <option value="" class="checkMethod">점검 방법</option>
-                        <option value="">육안</option>
-                        <option value="">수평자</option>
-                        <option value="">청음기</option>
-                        <option value="">진동 측정기</option>
+
+    <!-- 검색창 -->
+    <form action="/machineCheckInfo" id="searchForm" name="searchForm" method="get">
+        <div class="headerBar">
+            <div class="machineSearch">
+                <div class="machineName">
+                    <div class="machineCheckType">설비관리유형</div>
+                    <select id="find_machine_check_type" name="find_machine_check_type" class="find_machine_check_type">
+                        <option class="checkType" disabled selected>유형</option>
+                        <c:forEach var="list" items = "${getMachineCheckType}">
+                            <option value="${list.mci_div}" ${list.mci_div == searchMachineCheckVO.find_machine_check_type ? 'selected' : ''}>${list.mci_div}</option>
+                        </c:forEach>
                     </select>
+                </div>
+                <div class="machineType">
+                    <div class="MachineCheckMethod">점검방법</div>
+                        <select id="find_machine_check_method" name="find_machine_check_method" class="find_machine_check_method">
+                            <option class="checkMethod" disabled selected>점검 방법</option>
+                            <c:forEach var="list" items = "${getMachineCheckMethod}">
+                                <option value="${list.mci_method}" ${list.mci_method == searchMachineCheckVO.find_machine_check_method ? 'selected' : ''}>${list.mci_method}</option>
+                            </c:forEach>
+                        </select>
+                </div>
+                <div class="machinePosition">
+                    <div class="searchMachine">체크리스트 조건</div>
+                    <input type="search" name="find_machine_check_condition" id="find_machine_check_condition" class="find_machine_check_condition" value='<c:out value="${searchMachineCheckVO.find_machine_check_condition}" />' autocomplete="off">
+                </div>
             </div>
-            <div class="machinePosition">
-                <div class="searchMachine">체크리스트 조건</div>
-                <input type="search" name="search_machineCheck" id="search_machineCheck" class="machineBox" autocomplete="off">
+            <div class="searchbtn">
+                <button type="button" id="searchbtn" class="btn btn-block btn-primary" onClick="javascript: searchMachineCheck();"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색</button>
+                <button type="button" id="addBtn" class="btn btn-block btn-default" data-toggle="modal" data-target="#AddModal">추가</button>
             </div>
         </div>
-        <div class="searchbtn">
-            <button type="button" id="searchbtn" class="btn btn-block btn-primary"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색</button>
-            <button type="button" id="addBtn" class="btn btn-block btn-default" data-toggle="modal" data-target="#AddModal">추가</button>
-        </div>
-    </div>
+    </form>
     <!-- /.content-header -->
 
     <!-- Main content -->
@@ -186,6 +185,14 @@
             });
         });
     });
+
+ // 검색
+    function searchMachineCheck() {
+        // form을 submit
+        document.getElementById('searchForm').submit();
+    }
+
+
 
 
 </script>
