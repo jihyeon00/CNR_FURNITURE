@@ -31,11 +31,11 @@
     <select id="getListBom" resultType="com.cnr_furniture.domain.bom.BomVO">
         SELECT rownum AS rn, bm.*
         FROM (
-        SELECT b.B_ITEM_ID, b.B_MATERIAL_ID, m.M_NAME, b.B_UNIT, b.B_MATERIAL_QUANTITY
-        FROM BOM b, MATERIAL m
-        WHERE b.B_MATERIAL_ID = m.M_ID AND b.B_ITEM_ID = #{i_id}
-        ORDER BY b.B_ITEM_ID, b.B_MATERIAL_ID ASC
-        ) bm
+            SELECT b.B_ITEM_ID, b.B_MATERIAL_ID, m.M_NAME, b.B_UNIT, b.B_MATERIAL_QUANTITY
+            FROM BOM b, MATERIAL m
+            WHERE b.B_MATERIAL_ID = m.M_ID AND b.B_ITEM_ID = #{i_id}
+            ORDER BY b.B_ITEM_ID, b.B_MATERIAL_ID ASC
+             ) bm
     </select>
 
     <select id="getBomListForInsert" resultType="com.cnr_furniture.domain.bom.BomVO">
@@ -72,5 +72,13 @@
         WHERE B_MATERIAL_ID = #{b_material_id}
         AND B_ITEM_ID = #{b_item_id}
     </update>
+
+
+    <insert id="addBomList">
+        INSERT INTO BOM
+        (B_ITEM_ID, B_MATERIAL_ID, B_UNIT, B_MATERIAL_QUANTITY)
+        VALUES
+        (#{b_item_id}, #{b_material_id}, #{b_unit}, #{b_material_quantity})
+    </insert>
 
 </mapper>

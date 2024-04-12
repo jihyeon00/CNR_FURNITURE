@@ -1,6 +1,5 @@
 package com.cnr_furniture.service;
 
-import com.cnr_furniture.domain.ItemInfo.ItemInfoSearch;
 import com.cnr_furniture.domain.ItemInfo.ItemInfoVO;
 import com.cnr_furniture.domain.bom.BomSearch;
 import com.cnr_furniture.domain.bom.BomVO;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.log4j.Log4j;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Log4j
@@ -44,4 +44,19 @@ public class BomServiceImpl implements BomService{
         int rtn = bomMapper.update(bomVO);
         return rtn;
     }
+
+    @Override
+    public int insertBomList(BomVO bomVO) {
+//        int rtn = 0;
+//        try {
+//            rtn = bomMapper.addBomList(bomVO);
+//        } catch (Exception e) {
+//            rtn = -1;
+//        }
+//
+//        return rtn;
+        return bomMapper.addBomList(bomVO);
+    }
+
+    /*try catch*/
 }
