@@ -37,9 +37,8 @@
         ORDER BY
             qs.QS_ID ASC
     </select>
-    <!-- 검색창 - 불량유형2 -->
-    <!--<select id="getQsDiv2ListByQsDiv1" parameterType="string" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">-->
-    <select id="getQsDiv2ListByQsDiv1" parameterType="string" resultType="string">
+    <!-- 검색창 - 불량유형1에 따른 불량유형2 -->
+    <select id="getQsDiv2ListByQsDiv1" parameterType="string" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">
         <!-- [불량유형2]의 option 값은 [불량유형1]의 option 값에 따라 다르다. -->
         SELECT
             DISTINCT qs.QS_DF_DIV2 AS qsDiv2

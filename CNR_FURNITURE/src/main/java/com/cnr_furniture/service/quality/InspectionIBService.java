@@ -26,7 +26,6 @@ public interface InspectionIBService {
      */
     List<InspectionIBListVO> getQsDiv2ListByQsDiv1(String qsDiv1);
 
-
     /**
      * Desc: 수입검사현황 목록 조회(with 검색), 자재 IB 불량 현황 조회
      */

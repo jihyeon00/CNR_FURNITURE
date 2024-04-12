@@ -6,7 +6,7 @@
 <!--날짜 포맷팅-->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!-- jQuery 연결 -->
-<script defer src="/resources/js/inspectionIB.js"></script>
+<script defer src="/resources/js/quality/inspectionIB.js"></script>
 
 <!-- 공통 header 연결 -->
 <%@ include file="../includes/header.jsp" %>
@@ -79,9 +79,9 @@
 	          <!-- 불량유형2 -->
 	          <select class="col-sm-6"  id="qsDiv2" name="qsDiv2">
 	            <option value="">불량유형2 선택</option>
-	            <c:forEach var="qsDiv2List" items = "${qsDiv2s}">
-	            	<option value="${qsDiv2s.qsDiv2}" ${qsDiv2s.qsDiv2 == cri.qsDiv2 ? 'selected' : ''}>${qsDiv2s.qsDiv2}</option>
-	            </c:forEach>
+	            <c:forEach items="${qsDiv2List}" var="qsDiv2s">
+								<option value="${qsDiv2s.qsDiv2}" ${qsDiv2s.qsDiv2 == cri.qsDiv2 ? 'selected' : ''}>${qsDiv2s.qsDiv2}</option>
+							</c:forEach>
 	          </select><!-- /.불량유형2 -->
 	         </div><!-- /.불량유형 -->
 	         <!-- 검사일자 -->
