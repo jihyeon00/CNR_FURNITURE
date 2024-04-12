@@ -94,11 +94,11 @@
 
 /*   bom 수량 수정 텍스트박스   */
 
-#mQuantity- {
+input .mQuantity- {
 	width: 32px;
 	position: relative;
-	bottom: -45px;
-	right: -30px;
+	bottom: -47px;
+	left: 35px;
 }
 
 /*   표 이름   */
@@ -142,6 +142,12 @@
 	margin-left: -50px;
 }
 
+/* bomInsert 제품과 자재목록 검색창  */
+.form-check-input {
+	position:relative;
+	left: 10px;
+	
+}
 .searchItem {
 	position: absolute;
 	right: -152px;

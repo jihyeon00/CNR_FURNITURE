@@ -47,7 +47,7 @@
 	            </div>
 						</form>
             <div class="member-btn">
-              <button type="button" class="btn btn-Default"><a href="bomInsert" style="color: #000;">
+              <button type="button" class="btn btn-Default"><a href="bom/insert" style="color: #000;">
               BOM 등록
               </a></button>
         		</div>
@@ -196,7 +196,7 @@ let searchBomForm = $("#searchBomForm");
 	        // 댓글 수정 버튼 처리
 	        $('.modifyBom').on('click', function(e) {
 	            var bmid = $(this).attr('data-bmid'); // BOM 자재ID 가져오기
-	            var itemId = $(this).attr('data-itemid'); 
+	            var itemId = $(this).attr('data-itemid');  // BOM 제품ID 가져오기
 
 	            const mQuantity = $('#mQuantity-' + bmid).text(); // 실제 내용 가져오기
 	            console.log('modfiyBom', mQuantity);
@@ -204,7 +204,15 @@ let searchBomForm = $("#searchBomForm");
 	            
 	            $('#mQuantity-' + bmid).replaceWith("<input type='text' id='mQuantity-" + bmid + "' value='" + (mQuantity || $('#mQuantity-' + bmid).val()) + "' />"); 
 	            /* $('#mQuantity-' + bmid).replaceWith("<td id='mQuantity-" + bmid + "' value='" + (mQuantity || $('#mQuantity-' + bmid).val()) + "'></td>"); */
-
+							
+	            //CSS 적용
+							$('#mQuantity-' + bmid).css({
+							    'width': '32px',
+							    'position': 'relative',
+							    'bottom': '-47px',
+							    'left': '35px'
+							});
+	            
 	            bomUpdate(bmid, itemId); // BOM 수정 처리
 	        });
 	    }).fail(function(xhr, status, err) {
@@ -229,9 +237,9 @@ let searchBomForm = $("#searchBomForm");
 			$.ajax({
             // request처리
             type : 'post',                                      // form의 method속성 값
-            url : '/bom/' + bomMaterialId + "/" + bItemId,                               // form의 action값
-            //url : '/bom/' + bomMaterialId,                               // form의 action값
-            data : JSON.stringify(bom),                       // json으로 string처리하면서 파라미터 전달
+            url : '/bom/' + bomMaterialId + "/" + bItemId,      // form의 action값
+            //url : '/bom/' + bomMaterialId,                    // form의 action값
+            data : JSON.stringify(bom),                         // json으로 string처리하면서 파라미터 전달
             contentType : "application/json; charset=utf-8",    // content-type지정
             // response처리
             success : function(result, status, xhr) {           // call 성공시 오는 처리되는 함수

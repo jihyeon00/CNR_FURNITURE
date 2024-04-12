@@ -1,6 +1,7 @@
 package com.cnr_furniture.controller;
 
 import com.cnr_furniture.domain.ItemInfo.ItemInfoVO;
+import com.cnr_furniture.domain.MaterialInfo.MaterialInfoVO;
 import com.cnr_furniture.domain.bom.BomSearch;
 import com.cnr_furniture.domain.bom.BomVO;
 import com.cnr_furniture.service.BomService;
@@ -58,7 +59,7 @@ public class BomController {
      * Desc: bom 등록 - 제품 자재목록 조회 및 검색
      * @return: standardInfo/bomInsert
      */
-    @GetMapping("/bomInsert")
+    @GetMapping("/bom/insert")
     public String bomInsert(BomSearch bomSearch, Model model) {
         List<ItemInfoVO> itemInfoVOList = bomService.getBomInfoList(bomSearch);
         model.addAttribute("itemList", itemInfoVOList);
@@ -67,6 +68,7 @@ public class BomController {
         List<BomVO> bomVOList = bomService.getBomListForInsert(bomSearch);
         model.addAttribute("bomList", bomVOList);
         model.addAttribute("bomSearch", bomSearch);
+
 
         return "standardInfo/bomInsert";
     }
@@ -92,6 +94,33 @@ public class BomController {
         boolean isSuccessModify = bomService.modify(bomVO) == 1;
 
         return  isSuccessModify ? new ResponseEntity<>("success", HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Desc: bom목록 - bom등록
+     * @return: /bomList/{b_material_id}
+     */
+    @RequestMapping(method = { RequestMethod.POST }
+            ,value =  "/bom/{b_item_id}/{b_material_id}/{b_unit}/{b_material_quantity}"
+    )
+    public ResponseEntity<String> modify(
+            @RequestBody BomVO bomVO,
+            @PathVariable("b_item_id") int b_item_id,
+            @PathVariable("b_material_id") int b_material_id,
+            @PathVariable("b_unit") String b_unit,
+            @PathVariable("b_material_quantity") int b_material_quantity
+    ){
+        bomVO.setB_item_id(b_item_id);
+        bomVO.setB_material_id(b_material_id);
+        bomVO.setB_unit(b_unit);
+        bomVO.setB_material_quantity(b_material_quantity);
+
+
+        int insertSuccess = bomService.insertBomList(bomVO);
+
+        return  insertSuccess == 1
+                ? new ResponseEntity<>("success", HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

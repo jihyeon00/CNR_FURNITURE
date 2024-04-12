@@ -1,5 +1,7 @@
 package com.cnr_furniture.mapper;
 
+import com.cnr_furniture.domain.MaterialInfo.MaterialInfoSearch;
+import com.cnr_furniture.domain.MaterialInfo.MaterialInfoVO;
 import com.cnr_furniture.domain.bom.BomSearch;
 import com.cnr_furniture.domain.ItemInfo.ItemInfoVO;
 import com.cnr_furniture.domain.bom.BomVO;
@@ -16,6 +18,9 @@ public interface BomMapper {
 
     List<BomVO> getBomListForInsert(BomSearch bomSearch); //BOM 등록의 자재목록 조회, 검색
 
-    int update(BomVO bomVO);
+    int update(BomVO bomVO); //Bom관리 수정
 
+    int addBomList (BomVO bomVO); //Bom 등록
+
+    /*int removeBomInserted(int rn);*/
 }

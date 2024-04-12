@@ -19,6 +19,6 @@ public class BomVO {
 
     private String b_unit; // 자재 단위
 
-    private String b_material_quantity; // 자재수량
+    private int b_material_quantity; // 자재수량
 
 }

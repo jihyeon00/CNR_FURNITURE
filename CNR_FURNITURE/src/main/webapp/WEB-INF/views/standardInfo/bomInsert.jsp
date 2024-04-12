@@ -4,6 +4,9 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <link rel="stylesheet" href="/resources/css/bom.css">
 <%@ include file="../includes/header.jsp" %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -16,7 +19,7 @@
           </div><!-- /.col -->
           <div class="col-md-6">         
             <div class="resetBtn2">
-               <a href="./bomInsert"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+               <a href="./bom/insert"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
             </div>
           </div>
       </div><!-- /.container-fluid -->
@@ -36,83 +39,65 @@
 			        	<div class="row modal-content1">
 									<div class="col-md-6">
 					          제품 번호
-					          <input type="text" name="" id="" class="form-control" autocomplete="off">
+					         <!--  <input type="text" name="" id="itemId" data-itemId="" class="form-control" autocomplete="off"> -->
+					         <select class="col-md-8" aria-label=".form-select-sm example" id="itemId">
+                       <option value="">--choose--</option>
+                       <c:forEach items="${itemList}" var="Item">
+                     	 	<option value="${Item.i_id}" ${bomSearch.type == 'INum' ? 'selected' : ''}>${Item.i_id}</option>
+                       </c:forEach>
+                   </select>
 			          	</div>
 			          	<div class="col-md-6">
-					          제품명
-					          <input type="text" name="" id="" class="form-control" autocomplete="off">
+					         	자재 번호
+					          <!-- <input type="text" name="" id="mtId" data-mtId="" class="form-control" autocomplete="off"> -->
+				          <select class="col-md-8" aria-label=".form-select-sm example" id="mtId">
+                       <option value="">--choose--</option>
+                       <c:forEach items="${bomList}" var="Bom">
+                     	 	<option value="${Bom.b_material_id}" ${bomSearch.type == 'MNum' ? 'selected' : ''}>${Bom.b_material_id}</option>
+                       </c:forEach>
+                   </select>
 				          </div>		
 			          </div>	
-							
-								<div class="row modal-content2">
-									<div class="col-md-6">
-					          자재 번호
-					          <input type="text" name="" id="" class="form-control" autocomplete="off">
-			          	</div>
-			          	<div class="col-md-6">
-					          자재명
-				          	<input type="text" name="" id="" class="form-control" autocomplete="off">
-			          	</div>		
-			          </div>
-		          	<div class="row modal-content3">
+								<br/>
+		          	<div class="row modal-content2">
 									<div class="col-md-6">
 					         자재 단위
-					          <input type="text" name="" id="" class="form-control" autocomplete="off">
+					          <input type="text" name="" id="mtUnit" data-mtUnit="" class="form-control" autocomplete="off">
 		          		</div>
 			          	<div class="col-md-6">
 					          자재 수량
-					          <input type="text" name="" id="" class="form-control" autocomplete="off">
+					          <input type="text" name="" id="mtQuantity" data-mtQuantity="" class="form-control" autocomplete="off">
 				          </div>		
 		          	</div>		          				          
 	        		</form>
 		        		<div class="col-sm-1 ml-auto addLine">
-	              	<button type="button" class="btn btn-Primary bomBtn" id="" name="">추가</button>
+	              	<button type="button" class="btn btn-Primary bomBtn" id="addBomList" name="">추가</button>
 	           	  </div>
            	</div>
 
-            <div class="table">
-            <table cellpadding="0" cellspacing="0" border="0" class="bomInsertTable">
-              <thead class="tbl-header">
-                <tr>
-                  <th>NO</th>
-                  <th>제품 번호</th>
-                  <th>자재 번호</th>
-                  <th>단위</th>
-                  <th>수량</th>
-                </tr>
-              </thead>
-              <tbody class="tbl-content" style="height: 400px;">
-                <tr>
-                  <td>1</td>
-                  <td>10000001</td>
-                  <td>20000001</td>
-                  <td>m</td>
-                  <td>1</td>
-                </tr>
-                 <tr>
-                  <td>1</td>
-                  <td>10000001</td>
-                  <td>20000001</td>
-                  <td>m</td>
-                  <td>1</td>
-                </tr>
-                 <tr>
-                  <td>1</td>
-                  <td>10000001</td>
-                  <td>20000001</td>
-                  <td>m</td>
-                  <td>1</td>
-                </tr>           
-              </tbody>
-            </table>
+            <div class="table" style="height:auto;margin-bottom: 5px;">
+	            <table cellpadding="0" cellspacing="0" border="0" class="bomInsertTable">
+	              <thead class="tbl-header">
+	                <tr>
+	                  <th>제품 번호</th>
+	                  <th>자재 번호</th>
+	                  <th>단위</th>
+	                  <th>수량</th>
+	                  <th>수정</th>
+	                </tr>
+	              </thead>
+	              <tbody class="tbl-content addBomListUL" style="height: 400px;">
+	          
+	              </tbody>
+	            </table>
             <!-- /.table -->
-         </div>
-	         <div class="insertBom-btn">
+         		</div>
+	       <!--   <div class="insertBom-btn">
 		          <button type="button" class="btn btn-primary bomBtn" id="" name="">등록</button>
 		          <div style="width: 10px;"></div>    
 		          <button type="button" class="btn btn-danger bomBtn" id="" name="">취소</button>
-			    </div>
-        </div>
+			    </div> -->
+       	</div>
 
           <div class="col-md-6">
             <!-- 제품 목록 테이블 -->
@@ -259,6 +244,76 @@
 	
 	    searchMTBominsert.submit();
 	});
+	
+	
+	
+	//let addBomListUL = $(".addBomListUL");
+	
+	/* BOM 목록 등록추가버튼  */
+	 $('#addBomList').on('click', function(e) {
+		 
+		  // 폼 내부에서 데이터를 가져오기
+  	var itemId = $('#itemId').val();
+    var mtId = $('#mtId').val();
+    var mtUnit = $('#mtUnit').val();
+    var mtQuantity = $('#mtQuantity').val();
+
+    console.log('itemId:', itemId);
+    console.log('mtId:', mtId);
+    console.log('mtUnit:', mtUnit);
+    console.log('mtQuantity:', mtQuantity);
+        	
+    $.ajax({
+        // request처리
+        type : 'post',                                      // form의 method속성 값
+        url : '/bom/' + itemId + "/" + mtId + "/" + mtUnit + "/" + mtQuantity,       // form의 action값
+        data: JSON.stringify({ itemId: itemId, mtId: mtId, mtUnit: mtUnit, mtQuantity: mtQuantity }),                     // json으로 string처리하면서 파라미터 전달
+        contentType : "application/json; charset=utf-8",    // content-type지정
+        // response처리
+        success : function(result, status, xhr) {           // call 성공시 오는 처리되는 함수
+        	// 새로운 행(tr)을 생성하여 HTML 문자열로 저장
+            var newRow = 
+            		"<tr>" +
+    					/*  "<td><input class='form-check-input chk' type='checkbox' /></td>" + */
+        	        "<td name='b_item_id'>" + itemId + "</td>" +
+        	        "<td name='b_material_id'>" + mtId + "</td>" +
+        	        "<td name='b_unit'>" + mtUnit + "</td>" +
+        	        "<td name='b_material_quantity'>" + mtQuantity + "</td>" +
+        	        "<td name='modifyBomInserted'>수정</td>" +
+                "</tr>";
+
+            // 생성한 행을 테이블에 추가
+            $('.addBomListUL').append(newRow);   
+            alert('BOM 등록 성공');
+        },
+        error : function(xhr, status, er) {                 // call 실패시 오는 처리되는 함수
+        	 // 오류 발생 시 실행할 코드
+	            if (xhr.responseJSON && xhr.responseJSON.error) {
+	                alert('제품에 등록된 자재가 있습니다. 다시 확인해주세요');
+	            } else {
+	                alert('제품에 등록된 자재가 있습니다. 다시 확인해주세요.');
+	            }
+	        }
+    });
+			/*   var str = "";
+		    
+			str += "<tr>";
+			    str += "    <td>";
+		  str += "        <input class='form-check-input' type='checkbox' />";
+		  str += "    </td>";
+			str += "    <td>" + itemId + "</td>";
+			str += "    <td>" + mtId + "</td>";
+			str += "    <td>" + mtUnit + "</td>";
+			str += "    <td>" + mtQuantity + "</td>";
+			str += "</tr>";
+		
+			addBomListUL.html(str); // 결과를 HTML에 삽입(html 렌더링한다)  
+			위를 사용하지 않는이유: 
+				1. 반복적인 문자열 연산이 필요하고 성능에 부담을 줄 수 있고,
+				2. 클릭할 때마다 기존 내용을 대체(replace)하는 것이 아니라, 기존 내용에 새로운 요소를 추가하려면 다른 방법이 필요  */
+    
+	 });
+	 
 
 
 </script>
