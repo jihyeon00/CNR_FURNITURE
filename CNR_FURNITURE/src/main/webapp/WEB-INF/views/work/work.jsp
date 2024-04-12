@@ -29,33 +29,35 @@
              <div class="searchBar">
                <div class="col-sm-1 sb-name">거래처명</div>
                <div class="col-sm-2 sb-text">
-                 <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-                 <datalist id="workCompanyNameList">
-                   <c:forEach var="list" items = "${roleList}">
-                     <option value='${list.e_ROLE}'
-                       <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
-                     </option>
-                   </c:forEach>
-                  </datalist>
+	               	<!-- <input type="text" list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+	                <datalist id="workCompanyNameList">
+	                  <c:forEach var="workCompany" items = "${roleList}">
+	                    <option value="${item.i_id}" ${item.i_id == processDate.find_item_process ? 'selected' : ''}>${item.i_id} ${item.i_name}</option>
+	                  </c:forEach>
+	                 </datalist> -->
+                 <select class="col-sm-12 input-text" name="find_work_company">
+                       <option value="">거래처명 선택</option>
+                       <c:forEach items="${itemProList}" var="item">
+                           <option value="${item.i_id}" ${item.i_id == processDate.find_item_process ? 'selected' : ''}>${item.i_id} ${item.i_name}</option>
+                       </c:forEach>
+                   </select>
                </div>
                <div class="col-sm-1 sb-name">제품명</div>
                <div class="col-sm-2 sb-text">
-                 <input list="workItemNameList" class="col-sm-12"  id="workItemName" name="workItemName">
-                 <datalist id="workItemNameList">
-                   <c:forEach var="list" items = "${roleList}">
-                     <option value='${list.e_ROLE}'
-                       <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
-                     </option>
-                   </c:forEach>
-                 </datalist>
+                 <select class="col-sm-12 input-text" name="find_work_item">
+                     <option value="">제품 선택</option>
+                     <c:forEach items="${itemProList}" var="item">
+                         <option value="${item.i_id}" ${item.i_id == processDate.find_item_process ? 'selected' : ''}>${item.i_id} ${item.i_name}</option>
+                     </c:forEach>
+                 </select>
                </div>
-               <div class="col-sm-1 sb-name">지시일자</div>
-               <div class="col-sm-3 sb-text" style="margin-left: 4px;">
-                 <input type="date" class="col-sm-6 input-text"  id="workDate1" name="workDate1"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
+               <div class="col-sm-1 sb-name">조회일자</div>
+               <div class="col-sm-4 sb-text" style="margin-left: 8px;">
+                 <input type="date" class="col-sm-6 input-text"  id="workStartDate" name="workStartDate"
+                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" style="margin-right: 4px;"/>
                    ~
-                 <input type="date" class="col-sm-6 input-text"  id="workDate2" name="workDate2"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
+                 <input type="date" class="col-sm-6 input-text"  id="workEndDate" name="workEndDate"
+                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" style="margin-left: 4px;"/>
                </div>
              </div>
              <!-- 검색창 2줄 -->
@@ -90,7 +92,7 @@
 	        <div class="titleAndTable" id="selectManufacturingPerformInfo" style="margin-bottom: -20px;">
 	           <div class="workTableTitle">
 	              <div class="icon"><i class="fa fa-list"></i></div>
-	              <div class="workTableName">제조수행정보</div>
+	              <div class="workTableName">공정별 제조수행정보</div>
 	            </div>
 	          <div class="workTable" style="max-height: 174px">
 	            <table cellpadding="0" cellspacing="0" border="0">
@@ -98,11 +100,13 @@
 	                <tr>
 	                  <th>No</th>
 	                  <th>제조LOT번호</th>
+	                  <th>공정번호</th>
+	                  <th>공정명</th>
 	                  <th>제품번호</th>
 	                  <th>제품명</th>
 	                  <th>수주업체</th>
-	                  <th>착수일</th>
-	                  <th>완수(예정)일</th>
+	                  <th>생산시작</th>
+	                  <th>생산종료</th>
 	                  <th>진행상황</th>
 	                  <th>계획수량</th>
 	                  <th>단위</th>
@@ -114,11 +118,13 @@
 	                <tr>
 	                  <td>1</td>
 	                  <td>300001</td>
+	                  <td>1001</td>
+	                  <td>원자재 투입</td>
 	                  <td>10000001</td>
 	                  <td>의자-A</td>
 	                  <td>인테리어스케이프</td>
 	                  <td>2024-04-08</td>
-	                  <td>2024-04-08</td>
+	                  <td></td>
 	                  <td>생산대기</td>
 	                  <td>1000</td>
 	                  <td>EA</td>
@@ -411,8 +417,8 @@
   
   <script type="text/javascript">
   	// 지시일자 value 값을 현재 날짜로 지정
-	  document.getElementById('workDate1').valueAsDate = new Date();
-	  document.getElementById('workDate2').valueAsDate = new Date();
+	  document.getElementById('workStartDate').valueAsDate = new Date();
+	  document.getElementById('workEndDate').valueAsDate = new Date();
 			
 		//검색창
 		function search() {

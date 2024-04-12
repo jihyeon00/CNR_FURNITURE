@@ -12,7 +12,7 @@
          <form action="" id="searchForm" class="col-md-12" onSubmit="return false">
 	          <div class="col-sm-12" >
 	          	<ol class="breadcrumb float-sm-left">
-	          		<h1 class="m-0"><i class="far fa-clipboard"></i>당일작업등록</h1>
+	          		<h1 class="m-0"><i class="far fa-clipboard"></i>작업자등록</h1>
 	          	</ol>
 	            <ol class="breadcrumb float-sm-right">
 		            <div class="reset">
@@ -27,7 +27,7 @@
 	          <br>
           	<!-- 검색창 1줄 -->
              <div class="searchBar">
-               <div class="col-sm-1 sb-name">제조LOT번호</div>
+               <div class="col-sm-1 sb-name">제조<br>LOT번호</div>
                <div class="col-sm-2 sb-text">
                  <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
                  <datalist id="workCompanyNameList">
@@ -39,16 +39,6 @@
                   </datalist>
                </div>
                <div class="col-sm-1 sb-name">공정번호</div>
-               <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-                   value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
-               </div>
-               <div class="col-sm-1 sb-name">공정명</div>
-               <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-                   value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
-               </div>
-               <div class="col-sm-1 sb-name">공정위치</div>
                <div class="col-sm-2 sb-text">
                  <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
                  <datalist id="workCompanyNameList">
@@ -74,7 +64,7 @@
 	        <div class="titleAndTable" id="selectWorkTable" style="max-height:600px;" >
 	           <div class="workTableTitle">
 	              <div class="icon"><i class="fa fa-list"></i></div>
-	              <div class="workTableName">당일작업목록</div>
+	              <div class="workTableName">작업자배치</div>
 	            </div>
 	          <div class="workSelectTable">
 	            <table cellpadding="0" cellspacing="0" border="0">

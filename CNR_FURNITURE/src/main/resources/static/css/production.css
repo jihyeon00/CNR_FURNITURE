@@ -1,0 +1,97 @@
+/* 테이블 제목 및 테이블 양쪽 여백*/
+.titleAndTable{
+	margin: 0 7.5px 10px 7.5px;
+}
+
+/* titleAndTable의 id인 생산관리의 생산현황 */
+#selectProductionStatusTable{
+	overflow-x: auto;
+}
+
+/* 테이블 스타일 높이 지정 및 높이 초과에 따른 스크롤 생성*/
+.productionTable{
+	height:auto;
+	min-width:100%;
+	max-height: 600px;
+}
+
+/* table div 안 table 설정 */
+.productionTable table{
+	min-width:100%;
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top:none;
+  border-collapse: separate;
+	border-spacing: 0;
+}
+
+/* thead 스타일 및 스크롤 이동 시 헤더 고정 */
+.production-tbl-header{
+  background-color: #374056;
+  position : sticky;
+  top : 0;  
+  white-space: nowrap;
+ }
+ 
+ /* thead의 th 스타일 지정*/
+.production-tbl-header tr th{
+  padding: 15px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 13px;
+  color: #fff;
+  text-transform: uppercase;
+  border-right: 1px solid #fff;
+  white-space: nowrap;
+}
+ /* thead의 th 스타일 지정*/
+.productioner-tbl-header tr th{
+  padding: 15px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 13px;
+  color: #fff;
+  text-transform: uppercase;
+  border-right: 1px solid #fff;
+}
+
+/* thead의 마지막 th의 오른쪽 선 없애기*/
+.production-tbl-header tr th:last-child,
+.productioner-tbl-header tr th:last-child{
+  border-right: none;
+}
+
+/* tbody와 thead의 여백 삭제 */
+.production-tbl-content,
+.productioner-tbl-content{
+  margin-top: 0px;
+}
+
+/* tr 호버 시 색상 변경 */
+.production-tbl-content tr:hover,
+.production-tbl-content tr:nth-child(even):hover{
+  background: #d9d9d9;
+}
+
+/* 짝수 tr 색상 흰색 */
+.production-tbl-content tr:nth-child(even){
+  background: #eaeaed;
+}
+
+/* 테이블 내용 스타일 지정 */
+.production-tbl-content td{
+  padding: 3px 15px;
+  text-align: center;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 13px;
+  color: #000;
+  height:42px;
+  border-right: 1px solid #BDBDBD;
+  white-space: nowrap;
+}
+
+/* 테이블 마지막 td 맨밑 border 선 삭제 */
+.production-tbl-content tr td:last-child{
+  border-right: none;
+}

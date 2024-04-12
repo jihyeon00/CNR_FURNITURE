@@ -39,20 +39,12 @@
                   </datalist>
                </div>
                <div class="col-sm-1 sb-name">착수일</div>
-               <div class="col-sm-3 sb-text" style="margin-left: 4px;">
-                 <input type="date" class="col-sm-6 input-text"  id="workDate1" name="workDate1"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
+               <div class="col-sm-4 sb-text" style="margin-left: 8px;">
+                 <input type="date" class="col-sm-6 input-text"  id="workStartDate" name="workStartDate"
+                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" style="margin-right: 4px;"/>
                    ~
-                 <input type="date" class="col-sm-6 input-text"  id="workDate2" name="workDate2"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
-               </div>
-               <div class="col-sm-1 sb-name">완수일</div>
-               <div class="col-sm-3 sb-text" style="margin-left: 4px;">
-                 <input type="date" class="col-sm-6 input-text"  id="workDate1" name="workDate1"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
-                   ~
-                 <input type="date" class="col-sm-6 input-text"  id="workDate2" name="workDate2"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
+                 <input type="date" class="col-sm-6 input-text"  id="workEndDate" name="workEndDate"
+                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" style="margin-left: 4px;"/>
                </div>
              </div>
              <!-- 검색창 2줄 -->
@@ -66,11 +58,6 @@
                <div class="col-sm-2 sb-text">
                  <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
                    value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
-               </div>
-               <div class="col-sm-1 sb-name">제품명</div>
-               <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_emp_name" name="find_emp_name"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
                </div>
                <div class="col-sm-1 sb-name">진행상황</div>
                <div class="col-sm-2 sb-text">
@@ -266,8 +253,8 @@
   
   <script type="text/javascript">
   	// 지시일자 value 값을 현재 날짜로 지정
-	  document.getElementById('workDate1').valueAsDate = new Date();
-	  document.getElementById('workDate2').valueAsDate = new Date();
+	  document.getElementById('workStartDate').valueAsDate = new Date();
+	  document.getElementById('workEndDate').valueAsDate = new Date();
 			
 		//검색창
 		function search() {

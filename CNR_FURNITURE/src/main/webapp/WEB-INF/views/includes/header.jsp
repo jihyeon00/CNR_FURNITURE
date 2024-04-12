@@ -108,39 +108,39 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="memberInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;사원정보조회</p>
+                  <p>사원정보조회</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="bom" class="nav-link">
-                  <p>&nbsp;&nbsp;BOM관리</p>
+                  <p>BOM관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="itemInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;제품정보등록</p>
+                  <p>제품정보등록</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="materialInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;자재정보등록</p>
+                  <p>자재정보등록</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="companyInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;거래처관리</p>
+                  <p>거래처관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="contractInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;계약관리</p>
+                  <p>계약관리</p>
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item ">
             <a href="#" class="nav-link">
               <p style="font-size: 18px;">
                 생산관리
@@ -148,14 +148,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="productionStatus" class="nav-link">
-                  <p>&nbsp;&nbsp;생산현황</p>
+                  <p>생산현황</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="machineOperationStatusByProcess" class="nav-link">
-                  <p>&nbsp;&nbsp;공정별 설비가동현황</p>
+                  <p>공정별 설비가동현황</p>
                 </a>
               </li>
             </ul>
@@ -168,24 +168,24 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="materialIB" class="nav-link">
-                  <p>&nbsp;&nbsp;자재입고현황</p>
+                  <p>자재입고현황</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="materialOB" class="nav-link">
-                  <p>&nbsp;&nbsp;자재출고현황</p>
+                  <p>자재출고현황</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="materialInventory" class="nav-link">
-                  <p>&nbsp;&nbsp;자재재고조회</p>
+                  <p>자재재고조회</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="materialContractInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;발주정보조회</p>
+                  <p>발주정보조회</p>
                 </a>
               </li>
             </ul>
@@ -198,29 +198,39 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="manufacturingInstruction" class="nav-link">
-                  <p>&nbsp;&nbsp;제조지시</p>
+                  <p>제조지시</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="manufacturingPerform" class="nav-link">
-                  <p>&nbsp;&nbsp;제조수행지시</p>
+                  <p>제조수행지시</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="processInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;공정정보관리</p>
+                  <p>공정정보관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="workerManagement" class="nav-link">
-                  <p>&nbsp;&nbsp;작업자관리</p>
+                  <p>작업자 스케줄 조회</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="work" class="nav-link">
-                  <p>&nbsp;&nbsp;작업관리</p>
+                  <p>작업관리</p>
+                </a>
+              </li>
+              <li class="nav-item sideBarSub">
+                <a href="todayWorkInsert" class="nav-link">
+                  <p>당일작업등록</p>
+                </a>
+              </li>
+              <li class="nav-item sideBarSub">
+                <a href="workerInsert" class="nav-link">
+                  <p>작업자등록</p>
                 </a>
               </li>
             </ul>
@@ -233,24 +243,24 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="itemIB" class="nav-link">
-                  <p>&nbsp;&nbsp;제품입고현황</p>
+                  <p>제품입고현황</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="itemOB" class="nav-link">
-                  <p>&nbsp;&nbsp;제품출고현황</p>
+                  <p>제품출고현황</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="itemInventory" class="nav-link">
-                  <p>&nbsp;&nbsp;제품재고조회</p>
+                  <p>제품재고조회</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="itemContractInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;수주정보조회</p>
+                  <p>수주정보조회</p>
                 </a>
               </li>
             </ul>
@@ -262,34 +272,34 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="machineInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;설비정보관리</p>
+                  <p>설비정보관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="machineCheckInfo" class="nav-link">
-                  <p>&nbsp;&nbsp;설비체크기준관리</p>
+                  <p>설비체크기준관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="machineCheck" class="nav-link">
-                  <p>&nbsp;&nbsp;설비 체크리스트 작성</p>
+                  <p>설비 체크리스트 작성</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="machineManagement" class="nav-link">
-                  <p>&nbsp;&nbsp;설비관리</p>
+                  <p>설비관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="machineRepair" class="nav-link">
-                  <p>&nbsp;&nbsp;설비수리이력관리</p>
+                  <p>설비수리이력관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="machineOperationStatus" class="nav-link">
-                  <p>&nbsp;&nbsp;설비가동현황</p>
+                  <p>설비가동현황</p>
                 </a>
               </li>
             </ul>
@@ -302,29 +312,29 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="inspectionIB" class="nav-link">
-                  <p>&nbsp;&nbsp;수입검사관리</p>
+                  <p>수입검사관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="inspectionProcess" class="nav-link">
-                  <p>&nbsp;&nbsp;공정검사관리</p>
+                  <p>공정검사관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="inspectionOB" class="nav-link">
-                  <p>&nbsp;&nbsp;출하검사관리</p>
+                  <p>출하검사관리</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="defectiveProcess" class="nav-link">
-                  <p>&nbsp;&nbsp;공정불량실적</p>
+                  <p>공정불량실적</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="defectiveItem" class="nav-link">
-                  <p>&nbsp;&nbsp;제품불량실적</p>
+                  <p>제품불량실적</p>
                 </a>
               </li>
             </ul>
@@ -337,14 +347,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="productionStatus" class="nav-link">
-                  <p>&nbsp;&nbsp;생산현황</p>
+                  <p>생산현황</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="pages/layout/top-nav.html" class="nav-link">
-                  <p>&nbsp;&nbsp;출하현황</p>
+                  <p>출하현황</p>
                 </a>
               </li>
             </ul>
@@ -357,9 +367,9 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              <li class="nav-item sideBarSub">
                 <a href="memberRole" class="nav-link">
-                  <p>&nbsp;&nbsp;사용자별 권한관리</p>
+                  <p>사용자별 권한관리</p>
                 </a>
               </li>
             </ul>

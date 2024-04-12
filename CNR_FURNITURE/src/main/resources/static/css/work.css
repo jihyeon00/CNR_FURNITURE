@@ -32,7 +32,8 @@
 .sb-text input[type="text"],
 .sb-text input[type="date"],
 #workCompanyName, 
-#workItemName {
+#workItemName,
+.workInput{
   height: 40px;
 }
 

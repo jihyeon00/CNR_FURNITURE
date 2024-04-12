@@ -2,4 +2,101 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.WorkMapper">
+    <!-- 제조수행정보 조회-->
+    <select id="selectWorkProcessInfo" resultType="com.cnr_furniture.domain.work.WorkProcessInfoVO">
+        SELECT
+            ROWNUM AS RN,
+            PICTC.P_LOT_ID AS P_LOT_ID,
+            PICTC.INS_LOT_ID AS INS_LOT_ID,
+            PICTC.P_PI_ID AS P_PI_ID,
+            PICTC.PI_NAME AS PI_NAME,
+            PICTC.P_B_ITEM_ID AS P_B_ITEM_ID,
+            PICTC.I_NAME AS I_NAME,
+            PICTC.C_ID AS C_ID,
+            PICTC.C_NAME AS C_NAME,
+            PICTC.P_START_DATE AS P_START_DATE,
+            PICTC.P_END_DATE AS P_END_DATE,
+            PICTC.P_STATUS AS P_STATUS,
+            PICTC.P_PLAN_QUANTITY AS P_PLAN_QUANTITY,
+            PICTC.P_ITEM_QUANTITY AS P_ITEM_QUANTITY,
+            PICTC.P_DEFECTIVE_QUANTITY AS P_DEFECTIVE_QUANTITY,
+            PICTC.CT_UNIT AS CT_UNIT
+        FROM
+            (SELECT
+                    DISTINCT pr.P_PI_ID,
+                    pr.P_LOT_ID,
+                    ins.INS_LOT_ID,
+                    pr.P_B_ITEM_ID,
+                    pi.PI_NAME,
+                    it.I_NAME,
+                    co.C_ID,
+                    co.C_NAME,
+                    TO_CHAR(pr.P_START_DATE, 'YYYY-MM-DD') AS P_START_DATE,
+                    TO_CHAR(pr.P_END_DATE, 'YYYY-MM-DD') AS P_END_DATE,
+                    pr.P_STATUS,
+                    pr.P_PLAN_QUANTITY,
+                    pr.P_ITEM_QUANTITY,
+                    pr.P_DEFECTIVE_QUANTITY,
+                    UPPER(ct.CT_UNIT) AS CT_UNIT
+                FROM
+                    PROCESS pr
+                    JOIN PROCESS_INFO pi ON pr.P_PI_ID = pi.PI_ID
+                    JOIN INSTRUCTION ins ON pr.P_LOT_ID = ins.INS_LOT_ID
+                    JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+                    JOIN COMPANY co ON ct.CT_Company_ID = co.C_ID
+                    JOIN ITEM it ON pr.P_B_ITEM_ID = it.I_ID
+                ORDER BY
+                    P_START_DATE desc, pr.P_LOT_ID, pr.P_PI_ID, pr.P_B_ITEM_ID) PICTC
+        <trim prefix="where " prefixOverrides="and">
+            <if test="find_work_company != null or find_work_item != null or
+                     workStartDate != null or workEndDate != null or
+                     find_work_instruction != null or find_work_processInfo != null">
+                <if test="find_work_company != ''">
+                    AND C_ID = #{find_work_company}
+                </if>
+                <if test="find_work_item != ''">
+                    AND P_B_ITEM_ID = #{find_work_item}
+                </if>
+                <if test="workStartDate != ''">
+                    AND P_START_DATE >= #{workStartDate}
+                </if>
+                <if test="workEndDate != ''">
+                    AND #{workEndDate} >=  P_END_DATE
+                </if>
+                <if test="find_work_instruction != ''">
+                    AND INS_LOT_ID = #{find_work_instruction}
+                </if>
+                <if test="find_work_processInfo != ''">
+                    AND P_PI_ID = #{find_work_processInfo}
+                </if>
+                <if test="find_work_company == '' or find_work_item == '' or
+                     workStartDate == '' or workEndDate == '' or
+                     find_work_instruction == '' or find_work_processInfo == '' ">
+                    AND 1=0
+                </if>
+            </if>
+        </trim>
+    </select>
+    <select id="workSelectCompanyList" resultType="com.cnr_furniture.domain.work.WorkSelectCompanyVO">
+        SELECT
+            C_ID, C_NAME, C_
+        FROM
+            COMPANY
+    </select>
+    <select id="workSelectItemList" resultType="com.cnr_furniture.domain.work.WorkSelectItemVO">
+        SELECT
+            I_ID, I_NAME
+        FROM
+            ITEM
+    </select>
+    <select id="workSelectInstructionList" resultType="com.cnr_furniture.domain.work.WorkSelectInstructionVO">
+
+    </select>
+    <select id="workSelectProcessInfoList" resultType="com.cnr_furniture.domain.work.WorkSelectProcessInfoVO">
+        SELECT
+            PI_ID, PI_NAME, PI_SEQ
+        FROM
+            PROCESS_INFO
+    </select>
+
 </mapper>
