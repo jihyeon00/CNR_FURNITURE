@@ -6,6 +6,7 @@ import com.cnr_furniture.mapper.quality.InspectionIBMapper;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -48,7 +49,8 @@ public class InspectionIBServiceImpl implements InspectionIBService{
     @Override
     public List<InspectionIBListVO> getQsDiv2ListByQsDiv1(String qsDiv1) {
         log.info("getQsDiv2ListByQsDiv1....");
-        return inspectionIBMapper.getQsDiv2ListByQsDiv1(qsDiv1);
+        List<InspectionIBListVO> inspectionIBListVOList = inspectionIBMapper.getQsDiv2ListByQsDiv1(qsDiv1);
+        return inspectionIBListVOList;
     }
 
     /**

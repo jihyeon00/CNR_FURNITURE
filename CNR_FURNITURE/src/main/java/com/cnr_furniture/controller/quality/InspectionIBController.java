@@ -7,12 +7,8 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -37,7 +33,7 @@ public class InspectionIBController {
     }
 
     /**
-     * Desc: 품질관리-수입검사관리(자재IB), with 검색
+     * Desc: 품질관리-수입검사관리(자재IB), with 검색 - 불량유형1에 따른 불량유형2 조회
      * @return: qualityInspection/inspectionIB
      */
     @GetMapping("/inspectionIB")
@@ -63,6 +59,6 @@ public class InspectionIBController {
         model.addAttribute("qsDiv1List", qsDiv1List);
         model.addAttribute("qsDiv2List", qsDiv2List);
 
-        return "/qualityInspection/inspectionIB";   // 해당하는 View의 이름을 반환
+        return "qualityInspection/inspectionIB";   // 해당하는 View의 이름을 반환
     }
 }
