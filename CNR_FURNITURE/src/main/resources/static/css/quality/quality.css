@@ -36,7 +36,7 @@
 }
 
 
-/* 테이블명, 등록버튼 */
+/* 테이블명 */
 .inspection-titleAndTable {
 	margin-left: 0;
   padding-right: 0;
@@ -119,14 +119,14 @@
 }
 
 /* 등록 버튼 스타일 */
-.addIBinspIBBtn {
+.addInspBtn {
 	display: flex;
 	justify-content: flex-end;	/* 버튼을 오른쪽으로 정렬 */
 	margin: 0.5% 0;
 	padding-right: 15px; /* 테이블과 버튼의 우측 패딩을 일치시키기 위함 */
 }
 /* 버튼 크기 */
-.addIBinspIBBtn .btn {
+.addInspBtn .btn {
 	width: auto;	/* 버튼의 너비를 자동으로 설정하여 텍스트에 맞게 조정 */
 	padding: 0.375rem 0.75rem; /* Bootstrap 기본 버튼 패딩 */
 }
@@ -198,4 +198,41 @@
 .inspection-modal-text input[readonly],
 .itemFinishedOB-text input[readonly] {
   background-color: #D9D9D9;
+}
+
+/* 모달 - 추가 버튼 */
+.addModalInspBtn {
+	padding: 1% 1% 1% 0;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;	/* 버튼 내 아이콘과 텍스트 세로 중앙 정렬 */
+}
+/* 모달 - 추가 버튼 크기 */
+.addModalInspBtn .btn {
+	width: auto;	/* 버튼의 너비를 자동으로 설정하여 텍스트에 맞게 조정 */
+	padding: 0.375rem 0.75rem; /* Bootstrap 기본 버튼 패딩 */
+	
+	display: flex;	/* Flexbox를 사용하여 아이콘과 텍스트 정렬 */
+	align-items: center; /* 세로 중앙 정렬 */
+	justify-content: center; /* 가로 중앙 정렬 */
+	background-color: #007bff; /* 버튼 배경 색상 설정 */
+	color: white; /* 버튼 텍스트 색상을 하얀색으로 설정 */
+}
+/* 모달 - 추가 버튼 - 아이콘(+) */
+.add-circle-icon2 {
+	fill: white; /* SVG 아이콘 채우기 색상을 하얀색으로 변경 */
+	width: 21px;
+	height: auto;
+	margin-right: 4px; /* 아이콘과 텍스트 사이의 간격 조정 */
+}
+
+/* 모달 - 테이블 제목 */
+.newInspTitle {
+	padding-top: 2%;
+	padding-bottom: 1%;
+	font-weight: 500;
+}
+/* 모달 - 테이블 위쪽 구분선 */
+.newInspList {
+	border-top: 1px solid  #D9D9D9;
 }

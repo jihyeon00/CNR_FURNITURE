@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Desc: 수입검사(InspectionIB, 자재IB)를 위한 Controller
+ */
 @Controller
 @Log4j
 public class InspectionIBController {
