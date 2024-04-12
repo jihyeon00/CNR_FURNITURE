@@ -2,7 +2,7 @@ package com.cnr_furniture.service.machine;
 
 import com.cnr_furniture.domain.Machine.MachineAddVO;
 import com.cnr_furniture.domain.Machine.MachineVO;
-import com.cnr_furniture.domain.Machine.SearchMachine;
+import com.cnr_furniture.domain.Machine.SearchMachineVO;
 import com.cnr_furniture.mapper.MachineInfoMapper;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class MachineInfoServiceImpl implements MachineInfoService{
 
     // 설비정보 리스트
     @Override
-    public List<MachineVO> getMachineList(SearchMachine searchMachine){
-        return machineInfoMapper.getMachineList(searchMachine);
+    public List<MachineVO> getMachineList(SearchMachineVO searchMachineVO){
+        return machineInfoMapper.getMachineList(searchMachineVO);
     }
 
     // 설비 등록

@@ -2,14 +2,14 @@ package com.cnr_furniture.service.machine;
 
 import com.cnr_furniture.domain.Machine.MachineAddVO;
 import com.cnr_furniture.domain.Machine.MachineVO;
-import com.cnr_furniture.domain.Machine.SearchMachine;
+import com.cnr_furniture.domain.Machine.SearchMachineVO;
 
 import java.util.List;
 
 public interface MachineInfoService {
 
     // 설비정보 리스트
-    List<MachineVO> getMachineList(SearchMachine searchMachine);
+    List<MachineVO> getMachineList(SearchMachineVO searchMachineVO);
 
     // 설비 등록
     int insertMachine(MachineAddVO machineAddVO);

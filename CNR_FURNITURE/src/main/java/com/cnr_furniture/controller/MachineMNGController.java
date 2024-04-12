@@ -1,9 +1,6 @@
 package com.cnr_furniture.controller;
 
-import com.cnr_furniture.domain.Machine.MachineCheckRecordVO;
-import com.cnr_furniture.domain.Machine.MachineCheckVO;
-import com.cnr_furniture.domain.Machine.SearchMachine;
-import com.cnr_furniture.domain.Machine.MachineVO;
+import com.cnr_furniture.domain.Machine.*;
 import com.cnr_furniture.service.machine.MachineMNGService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +16,34 @@ import java.util.List;
 
 @Controller
 @Log4j
-@AllArgsConstructor
 public class MachineMNGController {
 
     // 설비 체크리스트 리스트
     @Autowired
-    private MachineMNGService machineMNGService;
+    private final MachineMNGService machineMNGService;
+    @Autowired
+    public MachineMNGController(MachineMNGService machineMNGService) {
+        this.machineMNGService = machineMNGService;
+    }
 
     @GetMapping("/machineCheckInfo")
-    public String machineCheckInfo(Model model) {
-        List<MachineCheckVO> machineCheckVOList = machineMNGService.getMachineCheckList();
-
+    public String machineCheckInfo(SearchMachineCheckVO searchMachineCheckVO, Model model) {
+        // 체크리스트 가져오기
+        List<MachineCheckVO> machineCheckVOList = machineMNGService.getMachineCheckList(searchMachineCheckVO);
         model.addAttribute("machineCheckVOList", machineCheckVOList);
+
+        // 설비 유형 가져오기
+        List<MachineCheckVO> getMachineCheckType = machineMNGService.getMachineCheckType();
+        model.addAttribute("getMachineCheckType", getMachineCheckType);
+
+        // 점검 방법 가져오기
+        List<MachineCheckVO> getMachineCheckMethod = machineMNGService.getMachineCheckMethod();
+        model.addAttribute("getMachineCheckMethod", getMachineCheckMethod);
+
+        // 검색 keyword
+        model.addAttribute("searchMachineCheckVO", searchMachineCheckVO);
+
+        // 점검방법 가져오기
         return "machine/machineCheckInfo";
     }
 
@@ -61,7 +74,7 @@ public class MachineMNGController {
 
     // 설비 체크리스트 작성
     @GetMapping("/machineCheck")
-    public String machineCheck(SearchMachine searchMachine, Model model) {
+    public String machineCheck(SearchMachineVO searchMachineVO, Model model) {
 
         // 설비 ID와 이름 가져오기
         List<MachineVO> getMachineInfo = machineMNGService.getMachineInfo();
@@ -69,8 +82,8 @@ public class MachineMNGController {
 
         // 리스트 가져오기
         List<MachineCheckVO> getMachineCheckAll;
-        if (searchMachine != null && searchMachine.getFind_machine_id() != null) {
-            getMachineCheckAll = machineMNGService.getMachineCheckAll(searchMachine);
+        if (searchMachineVO != null && searchMachineVO.getFind_machine_id() != null) {
+            getMachineCheckAll = machineMNGService.getMachineCheckAll(searchMachineVO);
         } else {
             // 선택된 설비가 없는 경우 빈 리스트 반환
             getMachineCheckAll = new ArrayList<>();

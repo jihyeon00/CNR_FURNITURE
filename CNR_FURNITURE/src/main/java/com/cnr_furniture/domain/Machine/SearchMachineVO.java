@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SearchMachine {
+public class SearchMachineVO {
     private String type;
     private String keyword;
 

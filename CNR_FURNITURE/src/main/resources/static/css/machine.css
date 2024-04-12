@@ -22,7 +22,7 @@
     display: flex;
 }
 
-.machineSearch .machineBox{
+.machineSearch .find_machine_check_condition{
     width: 150px;
     margin: 10px 15px 10px 15px;
 
@@ -94,13 +94,13 @@
 
 /*   설비별 체크리스트   */
 
-.machineSearch .onchangeMethod, .onchangeType, .onchangeMachineName{
+.machineSearch .find_machine_check_method, .find_machine_check_type{
     width: 100px;
     margin: 10px 15px 10px 15px;
 
 }
 
-.onchangeMethod, .onchangeType{
+.find_machine_check_method, .find_machine_check_type{
     border: 2px solid black;
 }
 
@@ -109,7 +109,7 @@
     color: #ebebeb; /* checkType와 checkMethod 클래스의 글자 색을 #ebebeb으로 지정 */
 }
 
-.onchangeMachine {
+.machineCheckType, .MachineCheckMethod {
     padding: 15px;
     background-color: #D8D8D8;
 }

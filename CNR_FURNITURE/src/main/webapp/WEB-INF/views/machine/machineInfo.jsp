@@ -24,8 +24,8 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <!-- 검색창 -->
 
+    <!-- 검색창 -->
     <form action="" id="searchForm" onSubmit="return false">
         <div class="headerBar">
             <div class="machineSearch">

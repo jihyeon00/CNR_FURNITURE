@@ -2,7 +2,7 @@ package com.cnr_furniture.controller;
 
 import com.cnr_furniture.domain.Machine.MachineAddVO;
 import com.cnr_furniture.domain.Machine.MachineVO;
-import com.cnr_furniture.domain.Machine.SearchMachine;
+import com.cnr_furniture.domain.Machine.SearchMachineVO;
 import com.cnr_furniture.service.machine.MachineInfoService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +24,10 @@ public class MachineInfoController {
     private MachineInfoService machineInfoService;
 
     @GetMapping("/machineInfo")
-    public String machineInfo(SearchMachine searchMachine, Model model) {
-        model.addAttribute("searchMachine", searchMachine);
+    public String machineInfo(SearchMachineVO searchMachineVO, Model model) {
+        model.addAttribute("searchMachine", searchMachineVO);
 
-        List<MachineVO> machineVOList = machineInfoService.getMachineList(searchMachine);
+        List<MachineVO> machineVOList = machineInfoService.getMachineList(searchMachineVO);
 
         model.addAttribute("machineVOList", machineVOList);
 
