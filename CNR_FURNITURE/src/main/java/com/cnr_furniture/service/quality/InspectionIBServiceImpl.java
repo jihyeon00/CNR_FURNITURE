@@ -1,8 +1,7 @@
 package com.cnr_furniture.service.quality;
 
-import com.cnr_furniture.domain.quality.CriteriaInspIBVO;
-import com.cnr_furniture.domain.quality.InspectionIBListVO;
-import com.cnr_furniture.mapper.quality.InspectionIBMapper;
+import com.cnr_furniture.domain.quality.*;
+import com.cnr_furniture.mapper.quality.*;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,7 @@ public class InspectionIBServiceImpl implements InspectionIBService{
     @Autowired
     private InspectionIBMapper inspectionIBMapper;
 
+    /* [자재불량등록] - 검색 및 현황 조회 ====================================================================================================== */
     /**
      * Desc: 검색창 - 자재번호 - 조회
      */
@@ -60,6 +60,56 @@ public class InspectionIBServiceImpl implements InspectionIBService{
     public List<InspectionIBListVO> getInspectionIBList(CriteriaInspIBVO cri) {
         log.info("getInspectionIBList....");
         return inspectionIBMapper.getInspectionIBList(cri);
+    }
+
+    /**
+     * Desc: 모달창 - 계약번호 - 조회
+     */
+    @Override
+    public List<InspectionIBInsertVO> getContractIDListForModal() {
+        log.info("getContractIDList....");
+        return inspectionIBMapper.getContractIDListForModal();
+    }
+
+    /**
+     * Desc: 모달창 - 불량유형1 - 조회
+     */
+    @Override
+    public List<InspectionIBInsertVO> getQsDiv1ListForModal() {
+        log.info("getQsDiv1List....");
+        return inspectionIBMapper.getQsDiv1ListForModal();
+    }
+
+    /**
+     * Desc: 모달창 - 불량유형1에 따른 불량유형2 조회
+     */
+    @Override
+    public List<InspectionIBInsertVO> getQsDiv2ListByQsDiv1ForModal(String qsDiv1Modal) {
+        log.info("getQsDiv2ListByQsDiv1....");
+        List<InspectionIBInsertVO> insertVOList = inspectionIBMapper.getQsDiv2ListByQsDiv1ForModal(qsDiv1Modal);
+        return insertVOList;
+    }
+
+    /**
+     * Desc: 모달창 - [계약번호] 입력에 따른 [거래처명], [계약입고수량], [단위], [자재번호], [자재명], [자재용도] 자동 채우기
+     */
+    @Override
+    public InspectionIBInsertVO getContractDetailsByContractIDModal(Long contractIDModal) {
+        log.info("contractIDModal: " + contractIDModal);
+        return inspectionIBMapper.getContractDetailsByContractIDModal(contractIDModal);
+    }
+
+    /**
+     * Desc: 자재불량 등록 시, DB 저장 - [품질검사 테이블], [재고 테이블]
+     */
+    @Override
+    @Transactional
+    public void registerInspectionItems(List<InspectionIBInsertVO> items) {
+        for(InspectionIBInsertVO item: items) {
+            inspectionIBMapper.insertQualityInspection(item);
+            inspectionIBMapper.updateContract(item);
+            inspectionIBMapper.insertOrUpdateInventory(item);
+        }
     }
 
 }

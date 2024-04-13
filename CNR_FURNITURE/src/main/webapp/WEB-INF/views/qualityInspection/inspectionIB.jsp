@@ -23,7 +23,9 @@
 	          </ol>
 	          <ol class="breadcrumb float-sm-right">
 	            <div class="reset">
-	              <img class="resetPng" alt="reset" src="/resources/img/reset.png" >
+	            	<a href="/inspectionIB">
+	              	<img class="resetPng" alt="reset" src="/resources/img/reset.png" >
+	              </a>
 	            </div>
 	            <div class="col-sm-1 ml-auto">
 	              <button type="submit" class="btn btn-primary search-btn" id="" onClick="javascript: search();">
@@ -42,9 +44,8 @@
 	         	<input type="search" list="matIDList" class="col-sm-12"  id="matID" name="matID" value="${cri.matID}">
 	         	<datalist id="matIDList">
 	         		<c:forEach items="${matIDList}" var="mat">
-								<option value="<c:out value='${mat.matID}' />" 
-											<c:if test="${param.matID != null && param.matID == mat.matID}">selected</c:if> >
-									<c:out value='${mat.matID}' />
+								<option value='${mat.matID}'
+                	<c:if test="${search.matID == mat.matID}">selected</c:if> >${mat.matID}
 								</option>
 							</c:forEach>
 	         	</datalist>
@@ -54,10 +55,9 @@
 	         <div class="col-sm-3 inspection-text">
 	         	<input type="search" list="contractIDList" class="col-sm-12" id="contractID" name="contractID" value="${cri.contractID}">
 	         	<datalist id="contractIDList">
-	         		<c:forEach items="${contractIDList}" var="contractIDs">
-								<option value="<c:out value='${contractIDs.contractID}' />" 
-											<c:if test="${param.contractID != null && param.contractID == contractIDs.contractID}">selected</c:if> >
-									<c:out value='${contractIDs.contractID}' />
+	         		<c:forEach items="${contractIDList}" var="contract">
+								<option value='${contract.contractID}'
+                	<c:if test="${cri.contractID == contract.contractID}">selected</c:if> >${contract.contractID}
 								</option>
 							</c:forEach>
 	         	</datalist>
@@ -72,7 +72,9 @@
 	         	<select class="col-sm-6"  id="qsDiv1" name="qsDiv1">
 	         		<option value="">불량유형1 선택</option>
 	            <c:forEach items="${qsDiv1List}" var="qsDiv1s">
-	            	<option value="${qsDiv1s.qsDiv1}" ${qsDiv1s.qsDiv1 == cri.qsDiv1 ? 'selected' : ''}>${qsDiv1s.qsDiv1}</option>
+	            	<option value='${qsDiv1s.qsDiv1}'
+                	<c:if test="${cri.qsDiv1 == qsDiv1s.qsDiv1}">selected</c:if> >${qsDiv1s.qsDiv1}
+								</option>
 							</c:forEach>
 	          </select><!-- /.불량유형1 -->
 	          &nbsp;
@@ -80,7 +82,9 @@
 	          <select class="col-sm-6"  id="qsDiv2" name="qsDiv2">
 	            <option value="">불량유형2 선택</option>
 	            <c:forEach items="${qsDiv2List}" var="qsDiv2s">
-								<option value="${qsDiv2s.qsDiv2}" ${qsDiv2s.qsDiv2 == cri.qsDiv2 ? 'selected' : ''}>${qsDiv2s.qsDiv2}</option>
+								<option value='${qsDiv2s.qsDiv2}'
+                	<c:if test="${cri.qsDiv2 == qsDiv2s.qsDiv2}">selected</c:if> >${qsDiv2s.qsDiv2}
+								</option>
 							</c:forEach>
 	          </select><!-- /.불량유형2 -->
 	         </div><!-- /.불량유형 -->
@@ -197,44 +201,16 @@
       <!-- modal-body -->
       <div class="modal-body inspection-modal-body">
       	<form action="/inspectionIB" id="inspIBInsert" name="inspIBInsert" class="col-md-12" >
-		      <!-- 등록행 1 -->
-		      <div class="inspection-modal-board">
-		      	<!-- 자재번호 -->
-		        <div class="col-sm-2 inspection-modal-name">자재번호</div>
-		        <div class="col-sm-2 inspection-modal-text">
-		          <input list="matIDList" class="col-sm-12"  id="matID" name="matID" value="${cri.matID}">
-		          <datalist id="matIDList">
-		         		<c:forEach items="${matIDList}" var="mat">
-									<option value="<c:out value='${mat.matID}' />" 
-												<c:if test="${param.matID != null && param.matID == mat.matID}">selected</c:if> >
-										<c:out value='${mat.matID}' />
-									</option>
-								</c:forEach>
-		         	</datalist>
-		        </div><!-- /.자재번호 -->
-		        <!-- 자재명 -->
-		        <div class="col-sm-2 inspection-modal-name">자재명</div>
-		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-		            value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" readonly="readonly"/>
-		        </div><!-- /.자재명 -->
-		        <!-- 자재용도 -->
-		        <div class="col-sm-2 inspection-modal-name">자재용도</div>
-		        <div class="col-sm-2 inspection-modal-text">
-		        	<input type="text" class="col-sm-12" id="" name="" readonly="readonly" />
-		        </div><!-- /.자재용도 -->
-		      </div><!-- /.등록행 1 -->
-		      <!-- 등록행 2 -->
+      		<!-- 등록행 1 -->
 		      <div class="inspection-modal-board">
 		      	<!-- 계약번호 -->
 		        <div class="col-sm-2 inspection-modal-name">계약번호</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input list="contractIDList" class="col-sm-12" id="contractID" name="contractID" value="${cri.contractID}">
-		         	<datalist id="contractIDList">
-		         		<c:forEach items="${contractIDList}" var="contractIDs">
-									<option value="<c:out value='${contractIDs.contractID}' />" 
-												<c:if test="${param.contractID != null && param.contractID == contractIDs.contractID}">selected</c:if> >
-										<c:out value='${contractIDs.contractID}' />
+		          <input list="contractIDModalList" class="col-sm-12 modal-input" id="contractIDModal" name="contractIDModal" value="${data.contractIDModal}">
+		         	<datalist id="contractIDModalList">
+		         		<c:forEach items="${contractIDModalList}" var="ctModalList">
+									<option value='${ctModalList.contractIDModal}'
+                		<c:if test="${data.contractIDModal == ctModalList.contractIDModal}">selected</c:if> >${ctModalList.contractIDModal}
 									</option>
 								</c:forEach>
 		         	</datalist>
@@ -242,32 +218,53 @@
 		        <!-- 거래처명 -->
 		        <div class="col-sm-2 inspection-modal-name">거래처명</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-		            value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" readonly="readonly"/>
+		          <input type="text" class="col-sm-12 modal-input" id="companyNameModal" name="companyNameModal"
+		            value='<c:out value="${data.companyNameModal}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.거래처명 -->
 		        <!-- 단위 -->
 		        <div class="col-sm-2 inspection-modal-name">단위</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-		            value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" readonly="readonly"/>
+		          <input type="text" class="col-sm-12 modal-input" id="unitModal" name="unitModal"
+		            value='<c:out value="${data.unitModal}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.단위 -->
+		      </div><!-- /.등록행 1 -->
+		      <!-- 등록행 2 -->
+		      <div class="inspection-modal-board">
+		      	<!-- 자재번호 -->
+		        <div class="col-sm-2 inspection-modal-name">자재번호</div>
+		        <div class="col-sm-2 inspection-modal-text">
+		        	<input type="text" class="col-sm-12 modal-input" id="matIDModal" name="matIDModal"
+	            	value='<c:out value="${data.matIDModal}"/>' autocomplete="off" readonly="readonly"/>
+		        </div><!-- /.자재번호 -->
+		        <!-- 자재명 -->
+		        <div class="col-sm-2 inspection-modal-name">자재명</div>
+		        <div class="col-sm-2 inspection-modal-text">
+		          <input type="text" class="col-sm-12 modal-input" id="matNameModal" name="matNameModal"
+		            value='<c:out value="${data.matNameModal}"/>' autocomplete="off" readonly="readonly"/>
+		        </div><!-- /.자재명 -->
+		        <!-- 자재용도 -->
+		        <div class="col-sm-2 inspection-modal-name">자재용도</div>
+		        <div class="col-sm-2 inspection-modal-text">
+		        	<input type="text" class="col-sm-12 modal-input" id="matUsesModal" name="matUsesModal" readonly="readonly" />
+		        </div><!-- /.자재용도 -->
 		      </div><!-- /.등록행 2 -->
 		      <!-- 등록행 3 -->
 		      <div class="inspection-modal-board">
 		        <!-- 계약입고수량 -->
 		        <div class="col-sm-2 inspection-modal-name">계약입고수량</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="number" class="col-sm-12" id="" name="" readonly="readonly"/>
+		          <input type="number" class="col-sm-12 modal-input" id="contractQuantityModal" name="contractQuantityModal" 
+		          	value='<c:out value="${data.contractQuantityModal}" />' readonly="readonly"/>
 		        </div><!-- /.계약입고수량 -->
 		        <!-- 검사수량 -->
 		        <div class="col-sm-2 inspection-modal-name">검사수량<br>(입고수량)</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="number" class="col-sm-12" id="" name="" />
+		          <input type="number" class="col-sm-12 modal-input" id="inspectionQuantityModal" name="inspectionQuantityModal" />
 		        </div><!-- /.검사수량 -->
 		        <!-- 불량수량 -->
 		        <div class="col-sm-2 inspection-modal-name">불량수량</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="number" class="col-sm-12" id="" name="" />
+		          <input type="number" class="col-sm-12 modal-input" id="poorQuantityModal" name="poorQuantityModal" />
 		        </div><!-- /.불량수량 -->
 		      </div><!-- /.등록행 3 -->
 		      <!-- 등록행 4 -->
@@ -275,21 +272,25 @@
 		      	<!-- 불량유형1 -->
 		        <div class="col-sm-2 inspection-modal-name">불량유형1</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		        	<select class="col-sm-12"  id="qsDiv1" name="qsDiv1">
+		        	<select class="col-sm-12 modal-input"  id="qsDiv1Modal" name="qsDiv1Modal">
 		         		<option value="">불량유형1 선택</option>
-		            <c:forEach items="${qsDiv1List}" var="qsDiv1s">
-		            	<option value="${qsDiv1s.qsDiv1}" ${qsDiv1s.qsDiv1 == cri.qsDiv1 ? 'selected' : ''}>${qsDiv1s.qsDiv1}</option>
-								</c:forEach>
+		         		<c:forEach items="${qsDiv1ModalList}" var="qsDiv1Modals">
+							    <option value='${qsDiv1Modals.qsDiv1Modal}'
+							            <c:if test="${cri.qsDiv1Modal == qsDiv1Modals.qsDiv1Modal}">selected</c:if> >${qsDiv1Modals.qsDiv1Modal}
+							    </option>
+							  </c:forEach>
 		          </select>
 		        </div><!-- /.불량유형1 -->
 		        <!-- 불량유형2 -->
 		        <div class="col-sm-2 inspection-modal-name">불량유형2</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		        	<select class="col-sm-12"  id="qsDiv2" name="qsDiv2">
+		        	<select class="col-sm-12 modal-input"  id="qsDiv2Modal" name="qsDiv2Modal">
 		            <option value="">불량유형2 선택</option>
-		            <c:forEach items="${qsDiv2List}" var="qsDiv2s">
-									<option value="${qsDiv2s.qsDiv2}" ${qsDiv2s.qsDiv2 == cri.qsDiv2 ? 'selected' : ''}>${qsDiv2s.qsDiv2}</option>
-								</c:forEach>
+		            <c:forEach items="${qsDiv2ModalList}" var="qsDiv2Modals">
+							    <option value='${qsDiv2Modals.qsDiv2Modal}'
+							            <c:if test="${cri.qsDiv2Modal == qsDiv2Modals.qsDiv2Modal}">selected</c:if> >${qsDiv2Modals.qsDiv2Modal}
+							    </option>
+							  </c:forEach>
 		          </select>
 		        </div><!-- /.불량유형2 -->
 		        <div class="col-sm-4 emptyModal"></div>
@@ -299,13 +300,13 @@
 		      	<!-- 비고 -->
 		      	<div class="col-sm-2 inspection-modal-name">비고</div>
 		      	<div class="col-sm-10 inspection-modal-text">
-		      		<input type="text" class="col-sm-12" id="" name=""/>
+		      		<input type="text" class="col-sm-12 modal-input" id="notesModal" name="notesModal"/>
 		      	</div><!-- /.비고 -->
 		      </div><!-- /.등록행 5 -->
 		      <!-- 추가버튼 -->
 		      <div class="row modal-add-btn">
 		      	<div class="col-sm-12 addModalInspBtn">
-		         	<button type="button" id="" class="btn btn-primary add-insp-btn">
+		         	<button type="button" id="addInspection" class="btn btn-primary add-insp-btn">
 		            <svg class="add-circle-icon2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>
 		            추가
 		          </button>
@@ -399,7 +400,7 @@
       <div class=divBorderModal></div>
       
       <div class="modal-footer">
-           <button type="button" class="btn btn-primary">등록</button>
+           <button type="button" class="btn btn-primary" id="registerBtn">등록</button>
            <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
       </div><!-- /.modal-footer -->
     </div><!-- /.modal-content -->

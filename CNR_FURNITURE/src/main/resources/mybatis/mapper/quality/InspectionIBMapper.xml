@@ -2,7 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.quality.InspectionIBMapper">
-    <parameterMap id="criteriaParam" type="com.cnr_furniture.domain.quality.CriteriaInspIBVO"></parameterMap>
+    <!--<parameterMap id="criteriaParam" type="com.cnr_furniture.domain.quality.CriteriaInspIBVO"></parameterMap>-->
+    <!-- [자재불량등록] - 검색 및 현황 조회 ====================================================================================================== -->
+    <!-- 검색창 - 계약번호 -->
+    <select id="getContractIDList" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">
+        SELECT
+        CT_ID as contractID
+        FROM
+            CONTRACT
+        WHERE
+            CT_DIV = '발주'
+    </select>
+
     <!-- 검색창 - 자재번호 -->
     <select id="getMatIDList" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">
         SELECT
@@ -11,13 +22,6 @@
             MATERIAL
     </select>
 
-    <!-- 검색창 - 계약번호 -->
-    <select id="getContractIDList" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">
-        SELECT
-            CT_ID as contractID
-        FROM
-            CONTRACT
-    </select>
     <!-- 검색창 - 불량유형1 -->
     <select id="getQsDiv1List" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO">
         SELECT
@@ -120,4 +124,114 @@
             ) T
         ]]>
     </select>
+
+
+    <!-- [자재불량등록] - 모달창 ====================================================================================================== -->
+    <!-- 모달창 - 계약번호 -->
+    <select id="getContractIDListForModal" resultType="com.cnr_furniture.domain.quality.InspectionIBInsertVO">
+        SELECT
+            CT_ID as contractIDModal
+        FROM
+            CONTRACT
+        WHERE
+            CT_DIV = '발주'
+            AND CT_REAL_QUANTITY IS NULL
+    </select>
+    <!-- 모달창 - 불량유형1 -->
+    <select id="getQsDiv1ListForModal" resultType="com.cnr_furniture.domain.quality.InspectionIBInsertVO">
+        SELECT
+            qs.QS_DF_DIV1 AS qsDiv1Modal
+        FROM
+            QUALITY_STANDARD qs
+            INNER JOIN (
+                SELECT
+                    MIN(QS_ID) AS MinQS_ID,
+                    QS_DF_DIV1
+                FROM
+                    QUALITY_STANDARD
+                 GROUP BY
+                    QS_DF_DIV1
+                )
+            grouped_qs ON qs.QS_ID = grouped_qs.MinQS_ID
+        ORDER BY
+            qs.QS_ID ASC
+    </select>
+    <!-- 모달창 - 불량유형1에 따른 불량유형2 -->
+    <select id="getQsDiv2ListByQsDiv1ForModal" parameterType="string" resultType="com.cnr_furniture.domain.quality.InspectionIBInsertVO">
+        <!-- [불량유형2]의 option 값은 [불량유형1]의 option 값에 따라 다르다. -->
+        SELECT
+            DISTINCT qs.QS_DF_DIV2 AS qsDiv2Modal
+        FROM
+            QUALITY_STANDARD qs
+        WHERE
+            QS_DF_DIV1 = #{qsDiv1Modal}
+    </select>
+    <!-- 모달창 - [계약번호] 입력에 따른 [거래처명], [계약입고수량], [단위], [자재번호], [자재명], [자재용도] 자동 채우기 -->
+    <select id="getContractDetailsByContractIDModal" resultType="com.cnr_furniture.domain.quality.InspectionIBInsertVO">
+        SELECT
+            comp.C_NAME AS companyNameModal,
+            ct.CT_QUANTITY AS contractQuantityModal,
+            ct.CT_UNIT AS unitModal,
+            m.M_ID AS matIDModal,
+            m.M_NAME AS matNameModal,
+            m.M_USES AS matUsesModal
+        FROM
+            CONTRACT ct
+            JOIN COMPANY comp ON ct.CT_COMPANY_ID = comp.C_ID
+            JOIN MATERIAL m ON ct.CT_MATERIAL_ID = m.M_ID
+        WHERE
+            ct.CT_ID = #{contractIDModal}
+    </select>
+
+    <!-- [자재불량등록] - [품질검사 테이블] INSERT -->
+    <insert id="insertQualityInspection" parameterType="com.cnr_furniture.domain.quality.InspectionIBInsertVO">
+        INSERT INTO QUALITY_INSPECTION
+            (
+            QI_CT_ID,
+            QI_MATERIAL_ID,
+            QI_QS_ID,
+            QI_INSPECTION_QUANTITY,
+            QI_PASSED_QUANTITY,
+            QI_DFT_QUANTITY,
+            QI_DATE,
+            QI_NOTE
+            )
+        VALUES
+            (
+            #{contractIDModal},
+            #{matIDModal},
+            #{qsDiv1Modal},
+            #{inspectionQuantityModal},
+            #{goodQuantityModal},
+            #{poorQuantityModal},
+            CURRENT_TIMESTAMP,
+            #{notesModal}
+            )
+    </insert>
+    <!-- [자재불량등록] - [계약테이블] UPDATE -->
+    <update id="updateContract">
+        UPDATE
+            CONTRACT
+        SET
+            ct_real_quantity = #{inspectionQuantityModal},
+            ct_real_IB_date = CURRENT_TIMESTAMP
+        WHERE CT_ID = #{contractIDModal}
+    </update>
+    <!-- [자재불량등록] - [재고테이블] UPDATE 또는 INSERT -->
+    <insert id="insertOrUpdateInventory" parameterType="com.cnr_furniture.domain.quality.InspectionIBInsertVO">
+        MERGE INTO
+            INVENTORY
+        USING
+            DUAL ON (inv_material_id = #{matIDModal})
+        WHEN
+            MATCHED THEN
+        UPDATE SET
+            inv_quantity = inv_quantity + #{goodQuantityModal}
+        WHEN
+            NOT MATCHED THEN
+        INSERT
+            (inv_material_id, inv_quantity, inv_unit)
+        VALUES
+            (#{matIDModal}, #{goodQuantityModal}, #{unitModal})
+    </insert>
 </mapper>

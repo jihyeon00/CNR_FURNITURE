@@ -174,9 +174,7 @@
   justify-content: center;
 }
 /* 모달-검색바의 input 박스 높이 지정*/
-.inspection-modal-text input[type="text"],
-.inspection-modal-text input[type="date"],
-.inspection-modal-text input[type="number"],
+.inspection-modal-text input,
 .inspection-modal-text select,
 .itemFinishedOB-text input[type="text"],
 .itemFinishedOB-text input[type="date"],
