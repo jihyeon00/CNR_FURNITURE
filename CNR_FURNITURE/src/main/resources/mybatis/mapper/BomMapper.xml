@@ -63,6 +63,16 @@
         AND B_ITEM_ID = #{b_item_id}
     </update>
 
+    <update id="updateAll">
+        UPDATE BOM
+        SET B_ITEM_ID = #{b_item_id},
+            B_MATERIAL_ID = #{b_material_id},
+            B_UNIT = #{b_unit},
+            B_MATERIAL_QUANTITY = #{b_material_quantity}
+        WHERE B_MATERIAL_ID = #{b_material_id}
+        AND B_ITEM_ID = #{b_item_id}
+    </update>
+
 
     <insert id="addBomList">
         INSERT INTO BOM

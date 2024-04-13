@@ -20,6 +20,8 @@ public interface BomService {
 
     int modify(BomVO bomVO); // BOM관리의 BOM수정
 
+    int modifyAll(BomVO bomVO); //Bom등록 추가 후 전체수정
+
     int insertBomList(BomVO bomVO); //**BOM 등록
 
 

@@ -77,7 +77,7 @@ public class BomController {
 
     /**
      * Desc: bom목록 - bom수정
-     * @return: /bomList/{b_material_id}
+     * @return: /bom/{b_material_id}/{b_item_id}
      */
     @RequestMapping(method = { RequestMethod.POST }
             ,value =  "/bom/{b_material_id}/{b_item_id}"
@@ -93,6 +93,29 @@ public class BomController {
         log.info("b_material_id: " + b_material_id);
         log.info("modify: " + bomVO);
         boolean isSuccessModify = bomService.modify(bomVO) == 1;
+
+        return  isSuccessModify ? new ResponseEntity<>("success", HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Desc: bom등록 - 추가된 bom수정
+     * @return: /bom/{b_material_id}/{b_item_id}
+     */
+    @RequestMapping(method = { RequestMethod.POST }
+            ,value =  "/bom/insert/{b_material_id}/{b_item_id}"
+    )
+    public ResponseEntity<String> modifyAll(
+            @RequestBody BomVO bomVO,
+            @PathVariable("b_item_id") int b_item_id,
+            @PathVariable("b_material_id") int b_material_id
+    ){
+        bomVO.setB_material_id(b_item_id);
+        bomVO.setB_item_id(b_material_id);
+
+        log.info("b_material_id: " + b_material_id);
+        log.info("modify: " + bomVO);
+        boolean isSuccessModify = bomService.modifyAll(bomVO) == 1;
 
         return  isSuccessModify ? new ResponseEntity<>("success", HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

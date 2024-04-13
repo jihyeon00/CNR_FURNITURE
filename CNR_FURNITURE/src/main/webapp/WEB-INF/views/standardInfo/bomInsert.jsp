@@ -247,8 +247,26 @@
 	
 	
 	
-	//let addBomListUL = $(".addBomListUL");
 	
+		/*   var str = "";
+    
+	str += "<tr>";
+	    str += "    <td>";
+  str += "        <input class='form-check-input' type='checkbox' />";
+  str += "    </td>";
+	str += "    <td>" + itemId + "</td>";
+	str += "    <td>" + mtId + "</td>";
+	str += "    <td>" + mtUnit + "</td>";
+	str += "    <td>" + mtQuantity + "</td>";
+	str += "</tr>";
+
+	addBomListUL.html(str); // 결과를 HTML에 삽입(html 렌더링한다)  
+	위를 사용하지 않는이유: 
+		1. 반복적인 문자열 연산이 필요하고 성능에 부담을 줄 수 있고,
+		2. 클릭할 때마다 기존 내용을 대체(replace)하는 것이 아니라, 기존 내용에 새로운 요소를 추가하려면 다른 방법이 필요  */
+
+		
+	//let addBomListUL = $(".addBomListUL");
 	/* BOM 목록 등록추가버튼  */
 	$('#addBomList').on('click', function(e) {
 		 
@@ -295,43 +313,65 @@
 		            }
 		        }
 	    });
-			/*   var str = "";
-		    
-			str += "<tr>";
-			    str += "    <td>";
-		  str += "        <input class='form-check-input' type='checkbox' />";
-		  str += "    </td>";
-			str += "    <td>" + itemId + "</td>";
-			str += "    <td>" + mtId + "</td>";
-			str += "    <td>" + mtUnit + "</td>";
-			str += "    <td>" + mtQuantity + "</td>";
-			str += "</tr>";
-		
-			addBomListUL.html(str); // 결과를 HTML에 삽입(html 렌더링한다)  
-			위를 사용하지 않는이유: 
-				1. 반복적인 문자열 연산이 필요하고 성능에 부담을 줄 수 있고,
-				2. 클릭할 때마다 기존 내용을 대체(replace)하는 것이 아니라, 기존 내용에 새로운 요소를 추가하려면 다른 방법이 필요  */
     
 	 });
 	 
 	// '수정' 버튼 클릭 이벤트 핸들러 등록
-	$('.addBomListUL').on('click', '.modifyBomInserted', function() {
-	    // 클릭된 '수정' 버튼이 속한 행(tr)에서 데이터 가져오기
-	   	var itemId = $('.itemId').val();
-	    var mtId = $('.mtId').val();
-	    var mtUnit = $('#.tUnit').val();
-	    var mtQuantity = $('.mtQuantity').val();
-	
-	    console.log('수정 클릭 - itemId:', itemId);
-	    console.log('수정 클릭 - mtId:', mtId);
-	    console.log('수정 클릭 - mtUnit:', mtUnit);
-	    console.log('수정 클릭 - mtQuantity:', mtQuantity);
-	
-	    // 해당 행의 수량(mtQuantity)을 입력 필드로 교체
-	    var $quantityCell = $row.find('.mtQuantity');
-	    $quantityCell.empty(); // 기존 내용 제거
-	    var $input = $('<input type="text" id="mQuantity" />').val(mtQuantity);
-	    $quantityCell.append($input);
-	});
+    $('.addBomListUL').on('click', '.modifyBomInserted', function() {
+        var $row = $(this).closest('tr');
 
+        // 각 셀의 값을 입력 필드로 변경
+        $row.find('td').each(function() {
+            var currentValue = $(this).text();
+            $(this).html('<input type="text" class="form-control" value="' + currentValue + '">');
+        });
+
+        // '수정' 버튼을 '완료' 버튼으로 변경
+        $(this).text('완료').removeClass('modifyBomInserted').addClass('completeBomEdit');
+
+        // '완료' 버튼(수정 완료 버튼) 클릭 이벤트 핸들러 등록
+        $(this).on('click', function() {
+	        var $row = $(this).closest('tr');
+	
+	        // 각 셀의 입력 필드 값을 가져와서 해당 셀의 내용으로 설정
+	        $row.find('input').each(function() {
+	            var newValue = $(this).val();
+	            $(this).closest('td').text(newValue);
+	        });
+
+         // '완료' 버튼을 '수정' 버튼으로 변경
+         $(this).text('수정').removeClass('completeBomEdit').addClass('modifyBomInserted');
+         /*    $row.find('.completeBomEdit').text('수정').removeClass('completeBomEdit').addClass('modifyBomInserted'); */
+
+            // 수정된 데이터를 서버로 전송하여 처리 (실제 AJAX 요청)
+            var itemId = $row.find('.itemId').text();
+            var mtId = $row.find('.mtId').text();
+            var mtUnit = $row.find('.mtUnit').text();
+            var mtQuantity = $row.find('.mtQuantity').text();
+
+            var dataToUpdate = {
+            		b_item_id: itemId,
+            		b_material_id: mtId,
+            		b_unit: mtUnit,
+                b_material_quantity: mtQuantity
+            };
+            
+            console.log(dataToUpdate);
+
+            // AJAX 요청을 통해 서버에 데이터 전송
+            $.ajax({
+                type: 'POST',
+                url:  '/bom/insert/' + itemId + '/' + mtId, // 수정 처리를 위한 서버 URL
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(dataToUpdate),
+                success: function(response) {
+                    alert('BOM 수정이 완료되었습니다.');
+                },
+                error: function(xhr, status, er) {
+                    alert('BOM 수정 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                    console.error('error:', er);
+                }
+            });
+        });
+    });
 </script>

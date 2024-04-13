@@ -48,6 +48,12 @@ public class BomServiceImpl implements BomService{
     }
 
     @Override
+    public int modifyAll(BomVO bomVO) {
+        int rtn = bomMapper.updateAll(bomVO);
+        return rtn;
+    }
+
+    @Override
     public int insertBomList(BomVO bomVO) {
 //        int rtn = 0;
 //        try {
