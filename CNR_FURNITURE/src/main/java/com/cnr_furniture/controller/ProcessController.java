@@ -1,9 +1,13 @@
 package com.cnr_furniture.controller;
 
+import com.cnr_furniture.domain.bom.BomVO;
 import com.cnr_furniture.domain.process.*;
+import com.cnr_furniture.domain.quality.CriteriaInspIBVO;
+import com.cnr_furniture.domain.quality.InspectionIBListVO;
 import com.cnr_furniture.service.ProcessService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,27 +46,10 @@ public class ProcessController {
      */
     @PostMapping("/manufacturingInstructionInsert")
     public String manufacturingInstructionInsert (
-//            @RequestParam("ins_lot_id") int ins_lot_id,
-//            @RequestParam("ins_item_id") int ins_item_id,
-//            @RequestParam("ins_emp_id") int ins_emp_id,
-//            @RequestParam("ins_ct_id") int ins_ct_id,
-//            @RequestParam("ins_pi_id") int ins_pi_id,
-//            @RequestParam("ins_lot_size") int ins_lot_size,
-//            @RequestParam("ins_start_date") String ins_start_date,
-//            @RequestParam("ins_end_date") String ins_end_date,
             ProcessVO processVO,
             RedirectAttributes rttr
     ){
-//        int rtn = processService.insertProInstruction(
-//                  ins_lot_id
-//                , ins_item_id
-//                , ins_emp_id
-//                , ins_ct_id
-//                , ins_pi_id
-//                , ins_lot_size
-//                , ins_start_date
-//                , ins_end_date
-//        );
+
         int rtn = processService.insertProInstruction(
                 processVO.getIns_lot_id()
                 , processVO.getIns_item_id()
@@ -78,19 +65,96 @@ public class ProcessController {
     }
 
 
-    /*제조수행지시*/
+
+
+
+
+
+
+
+
+
+    /**제조 수행지시*/
+
+    /**
+     * Desc: 검색창 -
+     */
+    @GetMapping("/insItemList")
+    @ResponseBody
+    public List<ProcessVO> selectItemsByLotId(
+            @RequestParam("ins_lot_id") int ins_lot_id
+    ) {
+        return processService.selectItemsByLotId(ins_lot_id);
+    }
+
+    @GetMapping("/insPiList")
+    @ResponseBody
+    public List<ProcessVO> selectProcessIdsByItemAndLotId(
+            @RequestParam("ins_lot_id") int ins_lot_id,
+            @RequestParam("ins_item_id") int ins_item_id) {
+        return processService.selectProcessIdsByItemAndLotId(ins_lot_id, ins_item_id);
+    }
+
     @GetMapping("/manufacturingPerform")
-    public String processPlan(ProcessDate processDate, Model model) {
-            List<ProcessVO> proList = processService.selectProcess(processDate);
-            model.addAttribute("proList", proList);
-            model.addAttribute("processDate", processDate);
-        return "process/manufacturingPerform";
+        public String manufacturingPerform(ProcessDate processDate, Model model) {
+            List<ProcessRunVO> proRunList = processService.selectProcessRun(processDate);
+            List<ProcessRunVO> proRunList1 = processService.selectProcessRun1();
+            List<ProcessVO> insLotList = processService.selectLotIdsByItemAndProcessId();
+            List<ProcessVO> insItemList = null;
+            List<ProcessVO> insPiList = null;
+
+            if (processDate.getIns_lot_id() > 0) {
+                insItemList = processService.selectItemsByLotId(processDate.getIns_lot_id());
+                if (processDate.getIns_item_id() > 0) {
+                    insPiList = processService.selectProcessIdsByItemAndLotId(processDate.getIns_lot_id(), processDate.getIns_item_id());
+                } else {
+                    insPiList = List.of();
+                }
+            } else {
+                insItemList = List.of();
+                insPiList = List.of();
+            }
+            model.addAttribute("proRunList", proRunList);
+            model.addAttribute("proRunList1", proRunList1);
+            model.addAttribute("insLotList", insLotList);
+            model.addAttribute("insItemList", insItemList);
+            model.addAttribute("insPiList", insPiList);
+
+            return "process/manufacturingPerform";   // 해당하는 View의 이름을 반환
+        }
+
+    /**
+     * Desc: 제조 수행지시 등록
+     * @return: manufacturingPerform 페이지
+     */
+    @PostMapping("/manufacturingPerformInsert")
+    public String manufacturingPerformInsert (
+            ProcessRunVO processRunVO,
+            RedirectAttributes rttr
+    ){
+
+        int rtn = processService.insertProcessDa(
+                processRunVO.getP_lot_id()
+                , processRunVO.getP_pi_id()
+                , processRunVO.getP_b_item_id()
+                , processRunVO.getP_plan_quantity()
+                , processRunVO.getP_note()
+        );
+        rttr.addFlashAttribute("insertSuccessCount", rtn);
+        return "redirect:manufacturingPerform";
+     }
     }
 
-    /*공정정보*/
-    @GetMapping("/processInfo")
-    public String processInfo() {
-        return "process/processInfo";
-    }
 
-}
+
+
+
+
+
+
+
+
+
+
+
+

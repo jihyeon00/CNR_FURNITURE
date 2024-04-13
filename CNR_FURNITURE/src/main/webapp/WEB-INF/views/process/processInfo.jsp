@@ -199,12 +199,12 @@
         <div class="row">
           <div class="col-md-5 maginPro">
             <!-- 설비목록 테이블 -->
-            <div class="ETableTitle">
+            <div class="ETableTitle ">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div class="employee">설비목록</div>
               <div class="procexxIcon"><button style="border-style: gray;"><i class="fa fa-fw fa-plus"></i></button></div>             
             </div>
-            <div class="table DTable">
+            <div class="table ProTable3">
               <table cellpadding="0" cellspacing="0" border="0">
                 <colgroup>
                   <col style="width: 5%" />
@@ -220,7 +220,7 @@
                     <th>설비유형</th>
                   </tr>
                 </thead>
-                <tbody class="tbl-content ProTable">
+                <tbody class="tbl-content ProTable3">
                   <!-- 설비목록 데이터 -->
                     <tr>
                         <td><input type="checkbox" name="check1"></td>
@@ -258,7 +258,7 @@
           </div>
           <div class="col-sm-1">
           </div>
-          <div class="col-md-5 custom-margin">
+          <div class="col-md-5 Promargin">
             <!-- 추가된 설비목록 테이블 -->
             <div class="ETableTitle">
               <div class="icon"><i class="fa fa-list"></i></div>
@@ -281,7 +281,7 @@
                     <th>설비유형</th>
                   </tr>
                 </thead>
-                <tbody class="tbl-content ProTable">
+                <tbody class="tbl-content ProTable3">
                   <!-- 추가된 설비목록 데이터 -->
                       <tr>
                         <td><input type="checkbox" name="check1"></td>

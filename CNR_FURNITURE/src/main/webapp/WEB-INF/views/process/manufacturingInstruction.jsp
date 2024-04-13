@@ -26,10 +26,9 @@
                 <div class="col-md-6 ml-auto">
                     <form action="/manufacturingInstruction" method="get">
                         <div class="pro-btn">
-                            <button type="submit" class="btn btn-primary">조회</button>
+                            <button type="submit" class="btn btn-primary asb">조회</button>
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
                         </div>
-
                 </div><!-- /.col -->
             </div><!-- /.container-fluid -->
         </div>
@@ -47,15 +46,20 @@
                             <p class="textPro"> ~ </p>
                             <input type="date" class="col-sm-12 sb-text1" id="endDate" name="endDate" value='<c:out value="${processDate.endDate}"/>' />
                         </div>
-
                         <div class="col-sm-1 prosb-name">제품번호</div>
-                        <select class="col-sm-2 prosb-text" aria-label=".form-select-sm example" name="find_item_process">
-                            <option value="">--선택--</option>
-                            <c:forEach items="${itemProList}" var="item">
-                                <option value="${item.i_id}" ${item.i_id == processDate.find_item_process ? 'selected' : ''}>${item.i_id} ${item.i_name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
+                            <input list="itemProcessList" name="find_item_process" class="col-sm-2 prosb-text" aria-label=".form-select-sm example" value="${processDate.find_item_process}">
+                            <datalist id="itemProcessList">
+                                <option value="">--선택--</option>
+                                <c:forEach items="${itemProList}" var="item">
+                                    <option value="${item.i_id}">${item.i_id} ${item.i_name}</option>
+                                </c:forEach>
+                            </datalist>
+                             <div class="col-sm-12 proimage" >
+                                  <div class="reset" onclick="resetFields()">
+                                      <a href="./manufacturingInstruction"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+                             </div><!-- /.col -->
+                             <br>
+                        </div>
                     </form>
                 </div><!-- /.row -->
 
@@ -91,7 +95,7 @@
                                         <td><c:out value="${ProSearch.ins_lot_size}"/></td>
                                     </tr>
                                 </c:forEach>
-                                </tbody>
+                              </tbody>
                             </table>
                             <!-- /.table -->
                           </div>
@@ -134,14 +138,13 @@
                                         <td class ="proTd"><input type="text" class="processInput" id="ins_ct_id" name="ins_ct_id"></td>
                                         <th class ="proTh">공정번호</th>
                                         <td class ="proTd">
-                                            <select class="col-sm-12 processInput" aria-label=".form-select-sm example" id="ins_pi_id"  name="ins_pi_id">
-                                                <option value="">--선택--</option>
+                                            <input list="piProList" name="ins_pi_id" id="ins_pi_id" class="col-sm-12 processInput" aria-label=".form-select-sm example" placeholder="--선택--">
+                                            <datalist id="piProList">
+                                                <option value=""></option>
                                                 <c:forEach items="${piProList}" var="pi">
-                                                    <option value="${pi.pi_id}" >
-                                                            ${pi.pi_id}    ${pi.pi_name}  ( ${pi.pi_seq} )
-                                                    </option>
+                                                    <option value="${pi.pi_id}">${pi.pi_id}    ${pi.pi_name}  ( ${pi.pi_seq} )</option>
                                                 </c:forEach>
-                                            </select>
+                                            </datalist
                                         </td>
                                         <th class ="proTh">계획수량</th>
                                         <td class ="proTd"><input type="text" class="processInput" id="ins_lot_size" name="ins_lot_size"></td>
@@ -157,7 +160,7 @@
                         </div>
                     </div>
                  </form>
-                        <form id="modalSearchForm" action="/manufacturingInstruction" method="get" onsubmit="return sendFormWithAjax();">
+                        <form class ="formPro" id="modalSearchForm" action="/manufacturingInstruction" method="get" onsubmit="return sendFormWithAjax();">
                             <div class="InnputBody">
                                 <div class="inputmedle">
                                     <input type="date" class="processSearchInput" id="ctStartDate" name="ctStartDate" value='<c:out value="${processDate.ctStartDate}"/>' />
@@ -179,7 +182,7 @@
                             <div class="icon"><i class="fa fa-list"></i></div>
                             <div class="employee">계약목록</div>
                         </div>
-                        <div class="table DTable">
+                        <div class="table DOTable">
                             <table cellpadding="0" cellspacing="0" border="0" id="contractListTable">
                                 <colgroup>
                                     <col style="width: 5%" />
