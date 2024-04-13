@@ -29,5 +29,20 @@ public interface ProcessService {
              String ins_end_date
     );
 
+
+    List<ProcessVO>selectLotIdsByItemAndProcessId();
+    List<ProcessVO> selectItemsByLotId(int ins_lot_id);
+    List<ProcessVO> selectProcessIdsByItemAndLotId(int ins_lot_id, int ins_item_id);
+    int insertProcessDa(
+            int p_lot_id,
+            int p_pi_id,
+            int p_b_item_id,
+            int p_plan_quantity,
+            String p_note
+    );
+
+    List<ProcessRunVO>selectProcessRun(ProcessDate processDate);
+
+    List<ProcessRunVO> selectProcessRun1();
 }
 

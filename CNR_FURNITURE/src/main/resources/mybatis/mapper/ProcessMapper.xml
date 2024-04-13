@@ -80,28 +80,99 @@
 
     <!-- 제조수행지시 목록-->
     <select id="selectProcessRun" resultType="com.cnr_furniture.domain.process.ProcessRunVO">
-        SELECT ROWNUM rn
-                    , P_LOT_ID
-                    , P_PI_ID
-                    , P_B_ITEM_ID
-                    , P_PLAN_QUANTITY
-                    , P_ITEM_QUANTITY
-                    , P_DEFECTIVE_QUANTITY
-                    , TO_CHAR(P_START_DATE, 'YYYY-MM-DD') AS P_START_DATE
-                    , TO_CHAR(P_END_DATE, 'YYYY-MM-DD') AS P_END_DATE
-                    , P_STATUS
-                    , P_NOTE
-                    FROM PROCESS
+        SELECT ROWNUM AS rn
+        , A.P_LOT_ID
+        , A.P_PI_ID
+        , TO_CHAR(A.P_START_DATE, 'YYYY-MM-DD') AS P_START_DATE
+        , TO_CHAR(A.P_END_DATE, 'YYYY-MM-DD') AS P_END_DATE
+        FROM (
+        SELECT DISTINCT P_LOT_ID
+        , FIRST_VALUE(P_PI_ID) OVER (PARTITION BY P_LOT_ID ORDER BY P_START_DATE DESC) AS P_PI_ID
+        , FIRST_VALUE(P_START_DATE) OVER (PARTITION BY P_LOT_ID ORDER BY P_START_DATE DESC) AS P_START_DATE
+        , FIRST_VALUE(P_END_DATE) OVER (PARTITION BY P_LOT_ID ORDER BY P_START_DATE DESC) AS P_END_DATE
+        FROM PROCESS
         WHERE 1=1
-        <if test="startDate != null and startDate !=''" >
-            AND P_START_DATE >= #{startDate}
-        </if>
-        <if test="endDate != null and endDate !=''">
-            AND #{endDate} >=  P_END_DATE
-        </if>
+                <if test="startDate != null and startDate !=''">
+                    AND P_START_DATE >= #{startDate}
+                </if>
+                <if test="endDate != null and endDate !=''">
+                    AND #{endDate} >= P_END_DATE
+                </if>
+                ) A
         ORDER BY rn ASC
     </select>
 
+    <select id="selectProcessRun1" resultType="com.cnr_furniture.domain.process.ProcessRunVO">
+        SELECT ROWNUM rn
+        , P_LOT_ID
+        , P_PI_ID
+        , P_B_ITEM_ID
+        , P_PLAN_QUANTITY
+        , P_ITEM_QUANTITY
+        , P_DEFECTIVE_QUANTITY
+        , TO_CHAR(P_START_DATE, 'YYYY-MM-DD') AS P_START_DATE
+        , TO_CHAR(P_END_DATE, 'YYYY-MM-DD') AS P_END_DATE
+        FROM PROCESS
+        WHERE 1=1
+        ORDER BY rn ASC
+    </select>
+
+
+
+
+
+    <!-- 제조수행지시에서 제조지시 검색-->
+    <select id="selectLotIdsByItemAndProcessId" resultType="com.cnr_furniture.domain.process.ProcessVO">
+        SELECT DISTINCT
+            ins.INS_LOT_ID AS ins_lot_id
+        FROM
+            INSTRUCTION ins
+        ORDER BY
+            INS_LOT_ID ASC
+    </select>
+
+
+
+    <select id="selectItemsByLotId" resultType="com.cnr_furniture.domain.process.ProcessVO">
+        SELECT DISTINCT
+             ins.INS_ITEM_ID AS ins_item_id
+        FROM
+             INSTRUCTION ins
+        WHERE
+            INS_LOT_ID = #{ins_lot_id}
+        ORDER BY
+            INS_ITEM_ID ASC
+    </select>
+
+    <select id="selectProcessIdsByItemAndLotId" resultType="com.cnr_furniture.domain.process.ProcessVO">
+        SELECT DISTINCT
+            INS_PI_ID AS ins_pi_id
+        FROM
+            INSTRUCTION
+        WHERE
+            INS_LOT_ID = #{ins_lot_id}
+        AND INS_ITEM_ID = #{ins_item_id}
+        ORDER BY
+            INS_PI_ID ASC
+    </select>
+
+    <!-- 제조지시 수행등록 -->
+    <insert id="insertProcessDa">
+        insert into PROCESS (
+                              P_LOT_ID
+                            , P_PI_ID
+                            , P_B_ITEM_ID
+                            , P_PLAN_QUANTITY
+                            , P_NOTE
+                            )
+                            values (
+                              #{p_lot_id}
+                            , #{p_pi_id}
+                            , #{p_b_item_id}
+                            , #{p_plan_quantity}
+                            , #{p_note}
+                            )
+    </insert>
 
 
 </mapper>

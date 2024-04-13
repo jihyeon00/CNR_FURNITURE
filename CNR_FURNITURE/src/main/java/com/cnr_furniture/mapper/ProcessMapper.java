@@ -2,6 +2,8 @@ package com.cnr_furniture.mapper;
 
 import com.cnr_furniture.domain.process.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.scheduling.support.SimpleTriggerContext;
 
 
 import java.util.List;
@@ -22,6 +24,19 @@ public interface ProcessMapper {
 
     /** 제조지시 등록 **/
     int insertProInstruction(ProcessVO processVO);
+
+
+    List<ProcessVO> selectLotIdsByItemAndProcessId();
+    List<ProcessVO> selectItemsByLotId(int ins_lot_id);
+    List<ProcessVO> selectProcessIdsByItemAndLotId(int ins_lot_id, int ins_item_id);
+
+    int insertProcessDa(ProcessRunVO processRunVO);
+    List<ProcessRunVO>selectProcessRun(ProcessDate processDate);
+
+    List<ProcessRunVO> selectProcessRun1();
+
+
 }
+
 
 

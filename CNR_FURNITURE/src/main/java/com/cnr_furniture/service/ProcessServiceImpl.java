@@ -1,6 +1,7 @@
 package com.cnr_furniture.service;
 
 import com.cnr_furniture.domain.process.*;
+import com.cnr_furniture.domain.quality.InspectionIBListVO;
 import com.cnr_furniture.mapper.ProcessMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,7 +69,54 @@ public class ProcessServiceImpl implements ProcessService{
     }
 
 
+    @Override
+    public List<ProcessVO> selectLotIdsByItemAndProcessId() {
+        return processMapper.selectLotIdsByItemAndProcessId();
+    }
 
+    @Override
+    public List<ProcessVO> selectItemsByLotId(int ins_lot_id) {
+        List<ProcessVO> processVOList = processMapper.selectItemsByLotId(ins_lot_id);
+        return processVOList;
+
+    }
+
+    @Override
+    public List<ProcessVO> selectProcessIdsByItemAndLotId(int ins_lot_id, int ins_item_id) {
+      List<ProcessVO> processVOList = processMapper.selectProcessIdsByItemAndLotId(ins_lot_id, ins_item_id);
+      return processVOList;
+
+    }
+
+    @Override
+    public int insertProcessDa(
+            int p_lot_id,
+            int p_pi_id,
+            int p_b_item_id,
+            int p_plan_quantity,
+            String p_note
+    ) {
+        ProcessRunVO processRunVO = new ProcessRunVO();
+        processRunVO.setP_lot_id(p_lot_id);
+        processRunVO.setP_pi_id(p_pi_id);
+        processRunVO.setP_b_item_id(p_b_item_id);
+        processRunVO.setP_plan_quantity(p_plan_quantity);
+        processRunVO.setP_note(p_note);
+
+
+        int rtn = processMapper.insertProcessDa(processRunVO);
+        return rtn;
+    }
+
+    @Override
+    public List<ProcessRunVO> selectProcessRun(ProcessDate processDate) {
+        return processMapper.selectProcessRun(processDate);
+    }
+
+    @Override
+    public List<ProcessRunVO> selectProcessRun1() {
+        return processMapper.selectProcessRun1();
+    }
 }
 
 

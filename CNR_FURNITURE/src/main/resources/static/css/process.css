@@ -342,23 +342,52 @@
 }
 
 
-
+.asb{
+ margin-right:8px;
+}
 
 
 /*아이콘*/
 .procexxIcon {
-	margin-left: 63%;
+	margin-left: 60%;
 }
 
 
 .procexxIcon1 {
-	margin-left: 48%;
+	margin-left: 45%;
 }
 
 
+.DOTable {
+    height: 300px;
+}
 
-/*날짜 바꾸기*/
+.formPro{
+    width: 100%
+}
 
 
+.proimage{
+   display: flex;
+   margin-left: 5%;
+}
+
+
+/*새로고침 호버*/
+.proimage:hover .resetPng {
+    transform: scale(0.95);
+    transition: transform 0.1s, box-shadow 0.1s; 
+}
+
+.proimage:active .resetPng {
+    transform: scale(1.05);
+    transition: transform 0.05s, box-shadow 0.05s;
+    
+}
+
+
+.ProTable3 {
+
+}
 
 
