@@ -16,11 +16,11 @@ public interface BomMapper {
 
     List<BomVO>  getListBom(int i_id); // BOM관리 제품번호 한개 값 가져오기
 
-    List<BomVO> getBomListForInsert(BomSearch bomSearch); //BOM 등록의 자재목록 조회, 검색
+    List<MaterialInfoVO> getMaterialList(MaterialInfoSearch mtSearch); //*BOM 등록의 자재목록 조회, 검색
 
     int update(BomVO bomVO); //Bom관리 수정
 
-    int addBomList (BomVO bomVO); //Bom 등록
+    int addBomList (BomVO bomVO); //*BOM 등록
 
     /*int removeBomInserted(int rn);*/
 }

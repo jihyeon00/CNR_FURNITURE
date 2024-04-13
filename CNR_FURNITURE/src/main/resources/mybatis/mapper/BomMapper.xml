@@ -38,32 +38,22 @@
              ) bm
     </select>
 
-    <select id="getBomListForInsert" resultType="com.cnr_furniture.domain.bom.BomVO">
+    <select id="getMaterialList" resultType="com.cnr_furniture.domain.MaterialInfo.MaterialInfoVO">
         SELECT
-        rownum AS rn,
-        bm.*
-        FROM (
-            SELECT
-                b.B_ITEM_ID,
-                b.B_MATERIAL_ID,
-                m.M_NAME,
-                b.B_UNIT,
-                b.B_MATERIAL_QUANTITY
-            FROM
-                BOM b, MATERIAL m
-            WHERE
-                b.B_MATERIAL_ID = m.M_ID
+            rownum AS rn,
+            M_ID,
+            M_NAME
+        FROM MATERIAL
+        WHERE 1=1
             <foreach item="type" collection="typeArr">
                 <if test="type == 'MNum'.toString()">
-                    AND b.I_ID LIKE '%' || #{keyword} || '%'
+                    AND M_ID LIKE '%' || #{keyword} || '%'
                 </if>
                 <if test="type == 'MName'.toString()">
-                    AND m.M_NAME LIKE '%' || #{keyword} || '%'
+                    AND M_NAME LIKE '%' || #{keyword} || '%'
                 </if>
             </foreach>
-            ORDER BY
-                b.B_ITEM_ID, b.B_MATERIAL_ID ASC
-            ) bm
+        ORDER BY M_ID ASC
     </select>
 
     <update id="update">

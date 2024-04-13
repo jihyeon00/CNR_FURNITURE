@@ -1,6 +1,7 @@
 package com.cnr_furniture.controller;
 
 import com.cnr_furniture.domain.ItemInfo.ItemInfoVO;
+import com.cnr_furniture.domain.MaterialInfo.MaterialInfoSearch;
 import com.cnr_furniture.domain.MaterialInfo.MaterialInfoVO;
 import com.cnr_furniture.domain.bom.BomSearch;
 import com.cnr_furniture.domain.bom.BomVO;
@@ -60,14 +61,14 @@ public class BomController {
      * @return: standardInfo/bomInsert
      */
     @GetMapping("/bom/insert")
-    public String bomInsert(BomSearch bomSearch, Model model) {
+    public String bomInsert(BomSearch bomSearch, MaterialInfoSearch mtSearch, Model model) {
         List<ItemInfoVO> itemInfoVOList = bomService.getBomInfoList(bomSearch);
         model.addAttribute("itemList", itemInfoVOList);
         model.addAttribute("bomSearch", bomSearch);
 
-        List<BomVO> bomVOList = bomService.getBomListForInsert(bomSearch);
-        model.addAttribute("bomList", bomVOList);
-        model.addAttribute("bomSearch", bomSearch);
+        List<MaterialInfoVO> mtVOList = bomService.getMaterialList(mtSearch);
+        model.addAttribute("mtList", mtVOList);
+        model.addAttribute("mtSearch", mtSearch);
 
 
         return "standardInfo/bomInsert";
