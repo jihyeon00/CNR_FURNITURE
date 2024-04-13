@@ -50,11 +50,9 @@
 /*   검색버튼   */
 
 #searchBomBtn {
-	margin: 5px;
 	position: absolute;
-		left: 650px;
-		top: 1px;
-	height: 38px;
+		left: 640px;
+		top: 6px;
 }
 
 
@@ -88,9 +86,13 @@
 	cursor: pointer;
 }
 
-.member-btn {
+.bomInsert-btn {
   float: right;
+  margin-top:-35px;
+  position: relative;
+  top: -8px;
 }
+
 
 /*   bom 수량 수정 텍스트박스   */
 

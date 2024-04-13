@@ -19,7 +19,7 @@
           </div><!-- /.col -->
           <div class="col-md-6">         
             <div class="resetBtn2">
-               <a href="./bom/insert"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+               <a href="./insert"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
             </div>
           </div>
       </div><!-- /.container-fluid -->
@@ -52,8 +52,8 @@
 					          <!-- <input type="text" name="" id="mtId" data-mtId="" class="form-control" autocomplete="off"> -->
 				          <select class="col-md-8" aria-label=".form-select-sm example" id="mtId">
                        <option value="">--choose--</option>
-                       <c:forEach items="${bomList}" var="Bom">
-                     	 	<option value="${Bom.b_material_id}" ${bomSearch.type == 'MNum' ? 'selected' : ''}>${Bom.b_material_id}</option>
+                       <c:forEach items="${mtList}" var="MT">
+                     	 	<option value="${MT.m_id}" ${mtSearch.type == 'MNum' ? 'selected' : ''}>${MT.m_id}</option>
                        </c:forEach>
                    </select>
 				          </div>		
@@ -104,7 +104,7 @@
             <div class="ITableName">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div>제품 목록</div>
-              <form id='searchItemBominsert' action='./bomInsert' method='get' class="bomSearchBtn"> 
+              <form id='searchItemBominsert' action='./insert' method='get' class="bomSearchBtn"> 
 	             	<div class="col-sm-1">
 		            	<select name='type'>
 		            		<option value="">--선택--</option>
@@ -146,12 +146,12 @@
             <div class="ITableName">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div>자재 목록</div>
-              <form id='searchMTBominsert' action='./bomInsert' method='get' class="bomSearchBtn"> 
+              <form id='searchMTBominsert' action='./insert' method='get' class="bomSearchBtn"> 
 	              <div class="col-sm-1">
 		            	<select name='type'>
 		            		<option value="">--선택--</option>
-						    		<option value="MNum"<c:out value="${bomSearch.type == 'MNum' ? 'selected' : ''}" />>자재번호</option>
-						    		<option value="MName"<c:out value="${bomSearch.type == 'MName' ? 'selected' : ''}" />>자재명</option>
+						    		<option value="MNum"<c:out value="${mtSearch.type == 'MNum' ? 'selected' : ''}" />>자재번호</option>
+						    		<option value="MName"<c:out value="${mtSearch.type == 'MName' ? 'selected' : ''}" />>자재명</option>
 		            	</select>
 		            </div>
                 <div class="col-sm-1">
@@ -172,11 +172,11 @@
                   </tr>
                 </thead>
                 <tbody class="tbl-content">
-                	<c:forEach var="Bom" items="${bomList}">
+                	<c:forEach var="MT" items="${mtList}">
 	                  <tr>
-	                    <td><c:out value="${Bom.rn}" /></td>
-	                    <td><c:out value="${Bom.b_material_id}" /></td>
-	                    <td><c:out value="${Bom.m_name}" /></td>
+	                    <td><c:out value="${MT.rn}" /></td>
+	                    <td><c:out value="${MT.m_id}" /></td>
+	                    <td><c:out value="${MT.m_name}" /></td>
 	                  </tr>
                   </c:forEach>
                 </tbody>
@@ -250,51 +250,51 @@
 	//let addBomListUL = $(".addBomListUL");
 	
 	/* BOM 목록 등록추가버튼  */
-	 $('#addBomList').on('click', function(e) {
+	$('#addBomList').on('click', function(e) {
 		 
 		  // 폼 내부에서 데이터를 가져오기
-  	var itemId = $('#itemId').val();
-    var mtId = $('#mtId').val();
-    var mtUnit = $('#mtUnit').val();
-    var mtQuantity = $('#mtQuantity').val();
-
-    console.log('itemId:', itemId);
-    console.log('mtId:', mtId);
-    console.log('mtUnit:', mtUnit);
-    console.log('mtQuantity:', mtQuantity);
+	  	var itemId = $('#itemId').val();
+	    var mtId = $('#mtId').val();
+	    var mtUnit = $('#mtUnit').val();
+	    var mtQuantity = $('#mtQuantity').val();
+	
+	    console.log('itemId:', itemId);
+	    console.log('mtId:', mtId);
+	    console.log('mtUnit:', mtUnit);
+	    console.log('mtQuantity:', mtQuantity);
         	
-    $.ajax({
-        // request처리
-        type : 'post',                                      // form의 method속성 값
-        url : '/bom/' + itemId + "/" + mtId + "/" + mtUnit + "/" + mtQuantity,       // form의 action값
-        data: JSON.stringify({ itemId: itemId, mtId: mtId, mtUnit: mtUnit, mtQuantity: mtQuantity }),                     // json으로 string처리하면서 파라미터 전달
-        contentType : "application/json; charset=utf-8",    // content-type지정
-        // response처리
-        success : function(result, status, xhr) {           // call 성공시 오는 처리되는 함수
-        	// 새로운 행(tr)을 생성하여 HTML 문자열로 저장
-            var newRow = 
-            		"<tr>" +
-    					/*  "<td><input class='form-check-input chk' type='checkbox' /></td>" + */
-        	        "<td name='b_item_id'>" + itemId + "</td>" +
-        	        "<td name='b_material_id'>" + mtId + "</td>" +
-        	        "<td name='b_unit'>" + mtUnit + "</td>" +
-        	        "<td name='b_material_quantity'>" + mtQuantity + "</td>" +
-        	        "<td name='modifyBomInserted'>수정</td>" +
-                "</tr>";
-
-            // 생성한 행을 테이블에 추가
-            $('.addBomListUL').append(newRow);   
-            alert('BOM 등록 성공');
-        },
-        error : function(xhr, status, er) {                 // call 실패시 오는 처리되는 함수
-        	 // 오류 발생 시 실행할 코드
-	            if (xhr.responseJSON && xhr.responseJSON.error) {
-	                alert('제품에 등록된 자재가 있습니다. 다시 확인해주세요');
-	            } else {
-	                alert('제품에 등록된 자재가 있습니다. 다시 확인해주세요.');
-	            }
-	        }
-    });
+	    $.ajax({
+	        // request처리
+	        type : 'post',                                      // form의 method속성 값
+	        url : '/bom/' + itemId + "/" + mtId + "/" + mtUnit + "/" + mtQuantity,       // form의 action값
+	        data: JSON.stringify({ itemId: itemId, mtId: mtId, mtUnit: mtUnit, mtQuantity: mtQuantity }),                     // json으로 string처리하면서 파라미터 전달
+	        contentType : "application/json; charset=utf-8",    // content-type지정
+	        // response처리
+	        success : function(result, status, xhr) {           // call 성공시 오는 처리되는 함수
+	        	// 새로운 행(tr)을 생성하여 HTML 문자열로 저장
+	            var newRow = 
+	            		"<tr>" +
+	    					/*  "<td><input class='form-check-input chk' type='checkbox' /></td>" + */
+	        	        "<td class='itemId'>" + itemId + "</td>" +
+	        	        "<td class='mtId'>" + mtId + "</td>" +
+	        	        "<td class='mtUnit'>" + mtUnit + "</td>" +
+	        	        "<td class='mtQuantity'>" + mtQuantity + "</td>" +
+	        	        "<td class='modifyBomInserted'>수정</td>" +
+	                "</tr>";
+	
+	            // 생성한 행을 테이블에 추가
+	            $('.addBomListUL').append(newRow);   
+	            alert('BOM 등록 성공');
+	        },
+	        error : function(xhr, status, er) {                 // call 실패시 오는 처리되는 함수
+	        	 // 오류 발생 시 실행할 코드
+		            if (xhr.responseJSON && xhr.responseJSON.error) {
+		                alert('제품에 등록된 자재가 있습니다. 다시 확인해주세요');
+		            } else {
+		                alert('제품에 등록된 자재가 있습니다. 다시 확인해주세요.');
+		            }
+		        }
+	    });
 			/*   var str = "";
 		    
 			str += "<tr>";
@@ -314,6 +314,24 @@
     
 	 });
 	 
-
+	// '수정' 버튼 클릭 이벤트 핸들러 등록
+	$('.addBomListUL').on('click', '.modifyBomInserted', function() {
+	    // 클릭된 '수정' 버튼이 속한 행(tr)에서 데이터 가져오기
+	   	var itemId = $('.itemId').val();
+	    var mtId = $('.mtId').val();
+	    var mtUnit = $('#.tUnit').val();
+	    var mtQuantity = $('.mtQuantity').val();
+	
+	    console.log('수정 클릭 - itemId:', itemId);
+	    console.log('수정 클릭 - mtId:', mtId);
+	    console.log('수정 클릭 - mtUnit:', mtUnit);
+	    console.log('수정 클릭 - mtQuantity:', mtQuantity);
+	
+	    // 해당 행의 수량(mtQuantity)을 입력 필드로 교체
+	    var $quantityCell = $row.find('.mtQuantity');
+	    $quantityCell.empty(); // 기존 내용 제거
+	    var $input = $('<input type="text" id="mQuantity" />').val(mtQuantity);
+	    $quantityCell.append($input);
+	});
 
 </script>

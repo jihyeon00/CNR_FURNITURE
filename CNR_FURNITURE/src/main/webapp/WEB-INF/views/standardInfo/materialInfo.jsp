@@ -51,7 +51,7 @@
 	              </button>
             	</div>
            </form>
-           <div class="member-btn">
+           <div class="bomInsert-btn">
             <button type="button" class="btn btn-Default" data-toggle="modal" data-target="#myModal1">자재등록</button>
            </div>
           </div>

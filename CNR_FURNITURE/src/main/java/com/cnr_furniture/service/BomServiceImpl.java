@@ -1,6 +1,8 @@
 package com.cnr_furniture.service;
 
 import com.cnr_furniture.domain.ItemInfo.ItemInfoVO;
+import com.cnr_furniture.domain.MaterialInfo.MaterialInfoSearch;
+import com.cnr_furniture.domain.MaterialInfo.MaterialInfoVO;
 import com.cnr_furniture.domain.bom.BomSearch;
 import com.cnr_furniture.domain.bom.BomVO;
 import com.cnr_furniture.mapper.BomMapper;
@@ -35,8 +37,8 @@ public class BomServiceImpl implements BomService{
     }
 
     @Override
-    public List<BomVO> getBomListForInsert(BomSearch bomSearch) {
-        return bomMapper.getBomListForInsert(bomSearch);
+    public List<MaterialInfoVO> getMaterialList(MaterialInfoSearch mtSearch) {
+        return bomMapper.getMaterialList(mtSearch);
     }
 
     @Override

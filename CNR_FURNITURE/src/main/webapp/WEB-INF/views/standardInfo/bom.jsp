@@ -42,12 +42,12 @@
 	              <input type="text" name="keyword" />
 	            </div>
 	            <div class="col-sm-1">
-	              <button type="button" class="btn btn-primary search" id="searchBomBtn" style="margin: 5px;">
+	              <button type="button" class="btn btn-primary search" id="searchBomBtn">
 	              <i class="fa-solid fa-magnifying-glass"></i>&nbsp;검색</button>
 	            </div>
 						</form>
-            <div class="member-btn">
-              <button type="button" class="btn btn-Default"><a href="bom/insert" style="color: #000;">
+            <div class="bomInsert-btn">
+              <button type="button" class="btn btn-Default" style="height: 40px;"><a href="bom/insert" style="color: #000;">
               BOM 등록
               </a></button>
         		</div>
@@ -193,7 +193,7 @@ let searchBomForm = $("#searchBomForm");
 
 	        bomListUL.html(str); // 결과를 HTML에 삽입(html 렌더링한다)
 
-	        // 댓글 수정 버튼 처리
+	        // BOM 수정 버튼 처리
 	        $('.modifyBom').on('click', function(e) {
 	            var bmid = $(this).attr('data-bmid'); // BOM 자재ID 가져오기
 	            var itemId = $(this).attr('data-itemid');  // BOM 제품ID 가져오기
