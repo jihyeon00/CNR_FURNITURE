@@ -9,7 +9,7 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-         <form action="" id="searchForm" class="col-md-12" onSubmit="return false">
+         <form action="work" method="get" id="searchForm" class="col-md-12" >
 	          <div class="col-sm-12" >
 	          	<ol class="breadcrumb float-sm-left">
 	          		<h1 class="m-0"><i class="far fa-clipboard"></i>작업관리</h1>
@@ -18,6 +18,7 @@
 		            <div class="reset">
 			        		<img class="resetPng" alt="reset" src="/resources/img/reset.png" >
 			        	</div>
+			        	<form action="/manufacturingInstruction" method="get">
 	              <div class="col-sm-1 ml-auto" style="margin-left: 10px;">
 	              	<button type="submit" class="btn btn-primary search-btn"
 	                id="" onClick="javascript: search();"><i class="fa-solid fa-magnifying-glass"></i>검색</button>
@@ -27,29 +28,23 @@
 	          <br>
           	<!-- 검색창 1줄 -->
              <div class="searchBar">
-               <div class="col-sm-1 sb-name">거래처명</div>
+               <div class="col-sm-1 sb-name">거래처번호</div>
                <div class="col-sm-2 sb-text">
-	               	<!-- <input type="text" list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-	                <datalist id="workCompanyNameList">
-	                  <c:forEach var="workCompany" items = "${roleList}">
-	                    <option value="${item.i_id}" ${item.i_id == processDate.find_item_process ? 'selected' : ''}>${item.i_id} ${item.i_name}</option>
-	                  </c:forEach>
-	                 </datalist> -->
-                 <select class="col-sm-12 input-text" name="find_work_company">
-                       <option value="">거래처명 선택</option>
-                       <c:forEach items="${itemProList}" var="item">
-                           <option value="${item.i_id}" ${item.i_id == processDate.find_item_process ? 'selected' : ''}>${item.i_id} ${item.i_name}</option>
+	               	<input type="text" list="workCompanyList" class="col-sm-12 input-text"  id="find_work_company" name="find_work_company">
+	                <datalist id="workCompanyList">
+                       <c:forEach items="${companyList}" var="company">
+                           <option value="${company.companyId}">${company.companyName} (${company.companyDiv})</option>
                        </c:forEach>
-                   </select>
+	                 </datalist>
                </div>
-               <div class="col-sm-1 sb-name">제품명</div>
+               <div class="col-sm-1 sb-name">제품번호</div>
                <div class="col-sm-2 sb-text">
-                 <select class="col-sm-12 input-text" name="find_work_item">
-                     <option value="">제품 선택</option>
-                     <c:forEach items="${itemProList}" var="item">
-                         <option value="${item.i_id}" ${item.i_id == processDate.find_item_process ? 'selected' : ''}>${item.i_id} ${item.i_name}</option>
+               		<input type="text" list="workItemList" class="col-sm-12 input-text"  id="find_work_item" name="find_work_item">
+	                <datalist id="workItemList">
+                     <c:forEach items="${itemList}" var="item">
+                         <option value="${item.itemId}">${item.itemName} (${item.itemUses})</option>
                      </c:forEach>
-                 </select>
+                 </datalist>
                </div>
                <div class="col-sm-1 sb-name">조회일자</div>
                <div class="col-sm-4 sb-text" style="margin-left: 8px;">
@@ -63,18 +58,26 @@
              <!-- 검색창 2줄 -->
              <div class="searchBar" style="margin-top: -12px;">
                <div class="col-sm-1 sb-name">제조<br>LOT번호</div>
-                 <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-                   value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+	             <div class="col-sm-2 sb-text">
+                 <input type="text" list="workInstructuionList" class="col-sm-12 input-text" id="find_work_instruction" name="find_work_instruction">
+	                <datalist id="workInstructuionList">
+                     <c:forEach items="${instructionList}" var="instruction">
+                         <option value="${instruction.insLotId}">생산제품번호: ${instruction.insItemId}</option>
+                     </c:forEach>
+                 </datalist>
                </div>
                <div class="col-sm-1 sb-name">공정번호</div>
                <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-                   value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+               		<input type="text" list="workProcessInfoList" class="col-sm-12 input-text" id="find_work_processInfo" name="find_work_processInfo">
+	                <datalist id="workProcessInfoList">
+                     <c:forEach items="${processInfoList}" var="processInfo">
+                         <option value="${processInfo.pi_id}">공정명: ${processInfo.pi_name} | 설비명: ${processInfo.mi_name}(${processInfo.pi_machine_id}, 위치:${processInfo.position}) </option>
+                     </c:forEach>
+                 </datalist>
                </div>
                <div class="col-sm-1 sb-name">작업번호</div>
                <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_emp_name" name="find_emp_name"
+                 <input type="text" class="col-sm-12 input-text" id="find_work_id" name="find_work_id"
                    value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
                </div>
              </div>
@@ -89,12 +92,12 @@
       <div class="container-fluid">
         <div class="row">
 	        <!-- 제조수행정보 Table -->
-	        <div class="titleAndTable" id="selectManufacturingPerformInfo" style="margin-bottom: -20px;">
+	        <div class="titleAndTable" id="selectManufacturingPerformInfo" >
 	           <div class="workTableTitle">
 	              <div class="icon"><i class="fa fa-list"></i></div>
 	              <div class="workTableName">공정별 제조수행정보</div>
 	            </div>
-	          <div class="workTable" style="max-height: 174px">
+	          <div class="workTable">
 	            <table cellpadding="0" cellspacing="0" border="0">
 	              <thead class="work-tbl-header">
 	                <tr>
@@ -105,8 +108,8 @@
 	                  <th>제품번호</th>
 	                  <th>제품명</th>
 	                  <th>수주업체</th>
-	                  <th>생산시작</th>
-	                  <th>생산종료</th>
+	                  <th>생산시작일</th>
+	                  <th>생산종료일</th>
 	                  <th>진행상황</th>
 	                  <th>계획수량</th>
 	                  <th>단위</th>
@@ -115,22 +118,24 @@
 	                </tr>
 	              </thead>
 	              <tbody class="work-tbl-content">
-	                <tr>
-	                  <td>1</td>
-	                  <td>300001</td>
-	                  <td>1001</td>
-	                  <td>원자재 투입</td>
-	                  <td>10000001</td>
-	                  <td>의자-A</td>
-	                  <td>인테리어스케이프</td>
-	                  <td>2024-04-08</td>
-	                  <td></td>
-	                  <td>생산대기</td>
-	                  <td>1000</td>
-	                  <td>EA</td>
-	                  <td>4156</td>
-	                  <td>101</td>
-	                </tr>
+		              <c:forEach items="${workProcessInfoList}" var="workProcessInfoList">
+		                <tr>
+		                  <td>${workProcessInfoList.rn}</td>
+		                  <td>${workProcessInfoList.p_lot_id}</td>
+		                  <td>${workProcessInfoList.p_pi_id}</td>
+		                  <td>${workProcessInfoList.pi_name}</td>
+		                  <td>${workProcessInfoList.p_b_item_id}</td>
+		                  <td>${workProcessInfoList.i_name}</td>
+		                  <td>${workProcessInfoList.c_name}</td>
+		                  <td>${workProcessInfoList.p_start_date}</td>
+		                  <td>${workProcessInfoList.p_end_date}</td>
+		                  <td>${workProcessInfoList.p_status}</td>
+		                  <td>${workProcessInfoList.p_plan_quantity}</td>
+		                  <td>${workProcessInfoList.ct_unit}</td>
+		                  <td>${workProcessInfoList.p_item_quantity}</td>
+		                  <td>${workProcessInfoList.p_defective_quantity}</td>
+		                </tr>
+	                </c:forEach>
 	              </tbody>
 	            </table><!-- /.table -->
           	</div><!-- /.workTable -->
@@ -273,6 +278,7 @@
             <input type="button" class="workSelect" id="selectMaterialInputBtn" value="자재투입내역"/>
             <input type="button" class="workSelect" id="selectWorkerBtn" value="작업자"/>
         </div>
+        <div class=divBorder></div>
         <!-- 생산실적 Table -->
 	        <div class="titleAndTable" id="selectProduction">
 	           <div class="workTableTitle">
@@ -416,10 +422,6 @@
   <!-- /.control-sidebar -->
   
   <script type="text/javascript">
-  	// 지시일자 value 값을 현재 날짜로 지정
-	  document.getElementById('workStartDate').valueAsDate = new Date();
-	  document.getElementById('workEndDate').valueAsDate = new Date();
-			
 		//검색창
 		function search() {
 	    // 검색 로직 실행

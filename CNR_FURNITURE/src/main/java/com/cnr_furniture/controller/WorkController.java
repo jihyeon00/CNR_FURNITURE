@@ -1,12 +1,14 @@
 package com.cnr_furniture.controller;
 
-import com.cnr_furniture.domain.process.ProcessDate;
+import com.cnr_furniture.domain.work.*;
 import com.cnr_furniture.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import lombok.extern.log4j.Log4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 @Log4j
@@ -21,7 +23,27 @@ public class WorkController {
      */
     
     @GetMapping("/work")
-    public String work(ProcessDate processDate, Model model){
+    public String work(WorkSearchVO workSearchVO, Model model){
+        // 검색을 위한 거래처 리스트
+        List<WorkSelectCompanyVO> companyList = workService.findCompanyList();
+        // 검색을 위한 제품 리스트
+        List<WorkSelectItemVO> itemList = workService.findItemList();
+        // 검색을 위한 제조지시 리스트
+        List<WorkSelectInstructionVO> instructionList = workService.findInstructionList();
+        // 검색을 위한 공정정보 리스트
+        List<WorkSelectProcessInfoVO> processInfoList = workService.findProcessInfoList();
+
+        // 제조수행정보 목록 조회
+        List<WorkProcessInfoVO> workProcessInfoList = workService.selectWorkProcessInfo(workSearchVO);
+
+        // view에서 사용할 모델명 지정
+        model.addAttribute("companyList", companyList);
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("instructionList", instructionList);
+        model.addAttribute("processInfoList", processInfoList);
+
+        model.addAttribute("workProcessInfoList", workProcessInfoList);
+
         return "work/work";
     }
     

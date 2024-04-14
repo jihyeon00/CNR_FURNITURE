@@ -2,6 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.WorkMapper">
+    <!-- 회사 정보 조회 -->
+    <select id="workSelectCompanyList" resultType="com.cnr_furniture.domain.work.WorkSelectCompanyVO">
+        SELECT
+        c_id as companyId, c_name as companyName, c_div as companyDiv
+        FROM
+        COMPANY
+    </select>
+
+    <!-- 제품 정보 조회 -->
+    <select id="workSelectItemList" resultType="com.cnr_furniture.domain.work.WorkSelectItemVO">
+        SELECT
+        i_id as itemId, i_name as itemName, i_uses as itemUses
+        FROM
+        ITEM
+    </select>
+
+    <!-- 계획 정보 조회 -->
+    <select id="workSelectInstructionList" resultType="com.cnr_furniture.domain.work.WorkSelectInstructionVO">
+        SELECT
+        DISTINCT INS_LOT_ID as insLotId,
+        INS_ITEM_ID as insItemId,
+        INS_EMP_ID as insEmpId,
+        INS_CT_ID as insCtId,
+        INS_LOT_SIZE as insLotSize,
+        INS_START_DATE as insStartDate,
+        INS_END_DATE as insEndDate
+        FROM
+        INSTRUCTION
+        ORDER BY
+        insLotId, insCtId
+    </select>
+
+    <!-- 공정 정보 조회 -->
+    <select id="workSelectProcessInfoList" resultType="com.cnr_furniture.domain.work.WorkSelectProcessInfoVO">
+        SELECT
+        pi.PI_ID AS pi_id, pi.PI_NAME AS PI_NAME, pi.PI_MACHINE_ID AS PI_MACHINE_ID,
+        mi.MI_NAME AS MI_NAME, pi.PI_SEQ || '-' || mi.MI_POSITION AS position
+        FROM
+        PROCESS_INFO pi, MACHINE_INFO mi
+        WHERE
+        pi.PI_MACHINE_ID = mi.MI_ID
+        ORDER BY PI_ID, position
+    </select>
+
     <!-- 제조수행정보 조회-->
     <select id="selectWorkProcessInfo" resultType="com.cnr_furniture.domain.work.WorkProcessInfoVO">
         SELECT
@@ -69,34 +113,14 @@
                 <if test="find_work_processInfo != ''">
                     AND P_PI_ID = #{find_work_processInfo}
                 </if>
-                <if test="find_work_company == '' or find_work_item == '' or
-                     workStartDate == '' or workEndDate == '' or
-                     find_work_instruction == '' or find_work_processInfo == '' ">
+                <if test="find_work_company == '' and find_work_item == '' and
+                     workStartDate == '' and workEndDate == '' and
+                     find_work_instruction == '' and find_work_processInfo == '' ">
                     AND 1=0
                 </if>
             </if>
         </trim>
     </select>
-    <select id="workSelectCompanyList" resultType="com.cnr_furniture.domain.work.WorkSelectCompanyVO">
-        SELECT
-            C_ID, C_NAME, C_
-        FROM
-            COMPANY
-    </select>
-    <select id="workSelectItemList" resultType="com.cnr_furniture.domain.work.WorkSelectItemVO">
-        SELECT
-            I_ID, I_NAME
-        FROM
-            ITEM
-    </select>
-    <select id="workSelectInstructionList" resultType="com.cnr_furniture.domain.work.WorkSelectInstructionVO">
 
-    </select>
-    <select id="workSelectProcessInfoList" resultType="com.cnr_furniture.domain.work.WorkSelectProcessInfoVO">
-        SELECT
-            PI_ID, PI_NAME, PI_SEQ
-        FROM
-            PROCESS_INFO
-    </select>
 
 </mapper>

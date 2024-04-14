@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WorkSelectInstructionVO {
-    private int ins_lot_id;
-    private int ins_item_id;
-    private int ins_emp_id;
-    private int ins_ct_id;
-    private int ins_pi_id;
-    private int ins_lot_size;
-    private String ins_start_date;
-    private String ins_end_date;
+    private int insLotId;
+    private int insItemId;
+    private int insEmpId;
+    private int insCtId;
+    private int insPiId;
+    private int insLotSize;
+    private String insStartDate;
+    private String insEndDate;
 }
