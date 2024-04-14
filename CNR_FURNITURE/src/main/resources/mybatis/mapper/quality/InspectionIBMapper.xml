@@ -187,6 +187,7 @@
     <insert id="insertQualityInspection" parameterType="com.cnr_furniture.domain.quality.InspectionIBInsertVO">
         INSERT INTO QUALITY_INSPECTION
             (
+            QI_ID,
             QI_CT_ID,
             QI_MATERIAL_ID,
             QI_QS_ID,
@@ -198,6 +199,7 @@
             )
         VALUES
             (
+            quality_inspection_seq.NEXTVAL,
             #{contractIDModal},
             #{matIDModal},
             #{qsDiv1Modal},

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -120,14 +121,17 @@ public class InspectionIBController {
      * 응답 본문의 타입이 지정되지 않았거나 다양한 타입을 허용할 때 사용된다.
      */
     @PostMapping("/registerInspectionItems")
+    @ResponseBody
     public ResponseEntity<?> registerInspectionItems(
             @RequestBody List<InspectionIBInsertVO> items
     ) {
+        log.info(items);
         try {
             inspectionIBService.registerInspectionItems(items);
             return ResponseEntity.ok().body(Map.of("success", true, "message", "등록이 성공되었습니다."));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "등록에 실패하였습니다."));
+            log.error("등록 실패, Error: {}" + e.getMessage() + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "등록에 실패하였습니다. 에러: " + e.getMessage()));
         }
     }
 

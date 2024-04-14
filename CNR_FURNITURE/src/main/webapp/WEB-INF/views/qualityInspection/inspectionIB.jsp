@@ -166,15 +166,11 @@
 	                  	<td><c:out value="${inspIB.goodQuantity}" /></td>
 	                  	<td><c:out value="${inspIB.inspectionDate}" /></td>
 	                  	<td><c:out value="${inspIB.notes}" /></td>
-	                  	<td>
-	                  		<button type="button" onclick="editRow(${inspIB.listSeq})" style="color:#17a2b8;">
-	                  			수정
-	                  		</button>
+	                  	<td onclick="javascript:editRow(${inspIB.listSeq})" style="cursor:pointer; color:#17a2b8; text-align:center;">
+                  			수정
 	                  	</td>
-	                  	<td>
-	                  		<button type="button" onclick="removeRow(${inspIB.listSeq})" style="color:#c82333;">
-	                  			삭제
-	                  		</button>
+	                  	<td onclick="javascript:deleteeRow(${inspIB.listSeq});" style="cursor:pointer; color:#c82333; text-align:center;">
+                  			삭제
 	                  	</td>
 	                  </tr>
                   </c:forEach>
@@ -305,8 +301,8 @@
 		      </div><!-- /.등록행 5 -->
 		      <!-- 추가버튼 -->
 		      <div class="row modal-add-btn">
-		      	<div class="col-sm-12 addModalInspBtn">
-		         	<button type="button" id="addInspection" class="btn btn-primary add-insp-btn">
+		      	<div class="col-sm-12 add-insp-btn">
+		         	<button type="button" id="addInspectionBtn" class="btn btn-primary add-insp-btn">
 		            <svg class="add-circle-icon2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>
 		            추가
 		          </button>
@@ -345,48 +341,7 @@
 		            		</tr>
 		              </thead>
 		              <tbody class="inspection-table-content">
-			              <tr>
-	                    <td>1열</td>
-											<td>2열</td>
-											<td>3열</td>
-											<td>4열</td>
-											<td>5열</td>
-											<td>6열ddddddddddddddddddddddddddddddddd</td>
-											<td>7열</td>
-											<td>8열</td>
-											<td>9열</td>
-											<td>10열dddddddddddddddddddddddddddddddddddddddddddd</td>
-											<td>11열</td>
-											<td>12열</td>
-											<td>13열</td>
-											<td>14열</td>
-											<td>15열</td>
-											<td>16열</td>
-											<td class="remove-newIBInsp-row" onclick="removeNewIBInspRow(this);" style="color:#c82333;">
-												삭제
-											</td>
-	                  </tr>
-	                  <tr>
-	                    <td>1열</td>
-											<td>2열</td>
-											<td>3열</td>
-											<td>4열</td>
-											<td>5열</td>
-											<td>6열ddddddddddddddddddddddddddddddddd</td>
-											<td>7열</td>
-											<td>8열</td>
-											<td>9열</td>
-											<td>10열dddddddddddddddddddddddddddddddddddddddddddd</td>
-											<td>11열</td>
-											<td>12열</td>
-											<td>13열</td>
-											<td>14열</td>
-											<td>15열</td>
-											<td>16열</td>
-											<td class="remove-newIBInsp-row" onclick="removeNewIBInspRow(this);" style="color:#c82333;">
-												삭제
-											</td>
-	                  </tr>
+		              	<!-- 추가된 목록 내용 -->
 	                  
 		              </tbody>
 		            </table>  
@@ -401,7 +356,8 @@
       
       <div class="modal-footer">
            <button type="button" class="btn btn-primary" id="registerBtn">등록</button>
-           <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+           <!-- <button type="button" class="btn btn-danger" id="cancelBtn">취소</button> -->
+           <button type="button" class="btn btn-danger" id="cancelBtn" data-dismiss="modal">취소</button>
       </div><!-- /.modal-footer -->
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

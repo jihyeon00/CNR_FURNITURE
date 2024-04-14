@@ -1,6 +1,7 @@
 package com.cnr_furniture.domain.quality;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -35,6 +36,7 @@ public class InspectionIBInsertVO {
 
     /* 모달의 입력칸에는 없으나, [추가] 버튼 누른 후, 목록 보여주는데에는 한 객체들 */
     private Long listSeqModal;              // 테이블 행번호
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date inspectionDateModal;       // 검사일자(입고일자), (from Quality_Inspection 테이블)
     private Long goodQuantityModal;         // 양품수량(from Quality_Inspection 테이블)
     private Long defectRateModal;           // 불량률(from Quality_Inspection 테이블에서 가져온 값을 계산)
