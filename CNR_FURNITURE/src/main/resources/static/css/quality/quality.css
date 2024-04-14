@@ -199,14 +199,14 @@
 }
 
 /* 모달 - 추가 버튼 */
-.addModalInspBtn {
+.add-insp-btn {
 	padding: 1% 1% 1% 0;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;	/* 버튼 내 아이콘과 텍스트 세로 중앙 정렬 */
 }
 /* 모달 - 추가 버튼 크기 */
-.addModalInspBtn .btn {
+.add-insp-btn .btn {
 	width: auto;	/* 버튼의 너비를 자동으로 설정하여 텍스트에 맞게 조정 */
 	padding: 0.375rem 0.75rem; /* Bootstrap 기본 버튼 패딩 */
 	
