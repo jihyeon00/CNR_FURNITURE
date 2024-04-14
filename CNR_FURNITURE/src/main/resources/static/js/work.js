@@ -50,5 +50,16 @@ window.onload = function() {
 	  $('#selectMaterialInputBtn').css('background', 'inherit');
 	});
 	
+	$('.reset').click(function() {
+  	$('#find_work_company').val("");
+  	$('#find_work_item').val("");
+  	$('#workStartDate').val("");
+  	$('#workEndDate').val("");
+  	$('#find_work_instruction').val("");
+  	$('#find_work_processInfo').val("");
+  	$('#find_work_id').val("");
+	});
+
+	
 	
 }
