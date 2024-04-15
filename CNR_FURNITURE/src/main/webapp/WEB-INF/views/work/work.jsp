@@ -19,7 +19,7 @@
 		            <div class="reset">
 			        		<img class="resetPng" alt="reset" src="/resources/img/reset.png" >
 			        	</div>
-			        	<form action="/manufacturingInstruction" method="get">
+			        	<form action="/work" method="get">
 	              <div class="col-sm-1 ml-auto" style="margin-left: 10px;">
 	              	<button type="submit" class="btn btn-primary search-btn"
 	                id="" onClick="javascript: search();"><i class="fa-solid fa-magnifying-glass"></i>검색</button>
