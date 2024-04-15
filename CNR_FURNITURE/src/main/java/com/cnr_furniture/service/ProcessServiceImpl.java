@@ -153,11 +153,29 @@ public class ProcessServiceImpl implements ProcessService{
         return processMapper.selectM();
     }
 
+    /** 공정정보등록창: 설비 목록 조회(설비 id 검색 조회) **/
     @Override
     public List<ManagementVO> selectByMiId(int miId) {
         return processMapper.selectByMiId(miId);
     }
 
+    /** 공정정보등록창: 공정정보 등록 **/
+    @Override
+    public int insertAddProcess(
+            int pi_id,
+            int pi_machine_id,
+            String pi_name,
+            String pi_seq
+    ) {
+        ProcessInfoVO processInfoVO = new ProcessInfoVO();
+        processInfoVO.setPi_id(pi_id);
+        processInfoVO.setPi_name(pi_name);
+        processInfoVO.setPi_machine_id(pi_machine_id);
+        processInfoVO.setPi_seq(pi_seq);
+
+        int rtn = processMapper.insertAddProcess(processInfoVO);
+        return rtn;
+    }
 }
 
 

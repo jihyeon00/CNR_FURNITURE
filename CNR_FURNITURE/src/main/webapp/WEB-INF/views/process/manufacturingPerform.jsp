@@ -21,7 +21,7 @@
           <div class="col-md-6 ml-auto">
            <form action="/manufacturingPerform" method="get">
             <div class="pro-btn">
-              <button type="submit" id="prosearchbtn" class="btn btn-primary">조희</button>
+              <button type="submit" id="prosearchbtn" class="btn btn-primary">조회</button>
 	            <button type="button" id= proaddBtn class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
             </div>
           </div><!-- /.col -->
@@ -54,8 +54,11 @@
                         <option value="${pPiId.p_pi_id}">${pPiId.p_pi_id}</option>
                     </c:forEach>
                 </datalist>
+              </div>
             </div>
-        </div>
+          <div class="reset" onclick="resetFields()" style ="margin-top: 6px; margin-left: 4%;">
+              <a href="./manufacturingPerform"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+          </div>
       </div>
   </form>
 
@@ -114,12 +117,12 @@
 <!-- 등록 모달 -->
 <div class="modal fade" id="register-Process-Btn" tabindex="-1" role="dialog" aria-labelledby="registerProcessGridSystemModalLabel">
   <div class="modal-dialog register-Process-Modal-Dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" style="width:75%; margin-left: 13%">
         <div class="modal-header">
             <div class="processModalTitle" id="registerProcessGridSystemModalLabel" style="font-size: 150%; font-weight:800;">제조수행지시등록</div>
         </div>
          <form action="./manufacturingPerformInsert" method="post" id="insertProDaForm">
-            <div class="modal-body">
+            <div class="modal-body" style="width:100%;" >
 					<table class="processtable">
 					  <tr>
 					    <th scope="col" class="process-highlight">제조LOT번호</th>
@@ -155,10 +158,10 @@
 					    <td class="process-highlight2">
 					        <input  type="text"  name="p_plan_quantity" id="p_plan_quantity" class="process-select" autocomplete="off">
 					    </td>
-					  <tr>
-					    <th scope="col" class="process-highlight">비고</th>
+					  <tr class="proArea">
+					    <th scope="col" class="process-highlight" >비고</th>
 					    <td colspan="5" class="process-highlight2">>
-					        <textarea rows="3" cols="83" class="process-textarea" name="p_note"  id="p_note"></textarea>
+					        <textarea rows="1" cols="1" class="process-textarea" name="p_note"  id="p_note"></textarea>
 					    </td>
 					  </tr>
 					</table>

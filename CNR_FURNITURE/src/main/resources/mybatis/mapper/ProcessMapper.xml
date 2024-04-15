@@ -203,7 +203,7 @@
 
 
     <!--공정정보관리 ======================================================================================-->
-    <!--공정정보등록창: 설비 목록 조회(위치가 null 인것만 조회 할것-->
+    <!--공정정보등록창: 설비 목록 조회(위치가 null 인것만 조회 할것)-->
     <select id="selectM" resultType="com.cnr_furniture.domain.process.ManagementVO">
         SELECT
               MI_ID AS "miId"
@@ -215,7 +215,7 @@
             MI_POSITION IS NULL
     </select>
 
-
+    <!--공정정보등록창: 설비 목록 조회(ajax 검색을 위한 쿼리)-->
     <select id="selectByMiId" resultType="com.cnr_furniture.domain.process.ManagementVO">
         SELECT
             MI_ID AS miId,
@@ -224,6 +224,21 @@
         FROM MACHINE_INFO
         WHERE MI_ID = #{miId}
     </select>
+
+    <insert id="insertAddProcess">
+        INSERT INTO PROCESS_INFO (
+                              PI_ID
+                            , PI_MACHINE_ID
+                            , PI_NAME
+                            , PI_SEQ
+                        VALUES(
+                              #{pi_id}
+                            , #{pi_machine_id}
+                            , #{pi_name}
+                            , #{pi_seq}
+                            )
+    </insert>
+
 
 
 </mapper>
