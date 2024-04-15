@@ -135,16 +135,58 @@
 
 
 
+function searchManagementVO() {
+    var miId = $('#miId').val();  // 입력 필드에서 miId 값을 가져옵니다.
 
+    $.ajax({
+        url: '/searchManagementVO',
+        type: 'GET',
+        data: {miId: miId},
+        dataType: 'json',  // 서버의 응답을 JSON으로 기대
+        success: function(data) {
+            updateTable(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error, xhr);
+        }
+    });
+}
 
+function resetSearch() {
+    $('#miId').val('');  // 입력 필드 리셋
 
+    $.ajax({
+        url: '/searchManagementVO',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            updateTable(data);  // 데이터로 테이블 업데이트
+        },
+        error: function(xhr, status, error) {
+            console.error('Reset AJAX Error:', status, error, xhr);
+        }
+    });
+}
 
+function updateTable(data) {
+    var tableContent = '';
+    $.each(data, function(i, managementVO) {
+        tableContent += '<tr>' +
+                        '<td></td>' +
+                        '<td>' + managementVO.miId + '</td>' +
+                        '<td>' + managementVO.miName + '</td>' +
+                        '<td>' + managementVO.miType + '</td>' +
+                        '</tr>';
+    });
+    $('#mng').html(tableContent);
+}
 
-
-
-
-
-
+// 이벤트 리스너 추가
+$(document).ready(function() {
+    $('#resetBtn').click(function() {
+        resetSearch();
+    });
+});
 
 
 

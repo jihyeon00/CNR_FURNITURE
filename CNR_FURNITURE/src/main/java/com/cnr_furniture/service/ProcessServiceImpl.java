@@ -3,6 +3,7 @@ package com.cnr_furniture.service;
 import com.cnr_furniture.domain.process.*;
 import com.cnr_furniture.domain.quality.InspectionIBListVO;
 import com.cnr_furniture.mapper.ProcessMapper;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ import java.util.List;
 public class ProcessServiceImpl implements ProcessService{
     @Autowired
     private ProcessMapper processMapper;
+
+    /**
+     * Desc: 제조지시
+     */
 
     /** 제조시지조회 **/
     @Override
@@ -69,11 +74,18 @@ public class ProcessServiceImpl implements ProcessService{
     }
 
 
+
+    /**
+     * Desc: 제조수행지시
+     */
+
+    /** 제조수행 지시 등록: 제조 lot 번호 조회 **/
     @Override
     public List<ProcessVO> selectLotIdsByItemAndProcessId() {
         return processMapper.selectLotIdsByItemAndProcessId();
     }
 
+    /** 제조수행 지시 등록: 제조 lot 번호 조회에 따른 제품 조회 **/
     @Override
     public List<ProcessVO> selectItemsByLotId(int ins_lot_id) {
         List<ProcessVO> processVOList = processMapper.selectItemsByLotId(ins_lot_id);
@@ -81,6 +93,7 @@ public class ProcessServiceImpl implements ProcessService{
 
     }
 
+    /** 제조수행 지시 등록: 제조 lot 번호와 제품 조회 결과에 부합한 공정 위치 리스트 조회 **/
     @Override
     public List<ProcessVO> selectProcessIdsByItemAndLotId(int ins_lot_id, int ins_item_id) {
       List<ProcessVO> processVOList = processMapper.selectProcessIdsByItemAndLotId(ins_lot_id, ins_item_id);
@@ -88,6 +101,7 @@ public class ProcessServiceImpl implements ProcessService{
 
     }
 
+    /** 제조수행지시 등록 **/
     @Override
     public int insertProcessDa(
             int p_lot_id,
@@ -108,15 +122,42 @@ public class ProcessServiceImpl implements ProcessService{
         return rtn;
     }
 
+    /** 제조수행지시 검색: 제조 로트번호 입력창 **/
     @Override
-    public List<ProcessRunVO> selectProcessRun(ProcessDate processDate) {
+    public List<ProcessRunVO> selectProcessRun( ProcessDate processDate) {
         return processMapper.selectProcessRun(processDate);
     }
 
+    /** 제조수행지시 검색: 제조수행지시 목록 조회 및, 제조 로트번호, 공정번호, 날짜에 따른 결과 검색**/
     @Override
-    public List<ProcessRunVO> selectProcessRun1() {
-        return processMapper.selectProcessRun1();
+    public List<ProcessRunVO> selectProcessRun1(ProcessDate processDate ) {
+        return processMapper.selectProcessRun1(processDate);
     }
+
+    /** 제조수행지시 검색: 제조 공정번호 입력창 **/
+    @Override
+    public List<ProcessRunVO> selectProcessRun2(ProcessDate processDate) {
+        return processMapper.selectProcessRun2(processDate);
+    }
+
+
+
+
+    /**
+     * Desc: 공정정보관리
+     */
+
+    /** 공정정보관리: 설비 조회 **/
+    @Builder
+    public List<ManagementVO> selectM(){
+        return processMapper.selectM();
+    }
+
+    @Override
+    public List<ManagementVO> selectByMiId(int miId) {
+        return processMapper.selectByMiId(miId);
+    }
+
 }
 
 

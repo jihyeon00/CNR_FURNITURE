@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
 <link rel="stylesheet" href="/resources/css/process.css">
+<script src="/resources/js/process.js"></script>
+
 <%@ include file="../includes/header.jsp" %>
 
   <!-- Content Wrapper. Contains page content -->
@@ -26,15 +26,15 @@
       <div class="proheaderBar">
         <div class="process1Search">
             <div class="proName">
-                <div class="searchProbar">제조LOT번호</div>     
+                <div class="searchProbar">공정번호</div>
                 <input type="search" name="search_proType" id="search_proType" class="processBox" autocomplete="off">
             </div>
             <div class="proType">
-                <div class="searchProbar">지시일자</div>
+                <div class="searchProbar">공정명</div>
                 <input type="search" name="search_proType" id="search_proType" class="processBox" autocomplete="off">
             </div>
         </div>
-    </div>    
+    </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
@@ -52,7 +52,7 @@
                 <thead class="tbl-headerPro">
                        <th>NO</th>
                        <th>공정번호</th>
-                       <th>공정명번호</th>
+                       <th>공정명</th>
                        <th>공정위치번호</th>
                        <th>설비번호</th>
 
@@ -190,10 +190,21 @@
               </div>
             </div>
           </div>
-          
+
+
           <div class="InnputBody">
-            <div class="inputmedle"><input type="text" class="processSearchInput"></div>
-            <div class="inputmedle1"><button type="button" id="prosearchbtn" class="btn btn-primary sInput">조희</button></div>
+            <div class="inputmedle">
+                <input list="managementVOList" name="miId" id="miId" class="processSearchInput" aria-label=".form-select-sm example" value="${managementVO.miId}">
+                    <datalist id="managementVOList">
+                        <option value="">--선택--</option>
+                        <c:forEach items="${managementVOList}" var="managementVOList">
+                            <option value="${managementVOList.miId}">${managementVOList.miId} ${managementVOList.miName}</option>
+                        </c:forEach>
+                    </datalist>
+             </div>
+            <div class="inputmedle1">
+            <button type="button" id="prosearchbtnpRO" class="btn btn-primary sInput" onclick="searchManagementVO()">조회</button>
+            <button type="button" id="resetBtn" class="btn btn-default">리셋</button>
           </div>
         </div>
         <div class="row">
@@ -202,7 +213,7 @@
             <div class="ETableTitle ">
               <div class="icon"><i class="fa fa-list"></i></div>
               <div class="employee">설비목록</div>
-              <div class="procexxIcon"><button style="border-style: gray;"><i class="fa fa-fw fa-plus"></i></button></div>             
+              <div class="procexxIcon"><button style="border-style: gray;"><i class="fa fa-fw fa-plus"></i></button></div>
             </div>
             <div class="table ProTable3">
               <table cellpadding="0" cellspacing="0" border="0">
@@ -220,42 +231,21 @@
                     <th>설비유형</th>
                   </tr>
                 </thead>
-                <tbody class="tbl-content ProTable3">
+                <tbody class="tbl-content ProTable3" id="mng">
                   <!-- 설비목록 데이터 -->
-                    <tr>
-                        <td><input type="checkbox" name="check1"></td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                      </tr>
-                      <tr>
-                        <td><input type="checkbox" name="check1"></td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                      </tr>
-                      <tr>
-                        <td><input type="checkbox" name="check1"></td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                      </tr>
-                      <tr>
-                        <td><input type="checkbox" name="check1"></td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                      <tr>
-                      <tr>
-                        <td><input type="checkbox" name="check1"></td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                      <tr>                      
+                    <c:forEach items="${managementVOList}" var="mng">
+                        <tr>
+                            <td><input type="checkbox" name="check1"></td>
+                            <td><c:out value="${mng.miId}"/></td>
+                            <td><c:out value="${mng.miName}"/></td>
+                            <td><c:out value="${mng.miType}"/></td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
               </table>
             </div>
           </div>
+
           <div class="col-sm-1">
           </div>
           <div class="col-md-5 Promargin">
@@ -335,4 +325,5 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+
 

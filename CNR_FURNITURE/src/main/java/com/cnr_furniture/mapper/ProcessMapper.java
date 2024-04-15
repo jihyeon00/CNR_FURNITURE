@@ -1,15 +1,19 @@
 package com.cnr_furniture.mapper;
 
 import com.cnr_furniture.domain.process.*;
+import com.cnr_furniture.domain.process.ManagementVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.scheduling.support.SimpleTriggerContext;
 
 
 import java.util.List;
 
 @Mapper
 public interface ProcessMapper {
+
+    /**
+     * Desc: 제조지시
+     */
+
     /** 날짜 조회 **/
     List<ProcessVO> selectProcess(ProcessDate processDate);
 
@@ -26,15 +30,42 @@ public interface ProcessMapper {
     int insertProInstruction(ProcessVO processVO);
 
 
+
+    /**
+     * Desc: 제조수행지시
+     */
+
+    /** 제조수행 지시 등록: 제조 lot 번호 조회 **/
     List<ProcessVO> selectLotIdsByItemAndProcessId();
+
+    /** 제조수행 지시 등록: 제조 lot 번호 조회에 따른 제품 조회 **/
     List<ProcessVO> selectItemsByLotId(int ins_lot_id);
+
+    /** 제조수행 지시 등록: 제조 lot 번호와 제품 조회 결과에 부합한 공정 위치 리스트 조회 **/
     List<ProcessVO> selectProcessIdsByItemAndLotId(int ins_lot_id, int ins_item_id);
 
+    /** 제조수행지시 등록 **/
     int insertProcessDa(ProcessRunVO processRunVO);
+
+    /** 제조수행지시 검색: 제조 로트번호 입력창 **/
     List<ProcessRunVO>selectProcessRun(ProcessDate processDate);
 
-    List<ProcessRunVO> selectProcessRun1();
+    /** 제조수행지시 검색: 제조수행지시 목록 조회 및, 제조 로트번호, 공정번호, 날짜에 따른 결과 검색**/
+    List<ProcessRunVO> selectProcessRun1(ProcessDate processDate);
 
+    /** 제조수행지시 검색: 제조 공정번호 입력창 **/
+    List<ProcessRunVO> selectProcessRun2(ProcessDate processDate);
+
+
+
+
+    /**
+     * Desc: 공정정보관리
+     */
+
+    /** 공정정보관리: 설비 조회 **/
+    List<ManagementVO> selectM();
+    List<ManagementVO> selectByMiId(int miId);
 
 }
 

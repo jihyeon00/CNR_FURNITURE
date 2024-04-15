@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.ProcessMapper">
+
+    <!-- 제조 지시======================================================================================-->
     <!-- 제조지시 목록 조회-->
     <select id="selectProcess" resultType="com.cnr_furniture.domain.process.ProcessVO">
         SELECT ROWNUM rn
@@ -78,50 +80,72 @@
         ORDER BY rn ASC
     </select>
 
-    <!-- 제조수행지시 목록-->
+
+
+
+    <!--제조 수행 지시 ======================================================================================-->
+    <!--제조수행지시 목록조회: 제조 로트번호 입력창-->
     <select id="selectProcessRun" resultType="com.cnr_furniture.domain.process.ProcessRunVO">
-        SELECT ROWNUM AS rn
-        , A.P_LOT_ID
-        , A.P_PI_ID
-        , TO_CHAR(A.P_START_DATE, 'YYYY-MM-DD') AS P_START_DATE
-        , TO_CHAR(A.P_END_DATE, 'YYYY-MM-DD') AS P_END_DATE
-        FROM (
-        SELECT DISTINCT P_LOT_ID
-        , FIRST_VALUE(P_PI_ID) OVER (PARTITION BY P_LOT_ID ORDER BY P_START_DATE DESC) AS P_PI_ID
-        , FIRST_VALUE(P_START_DATE) OVER (PARTITION BY P_LOT_ID ORDER BY P_START_DATE DESC) AS P_START_DATE
-        , FIRST_VALUE(P_END_DATE) OVER (PARTITION BY P_LOT_ID ORDER BY P_START_DATE DESC) AS P_END_DATE
+        SELECT DISTINCT
+            P_LOT_ID
+        FROM
+            PROCESS
+        WHERE 1=1
+            <if test="pLotId != null and pLotId  !=''">
+                AND P_LOT_ID = #{pLotId}
+            </if>
+        ORDER BY
+            P_LOT_ID ASC
+    </select>
+
+    <!--제조수행지시 목록조회: 제조 공정번호 입력창-->
+    <select id="selectProcessRun2" resultType="com.cnr_furniture.domain.process.ProcessRunVO">
+        SELECT DISTINCT
+             P_PI_ID
+        FROM
+             PROCESS
+        WHERE 1=1
+            <if test="pPiId != null and pPiId  !=''">
+                AND P_PI_ID = #{pPiId}
+            </if>
+        ORDER BY
+             P_PI_ID ASC
+    </select>
+
+
+    <!-- 제조수행지시 목록 조회 및, 제조 로트번호, 공정번호, 날짜에 따른 결과 검색-->
+    <select id="selectProcessRun1" resultType="com.cnr_furniture.domain.process.ProcessRunVO">
+        SELECT
+                ROWNUM AS rn,
+                P_LOT_ID,
+                P_PI_ID,
+                P_B_ITEM_ID,
+                P_PLAN_QUANTITY,
+                P_ITEM_QUANTITY,
+                P_DEFECTIVE_QUANTITY,
+                TO_CHAR(P_START_DATE, 'YYYY-MM-DD') AS P_START_DATE,
+                P_END_DATE,
+                P_STATUS,
+                P_NOTE
         FROM PROCESS
         WHERE 1=1
                 <if test="startDate != null and startDate !=''">
                     AND P_START_DATE >= #{startDate}
                 </if>
                 <if test="endDate != null and endDate !=''">
-                    AND #{endDate} >= P_END_DATE
+                    AND #{endDate} >= P_START_DATE
                 </if>
-                ) A
-        ORDER BY rn ASC
-    </select>
-
-    <select id="selectProcessRun1" resultType="com.cnr_furniture.domain.process.ProcessRunVO">
-        SELECT ROWNUM rn
-        , P_LOT_ID
-        , P_PI_ID
-        , P_B_ITEM_ID
-        , P_PLAN_QUANTITY
-        , P_ITEM_QUANTITY
-        , P_DEFECTIVE_QUANTITY
-        , TO_CHAR(P_START_DATE, 'YYYY-MM-DD') AS P_START_DATE
-        , TO_CHAR(P_END_DATE, 'YYYY-MM-DD') AS P_END_DATE
-        FROM PROCESS
-        WHERE 1=1
+                <if test="pPiId != null and pPiId != ''">
+                    AND P_PI_ID = #{pPiId}
+                </if>
+                <if test="pLotId != null and pLotId != ''">
+                    AND P_LOT_ID = #{pLotId}
+                </if>
         ORDER BY rn ASC
     </select>
 
 
-
-
-
-    <!-- 제조수행지시에서 제조지시 검색-->
+    <!-- 제조수행지시에서 별개의 제조지시번호 검색-->
     <select id="selectLotIdsByItemAndProcessId" resultType="com.cnr_furniture.domain.process.ProcessVO">
         SELECT DISTINCT
             ins.INS_LOT_ID AS ins_lot_id
@@ -132,7 +156,7 @@
     </select>
 
 
-
+    <!-- 제조수행지시에서 제조지시 검색 후 그 번호에 해당하는 제품 번호 목록 검색-->
     <select id="selectItemsByLotId" resultType="com.cnr_furniture.domain.process.ProcessVO">
         SELECT DISTINCT
              ins.INS_ITEM_ID AS ins_item_id
@@ -144,6 +168,7 @@
             INS_ITEM_ID ASC
     </select>
 
+    <!-- 제조수행지시에서 제조지시와 제품 번호에 해당하는 제조 공정 번호 리스트 조회-->
     <select id="selectProcessIdsByItemAndLotId" resultType="com.cnr_furniture.domain.process.ProcessVO">
         SELECT DISTINCT
             INS_PI_ID AS ins_pi_id
@@ -173,6 +198,32 @@
                             , #{p_note}
                             )
     </insert>
+
+
+
+
+    <!--공정정보관리 ======================================================================================-->
+    <!--공정정보등록창: 설비 목록 조회(위치가 null 인것만 조회 할것-->
+    <select id="selectM" resultType="com.cnr_furniture.domain.process.ManagementVO">
+        SELECT
+              MI_ID AS "miId"
+            , MI_NAME AS "miName"
+            , MI_TYPE AS "miType"
+        FROM
+            MACHINE_INFO
+        WHERE
+            MI_POSITION IS NULL
+    </select>
+
+
+    <select id="selectByMiId" resultType="com.cnr_furniture.domain.process.ManagementVO">
+        SELECT
+            MI_ID AS miId,
+            MI_NAME AS miName,
+            MI_TYPE AS miType
+        FROM MACHINE_INFO
+        WHERE MI_ID = #{miId}
+    </select>
 
 
 </mapper>

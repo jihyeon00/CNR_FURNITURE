@@ -31,36 +31,34 @@
         <div class="process1Search">
             <div class="proName">
                 <div class="searchProbar">제조LOT번호</div>
-                    <select id="proRunList" class="processBox" name="process" id="processInput">
+                <input list="proRunList" name="pLotId" class="processBox" aria-label=".form-select-sm example" value="${pLotId.p_lot_id}">
+                    <datalist id="proRunList">
                         <option value="">--선택--</option>
-                        <c:forEach items="${proRunList}" var="Run">
-                            <option value="${Run.p_lot_id}">
-                                ${Run.p_lot_id}
-                            </option>
+                        <c:forEach items="${proRunList}" var="pLotId">
+                            <option value="${pLotId.p_lot_id}">${pLotId.p_lot_id}</option>
                         </c:forEach>
-                    </select>
+                    </datalist>
             </div>
-            <div class="proType">
-                <div class="searchProbar">지시일자</div>
-                <input type="date" class="processBox" id="startDate" autocomplete="off" name="startDate" value='<c:out value="${processDate.startDate}"/>'/>
-                 <p class="textPro5"> ~ </p>
-                <input type="date" class="processBox" autocomplete="off" name="endDate" id="endDate" value='<c:out value="${processDate.endDate}"/>' />
+    <div class="proType">
+        <div class="searchProbar">지시일자</div>
+        <input type="date" class="processBox" name="startDate" value="${startDate.P_START_DATE}" autocomplete="off"/>
+        <p class="textPro5"> ~ </p>
+        <input type="date" class="processBox" name="endDate" value="${endDate.P_START_DATE}" autocomplete="off"/>
+    </div>
+        <div class="proPosition">
+            <div class="searchProbar">공정번호</div>
+            <input list="proRunList2" name="pPiId" class="processBox" aria-label=".form-select-sm example" value="${pPiId.p_pi_id}">
+                <datalist id="proRunList2">
+                    <option value="">--선택--</option>
+                    <c:forEach items="${proRunList2}" var="pPiId">
+                        <option value="${pPiId.p_pi_id}">${pPiId.p_pi_id}</option>
+                    </c:forEach>
+                </datalist>
             </div>
-            <div class="proPosition">
-                <div class="searchProbar">공정번호</div>
-				  <select name="search_process" id="search_process" class="processBox" autocomplete="off">
-                        <option value="">--선택--</option>
-                        <c:forEach items="${proRunList}" var="Run">
-                            <option value="${Run.p_pi_id}">
-                                ${Run.p_pi_id}
-                            </option>
-                        </c:forEach>
-              	  </select>
-                </div>
-             </div>
-
         </div>
+      </div>
   </form>
+
     <!-- /.content-header -->
     <!-- Main content -->
     <div class="content">
@@ -186,16 +184,19 @@
 
 
 <script>
+    // 동적 검색 이벤트 ajax
+    // 제조 LOT 번호가 변경되었을 때의 이벤트 함수
     $('#proLot').on('change', function() {
-        var proLot = $(this).val();
-        var proItemSelect = $('#proItem');
-        var proPiSelect = $('#proPi');  // 공정 번호 select element 추가
-        proItemSelect.empty();
-        proPiSelect.empty();  // 공정 번호 선택지 초기화
+        var proLot = $(this).val();          // 선택된 LOT 번호를 가져옴
+        var proItemSelect = $('#proItem');   // 제품 번호 select element
+        var proPiSelect = $('#proPi');       // 공정 번호 select element
+        proItemSelect.empty();               // 제품 번호 선택지 초기화
+        proPiSelect.empty();                 // 공정 번호 선택지 초기화
 
+        // LOT 번호가 선택되어 있으면
         if (proLot) {
             $.ajax({
-                url: '/insItemList?ins_lot_id=' + proLot,
+                url: '/insItemList?ins_lot_id=' + proLot,    // 서버에 제품 번호 요청
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -205,11 +206,11 @@
                         $.each(data, function(index, item) {
                             proItemSelect.append($('<option>', {
                                 value: item.ins_item_id,
-                                text: item.ins_item_id
+                                text: item.ins_item_id          // 제품 번호 옵션 추가
                             }));
                         });
                     } else {
-                        proItemSelect.append('<option value="">No Options Available</option>');
+                        proItemSelect.append('<option value="">No Options Available</option>');   // 옵션이 없을 경우
                     }
                 },
                 error: function(xhr, status, error) {
@@ -217,20 +218,22 @@
                 }
             });
         } else {
-            proItemSelect.append('<option value="">Select Lot first</option>');
-            proPiSelect.append('<option value="">Select Item first</option>');
+            proItemSelect.append('<option value="">Select Lot first</option>');     // LOT 먼저 선택하라는 메시지
+            proPiSelect.append('<option value="">Select Item first</option>');      // ITEM 먼저 선택하라는 메시지
         }
     });
 
+    // 제품 번호가 변경되었을 때의 이벤트 핸들러
     $('#proItem').on('change', function() {
-        var proLot = $('#proLot').val();  // LOT 번호를 다시 가져옴
-        var proItem = $(this).val();
-        var proPiSelect = $('#proPi');
-        proPiSelect.empty();
+        var proLot = $('#proLot').val();        // LOT 번호를 다시 가져옴
+        var proItem = $(this).val();            // 선택된 ITEM 번호를 가져옴
+        var proPiSelect = $('#proPi');          // 공정 번호 select element
+        proPiSelect.empty();                    // 공정 번호 선택지 초기화
 
+        // 제품 번호가 선택되어 있으면
         if (proItem) {
             $.ajax({
-                url: '/insPiList?ins_lot_id=' + proLot + '&ins_item_id=' + proItem,
+                url: '/insPiList?ins_lot_id=' + proLot + '&ins_item_id=' + proItem,  // 서버에 공정 번호 요청
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -244,7 +247,7 @@
                             }));
                         });
                     } else {
-                        proPiSelect.append('<option value="">No Options Available</option>');
+                        proPiSelect.append('<option value="">No Options Available</option>');    // 옵션이 없을 경우
                     }
                 },
                 error: function(xhr, status, error) {
@@ -252,7 +255,7 @@
                 }
             });
         } else {
-            proPiSelect.append('<option value="">Select Item first</option>');
+            proPiSelect.append('<option value="">Select Item first</option>');  // ITEM 먼저 선택하라는 메시지
         }
     });
 </script>
