@@ -60,6 +60,14 @@
 	height: 50px;
 }
 
+/* BOM 등록의 BOM 관리버튼 */
+.BomInfo-btn {
+	height: 40px;
+	float: right;
+	position: relative;
+	left: -35px;
+	top: -2px;
+}
 
 .bomBtn {
   float: right;

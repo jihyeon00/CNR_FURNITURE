@@ -21,6 +21,11 @@
             <div class="resetBtn2">
                <a href="./insert"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
             </div>
+            <div class="BomInfo-btn">
+              <button type="button" class="btn btn-Default" style="height: 40px;"><a href="/bom" style="color: #000;">
+              BOM 관리
+              </a></button>
+        		</div>
           </div>
       </div><!-- /.container-fluid -->
     </div>
@@ -62,7 +67,8 @@
 		          	<div class="row modal-content2">
 									<div class="col-md-6">
 					         자재 단위
-					          <input type="text" name="" id="mtUnit" data-mtUnit="" class="form-control" autocomplete="off">
+					          <input type="text" name="" id="mtUnit" data-mtUnit="" class="form-control" autocomplete="off" 
+					          placeholder="단위는 ea, L, m, set, kg " />
 		          		</div>
 			          	<div class="col-md-6">
 					          자재 수량
@@ -284,8 +290,8 @@
 	    $.ajax({
 	        // request처리
 	        type : 'post',                                      // form의 method속성 값
-	        url : '/bom/' + itemId + "/" + mtId + "/" + mtUnit + "/" + mtQuantity,       // form의 action값
-	        data: JSON.stringify({ itemId: itemId, mtId: mtId, mtUnit: mtUnit, mtQuantity: mtQuantity }),                     // json으로 string처리하면서 파라미터 전달
+	        url : '/bom/insert/' + itemId + "/" + mtId + "/" + mtUnit + "/" + mtQuantity,       // form의 action값
+	        data: JSON.stringify({ itemId: itemId, mtId: mtId, mtUnit: mtUnit, mtQuantity: mtQuantity }), // json으로 string처리하면서 파라미터 전달
 	        contentType : "application/json; charset=utf-8",    // content-type지정
 	        // response처리
 	        success : function(result, status, xhr) {           // call 성공시 오는 처리되는 함수
@@ -321,9 +327,17 @@
         var $row = $(this).closest('tr');
 
         // 각 셀의 값을 입력 필드로 변경
-        $row.find('td').each(function() {
+       /*  $row.find('td').each(function() {
             var currentValue = $(this).text();
             $(this).html('<input type="text" class="form-control" value="' + currentValue + '">');
+        }); */
+        $row.find('td').each(function() {
+            var currentValue = $(this).text();
+            var className = $(this).attr("class");
+            
+            if (!(className == 'itemId' || className == 'mtId')) { 
+            	$(this).html('<input type="text" class="form-control" value="' + currentValue + '">');
+            }
         });
 
         // '수정' 버튼을 '완료' 버튼으로 변경
@@ -331,23 +345,23 @@
 
         // '완료' 버튼(수정 완료 버튼) 클릭 이벤트 핸들러 등록
         $(this).on('click', function() {
-	        var $row = $(this).closest('tr');
+	        var $row2 = $(this).closest('tr');
 	
 	        // 각 셀의 입력 필드 값을 가져와서 해당 셀의 내용으로 설정
-	        $row.find('input').each(function() {
+	        $row2.find('input').each(function() {
 	            var newValue = $(this).val();
 	            $(this).closest('td').text(newValue);
 	        });
 
-         // '완료' 버튼을 '수정' 버튼으로 변경
-         $(this).text('수정').removeClass('completeBomEdit').addClass('modifyBomInserted');
-         /*    $row.find('.completeBomEdit').text('수정').removeClass('completeBomEdit').addClass('modifyBomInserted'); */
+	         // '완료' 버튼을 '수정' 버튼으로 변경
+	         $(this).text('수정').removeClass('completeBomEdit').addClass('modifyBomInserted');
+	         /*    $row.find('.completeBomEdit').text('수정').removeClass('completeBomEdit').addClass('modifyBomInserted'); */
 
             // 수정된 데이터를 서버로 전송하여 처리 (실제 AJAX 요청)
-            var itemId = $row.find('.itemId').text();
-            var mtId = $row.find('.mtId').text();
-            var mtUnit = $row.find('.mtUnit').text();
-            var mtQuantity = $row.find('.mtQuantity').text();
+            var itemId = $row2.find('.itemId').text();
+            var mtId = $row2.find('.mtId').text();
+            var mtUnit = $row2.find('.mtUnit').text();
+            var mtQuantity = $row2.find('.mtQuantity').text();
 
             var dataToUpdate = {
             		b_item_id: itemId,
@@ -357,15 +371,30 @@
             };
             
             console.log(dataToUpdate);
+            
+            console.log('$row', $row);
+            console.log('$row2', $row2);
+            console.log('$(this)', $(this));
 
             // AJAX 요청을 통해 서버에 데이터 전송
             $.ajax({
                 type: 'POST',
-                url:  '/bom/insert/' + itemId + '/' + mtId, // 수정 처리를 위한 서버 URL
+                url:  '/bom/modifyAll/' + itemId + '/' + mtId, // 수정 처리를 위한 서버 URL
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(dataToUpdate),
                 success: function(response) {
                     alert('BOM 수정이 완료되었습니다.');
+                    
+                    $row.find('td').each(function() {
+                        var className = $(this).attr("class");
+                        
+                        if (className == 'mtUnit') { 
+                        	$(this).html(mtUnit);
+                        }
+                        if (className == 'mtQuantity') { 
+                        	$(this).html(mtQuantity);
+                        }
+                    });
                 },
                 error: function(xhr, status, er) {
                     alert('BOM 수정 중 오류가 발생했습니다. 다시 시도해 주세요.');
