@@ -57,4 +57,14 @@ public interface InspectionIBService {
      */
     void registerInspectionItems(List<InspectionIBInsertVO> items);
 
+    /**
+     * Desc: [수입검사관리]: 수정 - 특정 수입검사 항목을 가져오는 메소드
+     */
+    InspectionIBListVO getInspectionDetails(Long listSeq);
+
+    /**
+     * Desc: [수입검사관리]: 수정 - 수입검사 항목을 UPDATE 하는 메소드
+     */
+    /*void updateInspection(InspectionIBListVO inspection);*/
+
 }

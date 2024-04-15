@@ -144,5 +144,29 @@ public class InspectionIBController {
         }
     }
 
+    /**
+     * Desc: [수입검사관리]: 수정 모달창 데이터 조회
+     * @return: /inspectionIB/edit
+     */
+    @GetMapping("/inspectionIB/edit")
+    @ResponseBody
+    public InspectionIBListVO getInspectionForEdit(@RequestParam("listSeq") Long listSeq) {
+        return inspectionIBService.getInspectionDetails(listSeq);
+    }
+
+    /**
+     * Desc: [수입검사관리]: 수정된 데이터 저장
+     * @return: /inspectionIB/update
+     */
+    /*public ResponseEntity<?> updateInspectionDetails(
+            @ResponseBody InspectionIBListVO inspection
+    ) {
+        try {
+            inspectionIBService.updateInspection(inspection);
+            return ResponseEntity.ok().body(Map.of("success", true, "message", "업데이트 성공"));
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "업데이트 실패: " + e.getMessage()));
+        }
+    }*/
 
 }

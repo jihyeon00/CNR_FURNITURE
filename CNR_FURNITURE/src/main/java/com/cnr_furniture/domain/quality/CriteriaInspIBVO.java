@@ -19,11 +19,15 @@ public class CriteriaInspIBVO {   // 자재번호, 계약번호, 제조LOT번호
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date inspectionDate2;
 
-    // 모달용
+    // 모달용(등록)
     private Long contractIDModal;
     private Long matIDModal;
     private String qsDiv1Modal;
     private String qsDiv2Modal;
+
+    // 모달용(수정)
+    private String editQsDiv1;
+    private String editQsDiv2;
 
     /* inspectionIB 검색 옵션 */
     public CriteriaInspIBVO() {}
@@ -36,10 +40,14 @@ public class CriteriaInspIBVO {   // 자재번호, 계약번호, 제조LOT번호
             Date inspectionDate1,
             Date inspectionDate2,
 
-            // 모달용
+            // 모달용(등록)
             Long contractIDModal,
             String qsDiv1Modal,
-            String qsDiv2Modal
+            String qsDiv2Modal,
+
+            // 모달용(수정)
+            String editQsDiv1,
+            String editQsDiv2
     ) {
         // 검색용
         this.contractID = contractID;
@@ -49,10 +57,14 @@ public class CriteriaInspIBVO {   // 자재번호, 계약번호, 제조LOT번호
         this.inspectionDate1 = inspectionDate1;
         this.inspectionDate2 = inspectionDate2;
 
-        // 모달용
+        // 모달용(등록)
         this.contractIDModal = contractIDModal;
         this.qsDiv1Modal =qsDiv1Modal;
         this.qsDiv2Modal = qsDiv2Modal;
+
+        // 모달용(수정)
+        this.editQsDiv1 = editQsDiv1;
+        this.editQsDiv2 = editQsDiv2;
     }
 
 }
