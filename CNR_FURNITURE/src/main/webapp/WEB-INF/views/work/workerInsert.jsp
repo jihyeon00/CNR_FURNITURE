@@ -9,7 +9,7 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-         <form action="" id="searchForm" class="col-md-12" onSubmit="return false">
+         <div id="searchForm" class="col-md-12">
 	          <div class="col-sm-12" >
 	          	<ol class="breadcrumb float-sm-left">
 	          		<h1 class="m-0"><i class="far fa-clipboard"></i>작업자등록</h1>
@@ -28,29 +28,26 @@
           	<!-- 검색창 1줄 -->
              <div class="searchBar">
                <div class="col-sm-1 sb-name">제조<br>LOT번호</div>
-               <div class="col-sm-2 sb-text">
-                 <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-                 <datalist id="workCompanyNameList">
-                   <c:forEach var="list" items = "${roleList}">
-                     <option value='${list.e_ROLE}'
-                       <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
-                     </option>
-                   </c:forEach>
-                  </datalist>
+	             <div class="col-sm-2 sb-text">
+                 <input type="text" list="workInstructuionList" class="col-sm-12 input-text" id="find_work_instruction" name="find_work_instruction">
+	                <datalist id="workInstructuionList">
+                     <c:forEach items="${instructionList}" var="instruction">
+                         <option value="${instruction.insLotId}">생산제품번호: ${instruction.insItemId}</option>
+                     </c:forEach>
+                 </datalist>
                </div>
                <div class="col-sm-1 sb-name">공정번호</div>
                <div class="col-sm-2 sb-text">
-                 <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-                 <datalist id="workCompanyNameList">
-                   <c:forEach var="list" items = "${roleList}">
-                     <option value='${list.e_ROLE}'
-                       <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
-                     </option>
-                   </c:forEach>
-                  </datalist>
+               		<input type="text" list="workProcessInfoList" class="col-sm-12 input-text" id="find_work_processInfo" name="find_work_processInfo">
+	                <datalist id="workProcessInfoList">
+                     <c:forEach items="${processInfoList}" var="processInfo">
+                         <option value="${processInfo.pi_id}">공정명: ${processInfo.pi_name} | ${processInfo.mi_name}(${processInfo.pi_machine_id}, 위치:${processInfo.position}) </option>
+                     </c:forEach>
+                 </datalist>
                </div>
              </div>
            </form>
+          </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -74,7 +71,7 @@
 	                  <th>작업번호</th>
 	                  <th>제조LOT번호</th>
 	                  <th>공정번호</th>
-	                  <th>공정위치</th>
+	                  <th>작업위치</th>
 	                  <th>설비번호</th>
 	                  <th>설비명</th>
 	                  <th>작업상태</th>

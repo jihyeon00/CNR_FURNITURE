@@ -60,8 +60,17 @@ public class WorkController {
      */
     
     @GetMapping("/todayWorkInsert")
-    public String todayWorkInsert(){
-    	return "work/todayWorkInsert";
+    public String todayWorkInsert(WorkSearchVO workSearchVO, Model model){
+        // 검색을 위한 제조지시 리스트
+        List<WorkSelectInstructionVO> instructionList = workService.findInstructionList();
+        // 검색을 위한 공정정보 리스트
+        List<WorkSelectProcessInfoVO> processInfoList = workService.findProcessInfoList();
+
+        // view에서 사용할 모델명 지정
+        model.addAttribute("instructionList", instructionList);
+        model.addAttribute("processInfoList", processInfoList);
+
+        return "work/todayWorkInsert";
     }
     
     /**
@@ -70,7 +79,16 @@ public class WorkController {
      */
     
     @GetMapping("/workerInsert")
-    public String workerInsert(){
+    public String workerInsert(WorkSearchVO workSearchVO, Model model){
+        // 검색을 위한 제조지시 리스트
+        List<WorkSelectInstructionVO> instructionList = workService.findInstructionList();
+        // 검색을 위한 공정정보 리스트
+        List<WorkSelectProcessInfoVO> processInfoList = workService.findProcessInfoList();
+
+        // view에서 사용할 모델명 지정
+        model.addAttribute("instructionList", instructionList);
+        model.addAttribute("processInfoList", processInfoList);
+
     	return "work/workerInsert";
     }
 
