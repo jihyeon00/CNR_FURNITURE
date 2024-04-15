@@ -35,6 +35,11 @@ public class WorkController {
 
         // 제조수행정보 목록 조회
         List<WorkProcessInfoVO> workProcessInfoList = workService.selectWorkProcessInfo(workSearchVO);
+        // 작업 목록 조회
+        List<WorkVO> workList = workService.selectWork(workSearchVO);
+        // 생산실적 조회
+        List<WorkVO> productionPerformanceList = workService.selectWorkProductionPerformance(workSearchVO);
+
 
         // view에서 사용할 모델명 지정
         model.addAttribute("companyList", companyList);
@@ -43,6 +48,8 @@ public class WorkController {
         model.addAttribute("processInfoList", processInfoList);
 
         model.addAttribute("workProcessInfoList", workProcessInfoList);
+        model.addAttribute("workList",workList);
+        model.addAttribute("productionPerformanceList",productionPerformanceList);
 
         return "work/work";
     }

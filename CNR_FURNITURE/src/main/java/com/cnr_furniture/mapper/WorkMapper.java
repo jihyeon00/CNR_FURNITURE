@@ -37,6 +37,18 @@ public interface WorkMapper {
      */
     List<WorkProcessInfoVO> selectWorkProcessInfo(WorkSearchVO workSearchVO);
 
+    /**
+     * 작업목록 조회
+     * work 의 작업목록
+     */
+    List<WorkVO> selectWork(WorkSearchVO workSearchVO);
+
+    /**
+     * 작업목록 조회
+     * work 의 작업목록
+     */
+    List<WorkVO> selectWorkProductionPerformance(WorkSearchVO workSearchVO);
+
 
 
 }

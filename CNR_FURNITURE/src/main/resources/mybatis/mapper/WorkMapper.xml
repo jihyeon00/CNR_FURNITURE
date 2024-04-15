@@ -5,44 +5,44 @@
     <!-- 회사 정보 조회 -->
     <select id="workSelectCompanyList" resultType="com.cnr_furniture.domain.work.WorkSelectCompanyVO">
         SELECT
-        c_id as companyId, c_name as companyName, c_div as companyDiv
+            c_id as companyId, c_name as companyName, c_div as companyDiv
         FROM
-        COMPANY
+            COMPANY
     </select>
 
     <!-- 제품 정보 조회 -->
     <select id="workSelectItemList" resultType="com.cnr_furniture.domain.work.WorkSelectItemVO">
         SELECT
-        i_id as itemId, i_name as itemName, i_uses as itemUses
+            i_id as itemId, i_name as itemName, i_uses as itemUses
         FROM
-        ITEM
+            ITEM
     </select>
 
     <!-- 계획 정보 조회 -->
     <select id="workSelectInstructionList" resultType="com.cnr_furniture.domain.work.WorkSelectInstructionVO">
         SELECT
-        DISTINCT INS_LOT_ID as insLotId,
-        INS_ITEM_ID as insItemId,
-        INS_EMP_ID as insEmpId,
-        INS_CT_ID as insCtId,
-        INS_LOT_SIZE as insLotSize,
-        INS_START_DATE as insStartDate,
-        INS_END_DATE as insEndDate
+            DISTINCT INS_LOT_ID as insLotId,
+            INS_ITEM_ID as insItemId,
+            INS_EMP_ID as insEmpId,
+            INS_CT_ID as insCtId,
+            INS_LOT_SIZE as insLotSize,
+            INS_START_DATE as insStartDate,
+            INS_END_DATE as insEndDate
         FROM
-        INSTRUCTION
+            INSTRUCTION
         ORDER BY
-        insLotId, insCtId
+            insLotId, insCtId
     </select>
 
     <!-- 공정 정보 조회 -->
     <select id="workSelectProcessInfoList" resultType="com.cnr_furniture.domain.work.WorkSelectProcessInfoVO">
         SELECT
-        pi.PI_ID AS pi_id, pi.PI_NAME AS PI_NAME, pi.PI_MACHINE_ID AS PI_MACHINE_ID,
-        mi.MI_NAME AS MI_NAME, pi.PI_SEQ || '-' || mi.MI_POSITION AS position
+            pi.PI_ID AS pi_id, pi.PI_NAME AS PI_NAME, pi.PI_MACHINE_ID AS PI_MACHINE_ID,
+            mi.MI_NAME AS MI_NAME, pi.PI_SEQ || '-' || mi.MI_POSITION AS position
         FROM
-        PROCESS_INFO pi, MACHINE_INFO mi
+            PROCESS_INFO pi, MACHINE_INFO mi
         WHERE
-        pi.PI_MACHINE_ID = mi.MI_ID
+            pi.PI_MACHINE_ID = mi.MI_ID
         ORDER BY PI_ID, position
     </select>
 
@@ -116,6 +116,175 @@
                 <if test="find_work_company == '' and find_work_item == '' and
                      workStartDate == '' and workEndDate == '' and
                      find_work_instruction == '' and find_work_processInfo == '' ">
+                    AND 1=0
+                </if>
+            </if>
+        </trim>
+    </select>
+    <!-- 작업목록 조회 -->
+    <select id="selectWork" resultType="com.cnr_furniture.domain.work.WorkVO">
+        SELECT
+            ROWNUM AS rn,
+            WORK.W_ID ,
+            WORK.W_LOT_ID ,
+            WORK.W_DATE,
+            WORK.E_DP_NAME,
+            WORK.W_PI_ID,
+            WORK.PI_NAME,
+            WORK.MI_NAME,
+            WORK.POSITION,
+            WORK.INS_ITEM_ID,
+            WORK.I_NAME,
+            WORK.W_STATUS,
+            WORK.I_STANDARD,
+            WORK.CT_UNIT,
+            WORK.W_TIME,
+            WORK.W_PLAN_QUANTITY,
+            WORK.W_ITEM_QUANTITY
+        FROM
+            (SELECT
+                DISTINCT w.W_ID AS W_ID,
+                w.W_LOT_ID AS W_LOT_ID,
+                TO_CHAR(w.W_START_TIME, 'YYYY-MM-DD') AS W_DATE,
+                e.E_DP_NAME,
+                w.W_PI_ID,
+                pi.PI_NAME,
+                mi.MI_NAME,
+                pi.PI_SEQ || '-' || mi.MI_POSITION AS POSITION,
+                ins.INS_ITEM_ID,
+                it.I_NAME,
+                w.W_STATUS,
+                it.I_STANDARD,
+                UPPER(ct.CT_UNIT) AS CT_UNIT,
+                w.W_TIME,
+                w.W_PLAN_QUANTITY,
+                w.W_ITEM_QUANTITY
+            FROM
+                WORK w
+                JOIN WORKER wr ON w.W_ID = wr.WR_WORK_ID
+                JOIN PROCESS pr ON w.W_LOT_ID = pr.P_LOT_ID
+                JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
+                JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
+                JOIN INSTRUCTION ins ON w.W_LOT_ID = ins.INS_LOT_ID
+                JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+                JOIN ITEM it ON pr.P_B_ITEM_ID = it.I_ID
+                JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
+            ORDER BY W_DATE) WORK
+        <trim prefix="where " prefixOverrides="and">
+            <if test="find_work_item != null or
+                     workStartDate != null or workEndDate != null or
+                     find_work_instruction != null or find_work_processInfo != null or
+                     find_work_id != null">
+                <if test="find_work_item != ''">
+                    AND INS_ITEM_ID = #{find_work_item}
+                </if>
+                <if test="workStartDate != ''">
+                    AND W_DATE >= #{workStartDate}
+                </if>
+                <if test="workEndDate != ''">
+                    AND #{workEndDate} >=  W_DATE
+                </if>
+                <if test="find_work_instruction != ''">
+                    AND W_LOT_ID = #{find_work_instruction}
+                </if>
+                <if test="find_work_processInfo != ''">
+                    AND W_PI_ID = #{find_work_processInfo}
+                </if>
+                <if test="find_work_id != ''">
+                    AND W_ID = #{find_work_id}
+                </if>
+                <if test="find_work_item == '' and
+                     workStartDate == '' and workEndDate == '' and
+                     find_work_instruction == '' and find_work_processInfo == '' and
+                     find_work_id == '' ">
+                    AND 1=0
+                </if>
+            </if>
+        </trim>
+    </select>
+    <!-- 생산실적 조회 (작업목록에서 작업자사원번호(작업자명), 불량수량 추가) -->
+    <select id="selectWorkProductionPerformance" resultType="com.cnr_furniture.domain.work.WorkVO">
+        SELECT
+            ROWNUM AS RN,
+            WORK.W_ID,
+            WORK.W_LOT_ID,
+            WORK.W_DATE,
+            WORK.E_DP_NAME,
+            WORK.allEmpList as allEmpList,
+            WORK.substrAllEmp as substrAllEmp,
+            WORK.W_PI_ID,
+            WORK.PI_NAME,
+            WORK.MI_NAME,
+            WORK.POSITION,
+            WORK.INS_ITEM_ID,
+            WORK.I_NAME,
+            WORK.W_STATUS,
+            WORK.I_STANDARD,
+            WORK.CT_UNIT,
+            WORK.W_TIME,
+            WORK.W_PLAN_QUANTITY,
+            WORK.W_ITEM_QUANTITY,
+            WORK.QI_DFT_QUANTITY
+        FROM
+            (SELECT
+                DISTINCT w.W_ID AS W_ID,
+                w.W_LOT_ID AS W_LOT_ID,
+                TO_CHAR(w.W_START_TIME, 'YYYY-MM-DD') AS W_DATE,
+                e.E_DP_NAME,
+                LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME ||')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP(ORDER BY wr.WR_EMP_ID) OVER(PARTITION BY e.E_DP_NAME, w.W_ID) AS allEmpList,
+                Substr(LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME ||')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP(ORDER BY wr.WR_EMP_ID) OVER(PARTITION BY e.E_DP_NAME, w.W_ID), 1, 40) || '...' AS substrallemp,
+                w.W_PI_ID,
+                pi.PI_NAME,
+                mi.MI_NAME,
+                pi.PI_SEQ || '-' || mi.MI_POSITION AS POSITION,
+                ins.INS_ITEM_ID,
+                it.I_NAME,
+                w.W_STATUS,
+                it.I_STANDARD,
+                UPPER(ct.CT_UNIT) AS CT_UNIT,
+                w.W_TIME,
+                w.W_PLAN_QUANTITY,
+                w.W_ITEM_QUANTITY,
+                qi.QI_DFT_QUANTITY
+            FROM
+                WORK w
+                JOIN WORKER wr ON w.W_ID = wr.WR_WORK_ID
+                JOIN PROCESS pr ON w.W_LOT_ID = pr.P_LOT_ID
+                JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
+                JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
+                JOIN INSTRUCTION ins ON w.W_LOT_ID = ins.INS_LOT_ID
+                JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+                JOIN ITEM it ON pr.P_B_ITEM_ID = it.I_ID
+                JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
+                JOIN QUALITY_INSPECTION qi ON w.W_QI_ID = qi.qi_id
+            ORDER BY W_DATE) WORK
+        <trim prefix="where " prefixOverrides="and">
+            <if test="find_work_item != null or
+                     workStartDate != null or workEndDate != null or
+                     find_work_instruction != null or find_work_processInfo != null or
+                      find_work_id != null">
+                <if test="find_work_item != ''">
+                    AND INS_ITEM_ID = #{find_work_item}
+                </if>
+                <if test="workStartDate != ''">
+                    AND W_DATE >= #{workStartDate}
+                </if>
+                <if test="workEndDate != ''">
+                    AND #{workEndDate} >=  W_DATE
+                </if>
+                <if test="find_work_instruction != ''">
+                    AND W_LOT_ID = #{find_work_instruction}
+                </if>
+                <if test="find_work_processInfo != ''">
+                    AND W_PI_ID = #{find_work_processInfo}
+                </if>
+                <if test="find_work_id != ''">
+                    AND W_ID = #{find_work_id}
+                </if>
+                <if test="find_work_item == '' and
+                     workStartDate == '' and workEndDate == '' and
+                     find_work_instruction == '' and find_work_processInfo == '' and
+                     find_work_id == '' ">
                     AND 1=0
                 </if>
             </if>
