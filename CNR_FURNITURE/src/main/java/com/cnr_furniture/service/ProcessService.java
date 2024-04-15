@@ -75,7 +75,17 @@ public interface ProcessService {
 
     /** 공정정보관리: 설비 조회 **/
     List<ManagementVO> selectM();
+
+    /** 공정정보등록창: 설비 목록 조회(설비 id 검색 조회) **/
     List<ManagementVO> selectByMiId(int miId);
+
+    /** 공정정보등록창: 공정정보 등록 **/
+    int insertAddProcess(
+             int pi_id,
+             int pi_machine_id,
+             String pi_name,
+             String pi_seq
+    );
 
 }
 

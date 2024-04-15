@@ -112,12 +112,12 @@
              text: '게시후 삭제할 수 없습니다.',
              icon: 'warning',
 
-             showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+             showCancelButton: true,        // cancel버튼 보이기. 기본은 원래 없음
              confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-             cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-             confirmButtonText: '확인', // confirm 버튼 텍스트 지정
-             cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-             reverseButtons: true, // 버튼 순서 거꾸로
+             cancelButtonColor: '#d33',     // cancel 버튼 색깔 지정
+             confirmButtonText: '확인',      // confirm 버튼 텍스트 지정
+             cancelButtonText: '취소',       // cancel 버튼 텍스트 지정
+             reverseButtons: true,          // 버튼 순서 거꾸로
 
            }).then(result => {
               if (result.isConfirmed) {
@@ -134,15 +134,15 @@
 
 
 
-
+ /* 공정정보관리에서 등록모달창에 설비 목록 조회 ajax */
 function searchManagementVO() {
-    var miId = $('#miId').val();  // 입력 필드에서 miId 값을 가져옵니다.
+    var miId = $('#miId').val();  // 입력 필드에서 miId 값을 가져오기
 
     $.ajax({
         url: '/searchManagementVO',
         type: 'GET',
         data: {miId: miId},
-        dataType: 'json',  // 서버의 응답을 JSON으로 기대
+        dataType: 'json',  // 서버의 응답을 JSON으로 보내기
         success: function(data) {
             updateTable(data);
         },
@@ -153,13 +153,12 @@ function searchManagementVO() {
 }
 
 function resetSearch() {
-    $('#miId').val('');  // 입력 필드 리셋
-
     $.ajax({
-        url: '/searchManagementVO',
+        url: '/processInfoAjax',
         type: 'GET',
         dataType: 'json',
         success: function(data) {
+            $('#miId').val('');  // 입력 필드 리셋
             updateTable(data);  // 데이터로 테이블 업데이트
         },
         error: function(xhr, status, error) {
@@ -172,7 +171,7 @@ function updateTable(data) {
     var tableContent = '';
     $.each(data, function(i, managementVO) {
         tableContent += '<tr>' +
-                        '<td></td>' +
+                        '<td><input type="checkbox" name="check1"></td>' +
                         '<td>' + managementVO.miId + '</td>' +
                         '<td>' + managementVO.miName + '</td>' +
                         '<td>' + managementVO.miType + '</td>' +
@@ -181,7 +180,7 @@ function updateTable(data) {
     $('#mng').html(tableContent);
 }
 
-// 이벤트 리스너 추가
+// 이벤트 추가
 $(document).ready(function() {
     $('#resetBtn').click(function() {
         resetSearch();

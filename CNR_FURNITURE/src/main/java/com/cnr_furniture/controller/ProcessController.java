@@ -202,20 +202,26 @@ public class ProcessController {
  * @return
  */
 
+    @GetMapping("/processInfo")
+    public String processInfo(Model model) {
+        List<ManagementVO> managementVOList = processService.selectM();
+        model.addAttribute("managementVOList", managementVOList);
+        return "process/processInfo";
+    }
 
-@GetMapping("/processInfo")
-public String processInfo(Model model) {
-    List<ManagementVO> managementVOList = processService.selectM();
-    model.addAttribute("managementVOList", managementVOList);
-    return "process/processInfo";
-}
+    /** 공정정보등록창: 설비 목록 조회 - Ajax로 보내기 **/
+    @GetMapping("/searchManagementVO")
+    @ResponseBody
+    public List<ManagementVO> searchManagementVO(@RequestParam(value = "miId", required = false) Integer miId) {
+        List<ManagementVO> managementVOList = processService.selectByMiId(miId);
+        return managementVOList;
+    }
 
-    @RestController
-    public class ManagementController {
-        @GetMapping("/searchManagementVO")
-        public List<ManagementVO> searchManagementVO(@RequestParam(value = "miId", required = false) Integer miId) {
-            return processService.selectByMiId(miId);
-        }
+    /** 공정정보등록창: 설비 목록 조회 - Ajax로 보내기 :리셋 **/
+    @GetMapping("/processInfoAjax")
+    @ResponseBody
+    public List<ManagementVO> processInfoAjax() {
+        return processService.selectM();
     }
 }
 

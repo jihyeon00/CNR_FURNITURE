@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="stylesheet" href="/resources/css/process.css">
-<script src="/resources/js/process.js"></script>
+
 
 <%@ include file="../includes/header.jsp" %>
 
@@ -192,7 +192,7 @@
           </div>
 
 
-          <div class="InnputBody">
+          <div class="InnputBody1">
             <div class="inputmedle">
                 <input list="managementVOList" name="miId" id="miId" class="processSearchInput" aria-label=".form-select-sm example" value="${managementVO.miId}">
                     <datalist id="managementVOList">
@@ -203,7 +203,7 @@
                     </datalist>
              </div>
             <div class="inputmedle1">
-            <button type="button" id="prosearchbtnpRO" class="btn btn-primary sInput" onclick="searchManagementVO()">조회</button>
+            <button type="button" id="prosearchbtnpVO" class="btn btn-primary" onclick="searchManagementVO()">조회</button>
             <button type="button" id="resetBtn" class="btn btn-default">리셋</button>
           </div>
         </div>
@@ -212,20 +212,20 @@
             <!-- 설비목록 테이블 -->
             <div class="ETableTitle ">
               <div class="icon"><i class="fa fa-list"></i></div>
-              <div class="employee">설비목록</div>
+              <div class="employee" >설비목록</div>
               <div class="procexxIcon"><button style="border-style: gray;"><i class="fa fa-fw fa-plus"></i></button></div>
             </div>
-            <div class="table ProTable3">
+            <div class="table ProTable5">
               <table cellpadding="0" cellspacing="0" border="0">
                 <colgroup>
                   <col style="width: 5%" />
                   <col style="width: 10%" />
-                  <col style="width: 10%" />
+                  <col style="width: 20%" />
                   <col style="width: 10%" />
                 </colgroup>
                 <thead class="tbl-headerPro">
                   <tr>
-                    <th></th>
+                    <th><input type="checkbox" name="check1"></th>
                     <th>설비번호</th>
                     <th>설비명</th>
                     <th>설비유형</th>
@@ -255,12 +255,12 @@
               <div class="employee">추가된 설비목록</div>
               <div class="procexxIcon1"><button><i class="fa fa-fw fa-minus"></i></button></div>  
             </div>
-            <div class="table DTable">
+            <div class="table ProTable5">
               <table cellpadding="0" cellspacing="0" border="0">
                 <colgroup>
                   <col style="width: 5%" />
                   <col style="width: 10%" />
-                  <col style="width: 10%" />
+                  <col style="width: 20%" />
                   <col style="width: 10%" />
                 </colgroup>
                 <thead class="tbl-headerPro">
@@ -271,38 +271,14 @@
                     <th>설비유형</th>
                   </tr>
                 </thead>
-                <tbody class="tbl-content ProTable3">
+                <tbody class="tbl-content ProTableAdd">
                   <!-- 추가된 설비목록 데이터 -->
                       <tr>
-                        <td><input type="checkbox" name="check1"></td>
+                        <td><input type="checkbox" name="check2"></td>
                         <td>2</td>
                         <td>3</td>
                         <td>4</td>
                       </tr>
-                      <tr>
-                        <td><input type="checkbox" name="check1"></td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                      </tr>
-                      <tr>
-                        <td><input type="checkbox" name="check1"></td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                      </tr>
-                      <tr>
-                        <td><input type="checkbox" name="check1"></td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                      <tr>
-                      <tr>
-                        <td><input type="checkbox" name="check1"></td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                      <tr>                      
                 </tbody>
               </table>
             </div>
@@ -317,7 +293,7 @@
     </div><!-- /.modal-content -->
   </div>
 </div>
-
+<script src="/resources/js/process.js"></script>
 
 
   <!-- Control Sidebar -->
