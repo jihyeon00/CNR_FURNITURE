@@ -188,7 +188,6 @@
         <![CDATA[
             INSERT INTO QUALITY_INSPECTION
                 (
-                QI_ID,
                 QI_CT_ID,
                 QI_MATERIAL_ID,
                 QI_QS_ID,
@@ -200,7 +199,6 @@
                 )
             VALUES
                 (
-                quality_inspection_seq.NEXTVAL,
                 #{contractIDModal},
                 #{matIDModal},
                 (
@@ -250,4 +248,45 @@
         VALUES
             (#{matIDModal}, #{goodQuantityModal}, #{unitModal})
     </insert>
+
+    <!-- [수입검사관리]: 수정 -->
+    <select id="getInspectionDetailsBySeq" resultType="com.cnr_furniture.domain.quality.InspectionIBListVO"
+            parameterType="long">
+        SELECT
+            M_ID AS matID,
+            M_NAME AS matName,
+            M_USES AS matUses,
+            CT_ID AS contractID,
+            C_NAME AS companyName,
+            CT_UNIT AS units,
+            CT_QUANTITY AS contractQuantity,
+            INSPECTION_QUANTITY AS inspectionQuantity,
+            QS_DF_DIV1 AS qsDiv1,
+            QS_DF_DIV2 AS qsDiv2,
+            QI_DFT_QUANTITY AS poorQuantity,
+            INSPECTION_DATE AS inspectionDate,
+            NOTES AS notes
+        FROM
+            CONTRACT
+            JOIN COMPANY ON CONTRACT.CT_COMPANY_ID = COMPANY.C_ID
+            JOIN MATERIAL ON CONTRACT.CT_MATERIAL_ID = MATERIAL.M_ID
+            LEFT JOIN QUALITY_INSPECTION ON CONTRACT.CT_ID = QUALITY_INSPECTION.QI_CT_ID
+            LEFT JOIN QUALITY_STANDARD ON QUALITY_INSPECTION.QI_QS_ID = QUALITY_STANDARD.QS_ID
+        WHERE
+            CONTRACT.CT_ID = #{listSeq}
+    </select>
+
+    <!-- 수입검사 정보 업데이트 -->
+    <!--<update id="updateInspection" parameterType="com.cnr_furniture.domain.quality.InspectionIBListVO">
+        UPDATE
+            QUALITY_INSPECTION
+        SET
+            QI_DFT_QUANTITY = #{poorQuantity},
+            QI_NOTE = #{notes},
+            QI_QS_ID = (
+                SELECT QS_ID FROM QUALITY_STANDARD WHERE QS_DF_DIV1 = #{qsDiv1} AND QS_DF_DIV2 = #{qsDiv2}
+            )
+        WHERE
+            QI_CT_ID = #{contractID}
+    </update>-->
 </mapper>

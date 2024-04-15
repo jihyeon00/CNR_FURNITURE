@@ -73,4 +73,15 @@ public interface InspectionIBMapper {
      */
     void insertOrUpdateInventory(InspectionIBInsertVO insertVO);
 
+    /**
+     * Desc: [수입검사관리]: 수정 - 특정 수입검사 항목을 가져오는 메소드
+     */
+    InspectionIBListVO getInspectionDetailsBySeq(Long listSeq);
+
+    /**
+     * Desc: [수입검사관리]: 수정 - 수입검사 항목을 UPDATE 하는 메소드
+     */
+    /*void updateInspection(InspectionIBListVO inspection);*/
+
+
 }

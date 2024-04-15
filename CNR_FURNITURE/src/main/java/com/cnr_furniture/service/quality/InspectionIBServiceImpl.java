@@ -136,4 +136,24 @@ public class InspectionIBServiceImpl implements InspectionIBService{
         }
     }
 
+    /**
+     * Desc: [수입검사관리]: 수정 - 특정 수입검사 항목을 가져오는 메소드
+     */
+    @Override
+    public InspectionIBListVO getInspectionDetails(Long listSeq) {
+        log.info("listSeq" + listSeq);
+        log.info("수입관리검사 수정....");
+        return inspectionIBMapper.getInspectionDetailsBySeq(listSeq);
+    }
+
+    /**
+     * Desc: [수입검사관리]: 수정
+     */
+    /*@Override
+    @Transactional
+    public void updateInspection(InspectionIBListVO inspection) {
+        inspectionIBMapper.updateInspection(inspection);
+    }*/
+
+
 }

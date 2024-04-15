@@ -432,7 +432,53 @@ $(document).ready(function() {
 		});
 	}
 	
-  
-  
+	/* 수정 - Ajax로 해당 행의 내용 조회 */
+	$(document).on('click', '.editBtn', function() {
+		var listSeq = $(this).data('id');	// 수정 버튼에서 listSeq 값 가져오기
+		$.ajax({
+			url: '/inspectionIB/edit',
+			type: 'GET',
+			data: {listSeq: listSeq},
+			success: function(data) {
+				$('#"editContractID"').val(data.contractID);
+				$('#editCompanyName').val(data.companyName);
+				$('#editUnit').val(data.unit);
+				$('#editMatID').val(data.materialID);
+				$('#editMatName').val(data.materialName);
+				$('#editMatUses').val(data.materialUses);
+				$('#editContractQuantity').val(data.contractQuantity);
+				$('#editInspQuantity').val(data.inspectionQuantity);
+				$('#editPoorQuantity').val(data.poorQuantity);
+				$('#editQsDiv1').val(data.qsDiv1);
+				$('#editQsDiv2').val(data.qsDiv2);
+      	$('#editNote').val(data.note);
+			},
+			error: function() {
+				alert('데이터를 불러오는데 실패했습니다.');
+			}
+		});
+	});
+	
+	/* 수정 - Ajax로 DB에 업데이트 */
+	$('#updateBtn').click(function() {
+		var formData = $('#editForm').serialize();  // 폼 데이터 직렬화
+		$.ajax({
+	    url: '/inspectionIB/update',
+	    type: 'POST',
+	    data: formData,
+	    success: function(response) {
+	      if(response.success) {
+	        alert('업데이트 성공');
+	        $('#editModal').modal('hide');
+	        location.reload();  // 페이지 새로고침
+	      } else {
+	        alert('업데이트 실패: ' + response.message);
+	      }
+	    },
+	    error: function() {
+	      alert('업데이트 중 에러가 발생했습니다.');
+	    }
+	  });
+	});  
 
 });
