@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 @Log4j
 @Service
@@ -101,14 +101,38 @@ public class InspectionIBServiceImpl implements InspectionIBService{
 
     /**
      * Desc: 자재불량 등록 시, DB 저장 - [품질검사 테이블], [재고 테이블]
+     * @return: inspectionIB.js 코드에 '/inspectionIB'로 리다이렉트하는 코드가 있음.
+     * [계약(CONTRACT) 테이블]의 업데이트는 같은 계약번호에 대해서는 단 한 번만 업데이트 수행
+     * [Set]:
      */
     @Override
     @Transactional
     public void registerInspectionItems(List<InspectionIBInsertVO> items) {
+        Map<String, Boolean> updatedContracts = new HashMap<>();    // 업데이트된 계약번호와 자재번호 조합을 저장하기 위한 Map(계약 테이블용)
+        Map<String, Boolean> updatedInventory = new HashMap<>();    // 업데이트된 계약번호와 자재번호 조합을 저장하기 위한 Map(재고 테이블용)
+
         for(InspectionIBInsertVO item: items) {
+            // [품질검사 테이블]에 데이터 저장
             inspectionIBMapper.insertQualityInspection(item);
-            inspectionIBMapper.updateContract(item);
-            inspectionIBMapper.insertOrUpdateInventory(item);
+
+            // 고유한 키 생성 (계약번호와 자재번호의 조합)
+            String contractKey = item.getContractIDModal() + "-" + item.getMatIDModal();
+            String inventoryKey = item.getContractIDModal() + "-" + item.getMatIDModal();
+
+            // 계약 테이블 업데이트: 이미 업데이트된 조합인지 확인하고, 아니라면 업데이트 수행
+            if(!updatedContracts.containsKey(contractKey)) {
+                // [계약 테이블] 업데이트
+                inspectionIBMapper.updateContract(item);
+                updatedContracts.put(contractKey, true);    // 업데이트된 조합을 Map에 추가
+            }
+
+            // 재고 테이블 업데이트: 이미 업데이트된 조합인지 확인하고, 아니라면 업데이트 수행
+            if(!updatedInventory.containsKey(inventoryKey)) {
+                // [재고 테이블] 업데이트 또는 삽입
+                inspectionIBMapper.insertOrUpdateInventory(item);
+                updatedInventory.put(inventoryKey, true);   // 업데이트된 조합을 Map에 추가
+            }
+
         }
     }
 

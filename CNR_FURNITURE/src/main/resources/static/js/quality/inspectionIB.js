@@ -423,7 +423,8 @@ $(document).ready(function() {
 			data: JSON.stringify(items),
 			success: function(response) {
 				alert('등록이 완료되었습니다.');
-				window.location.reload();					// 저장 후, 페이지 새로고침
+				/*window.location.reload();					// 저장 후, 페이지 새로고침*/
+				window.location.href = '/inspectionIB';	// 저장 후, '/inspectionIB'로 리다이렉트
 			},
 			error: function(xhr, status, error) {
 				console.error('자재불량등록 Error', error);
@@ -433,8 +434,5 @@ $(document).ready(function() {
 	
   
   
-
-
-
 
 });

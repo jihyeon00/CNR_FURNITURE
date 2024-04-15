@@ -31,17 +31,26 @@ public class InspectionIBController {
     /**
      * Desc: 품질관리-수입검사관리(자재IB) - 조회
      * 검색조건에 따라 다른 결과를 모델에 추가하고, 결과 페이지를 렌더링한다.
+     * @param cri - 검색 조건을 담은 VO 객체
+     * @param model - 뷰에 데이터를 전달하기 위한 모델
      * @return: qualityInspection/inspectionIB
      */
     @GetMapping("/inspectionIB")
     public String getInspectionIBList(CriteriaInspIBVO cri, Model model) {
         log.info("수입검사관리 페이지");
 
-        // 검색용 데이터 로드
-        loadSearchData(cri, model);
+        loadSearchData(cri, model); // 검색용 데이터 로드
+        loadModalData(cri, model);  // 모달용 데이터 로드
 
-        // 모달용 데이터 로드
-        loadModalData(cri, model);
+        // 수입검사현황 목록 조회
+        List<InspectionIBListVO> inspectionIBList = inspectionIBService.getInspectionIBList(cri);
+        if (inspectionIBList.isEmpty()) {
+            log.warn("검색 결과가 없습니다.");
+            /*model.addAttribute("message", "검색된 결과가 없습니다.");*/
+        } else {
+            model.addAttribute("inspIBList", inspectionIBList);
+            model.addAttribute("cri", cri);
+        }
 
         return "qualityInspection/inspectionIB";    // View 반환
     }

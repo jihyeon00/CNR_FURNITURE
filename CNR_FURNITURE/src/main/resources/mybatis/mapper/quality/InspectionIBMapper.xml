@@ -185,30 +185,44 @@
 
     <!-- [자재불량등록] - [품질검사 테이블] INSERT -->
     <insert id="insertQualityInspection" parameterType="com.cnr_furniture.domain.quality.InspectionIBInsertVO">
-        INSERT INTO QUALITY_INSPECTION
-            (
-            QI_ID,
-            QI_CT_ID,
-            QI_MATERIAL_ID,
-            QI_QS_ID,
-            QI_INSPECTION_QUANTITY,
-            QI_PASSED_QUANTITY,
-            QI_DFT_QUANTITY,
-            QI_DATE,
-            QI_NOTE
-            )
-        VALUES
-            (
-            quality_inspection_seq.NEXTVAL,
-            #{contractIDModal},
-            #{matIDModal},
-            #{qsDiv1Modal},
-            #{inspectionQuantityModal},
-            #{goodQuantityModal},
-            #{poorQuantityModal},
-            CURRENT_TIMESTAMP,
-            #{notesModal}
-            )
+        <![CDATA[
+            INSERT INTO QUALITY_INSPECTION
+                (
+                QI_ID,
+                QI_CT_ID,
+                QI_MATERIAL_ID,
+                QI_QS_ID,
+                QI_INSPECTION_QUANTITY,
+                QI_PASSED_QUANTITY,
+                QI_DFT_QUANTITY,
+                QI_DATE,
+                QI_NOTE
+                )
+            VALUES
+                (
+                quality_inspection_seq.NEXTVAL,
+                #{contractIDModal},
+                #{matIDModal},
+                (
+                SELECT
+                    qs.QS_ID
+                FROM
+                    QUALITY_STANDARD qs
+                WHERE
+                    qs.QS_DF_DIV1 = #{qsDiv1Modal}
+            ]]>
+            <if test="qsDiv2Modal != ''">
+                AND qs.QS_DF_DIV2 = #{qsDiv2Modal}
+            </if>
+        <![CDATA[
+                ),
+                #{inspectionQuantityModal},
+                #{goodQuantityModal},
+                #{poorQuantityModal},
+                CURRENT_TIMESTAMP,
+                #{notesModal}
+                )
+        ]]>
     </insert>
     <!-- [자재불량등록] - [계약테이블] UPDATE -->
     <update id="updateContract">

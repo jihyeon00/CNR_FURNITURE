@@ -2,6 +2,7 @@ package com.cnr_furniture.domain.quality;
 
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -35,4 +36,24 @@ public class InspectionIBListVO {
     private Date inspectionDate1;       // 검사일자1(입고일자1), (from 검색창에서 입력된 것을 Quality_Inspection 테이블에서 검색), [검색 keyword]
     private Date inspectionDate2;       // 검사일자2(입고일자2), (from 검색창에서 입력된 것을 Quality_Inspection 테이블에서 검색), [검색 keyword]
 
+    // 날짜 포맷을 위한 SimpleDateFormat 정의
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public String getFormattedInspectionDate() {
+        return formatDateTime(this.inspectionDate);
+    }
+
+    public String getFormattedInspectionDate1() {
+        return formatDateTime(this.inspectionDate1);
+    }
+
+    public String getFormattedInspectionDate2() {
+        return formatDateTime(this.inspectionDate2);
+    }
+
+    // 날짜 포맷을 적용하는 메소드
+    private String formatDateTime(Date date) {
+        if (date == null) return null;
+        return dateFormat.format(date);
+    }
 }
