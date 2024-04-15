@@ -52,10 +52,6 @@ public class BomController {
 
 
 
-
-
-
-
     /**
      * Desc: bom 등록 - 제품 자재목록 조회 및 검색
      * @return: standardInfo/bomInsert
@@ -76,13 +72,13 @@ public class BomController {
 
 
     /**
-     * Desc: bom목록 - bom수정
+     * Desc: bom목록 - bom수정 (자재 수량만 수정가능)
      * @return: /bom/{b_material_id}/{b_item_id}
      */
     @RequestMapping(method = { RequestMethod.POST }
             ,value =  "/bom/{b_material_id}/{b_item_id}"
     )
-    public ResponseEntity<String> modify(
+    public ResponseEntity<String> modifyQuantity(
                                 @RequestBody BomVO bomVO,
                                 @PathVariable("b_item_id") int b_item_id,
                                 @PathVariable("b_material_id") int b_material_id
@@ -99,21 +95,20 @@ public class BomController {
     }
 
     /**
-     * Desc: bom등록 - 추가된 bom수정
-     * @return: /bom/{b_material_id}/{b_item_id}
+     * Desc: bom 목록등록 - 추가된 bom 수정 (자재단위와 수량만 수정가능)
+     * @return: /bom/modifyAll/{b_item_id}/{b_material_id}/
      */
     @RequestMapping(method = { RequestMethod.POST }
-            ,value =  "/bom/insert/{b_material_id}/{b_item_id}"
+            ,value =  "/bom/modifyAll/{b_item_id}/{b_material_id}"
     )
     public ResponseEntity<String> modifyAll(
             @RequestBody BomVO bomVO,
             @PathVariable("b_item_id") int b_item_id,
             @PathVariable("b_material_id") int b_material_id
     ){
-        bomVO.setB_material_id(b_item_id);
-        bomVO.setB_item_id(b_material_id);
+        bomVO.setB_material_id(b_material_id);
+        bomVO.setB_item_id(b_item_id);
 
-        log.info("b_material_id: " + b_material_id);
         log.info("modify: " + bomVO);
         boolean isSuccessModify = bomService.modifyAll(bomVO) == 1;
 
@@ -122,13 +117,13 @@ public class BomController {
     }
 
     /**
-     * Desc: bom목록 - bom등록
-     * @return: /bomList/{b_material_id}
+     * Desc: bom등록 - bom등록 (제품번호, 자재번호, 자재단위, 자재수량)
+     * @return: /bom/insert/{b_item_id}/{b_material_id}/{b_unit}/{b_material_quantity}
      */
     @RequestMapping(method = { RequestMethod.POST }
-            ,value =  "/bom/{b_item_id}/{b_material_id}/{b_unit}/{b_material_quantity}"
+            ,value =  "/bom/insert/{b_item_id}/{b_material_id}/{b_unit}/{b_material_quantity}"
     )
-    public ResponseEntity<String> modify(
+    public ResponseEntity<String> bomInsert(
             @RequestBody BomVO bomVO,
             @PathVariable("b_item_id") int b_item_id,
             @PathVariable("b_material_id") int b_material_id,
@@ -139,7 +134,6 @@ public class BomController {
         bomVO.setB_material_id(b_material_id);
         bomVO.setB_unit(b_unit);
         bomVO.setB_material_quantity(b_material_quantity);
-
 
         int insertSuccess = bomService.insertBomList(bomVO);
 
