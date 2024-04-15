@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../includes/header.jsp" %>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -71,7 +72,7 @@
                		<input type="text" list="workProcessInfoList" class="col-sm-12 input-text" id="find_work_processInfo" name="find_work_processInfo">
 	                <datalist id="workProcessInfoList">
                      <c:forEach items="${processInfoList}" var="processInfo">
-                         <option value="${processInfo.pi_id}">공정명: ${processInfo.pi_name} | 설비명: ${processInfo.mi_name}(${processInfo.pi_machine_id}, 위치:${processInfo.position}) </option>
+                         <option value="${processInfo.pi_id}">공정명: ${processInfo.pi_name} | ${processInfo.mi_name}(${processInfo.pi_machine_id}, 위치:${processInfo.position}) </option>
                      </c:forEach>
                  </datalist>
                </div>
@@ -118,24 +119,31 @@
 	                </tr>
 	              </thead>
 	              <tbody class="work-tbl-content">
-		              <c:forEach items="${workProcessInfoList}" var="workProcessInfoList">
-		                <tr>
-		                  <td>${workProcessInfoList.rn}</td>
-		                  <td>${workProcessInfoList.p_lot_id}</td>
-		                  <td>${workProcessInfoList.p_pi_id}</td>
-		                  <td>${workProcessInfoList.pi_name}</td>
-		                  <td>${workProcessInfoList.p_b_item_id}</td>
-		                  <td>${workProcessInfoList.i_name}</td>
-		                  <td>${workProcessInfoList.c_name}</td>
-		                  <td>${workProcessInfoList.p_start_date}</td>
-		                  <td>${workProcessInfoList.p_end_date}</td>
-		                  <td>${workProcessInfoList.p_status}</td>
-		                  <td>${workProcessInfoList.p_plan_quantity}</td>
-		                  <td>${workProcessInfoList.ct_unit}</td>
-		                  <td>${workProcessInfoList.p_item_quantity}</td>
-		                  <td>${workProcessInfoList.p_defective_quantity}</td>
-		                </tr>
-	                </c:forEach>
+		              <c:if test="${fn:length(workProcessInfoList) == 0}">
+	             	 		<tr>
+											<td colspan="14">조회된 내용이 없습니다.</td>             	 		
+	             	 		</tr>
+	             	 </c:if>
+	               <c:if test="${fn:length(workProcessInfoList) != 0}">
+			              <c:forEach items="${workProcessInfoList}" var="workProcessInfoList">
+			                <tr>
+			                  <td>${workProcessInfoList.rn}</td>
+			                  <td>${workProcessInfoList.p_lot_id}</td>
+			                  <td>${workProcessInfoList.p_pi_id}</td>
+			                  <td>${workProcessInfoList.pi_name}</td>
+			                  <td>${workProcessInfoList.p_b_item_id}</td>
+			                  <td>${workProcessInfoList.i_name}</td>
+			                  <td>${workProcessInfoList.c_name}</td>
+			                  <td>${workProcessInfoList.p_start_date}</td>
+			                  <td>${workProcessInfoList.p_end_date}</td>
+			                  <td>${workProcessInfoList.p_status}</td>
+			                  <td>${workProcessInfoList.p_plan_quantity}</td>
+			                  <td>${workProcessInfoList.ct_unit}</td>
+			                  <td>${workProcessInfoList.p_item_quantity}</td>
+			                  <td>${workProcessInfoList.p_defective_quantity}</td>
+			                </tr>
+		                </c:forEach>
+	                </c:if>
 	              </tbody>
 	            </table><!-- /.table -->
           	</div><!-- /.workTable -->
@@ -160,114 +168,53 @@
               <thead class="work-tbl-header">
                 <tr>
                   <th>No</th>
-                  <th>제조LOT번호</th>
                   <th>작업번호</th>
+                  <th>제조LOT번호</th>
                   <th>지시일자</th>
                   <th>작업팀</th>
-                  <th>진행상황</th>
-                  <th>공정위치</th>
+                  <th>공정번호</th>
                   <th>공정명</th>
+                  <th>설비명</th>
+                  <th>작업위치</th>
                   <th>제품번호</th>
                   <th>제품명</th>
+                  <th>진행상황</th>
                   <th>규격</th>
-                  <th>기준단위</th>
+                  <th>단위</th>
                   <th>소요시간(분)</th>
-                  <th>설비명</th>
                   <th>계획수량</th>
                   <th>생산수량</th>
                 </tr>
               </thead>
-              <tbody class="work-tbl-content">
-                <tr>
-                  <td>1</td>
-                  <td>300001</td>
-                  <td>1</td>
-                  <td>2024-04-07</td>
-                  <td>생산1팀</td>
-                  <td>생산대기</td>
-                  <td>1-1</td>
-                  <td>원자재준비</td>
-                  <td>10000001</td>
-                  <td>의자-A</td>
-                  <td>?</td>
-                  <td>EA</td>
-                  <td>1000</td>
-                  <td>손잡이 경첩 보링기1호</td>
-                  <td>1200</td>
-                  <td>1230</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>300001</td>
-                  <td>1</td>
-                  <td>2024-04-07</td>
-                  <td>생산1팀</td>
-                  <td>생산대기</td>
-                  <td>1-1</td>
-                  <td>원자재준비</td>
-                  <td>10000001</td>
-                  <td>의자-A</td>
-                  <td>?</td>
-                  <td>EA</td>
-                  <td>1000</td>
-                  <td>손잡이 경첩 보링기1호</td>
-                  <td>1200</td>
-                  <td>1230</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>300001</td>
-                  <td>1</td>
-                  <td>2024-04-07</td>
-                  <td>생산1팀</td>
-                  <td>생산대기</td>
-                  <td>1-1</td>
-                  <td>원자재준비</td>
-                  <td>10000001</td>
-                  <td>의자-A</td>
-                  <td>?</td>
-                  <td>EA</td>
-                  <td>1000</td>
-                  <td>손잡이 경첩 보링기1호</td>
-                  <td>1200</td>
-                  <td>1230</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>300001</td>
-                  <td>1</td>
-                  <td>2024-04-07</td>
-                  <td>생산1팀</td>
-                  <td>생산대기</td>
-                  <td>1-1</td>
-                  <td>원자재준비</td>
-                  <td>10000001</td>
-                  <td>의자-A</td>
-                  <td>?</td>
-                  <td>EA</td>
-                  <td>1000</td>
-                  <td>손잡이 경첩 보링기1호</td>
-                  <td>1200</td>
-                  <td>1230</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>300001</td>
-                  <td>1</td>
-                  <td>2024-04-07</td>
-                  <td>생산1팀</td>
-                  <td>생산대기</td>
-                  <td>1-1</td>
-                  <td>원자재준비</td>
-                  <td>10000001</td>
-                  <td>의자-A</td>
-                  <td>?</td>
-                  <td>EA</td>
-                  <td>1000</td>
-                  <td>손잡이 경첩 보링기1호</td>
-                  <td>1200</td>
-                  <td>1230</td>
-                </tr>
+             <tbody class="work-tbl-content">
+             	 <c:if test="${fn:length(workList) == 0}">
+             	 		<tr>
+										<td colspan="17">조회된 내용이 없습니다.</td>             	 		
+             	 		</tr>
+             	 </c:if>
+               <c:if test="${fn:length(workList) != 0}">
+	              	<c:forEach items="${workList}" var="workList">   
+		                <tr>
+		                  <td>${workList.rn}</td>
+		                  <td>${workList.w_id}</td>
+		                  <td>${workList.w_lot_id}</td>
+		                  <td>${workList.w_date}</td>
+		                  <td>${workList.e_dp_name}</td>
+		                  <td>${workList.w_pi_id}</td>
+		                  <td>${workList.pi_name}</td>
+		                  <td>${workList.mi_name}</td>
+		                  <td>${workList.position}</td>
+		                  <td>${workList.ins_item_id}</td>
+		                  <td>${workList.i_name}</td>
+		                  <td>${workList.w_status}</td>
+		                  <td>${workList.i_standard}</td>
+		                  <td>${workList.ct_unit}</td>
+		                  <td>${workList.w_time}</td>
+		                  <td>${workList.w_plan_quantity}</td>
+		                  <td>${workList.w_item_quantity}</td>
+		                </tr>
+	                </c:forEach>
+                </c:if>
               </tbody>
             </table><!-- /.table -->
         </div><!-- /.workTable -->
@@ -289,51 +236,67 @@
 	            <table cellpadding="0" cellspacing="0" border="0">
 	              <thead class="work-tbl-header" style="height: 48px;">
 	                <tr>
-                  <th>No</th>
-                  <th>제조LOT번호</th>
-                  <th>작업번호</th>
-                  <th>지시일자</th>
-                  <th>작업팀</th>
-                  <th>작업자</th>
-                  <th>진행상황</th>
-                  <th>공정위치</th>
-                  <th>공정명</th>
-                  <th>제품번호</th>
-                  <th>제품명</th>
-                  <th>규격</th>
-                  <th>기준단위</th>
-                  <th>소요시간(분)</th>
-                  <th>설비명</th>
-                  <th>계획수량</th>
-                  <th>생산수량</th>
-                  <th>불량수량</th>
-                </tr>
+	                  <th>No</th>
+	                  <th>작업번호</th>
+	                  <th>제조LOT번호</th>
+	                  <th>지시일자</th>
+	                  <th>작업팀</th>
+	                  <th>작업자</th>
+	                  <th>공정번호</th>
+	                  <th>공정명</th>
+	                  <th>설비명</th>
+	                  <th>작업위치</th>
+	                  <th>제품번호</th>
+	                  <th>제품명</th>
+	                  <th>진행상황</th>
+	                  <th>규격</th>
+	                  <th>단위</th>
+	                  <th>소요시간(분)</th>
+	                  <th>계획수량</th>
+	                  <th>생산수량</th>
+	                  <th>불량수량</th>
+	                </tr>
 	              </thead>
 	              <tbody class="work-tbl-content">
-                <tr>
-                  <td>1111</td>
-                  <td>300001</td>
-                  <td>1</td>
-                  <td>2024-04-07</td>
-                  <td>생산1팀</td>
-                  <td>작업자들</td>
-                  <td>생산대기</td>
-                  <td>1-1</td>
-                  <td>원자재준비</td>
-                  <td>10000001</td>
-                  <td>의자-A</td>
-                  <td>?</td>
-                  <td>EA</td>
-                  <td>1000</td>
-                  <td>손잡이 경첩 보링기1호</td>
-                  <td>1200</td>
-                  <td>1230</td>
-                  <td>20</td>
-                </tr>
+	              	<c:if test="${fn:length(productionPerformanceList) == 0}">
+	             	 		<tr>
+											<td colspan="19">조회된 내용이 없습니다.</td>             	 		
+	             	 		</tr>
+	             	 	</c:if>
+	               	<c:if test="${fn:length(productionPerformanceList) != 0}">
+		              	<c:forEach items="${productionPerformanceList}" var="productionPerformanceList">
+			                <tr>
+			                  <td>${productionPerformanceList.rn}</td>
+			                  <td>${productionPerformanceList.w_id}</td>
+			                  <td>${productionPerformanceList.w_lot_id}</td>
+			                  <td>${productionPerformanceList.w_date}</td>
+			                  <td>${productionPerformanceList.e_dp_name}</td>
+			                  <td title="${productionPerformanceList.allemplist}">
+												    ${productionPerformanceList.substrallemp}
+												</td>
+			                  <td>${productionPerformanceList.w_pi_id}</td>
+			                  <td>${productionPerformanceList.pi_name}</td>
+			                  <td>${productionPerformanceList.mi_name}</td>
+			                  <td>${productionPerformanceList.position}</td>
+			                  <td>${productionPerformanceList.ins_item_id}</td>
+			                  <td>${productionPerformanceList.i_name}</td>
+			                  <td>${productionPerformanceList.w_status}</td>
+			                  <td>${productionPerformanceList.i_standard}</td>
+			                  <td>${productionPerformanceList.ct_unit}</td>
+			                  <td>${productionPerformanceList.w_time}</td>
+			                  <td>${productionPerformanceList.w_plan_quantity}</td>
+			                  <td>${productionPerformanceList.w_item_quantity}</td>
+			                  <td>${productionPerformanceList.qi_dft_quantity}</td>
+			                </tr>
+	                  </c:forEach>
+                  </c:if>
 	              </tbody>
 	            </table><!-- /.table -->
           	</div><!-- /.workTable -->
 					</div><!-- /.titleAndTable -->
+					<div >
+					
+					</div>
 	        <!-- 자재투입내역 Table -->
 	        <div class="titleAndTable" id="selectMaterialInput">
 	           <div class="workTableTitle">
@@ -357,18 +320,27 @@
 	                </tr>
 	              </thead>
 	              <tbody class="work-tbl-content">
-	                <tr>
-	                  <td>1</td>
-	                  <td>300001</td>
-	                  <td>3001</td>
-	                  <td>10000001</td>
-	                  <td>노트북트레이-A</td>
-	                  <td>인테리어스케이프</td>
-	                  <td>2024-04-08</td>
-	                  <td>20000001</td>
-	                  <td>플라스틱 테두리</td>
-	                  <td>1000</td>
-	                </tr>
+	                <c:if test="${fn:length(productionPerformanceList) == 0}">
+	             	 		<tr>
+											<td colspan="19">조회된 내용이 없습니다.</td>             	 		
+	             	 		</tr>
+	             	 	</c:if>
+	               	<c:if test="${fn:length(productionPerformanceList) != 0}">
+		              	<c:forEach items="${productionPerformanceList}" var="productionPerformanceList">
+			                <tr>
+			                  <td>1</td>
+			                  <td>300001</td>
+			                  <td>3001</td>
+			                  <td>10000001</td>
+			                  <td>노트북트레이-A</td>
+			                  <td>인테리어스케이프</td>
+			                  <td>2024-04-08</td>
+			                  <td>20000001</td>
+			                  <td>플라스틱 테두리</td>
+			                  <td>1000</td>
+			                </tr>
+	                  </c:forEach>
+                  </c:if>
 	              </tbody>
 	            </table><!-- /.table -->
           	</div><!-- /.workTable -->

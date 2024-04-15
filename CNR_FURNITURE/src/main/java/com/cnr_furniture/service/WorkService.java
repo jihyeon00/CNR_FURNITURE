@@ -20,5 +20,11 @@ public interface WorkService {
     /** 제조수행정보 목록 조회 */
     List<WorkProcessInfoVO> selectWorkProcessInfo(WorkSearchVO workSearchVO);
 
+    /** 작업목록 조회 */
+    List<WorkVO> selectWork(WorkSearchVO workSearchVO);
+
+    /** 생산실적 조회 */
+    List<WorkVO> selectWorkProductionPerformance(WorkSearchVO workSearchVO);
+
 
 }

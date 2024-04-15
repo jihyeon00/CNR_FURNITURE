@@ -40,4 +40,16 @@ public class WorkServiceImpl implements WorkService{
     public List<WorkProcessInfoVO> selectWorkProcessInfo(WorkSearchVO workSearchVO) {
         return workMapper.selectWorkProcessInfo(workSearchVO);
     }
+
+    /** 작업목록 조회 */
+    @Override
+    public List<WorkVO> selectWork(WorkSearchVO workSearchVO) {
+        return workMapper.selectWork(workSearchVO);
+    }
+
+    /** 생산실적 조회 */
+    @Override
+    public List<WorkVO> selectWorkProductionPerformance(WorkSearchVO workSearchVO) {
+        return workMapper.selectWorkProductionPerformance(workSearchVO);
+    }
 }
