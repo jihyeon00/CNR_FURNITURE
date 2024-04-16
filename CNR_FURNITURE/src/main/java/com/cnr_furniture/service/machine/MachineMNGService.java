@@ -28,4 +28,10 @@ public interface MachineMNGService {
 
     //체크리스트 기록 추가
     int insertMachineCheckRecord(MachineCheckRecordVO machineCheckRecordVO);
+
+    // 설비 작동 테이블에서 설비 상태 업데이트
+    int updateMachineCondition(String mw_condition);
+
+    // 설비 수리 이력관리 리스트 가져오기
+    List<MachineRepairVO> McRepairList(SearchMachineVO searchMachineVO);
 }

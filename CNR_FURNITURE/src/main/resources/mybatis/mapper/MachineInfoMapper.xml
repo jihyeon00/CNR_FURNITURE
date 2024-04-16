@@ -26,6 +26,12 @@
         values (MACHINE_INFO_SEQ.NEXTVAL, #{modalAddName}, #{modalAddType})
     </insert>
 
+    <!-- 설비 등록(작동 테이블) -->
+    <insert id="addMachine2">
+        INSERT INTO MACHINE_WORK (MW_MI_ID)
+        SELECT MI_ID FROM MACHINE_INFO ORDER BY MI_ID DESC FETCH FIRST 1 ROW ONLY
+    </insert>
+
     <!-- 마지막 설비 하나만 보여주기 -->
     <select id="getMachineOne" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineVO">
         SELECT ROWNUM, mi_id, mi_name, mi_position, mi_type
