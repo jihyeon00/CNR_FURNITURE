@@ -1,14 +1,8 @@
 package com.cnr_furniture.controller;
 
-import com.cnr_furniture.domain.bom.BomVO;
 import com.cnr_furniture.domain.process.*;
-import com.cnr_furniture.domain.quality.CriteriaInspIBVO;
-import com.cnr_furniture.domain.quality.InspectionIBListVO;
 import com.cnr_furniture.service.ProcessService;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -223,5 +217,22 @@ public class ProcessController {
     public List<ManagementVO> processInfoAjax() {
         return processService.selectM();
     }
+
+
+
+    /** ***********************************작업자 관리 *********************************************** **/
+
+
+    /**
+     *
+     * @param
+     * @return
+     **/
+    @GetMapping("/workerManagement")
+    public String workerManagement() {
+        return "process/workerManagement";
+    }
+
+
 }
 
