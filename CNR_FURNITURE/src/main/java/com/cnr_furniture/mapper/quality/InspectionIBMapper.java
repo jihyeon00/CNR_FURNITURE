@@ -1,10 +1,10 @@
 package com.cnr_furniture.mapper.quality;
 
-import com.cnr_furniture.domain.quality.CriteriaInspIBVO;
-import com.cnr_furniture.domain.quality.InspectionIBInsertVO;
-import com.cnr_furniture.domain.quality.InspectionIBListVO;
+import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionUpdateVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -73,15 +73,16 @@ public interface InspectionIBMapper {
      */
     void insertOrUpdateInventory(InspectionIBInsertVO insertVO);
 
+    /* [자재불량수정] - 모달창 ====================================================================================================== */
     /**
      * Desc: [수입검사관리]: 수정 - 특정 수입검사 항목을 가져오는 메소드
      */
-    InspectionIBListVO getInspectionDetailsBySeq(Long listSeq);
+    InspectionIBListVO getInspectionDetailsBySeq(Long qiID);
 
     /**
      * Desc: [수입검사관리]: 수정 - 수입검사 항목을 UPDATE 하는 메소드
      */
-    /*void updateInspection(InspectionIBListVO inspection);*/
+    void updateInspectionRecord(InspectionUpdateVO updateVO);
 
 
 }

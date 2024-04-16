@@ -1,4 +1,4 @@
-package com.cnr_furniture.domain.quality;
+package com.cnr_furniture.domain.quality.inspectionIB;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

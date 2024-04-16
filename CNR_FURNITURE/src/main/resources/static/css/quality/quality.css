@@ -54,6 +54,20 @@
   width: auto;
   overflow-x: auto;
 }
+
+
+/* ▼문제 있으면 지울것▼ */
+.inspOB-table {
+	width: 100%;
+}
+.inspOB-table table {
+	width: 100%;
+}
+/* ▲문제 있으면 지울것▲ */
+
+
+
+
 .inspection-table table {
   table-layout: fixed;
   border: 1px solid rgba(0,0,0,0.3);

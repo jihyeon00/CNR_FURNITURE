@@ -1,4 +1,4 @@
-package com.cnr_furniture.domain.quality;
+package com.cnr_furniture.domain.quality.inspectionIB;
 
 import lombok.Data;
 
@@ -12,6 +12,7 @@ import java.util.Date;
 public class InspectionIBListVO {
     /* 테이블 조회내용 */
     private Long listSeq;               // 테이블 행번호
+    private Long qiID;                  // 품질검사 번호(from Qualisty_Inspection 테이블)
 
     private Long matID;                 // 자재번호(from Material 테이블), [검색 keyword]
     private String matName;             // 자재명(from Material 테이블)

@@ -45,7 +45,7 @@
 	         	<datalist id="matIDList">
 	         		<c:forEach items="${matIDList}" var="mat">
 								<option value='${mat.matID}'
-                	<c:if test="${search.matID == mat.matID}">selected</c:if> >${mat.matID}
+                	<c:if test="${cri.matID == mat.matID}">selected</c:if> >${mat.matID}
 								</option>
 							</c:forEach>
 	         	</datalist>
@@ -91,9 +91,9 @@
 	         <!-- 검사일자 -->
 	         <div class="col-sm-2 inspection-name">검사일자<br>(입고일자)</div>
 	         <div class="col-sm-3 inspection-text">
-	         	<input type="date" class="col-sm-6" id="inspectionDate1" name="inspectionDate1" value="<fmt:formatDate value="${cri.inspectionDate1}" pattern="yyyy-MM-dd" />" />
+	         	<input type="date" class="col-sm-6" id="inspectionDate1" name="inspectionDate1" value='${cri.inspectionDate1}' />
 	         	&nbsp;
-	         	<input type="date" class="col-sm-6" id="inspectionDate2" name="inspectionDate2" value="<fmt:formatDate value="${cri.inspectionDate2}" pattern="yyyy-MM-dd" />" />
+	         	<input type="date" class="col-sm-6" id="inspectionDate2" name="inspectionDate2" value='${cri.inspectionDate1}' />
 	         </div><!-- /.검사일자 -->
 	       </div><!-- /.검색행2 -->
 	     
@@ -129,6 +129,7 @@
                 <thead class="inspection-table-header">
                   <tr>
                     <th>No</th>
+                    <!-- <th>검사번호</th> -->
                     <th>자재번호</th>
                     <th>자재명</th>
                     <th>자재용도</th>
@@ -151,6 +152,7 @@
                 	<c:forEach var="inspIB" items="${inspIBList}">
 	                  <tr>
 	                  	<td class="id"><c:out value="${inspIB.listSeq}" /></td>
+	                  	<%-- <td class="id"><c:out value="${inspIB.qiID}" /></td> --%>
 	                  	<td><c:out value="${inspIB.matID}" /></td>
 	                  	<td><c:out value="${inspIB.matName}" /></td>
 	                  	<td><c:out value="${inspIB.matUses}" /></td>
@@ -166,7 +168,7 @@
 	                  	<td><c:out value="${inspIB.goodQuantity}" /></td>
 	                  	<td><c:out value="${inspIB.formattedInspectionDate}" /></td>
 	                  	<td><c:out value="${inspIB.notes}" /></td>
-	                  	<td style="cursor:pointer; color:#17a2b8; text-align:center;" data-toggle="modal" class="editBtn" id="editBtn" data-id="${inspIB.listSeq}" data-toggle="modal" data-target="#editModal">
+	                  	<td style="cursor:pointer; color:#17a2b8; text-align:center;" data-toggle="modal" class="editBtn" id="editBtn" data-qi-id="${inspIB.qiID}" data-toggle="modal" data-target="#editModal">
                   			수정
 	                  	</td>
 	                  	<%-- <td onclick="javascript:deleteeRow(${inspIB.listSeq});" style="cursor:pointer; color:#c82333; text-align:center;">
@@ -177,8 +179,7 @@
                   <!-- 추가적인 행들 -->
                 </tbody>
               </table>
-              <!-- /.table -->
-            </div>
+            </div><!-- /.table -->
           </div><!-- /.col-sm-12 -->
         </div><!-- /.col-sm-12 -->
       </div><!-- /.row -->
@@ -272,7 +273,7 @@
 		         		<option value="">불량유형1 선택</option>
 		         		<c:forEach items="${qsDiv1ModalList}" var="qsDiv1Modals">
 							    <option value='${qsDiv1Modals.qsDiv1Modal}'
-							            <c:if test="${cri.qsDiv1Modal == qsDiv1Modals.qsDiv1Modal}">selected</c:if> >${qsDiv1Modals.qsDiv1Modal}
+			            	<c:if test="${cri.qsDiv1Modal == qsDiv1Modals.qsDiv1Modal}">selected</c:if> >${qsDiv1Modals.qsDiv1Modal}
 							    </option>
 							  </c:forEach>
 		          </select>
@@ -284,7 +285,7 @@
 		            <option value="">불량유형2 선택</option>
 		            <c:forEach items="${qsDiv2ModalList}" var="qsDiv2Modals">
 							    <option value='${qsDiv2Modals.qsDiv2Modal}'
-							            <c:if test="${cri.qsDiv2Modal == qsDiv2Modals.qsDiv2Modal}">selected</c:if> >${qsDiv2Modals.qsDiv2Modal}
+							    	<c:if test="${cri.qsDiv2Modal == qsDiv2Modals.qsDiv2Modal}">selected</c:if> >${qsDiv2Modals.qsDiv2Modal}
 							    </option>
 							  </c:forEach>
 		          </select>
@@ -348,8 +349,9 @@
 		        	</div><!-- /.Table -->
 	        	</div><!-- /.col -->
 	        </div><!-- /.자재불량 및 입고 목록 -->
-	      </div><!-- /.modal-body -->
-      </form><!-- 모달 form -->
+        </form><!-- 모달 form -->
+      </div><!-- /.modal-body -->
+      
       
       <!-- 구분선 -->
       <div class=divBorderModal></div>
@@ -373,7 +375,8 @@
       </div>
       <!-- modal-body -->
       <div class="modal-body inspection-modal-body">
-      	<form action="/inspectionIB" id="editForm" name="editForm" class="col-md-12" >
+      	<form action="/inspectionIB/update" id="updateInspIBForm" name="updateInspIBForm" class="col-md-12" method="post" >
+      		<input type="hidden" id="qiID" name="qiID" value='<c:out value="${data.qiID}"/>' />
       		<!-- 수정행 1 -->
 		      <div class="inspection-modal-board">
 		      	<!-- 계약번호 -->
@@ -391,7 +394,7 @@
 		        <!-- 단위 -->
 		        <div class="col-sm-2 inspection-modal-name">단위</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="text" class="col-sm-12 modal-input" id="editUnit" name="unit"
+		          <input type="text" class="col-sm-12 modal-input" id="editUnits" name="units"
 		            value='<c:out value="${data.editUnit}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.단위 -->
 		      </div><!-- /.등록행 1 -->
@@ -400,19 +403,19 @@
 		      	<!-- 자재번호 -->
 		        <div class="col-sm-2 inspection-modal-name">자재번호</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		        	<input type="text" class="col-sm-12 modal-input" id="editMatID" name="materialID"
+		        	<input type="text" class="col-sm-12 modal-input" id="editMatID" name="matID"
 	            	value='<c:out value="${data.editMatID}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.자재번호 -->
 		        <!-- 자재명 -->
 		        <div class="col-sm-2 inspection-modal-name">자재명</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="text" class="col-sm-12 modal-input" id="editMatName" name="materialName"
+		          <input type="text" class="col-sm-12 modal-input" id="editMatName" name="matName"
 		            value='<c:out value="${data.editMatName}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.자재명 -->
 		        <!-- 자재용도 -->
 		        <div class="col-sm-2 inspection-modal-name">자재용도</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		        	<input type="text" class="col-sm-12 modal-input" id="editMatUses" name="materialUses" readonly="readonly" />
+		        	<input type="text" class="col-sm-12 modal-input" id="editMatUses" name="matUses" readonly="readonly" />
 		        </div><!-- /.자재용도 -->
 		      </div><!-- /.등록행 2 -->
 		      <!-- 수정행 3 -->
@@ -426,12 +429,12 @@
 		        <!-- 검사수량 -->
 		        <div class="col-sm-2 inspection-modal-name">검사수량<br>(입고수량)</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="number" class="col-sm-12 modal-input" id="editInspQuantity" name="inspectionQuantity" readonly="readonly"/>
+		          <input type="number" class="col-sm-12 modal-input" id="editInspectionQuantity" name="inspectionQuantity" readonly="readonly"/>
 		        </div><!-- /.검사수량 -->
 		        <!-- 불량수량 -->
 		        <div class="col-sm-2 inspection-modal-name">불량수량</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="number" class="col-sm-12 modal-input" id="editPoorQuantity" name="poorQuantity" />
+		          <input type="number" class="col-sm-12 modal-input" id="editPoorQuantity" name="poorQuantity" readonly="readonly" />
 		        </div><!-- /.불량수량 -->
 		      </div><!-- /.등록행 3 -->
 		      <!-- 수정행 4 -->
@@ -440,9 +443,13 @@
 		        <div class="col-sm-2 inspection-modal-name">불량유형1</div>
 		        <div class="col-sm-2 inspection-modal-text">
 		        	<!-- <input type="text" class="col-sm-12 modal-input" id="editQsDiv1" name="editQsDiv1" readonly="readonly" /> -->
-		        	<select class="col-sm-12 modal-input"  id="editQsDiv1" name="qsDiv1">
+		        	<select class="col-sm-12 modal-input"  id="editQsDiv1" name="qsDiv1" onchange="updateQsDiv2Options();">
 		            <option value="">불량유형1 선택</option>
-		            <!-- 옵션은 JS에서 동적 로딩 -->
+		            <c:forEach items="${qsDiv1List}" var="type">
+		            	<option value="${type.qsDiv1}"
+		            		<c:if test="${type.qsDiv1 == data.qsDiv1}">selected</c:if> />${type.qsDiv1}
+	            		</option>
+		            </c:forEach>
 		          </select>
 		        </div><!-- /.불량유형1 -->
 		        <!-- 불량유형2 -->
@@ -451,7 +458,11 @@
 		        	<!-- <input type="text" class="col-sm-12 modal-input" id="editQsDiv2" name="editQsDiv2" readonly="readonly" /> -->
 		        	<select class="col-sm-12 modal-input"  id="editQsDiv2" name="qsDiv2">
 		        		<option value="">불량유형2 선택</option>
-		        		<!-- 옵션은 JS에서 동적 로딩 -->
+		        		<c:forEach items="${qsDiv2List}" var="type">
+		            	<option value="${type.qsDiv2}"
+		            		<c:if test="${type.qsDiv2 == data.qsDiv2}">selected</c:if> />${type.qsDiv2}
+	            		</option>
+		            </c:forEach>
 		          </select>
 		        </div><!-- /.불량유형2 -->
 		        <div class="col-sm-4 emptyModal"></div>
@@ -461,7 +472,7 @@
 		      	<!-- 비고 -->
 		      	<div class="col-sm-2 inspection-modal-name">비고</div>
 		      	<div class="col-sm-10 inspection-modal-text">
-		      		<input type="text" class="col-sm-12 modal-input" id="editNote" name="note"/>
+		      		<input type="text" class="col-sm-12 modal-input" id="editNotes" name="notes"/>
 		      	</div><!-- /.비고 -->
 		      </div><!-- /.등록행 5 -->
 	      </div><!-- /.modal-body -->

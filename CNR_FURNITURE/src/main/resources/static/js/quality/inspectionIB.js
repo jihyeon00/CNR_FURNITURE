@@ -50,43 +50,7 @@ $(document).ready(function() {
 	
 	/* 모달창 - 처음에는 [자재불량목록]을 숨긴다. */
 	document.querySelector('.newInspList').style.display = 'none';
-	
-	
-	/* 모달창 - 불량유형1 option 선택에 따른 불량유형2 option값 변경 */
-	/*$('#qsDiv1Modal').on('change', function() {
-		var qsDiv1 = $(this).val();				// qsDiv1의 선택된 값 가져오기
-		var qsDiv2Select = $('#qsDiv2Modal');	// qsDiv2 셀렉트 박스 선택
-		qsDiv2Select.empty();	// 기존의 옵션들을 비우기
 
-		if (qsDiv1) {
-			$.ajax({
-				url: '/qsDiv2ModalList?qsDiv1Modal=' + qsDiv1,
-				type: 'GET',
-				dataType: 'json',
-				success: function(data) {
-
-					console.log('response data', data);
-
-					// 데이터가 비어있지 않으면 옵션 추가
-					if (data.length > 0) {
-						$.each(data, function(index, item) {
-							qsDiv2Select.append($('<option>', {
-								value: item.qsDiv2Modal,
-								text: item.qsDiv2Modal
-							}));
-						});
-					} else {
-						qsDiv2Select.append('<option value="">No Options Available</option>');	// 옵션이 없는 경우
-					}
-				},
-				error: function(xhr, status, error) {
-					console.error("Error loading qsDiv2 options: ", error);
-				}
-			});
-		} else {
-			qsDiv2Select.append('<option value="">[불량유형1]을 선택하세요.</option>');	// qsDiv1이 선택되지 않았을 경우
-		}
-	});*/
 	
 	/* 모달창 - 불량유형1 option 선택에 따른 불량유형2 option값 변경 */
 	$('#qsDiv1Modal').on('change', function() {
@@ -434,51 +398,114 @@ $(document).ready(function() {
 	
 	/* 수정 - Ajax로 해당 행의 내용 조회 */
 	$(document).on('click', '.editBtn', function() {
-		var listSeq = $(this).data('id');	// 수정 버튼에서 listSeq 값 가져오기
+		var qiID = $(this).data('qi-id');	// 수정 버튼에서 qiID 값 가져오기
+		console.log('선택된 qiID: ', qiID);
+		
 		$.ajax({
 			url: '/inspectionIB/edit',
 			type: 'GET',
-			data: {listSeq: listSeq},
+			data: { qiID: qiID },
 			success: function(data) {
-				$('#"editContractID"').val(data.contractID);
+				$('#qiID').val(qiID);	// 모달의 hidden input 필드에 qiID 설정(수정을 위해 필요함.)
+				$('#editContractID').val(data.contractID);
 				$('#editCompanyName').val(data.companyName);
-				$('#editUnit').val(data.unit);
-				$('#editMatID').val(data.materialID);
-				$('#editMatName').val(data.materialName);
-				$('#editMatUses').val(data.materialUses);
+				$('#editUnits').val(data.units);
+				$('#editMatID').val(data.matID);
+				$('#editMatName').val(data.matName);
+				$('#editMatUses').val(data.matUses);
 				$('#editContractQuantity').val(data.contractQuantity);
-				$('#editInspQuantity').val(data.inspectionQuantity);
+				$('#editInspectionQuantity').val(data.inspectionQuantity);
 				$('#editPoorQuantity').val(data.poorQuantity);
 				$('#editQsDiv1').val(data.qsDiv1);
 				$('#editQsDiv2').val(data.qsDiv2);
-      	$('#editNote').val(data.note);
+      	$('#editNotes').val(data.notes);
+      	
+      	updateQsDiv2Options(data.qsDiv1, data.qsDiv2);	// 불량유형2 option 업데이트
+      	
+      	$('#editModal').modal('show');	// 모달창 보여주기
 			},
 			error: function() {
+				console.log("수정 모달창의 데이터 조회 실패 Error", error);
 				alert('데이터를 불러오는데 실패했습니다.');
 			}
 		});
 	});
 	
-	/* 수정 - Ajax로 DB에 업데이트 */
-	$('#updateBtn').click(function() {
-		var formData = $('#editForm').serialize();  // 폼 데이터 직렬화
+	/* 수정 - 불량유형1 변경 시, 불량유형2 동적 로드 */
+	$('#editQsDiv1').change(function() {
+		updateQsDiv2Options();
+	});
+	
+	/* 수정 - '불량유형2' 옵션을 업데이트하는 함수 */
+	function updateQsDiv2Options() {
+		var qsDiv1 = $('#editQsDiv1').val();	// 현재 선택된 '불량유형1' 값
+		var qsDiv2Select = $('#editQsDiv2');	// '불량유형2' 셀렉트 박스
+		qsDiv2Select.empty();	// 기존 옵션 비우기
+		
 		$.ajax({
-	    url: '/inspectionIB/update',
-	    type: 'POST',
-	    data: formData,
-	    success: function(response) {
-	      if(response.success) {
-	        alert('업데이트 성공');
-	        $('#editModal').modal('hide');
-	        location.reload();  // 페이지 새로고침
-	      } else {
-	        alert('업데이트 실패: ' + response.message);
-	      }
-	    },
-	    error: function() {
-	      alert('업데이트 중 에러가 발생했습니다.');
-	    }
-	  });
-	});  
+			url: '/qsDiv2ListForEdit?qsDiv1=' + qsDiv1,
+			type: 'GET',
+			dataType: 'json', 
+			success: function(data) {
+				if(data && data.length > 0) {
+					data.forEach(function(item) {
+						var option = $('<option>').val(item.qsDiv2).text(item.qsDiv2);
+						qsDiv2Select.append(option);
+					});
+				} else {
+					qsDiv2Select.qppend($('<option>', {
+						value: '',
+						text: '옵션이 없습니다'
+					}));
+				}
+			} ,
+			error: function(xhr, status, error) {
+				console.log("수정 모달창 [불량유형2] option Error: ", error);
+			}
+		});
+	}
+	
+	
+	/* 수정 - Ajax로 DB에 업데이트 */
+	$('#updateBtn').on('click', function() {
+		if(!confirm('수정하시겠습니까?')) {
+			return;	// 사용자가 '아니오'를 선택하면 함수를 종료
+		}
+		
+		// Form에서 데이터 수집
+		var formData = {
+			qiID: $('#qiID').val(),
+			qsDiv1: $('#editQsDiv1').val(),
+			qsDiv2: $('#editQsDiv2').val() || '',
+			notes: $('#editNotes').val() || ''
+		};
+		
+		console.log(formData);
+		
+		// Ajax 요청을 사용하여 서버에 수정 사항 전송
+		$.ajax({
+			url: '/inspectionIB/update',	// 수정 처리를 위한 서버 URL
+			type: 'POST',	// HTTP 요청 방식
+			contentType: 'application/json',	// 요청 컨텐츠 타입
+			data: JSON.stringify(formData),		// JSON 형식으로 데이터 전송
+			success: function(response) {
+				if(response.success) {
+					alert('수정이 완료되었습니다.');
+					window.location.href = '/inspectionIB';	// 성공 후, '/inspectionIB' 페이지로 리다이렉트
+				} else {
+					alert('수정 실패: ' + response.message);
+				}
+			},
+			error: function(xhr, status, error) {	// 요청 실패 시
+				alert('수정 중 에러가 발생했습니다. 에러: ' + error);
+			}
+		});
+		
+	});
+
+
+
+
+
 
 });
