@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.quality.InspectionIBMapper">
-    <!--<parameterMap id="criteriaParam" type="com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO"></parameterMap>-->
     <!-- [자재불량등록] - 검색 및 현황 조회 ====================================================================================================== -->
     <!-- 검색창 - 계약번호 -->
     <select id="getContractIDList" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO">

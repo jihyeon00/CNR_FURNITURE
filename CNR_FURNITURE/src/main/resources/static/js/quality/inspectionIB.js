@@ -2,7 +2,8 @@
 $(document).ready(function() {
 	/* 검색 기능 */
 	function search() {
-		// 불량유형1의 option을 선택했다가, 다시 "불량유형1 선택" option을 선택하면, qsDiv1 필드를 제출(검색 submit) 데이터에서 제외
+		// 불량유형1의 option을 선택했다가, 
+		// 다시 "불량유형1 선택" option을 선택하면, qsDiv1 필드를 제출(검색 submit) 데이터에서 제외
 		if ($('#qsDiv1').val() === '') {
 			$('#qsDiv1').removeAttr('name');	// qsDiv1 필드를 제출 데이터에서 제외
 		}

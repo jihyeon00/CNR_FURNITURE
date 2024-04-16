@@ -30,10 +30,34 @@ public class InspectionIBController {
     }
 
     /**
+     * Desc: [불량유형1]에 따른 [불량유형2] 조회
+     * option1에 따른 option2 조회
+     * 선택된 불량유형1이 있을 경우에만 불량유형2의 데이터를 조회
+     */
+    private List<InspectionIBListVO> loadQsDiv2List(String qsDiv1) {
+        if (qsDiv1 != null && !qsDiv1.isEmpty()) {  // 불량유형1이 선택되면 해당하는 불량유형2의 목록을 반환
+            return inspectionIBService.getQsDiv2ListByQsDiv1(qsDiv1);
+        } else {
+            return List.of(); // 불량유형1이 선택되지 않았을 경우, 빈 목록을 반환
+        }
+    }
+
+    /**
+     * Desc: 검색창 - 불량유형1에 따른 불량유형2 조회
+     */
+    @GetMapping("/qsDiv2List")
+    @ResponseBody
+    public List<InspectionIBListVO> getQsDiv2ListByQsDiv1(
+            @RequestParam("qsDiv1") String qsDiv1
+    ) {
+        return inspectionIBService.getQsDiv2ListByQsDiv1(qsDiv1);
+    }
+
+    /**
      * Desc: 품질관리-수입검사관리(자재IB) - 조회
      * 검색조건에 따라 다른 결과를 모델에 추가하고, 결과 페이지를 렌더링한다.
-     * @param cri - 검색 조건을 담은 VO 객체
-     * @param model - 뷰에 데이터를 전달하기 위한 모델
+     * @param cri: 검색 조건을 담은 VO 객체
+     * @param model: 뷰에 데이터를 전달하기 위한 모델
      * @return: qualityInspection/inspectionIB
      */
     @GetMapping("/inspectionIB")
@@ -66,31 +90,9 @@ public class InspectionIBController {
         model.addAttribute("qsDiv2List", loadQsDiv2List(cri.getQsDiv1()));              // [불량유형1]에 따른 [불량유형2], (검색용)
     }
 
-    /**
-     * Desc: [불량유형1]에 따른 [불량유형2] 조회
-     * option1에 따른 option2 조회
-     * 선택된 불량유형1이 있을 경우에만 불량유형2의 데이터를 조회
-     */
-    private List<InspectionIBListVO> loadQsDiv2List(String qsDiv1) {
-        if (qsDiv1 != null && !qsDiv1.isEmpty()) {  // 불량유형1이 선택되면 해당하는 불량유형2의 목록을 반환
-            return inspectionIBService.getQsDiv2ListByQsDiv1(qsDiv1);
-        } else {
-            return List.of(); // 불량유형1이 선택되지 않았을 경우, 빈 목록을 반환
-        }
-    }
 
-    /**
-     * Desc: 검색창 - 불량유형1에 따른 불량유형2 조회
-     */
-    @GetMapping("/qsDiv2List")
-    @ResponseBody
-    public List<InspectionIBListVO> getQsDiv2ListByQsDiv1(
-            @RequestParam("qsDiv1") String qsDiv1
-    ) {
-        return inspectionIBService.getQsDiv2ListByQsDiv1(qsDiv1);
-    }
 
-    /* [자재불량등록] - 모달창 ====================================================================================================== */
+    /* [자재불량등록] - [등록]모달창 ====================================================================================================== */
     /**
      * Decs: 모달창 - 모달용 데이터를 로드하는 메소드.
      */
@@ -147,7 +149,7 @@ public class InspectionIBController {
     }
 
 
-    /* [자재불량수정] - 모달창 ====================================================================================================== */
+    /* [자재불량관리] - [수정]모달창 ====================================================================================================== */
     /**
      * Desc: 모달창(수정) - 불량유형1에 따른 불량유형2 조회
      */
