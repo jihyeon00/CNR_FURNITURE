@@ -30,7 +30,7 @@
   font-size: 16px;
 }
 
-.ETableName {
+.MTableName {
   display: flex;
 	align-items: center;
   width: 100%;
@@ -43,7 +43,7 @@
 }
 
 /*   표 이름   */
-.ETableName {
+.MTableName {
   display: flex;
 	align-items: center;
   width: 100%;
@@ -68,17 +68,29 @@
 	border-bottom: 2px solid #999;
 	border-top: 2px solid #999;
 	margin-bottom: 10px;
+	height: 55px;
 }
 
 #searchMaterialForm {
 	display: flex;
 }
 
+.mtInsert-btn {
+	float:right;
+	position: relative;
+	bottom: 43px;
+}
+
+.mtInsert-btn button {
+	border-color: #bbb;
+	border: 1px solid #999;
+}
+
 #searchMtBtn {
 	margin: 5px;
-	position: absolute;
-		left: 659px;
-		top: 1px;
+	position: relative;
+		left: 665px;
+		top: 2px;
 	height: 38px;
 }
 
