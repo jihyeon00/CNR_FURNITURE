@@ -173,11 +173,34 @@
                     <th>검사일자</th>
                     <th>비고</th>
                     <th>수정</th>
-                    <th>삭제</th>
                   </tr>
                 </thead>
                 <tbody class="inspection-table-content">
                 	<!-- 조회 목록 -->
+                	<c:forEach var="insp" items="${inspOBList}">
+                		<tr>
+                			<td class="id"><c:out value="${insp.listSeq}" /></td>
+                			<td><c:out value="${insp.workID}" /></td>
+                			<td><c:out value="${insp.lotID}" /></td>
+                			<td><c:out value="${insp.machineID}" /></td>
+                			<td><c:out value="${insp.processID}" /></td>
+                			<td><c:out value="${insp.processName}" /></td>
+                			<td><c:out value="${insp.unit}" /></td>
+                			<td><c:out value="${insp.dailyWorkQuantity}" /></td>
+                			<td><c:out value="${insp.inspectionQuantity}" /></td>
+                			<td><c:out value="${insp.defectQuantity}" /></td>
+                			<td><c:out value="${insp.defectRate}" /></td>
+                			<td><c:out value="${insp.goodQuantity}" /></td>
+                			<td><c:out value="${insp.qsDiv1}" /></td>
+                			<td><c:out value="${insp.qsDiv2}" /></td>
+                			<td><c:out value="${insp.note}" /></td>
+                			<td style="cursor:pointer; color:#17a2b8; text-align:center;" 
+                				data-toggle="modal" class="editBtn" id="editBtn" 
+               					data-qi-id="${insp.qiID}" data-toggle="modal" data-target="#editModal">
+                  			수정
+	                  	</td>
+                		</tr>
+                	</c:forEach>
                 	
                 	
                 </tbody>

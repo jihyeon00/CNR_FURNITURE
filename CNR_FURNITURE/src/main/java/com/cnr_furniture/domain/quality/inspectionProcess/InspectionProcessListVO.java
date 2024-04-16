@@ -2,12 +2,15 @@ package com.cnr_furniture.domain.quality.inspectionProcess;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * [공정검사관리] - 검색 및 현황(목록) 조회
  * '/inspectionProcess'
  */
 @Data
 public class InspectionProcessListVO {
+    private Long qiID;                  // 검사번호(수정할 때, 보내줘야함)
     private Long listSeq;               // 번호
     private Long workID;                // 작업번호(WORK 테이블), [검색 keywork]
     private Long lotID;                 // lot번호(WORK 테이블), [검색 keywork]
@@ -22,5 +25,6 @@ public class InspectionProcessListVO {
     private Long goodQuantity;          // 양품수량(Quality_Inspection 테이블)
     private String qsDiv1;              // 불량유형1(Quality_Standard), [검색 keywork]
     private String qsDiv2;              // 불량유형2(Quality_Standard), [검색 keywork]
+    private Date inspectionDate;        // 검사일자
     private String note;                // 비고(Quality_Inspection 테이블)
 }

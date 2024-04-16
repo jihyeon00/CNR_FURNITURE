@@ -152,7 +152,6 @@
                 	<c:forEach var="inspIB" items="${inspIBList}">
 	                  <tr>
 	                  	<td class="id"><c:out value="${inspIB.listSeq}" /></td>
-	                  	<%-- <td class="id"><c:out value="${inspIB.qiID}" /></td> --%>
 	                  	<td><c:out value="${inspIB.matID}" /></td>
 	                  	<td><c:out value="${inspIB.matName}" /></td>
 	                  	<td><c:out value="${inspIB.matUses}" /></td>
