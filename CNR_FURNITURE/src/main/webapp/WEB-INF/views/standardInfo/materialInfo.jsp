@@ -111,7 +111,7 @@
 	  <div class="modal-dialog" role="document">
 		  <div class="modal-content">
 		    <div class="modal-header">
-        	<h4 class="modal-title" id="myModalLabel">자재정보 등록</h4>
+        	<h4 class="mt-modal-title" id="myModalLabel">자재정보 등록</h4>
 	      </div>
 	      <div class="modal-body">
 	        <form action="./materialInsert" method="post" id="insertMTForm" onSubmit="return false">
@@ -137,7 +137,7 @@
 		<div class="modal-dialog" role="document">
 	   <div class="modal-content">
 	      <div class="modal-header">
-       <h4 class="modal-title" id="myModalLabel">자재정보 수정</h4>
+       <h4 class="mt-modal-title" id="myModalLabel">자재정보 수정</h4>
      </div>
      <div class="modal-body">
        <form action="./materialUpdate" method="post" id="mtUpdateForm"	onSubmit="return false">	        	

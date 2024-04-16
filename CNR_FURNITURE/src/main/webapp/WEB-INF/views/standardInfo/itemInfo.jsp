@@ -116,7 +116,7 @@
 			  <div class="modal-dialog" role="document">
 				  <div class="modal-content">
 				    <div class="modal-header">
-		        	<h4 class="modal-title" id="myModalLabel">제품정보 등록</h4>
+		        	<h4 class="mt-modal-title" id="myModalLabel">제품정보 등록</h4>
 			      </div>
 			      <div class="modal-body">
 			        <form action="./itemInsert" method="post" id="insertItemForm" onSubmit="return false">
@@ -150,7 +150,7 @@
 				 <div class="modal-dialog" role="document">
 				   <div class="modal-content">
 				      <div class="modal-header">
-		        <h4 class="modal-title" id="myModalLabel">제품정보 수정</h4>
+		        <h4 class="mt-modal-title" id="myModalLabel">제품정보 수정</h4>
 		      </div>
 		      <div class="modal-body">
 		        <form  action="./itemUpdate" method="post" id="itemUpdateForm"	onSubmit="return false">        	
