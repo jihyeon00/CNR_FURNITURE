@@ -1,7 +1,5 @@
 package com.cnr_furniture.service;
-
 import com.cnr_furniture.domain.process.*;
-import com.cnr_furniture.domain.quality.InspectionIBListVO;
 import com.cnr_furniture.mapper.ProcessMapper;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
