@@ -1,6 +1,10 @@
 package com.cnr_furniture.service;
 
-import com.cnr_furniture.domain.work.*;
+import com.cnr_furniture.domain.work.search.*;
+import com.cnr_furniture.domain.work.workMNG.WorkProcessInfoVO;
+import com.cnr_furniture.domain.work.workMNG.WorkSelectInsertMaterialVO;
+import com.cnr_furniture.domain.work.workMNG.WorkVO;
+import com.cnr_furniture.domain.work.workMNG.WorkerVO;
 import com.cnr_furniture.mapper.WorkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,5 +55,15 @@ public class WorkServiceImpl implements WorkService{
     @Override
     public List<WorkVO> selectWorkProductionPerformance(WorkSearchVO workSearchVO) {
         return workMapper.selectWorkProductionPerformance(workSearchVO);
+    }
+
+    @Override
+    public List<WorkSelectInsertMaterialVO> selectWorkInsertMaterial(WorkSearchVO workSearchVO) {
+        return workMapper.selectWorkInsertMaterial(workSearchVO);
+    }
+
+    @Override
+    public List<WorkerVO> selectWorker(WorkSearchVO workSearchVO) {
+        return workMapper.selectWorker(workSearchVO);
     }
 }
