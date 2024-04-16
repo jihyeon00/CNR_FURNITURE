@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+button {
+	cursor: pointer;
+}
 
 /* reset button */
 
@@ -34,6 +37,10 @@
     cursor: pointer;
 }
 
+.BomInfo-btn button {
+	border: 1px solid #999;
+	height: 40px;
+}
 
 /*   검색창   */
 .bomSearchBar {
@@ -166,6 +173,17 @@ input .mQuantity- {
 	height: 40px;
 }
 
+.MovePage {
+	display: flex;
+	position: relative;
+	left: 66%;
+}
+
+.MovePage button {
+	border: 1px solid #999;
+	height: 40px;
+	margin: 2px;
+}
 
 /*   아이콘 div   */
 .icon {

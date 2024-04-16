@@ -51,12 +51,12 @@
 	              </button>
             	</div>
            </form>
-           <div class="bomInsert-btn">
+           <div class="mtInsert-btn">
             <button type="button" class="btn btn-Default" data-toggle="modal" data-target="#myModal1">자재등록</button>
            </div>
           </div>
         
-		      <div class="ETableName">
+		      <div class="MTableName">
 			      <div class="icon"><i class="fa fa-list"></i></div>
 			      <div class="employee">자재 목록</div>
 		      </div>  

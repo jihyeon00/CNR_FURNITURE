@@ -22,7 +22,7 @@
                <a href="./insert"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
             </div>
             <div class="BomInfo-btn">
-              <button type="button" class="btn btn-Default" style="height: 40px;"><a href="/bom" style="color: #000;">
+              <button type="button" class="btn btn-Default"><a href="/bom" style="color: #000;">
               BOM 관리
               </a></button>
         		</div>
@@ -97,12 +97,19 @@
 	              </tbody>
 	            </table>
             <!-- /.table -->
-         		</div>
-	       <!--   <div class="insertBom-btn">
-		          <button type="button" class="btn btn-primary bomBtn" id="" name="">등록</button>
-		          <div style="width: 10px;"></div>    
-		          <button type="button" class="btn btn-danger bomBtn" id="" name="">취소</button>
-			    </div> -->
+         		</div>		      	
+		      	<div class="MovePage">
+			      	<div class="">
+	              <button type="button" class="btn btn-Default"><a href="/itemInfo" style="color: #000;">
+	              제품등록
+	              </a></button>
+	        		</div>
+	        		<div class="">
+	              <button type="button" class="btn btn-Default"><a href="/materialInfo" style="color: #000;">
+	              자재등록
+	              </a></button>
+	        		</div>
+        		</div>
        	</div>
 
           <div class="col-md-6">
@@ -308,7 +315,7 @@
 	
 	            // 생성한 행을 테이블에 추가
 	            $('.addBomListUL').append(newRow);   
-	            alert('BOM 등록 성공');
+	            alert('BOM이 등록되었습니다');
 	        },
 	        error : function(xhr, status, er) {                 // call 실패시 오는 처리되는 함수
 	        	 // 오류 발생 시 실행할 코드
