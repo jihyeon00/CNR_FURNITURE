@@ -28,11 +28,11 @@
             <form action="machineCheck" method="get" id="searchForm">
                 <div class="machineSearch">
                     <div class="machineName">
-                        <div class="onchangeMachine">설비명</div>
+                        <div class="searchMachine">설비명</div>
                         <select class="onchangeMachineName"  id="find_machine_id" name="find_machine_id">
                           <option value="설비선택" disabled selected>설비선택</option>
                           <c:forEach var="list" items = "${getMachineInfo}">
-                            <option value='${list.mi_id}'  ${(searchMachine.find_machine_id) == (list.mi_id) ? 'selected="selected"' : ''}>${list.mi_name}
+                            <option value='${list.mi_id}'  ${searchMachineVO.find_machine_id == (list.mi_id) ? 'selected="selected"' : ''}>${list.mi_name}
                             </option>
                           </c:forEach>
                         </select>

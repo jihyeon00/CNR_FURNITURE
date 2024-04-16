@@ -45,6 +45,9 @@ public class MachineInfoController {
         int rtn = machineInfoService.insertMachine(machineAddVO);
         rttr.addFlashAttribute("insertSuccessCount", rtn);
 
+        int rtr = machineInfoService.insertMachine2(machineAddVO);
+        rttr.addFlashAttribute("insertSuccessCount", rtr);
+
         // DB에서 입력했던 정보를 바탕으로 DB에서 추가한 설비정보 데이터를 가져온다
         MachineVO machineVOOne = machineInfoService.getMachineOne();
 
@@ -68,10 +71,10 @@ public class MachineInfoController {
         return "redirect:/machineInfo";
     }
 
-    // 설비 수리 이력 관리
-    @GetMapping("/machineRepair")
-    public String machineRepair(){
-        return "machine/machineRepair";
+    // 설비 관리
+    @GetMapping("/machineManagement")
+    public String machineManagement(){
+        return "machine/machineManagement";
     }
 
     // 설비 가동 현황

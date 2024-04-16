@@ -122,4 +122,47 @@
         #{mcr_answer},
         #{mcr_note} )
     </insert>
+
+    <!-- 설비 작동 테이블에서 설비 상태 업데이트 -->
+    <update id="updateMachineCondition">
+        UPDATE
+            MACHINE_WORK
+        SET
+            MW_CONDITION = '수리요청'
+        WHERE
+            MW_MI_ID IN (
+                SELECT MCR_MI_ID
+                FROM Machine_Check_Record
+                WHERE MCR_ANSWER = 'Y'
+            )
+    </update>
+
+    <!-- 설비수리 이력 관리 리스트 가져오기 -->
+    <select id="McRepairList" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineRepairVO">
+        SELECT
+            rownum,
+            MR.MR_MI_ID,
+            MI.MI_NAME,
+            MI.MI_TYPE,
+            PI.PI_SEQ,
+            MI.MI_POSITION,
+            MCR.MCR_NOTE,
+            to_char(MR.MR_DATE, 'yyyy-MM-dd') AS MR_DATE
+        FROM
+            MACHINE_REPAIR MR
+        JOIN
+            MACHINE_INFO MI ON MR.MR_MI_ID = MI.MI_ID
+        JOIN
+            PROCESS_INFO PI ON MR.MR_MI_ID = PI.PI_MACHINE_ID
+        JOIN
+            MACHINE_CHECK_RECORD MCR ON MR.MR_MCR_ID = MCR.MCR_ID
+        where 1=1
+            <if test="find_machine_name != null and find_machine_name != ''">
+                AND mi_name Like '%' || #{find_machine_name} || '%'
+            </if>
+            <if test="find_machine_type != null and find_machine_type != ''">
+                AND mi_type Like '%' || #{find_machine_type} || '%'
+            </if>
+    </select>
+
 </mapper>

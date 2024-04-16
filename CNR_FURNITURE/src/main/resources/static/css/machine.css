@@ -32,9 +32,14 @@
     display: flex;
 }
 
-.searchMachine {
+.searchMachine{
     padding: 15px;
     background-color: #D8D8D8;
+}
+
+.machineBox{
+    width: 100px;
+    margin: 10px 15px 10px 15px;
 }
 
 .searchbtn, .machineCheckSave{
@@ -138,6 +143,10 @@
 
 .modalAddCondition{
     margin-left: 81px;
+}
+
+#myModalLabell{
+    margin-left: -55px;
 }
 
 /* 체크리스트 작성 */

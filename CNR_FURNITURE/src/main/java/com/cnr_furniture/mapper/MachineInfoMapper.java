@@ -14,6 +14,9 @@ public interface MachineInfoMapper {
     // 설비 등록
     int addMachine(MachineAddVO machineAddVO);
 
+    // 설비 등록 (작동 테이블)
+    int addMachine2(MachineAddVO machineAddVO);
+
     // 마지막 설비만 가져오기
     MachineVO getMachineOne();
 

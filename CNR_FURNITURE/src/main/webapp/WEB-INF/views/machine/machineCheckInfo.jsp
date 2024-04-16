@@ -101,7 +101,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel">설비별 체크리스트 정보 추가</h4>
+          <h4 class="modal-title" id="myModalLabell">설비별 체크리스트 정보 추가</h4>
         </div>
        <div class="modal-body">
            <div class="ModalAddCheck">

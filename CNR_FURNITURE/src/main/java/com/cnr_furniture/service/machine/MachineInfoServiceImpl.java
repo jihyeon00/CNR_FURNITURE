@@ -31,6 +31,13 @@ public class MachineInfoServiceImpl implements MachineInfoService{
         return rtn;
     }
 
+    // 설비 등록(작동 테이블)
+    @Override
+    public int insertMachine2(MachineAddVO machineAddVO){
+        int rtn = machineInfoMapper.addMachine2(machineAddVO);
+        return rtn;
+    }
+
     // 마지막 설비 한개만 가져오기
     @Override
     public MachineVO getMachineOne(){

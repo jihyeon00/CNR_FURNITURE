@@ -43,7 +43,6 @@ public class MachineMNGController {
         // 검색 keyword
         model.addAttribute("searchMachineCheckVO", searchMachineCheckVO);
 
-        // 점검방법 가져오기
         return "machine/machineCheckInfo";
     }
 
@@ -101,16 +100,28 @@ public class MachineMNGController {
     @PostMapping("/machineCheckAdd")
     @ResponseBody
     public ResponseEntity<MachineCheckRecordVO> machineCheckRecord(@RequestBody MachineCheckRecordVO machineCheckRecordVO, RedirectAttributes rttr) {
+        // 체크리스트 기록 추가
         int rtn = machineMNGService.insertMachineCheckRecord(machineCheckRecordVO);
         rttr.addFlashAttribute("insertSuccessCount", rtn);
+
+        // 설비 상태 업데이트
+        String newCondition = machineCheckRecordVO.getMcr_answer(); // 가정: MachineCheckRecordVO에서 설비 상태를 가져옴
+        int updateSuccessCount = machineMNGService.updateMachineCondition(newCondition);
+        rttr.addFlashAttribute("updateSuccessCount", updateSuccessCount);
 
         return ResponseEntity.ok(machineCheckRecordVO);
     }
 
-    // 설비 관리
-    @GetMapping("/machineManagement")
-    public String machineManagement(){
-        return "machine/machineManagement";
+    // 설비 수리 이력 관리
+    @GetMapping("/machineRepair")
+    public String machineRepair(SearchMachineVO searchMachineVO, Model model){
+        List<MachineRepairVO> machineRepairVOList = machineMNGService.McRepairList(searchMachineVO);
+        model.addAttribute("machineRepairVOList", machineRepairVOList);
+
+        // 검색 keyword
+        model.addAttribute("searchMachineVO", searchMachineVO);
+
+        return "machine/machineRepair";
     }
 
 
