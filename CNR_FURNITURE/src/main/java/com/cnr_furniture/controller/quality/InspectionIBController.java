@@ -1,15 +1,16 @@
 package com.cnr_furniture.controller.quality;
 
-import com.cnr_furniture.domain.quality.*;
-import com.cnr_furniture.service.quality.*;
+import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionUpdateVO;
+import com.cnr_furniture.service.quality.inspectionIB.InspectionIBService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,15 +67,6 @@ public class InspectionIBController {
     }
 
     /**
-     * Decs: 모달창 - 모달용 데이터를 로드하는 메소드.
-     */
-    private void loadModalData(CriteriaInspIBVO cri, Model model) {
-        model.addAttribute("contractIDModalList", inspectionIBService.getContractIDListForModal()); // 계약ID(모달용)
-        model.addAttribute("qsDiv1ModalList", inspectionIBService.getQsDiv1ListForModal());         // 불량유형1(모달용)
-        model.addAttribute("qsDiv2ModalList", loadQsDiv2List(cri.getQsDiv1Modal()));                // [불량유형1]에 따른 [불량유형2], (모달용)
-    }
-
-    /**
      * Desc: [불량유형1]에 따른 [불량유형2] 조회
      * option1에 따른 option2 조회
      * 선택된 불량유형1이 있을 경우에만 불량유형2의 데이터를 조회
@@ -98,8 +90,18 @@ public class InspectionIBController {
         return inspectionIBService.getQsDiv2ListByQsDiv1(qsDiv1);
     }
 
+    /* [자재불량등록] - 모달창 ====================================================================================================== */
     /**
-     * Desc: 모달창 - 불량유형1에 따른 불량유형2 조회
+     * Decs: 모달창 - 모달용 데이터를 로드하는 메소드.
+     */
+    private void loadModalData(CriteriaInspIBVO cri, Model model) {
+        model.addAttribute("contractIDModalList", inspectionIBService.getContractIDListForModal()); // 계약ID(모달용)
+        model.addAttribute("qsDiv1ModalList", inspectionIBService.getQsDiv1ListForModal());         // 불량유형1(모달용)
+        model.addAttribute("qsDiv2ModalList", loadQsDiv2List(cri.getQsDiv1Modal()));                // [불량유형1]에 따른 [불량유형2], (모달용)
+    }
+
+    /**
+     * Desc: 모달창(등록) - 불량유형1에 따른 불량유형2 조회
      */
     @GetMapping("/qsDiv2ModalList")
     @ResponseBody
@@ -110,7 +112,7 @@ public class InspectionIBController {
     }
 
     /**
-     * Desc: 모달창 - [계약번호] 입력에 따른 [거래처명], [계약입고수량], [단위], [자재번호], [자재명], [자재용도] 자동 채우기
+     * Desc: 모달창(등록) - [계약번호] 입력에 따른 [거래처명], [계약입고수량], [단위], [자재번호], [자재명], [자재용도] 자동 채우기
      */
     @GetMapping("/contractDetailsModal")
     @ResponseBody
@@ -144,29 +146,53 @@ public class InspectionIBController {
         }
     }
 
+
+    /* [자재불량수정] - 모달창 ====================================================================================================== */
+    /**
+     * Desc: 모달창(수정) - 불량유형1에 따른 불량유형2 조회
+     */
+    @GetMapping("/qsDiv2ListForEdit")
+    @ResponseBody
+    public List<InspectionIBListVO> getQsDiv2ListByQsDiv1ForEdit(
+            @RequestParam("qsDiv1") String qsDiv1
+    ) {
+        return inspectionIBService.getQsDiv2ListByQsDiv1(qsDiv1);
+    }
+
     /**
      * Desc: [수입검사관리]: 수정 모달창 데이터 조회
      * @return: /inspectionIB/edit
      */
     @GetMapping("/inspectionIB/edit")
     @ResponseBody
-    public InspectionIBListVO getInspectionForEdit(@RequestParam("listSeq") Long listSeq) {
-        return inspectionIBService.getInspectionDetails(listSeq);
+    public InspectionIBListVO getInspectionForEdit(@RequestParam("qiID") Long qiID) {
+        log.info("수정을 위한 qiID: " + qiID);
+        InspectionIBListVO inspectionDetails = inspectionIBService.getInspectionDetails(qiID);
+        if (inspectionDetails == null) {
+            log.warn("정보를 찾지 못함. qiID: " + qiID);
+        }
+        return inspectionDetails;
     }
 
     /**
      * Desc: [수입검사관리]: 수정된 데이터 저장
-     * @return: /inspectionIB/update
+     * @param: updateVO - 업데이트할 데이터를 담은 VO 객체
+     * @return: ResponseEntity - 업데이트 성공 여부와 메시지를 담은 HTTP 응답
      */
-    /*public ResponseEntity<?> updateInspectionDetails(
-            @ResponseBody InspectionIBListVO inspection
+    @PostMapping("/inspectionIB/update")
+    public ResponseEntity<?> updateInspectionDetails(
+            @RequestBody InspectionUpdateVO updateVO
     ) {
         try {
-            inspectionIBService.updateInspection(inspection);
-            return ResponseEntity.ok().body(Map.of("success", true, "message", "업데이트 성공"));
+            log.info("수정될 내용: " + updateVO);
+            log.info("수정할 qiID: " + updateVO.getQiID());
+            inspectionIBService.updateInspectionRecord(updateVO);
+            return ResponseEntity.ok().body(Map.of("success", true, "message", "업데이트가 성공적으로 완료되었습니다."));
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "업데이트 실패: " + e.getMessage()));
+            log.error("수정 실패: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("success", false, "message", "업데이트 실패: " + e.getMessage()));
         }
-    }*/
+    }
 
 }

@@ -1,6 +1,9 @@
-package com.cnr_furniture.service.quality;
+package com.cnr_furniture.service.quality.inspectionIB;
 
-import com.cnr_furniture.domain.quality.*;
+import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionUpdateVO;
 
 import java.util.List;
 
@@ -57,14 +60,15 @@ public interface InspectionIBService {
      */
     void registerInspectionItems(List<InspectionIBInsertVO> items);
 
+    /* [자재불량수정] - 모달창 ====================================================================================================== */
     /**
      * Desc: [수입검사관리]: 수정 - 특정 수입검사 항목을 가져오는 메소드
      */
-    InspectionIBListVO getInspectionDetails(Long listSeq);
+    InspectionIBListVO getInspectionDetails(Long qiID);
 
     /**
      * Desc: [수입검사관리]: 수정 - 수입검사 항목을 UPDATE 하는 메소드
      */
-    /*void updateInspection(InspectionIBListVO inspection);*/
+    void updateInspectionRecord(InspectionUpdateVO updateVO);
 
 }

@@ -1,4 +1,4 @@
-package com.cnr_furniture.domain.quality;
+package com.cnr_furniture.domain.quality.inspectionIB;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,10 +14,8 @@ public class CriteriaInspIBVO {   // 자재번호, 계약번호, 제조LOT번호
     private String qsDiv1;
     private String qsDiv2;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date inspectionDate1;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date inspectionDate2;
+    private String inspectionDate1;
+    private String inspectionDate2;
 
     // 모달용(등록)
     private Long contractIDModal;
@@ -37,8 +35,8 @@ public class CriteriaInspIBVO {   // 자재번호, 계약번호, 제조LOT번호
             Long matID,
             String qsDiv1,
             String qsDiv2,
-            Date inspectionDate1,
-            Date inspectionDate2,
+            String inspectionDate1,
+            String inspectionDate2,
 
             // 모달용(등록)
             Long contractIDModal,

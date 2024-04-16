@@ -1,6 +1,9 @@
-package com.cnr_furniture.service.quality;
+package com.cnr_furniture.service.quality.inspectionIB;
 
-import com.cnr_furniture.domain.quality.*;
+import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspectionUpdateVO;
 import com.cnr_furniture.mapper.quality.*;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +65,7 @@ public class InspectionIBServiceImpl implements InspectionIBService{
         return inspectionIBMapper.getInspectionIBList(cri);
     }
 
+    /* [자재불량등록] - 모달창 ====================================================================================================== */
     /**
      * Desc: 모달창 - 계약번호 - 조회
      */
@@ -136,24 +140,25 @@ public class InspectionIBServiceImpl implements InspectionIBService{
         }
     }
 
+    /* [자재불량수정] - 모달창 ====================================================================================================== */
     /**
      * Desc: [수입검사관리]: 수정 - 특정 수입검사 항목을 가져오는 메소드
      */
     @Override
-    public InspectionIBListVO getInspectionDetails(Long listSeq) {
-        log.info("listSeq" + listSeq);
-        log.info("수입관리검사 수정....");
-        return inspectionIBMapper.getInspectionDetailsBySeq(listSeq);
+    public InspectionIBListVO getInspectionDetails(Long qiID) {
+        log.info("qiID" + qiID);
+        log.info("수입관리검사 수정 모달창 조회....");
+        return inspectionIBMapper.getInspectionDetailsBySeq(qiID);
     }
 
     /**
      * Desc: [수입검사관리]: 수정
      */
-    /*@Override
-    @Transactional
-    public void updateInspection(InspectionIBListVO inspection) {
-        inspectionIBMapper.updateInspection(inspection);
-    }*/
+    @Override
+    public void updateInspectionRecord(InspectionUpdateVO updateVO) {
+        log.info("수입관리검사 수정....");
+        inspectionIBMapper.updateInspectionRecord(updateVO);
+    }
 
 
 }
