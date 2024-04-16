@@ -1,4 +1,4 @@
-package com.cnr_furniture.domain.work;
+package com.cnr_furniture.domain.work.workMNG;
 
 import lombok.*;
 

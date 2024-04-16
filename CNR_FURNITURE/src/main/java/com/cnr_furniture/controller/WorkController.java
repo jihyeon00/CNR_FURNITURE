@@ -1,6 +1,10 @@
 package com.cnr_furniture.controller;
 
-import com.cnr_furniture.domain.work.*;
+import com.cnr_furniture.domain.work.search.*;
+import com.cnr_furniture.domain.work.workMNG.WorkProcessInfoVO;
+import com.cnr_furniture.domain.work.workMNG.WorkSelectInsertMaterialVO;
+import com.cnr_furniture.domain.work.workMNG.WorkVO;
+import com.cnr_furniture.domain.work.workMNG.WorkerVO;
 import com.cnr_furniture.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +43,10 @@ public class WorkController {
         List<WorkVO> workList = workService.selectWork(workSearchVO);
         // 생산실적 조회
         List<WorkVO> productionPerformanceList = workService.selectWorkProductionPerformance(workSearchVO);
+        // 자재투입내역 조회
+        List<WorkSelectInsertMaterialVO> insertMaterialList = workService.selectWorkInsertMaterial(workSearchVO);
+        // 작업자 조회
+        List<WorkerVO> workerList = workService.selectWorker(workSearchVO);
 
 
         // view에서 사용할 모델명 지정
@@ -50,6 +58,8 @@ public class WorkController {
         model.addAttribute("workProcessInfoList", workProcessInfoList);
         model.addAttribute("workList",workList);
         model.addAttribute("productionPerformanceList",productionPerformanceList);
+        model.addAttribute("insertMaterialList",insertMaterialList);
+        model.addAttribute("workerList",workerList);
 
         return "work/work";
     }

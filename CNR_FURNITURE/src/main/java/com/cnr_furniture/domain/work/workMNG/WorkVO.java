@@ -1,9 +1,9 @@
-package com.cnr_furniture.domain.work;
+package com.cnr_furniture.domain.work.workMNG;
 
 import lombok.*;
 
 /**
- * Work.jsp 의 제조목록, 생산실적, 당일작업목록 VO
+ * Work.jsp 의 작업목록, 생산실적, 당일작업목록 VO
  */
 @Getter
 @Setter
@@ -27,12 +27,12 @@ public class WorkVO {
     private int w_plan_quantity;
     private int w_item_quantity;
 
-    // 제조목록 + 생산실적 (작업자 사원번호,불량수량 추가)
+    // 작업목록 + 생산실적 (작업자 사원번호,불량수량 추가)
     private String allemplist;
     private String substrallemp;
     private int qi_dft_quantity;
 
-    // 제조목록 + 당일작업목록
+    // 작업목록 + 당일작업목록
 
 
 
