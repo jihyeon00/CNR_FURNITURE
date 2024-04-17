@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../includes/header.jsp" %>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -58,34 +58,46 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-	        <!-- 공정조회 Table -->
+	        <!-- 공정별 설비상태 Table -->
 	        <div class="titleAndTable" id="selectManufacturingPerformInfo" >
 	           <div class="workTableTitle">
 	              <div class="icon"><i class="fa fa-list"></i></div>
-	              <div class="workTableName">공정조회</div>
+	              <div class="workTableName">공정별 설비상태</div>
 	            </div>
-	          <div class="workTable" style="max-height: 174px">
+	          <div class="workTable" style="">
 	            <table cellpadding="0" cellspacing="0" border="0">
 	              <thead class="work-tbl-header">
 	                <tr>
 	                  <th>No</th>
 	                  <th>공정번호</th>
-	                  <th>공정위치</th>
 	                  <th>공정명</th>
+	                  <th>설비번호</th>
 	                  <th>설비명</th>
+	                  <th>설비위치</th>
 	                  <th>가동여부</th>
 	                  <th>설비상태</th>
 	                </tr>
 	              </thead>
 	              <tbody class="work-tbl-content">
-	                <tr>
-	                  <td>1</td>
-	                  <td>300001</td>
-	                  <td>10000001</td>
-	                  <td>의자-A</td>
-	                  <td>인테리어스케이프</td>
-	                  <td>비가동</td>
-	                </tr>
+		              <c:if test="${fn:length(processMachineList) == 0}">
+		             	 		<tr>
+												<td colspan="8">조회된 내용이 없습니다.</td>             	 		
+		             	 		</tr>
+		             	 </c:if>
+		               <c:if test="${fn:length(processMachineList) != 0}">
+			              <c:forEach items="${processMachineList}" var="processMachineList">
+			                <tr>
+			                  <td>${processMachineList.rn}</td>
+			                  <td>${processMachineList.pi_id}</td>
+			                  <td>${processMachineList.pi_name}</td>
+			                  <td>${processMachineList.pi_machine_id}</td>
+			                  <td>${processMachineList.mi_name}</td>
+			                  <td>${processMachineList.position}</td>
+			                  <td>${processMachineList.mw_status}</td>
+			                  <td>${processMachineList.mw_condition}</td>
+			                </tr>
+		                </c:forEach>
+	                </c:if>
 	              </tbody>
 	            </table><!-- /.table -->
           	</div><!-- /.workTable -->
@@ -116,19 +128,20 @@
               <thead class="work-tbl-header">
                 <tr>
                   <th>No</th>
-                  <th>지시일자</th>
+                  <th>작업번호</th>
                   <th>제조LOT번호</th>
+                  <th>지시일자</th>
+                  <th>작업팀</th>
                   <th>공정번호</th>
-                  <th>공정위치</th>
                   <th>공정명</th>
-                  <th>설비번호</th>
                   <th>설비명</th>
+                  <th>작업위치</th>
                   <th>제품번호</th>
                   <th>제품명</th>
                   <th>규격</th>
-                  <th>기준단위</th>
+                  <th>단위</th>
                   <th>소요시간(분)</th>
-                  <th>작업상태</th>
+                  <th>진행상황</th>
                   <th>계획수량</th>
                   <th>생산수량</th>
                   <th>자재투입</th>
@@ -136,28 +149,38 @@
                   <th>삭제</th>
                 </tr>
               </thead>
-              <tbody class="work-tbl-content">
-                <tr>
-                  <td>1</td>
-                  <td>2024-04-07</td>
-                  <td>300001</td>
-                  <td>3001</td>
-                  <td>1-1</td>
-                  <td>원자재준비</td>
-                  <td>6000001</td>
-                  <td>재단기1호</td>
-                  <td>10000001</td>
-                  <td>의자-A</td>
-                  <td>?</td>
-                  <td>EA</td>
-                  <td>1000</td>
-                  <td>생산대기</td>
-                  <td>1000</td>
-                  <td>1000</td>
-                  <td><button id="materialInputTd" data-toggle="modal" data-target="#materialInputModal">자재투입</button></td>
-                  <td><button id="workDetailTd" data-toggle="modal" data-target="#workDetailModal">작업상세</button></td>
-                  <td><button id="todayWorkDeleteTd" data-toggle="modal" data-target="#todayWorkDeleteModal">삭제</button></td>
-                </tr>
+             <tbody class="work-tbl-content">
+             	 <c:if test="${fn:length(todayWorkList) == 0}">
+             	 		<tr>
+										<td colspan="20">조회된 내용이 없습니다.</td>             	 		
+             	 		</tr>
+             	 </c:if>
+               <c:if test="${fn:length(todayWorkList) != 0}">
+	              	<c:forEach items="${todayWorkList}" var="todayWorkList">   
+		                <tr>
+		                  <td>${todayWorkList.rn}</td>
+		                  <td>${todayWorkList.w_id}</td>
+		                  <td>${todayWorkList.w_lot_id}</td>
+		                  <td>${todayWorkList.w_date}</td>
+		                  <td>${todayWorkList.e_dp_name}</td>
+		                  <td>${todayWorkList.w_pi_id}</td>
+		                  <td>${todayWorkList.pi_name}</td>
+		                  <td>${todayWorkList.mi_name}</td>
+		                  <td>${todayWorkList.position}</td>
+		                  <td>${todayWorkList.ins_item_id}</td>
+		                  <td>${todayWorkList.i_name}</td>
+		                  <td>${todayWorkList.w_status}</td>
+		                  <td>${todayWorkList.i_standard}</td>
+		                  <td>${todayWorkList.ct_unit}</td>
+		                  <td>${todayWorkList.w_time}</td>
+		                  <td>${todayWorkList.w_plan_quantity}</td>
+		                  <td>${todayWorkList.w_item_quantity}</td>
+			                <td><button id="materialInputTd" data-toggle="modal" data-target="#materialInputModal">자재투입</button></td>
+			                <td><button id="workDetailTd" data-toggle="modal" data-target="#workDetailModal">작업상세</button></td>
+			                <td><button id="todayWorkDeleteTd" data-toggle="modal" data-target="#todayWorkDeleteModal">삭제</button></td>
+		                </tr>
+	                </c:forEach>
+                </c:if>
               </tbody>
             </table><!-- /.table -->
         </div><!-- /.workTable -->
@@ -197,10 +220,10 @@
             </div><!-- /.materialInputInfoBar -->
             <!-- materialInputInfoBar -->
       	 <div class="materialInputInfoBar" >
-	   		 <div class="col-sm-2 sb-name">작업번호</div>
-           <div class="col-sm-2 sb-text">
-             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-               value='<c:out value="${search.find_DP_name}"/>' readonly="readonly" />
+	   		 		<div class="col-sm-2 sb-name">작업번호</div>
+           	<div class="col-sm-2 sb-text">
+	             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+	               value='<c:out value="${search.find_DP_name}"/>' readonly="readonly" />
            </div>
            <div class="col-sm-2 sb-name">생산수량</div>
            <div class="col-sm-2 sb-text">
@@ -209,7 +232,7 @@
            </div>
            <div class="col-sm-2 sb-name" style="background-color: #fff"></div>
            <div class="col-sm-2 sb-text" >
-             <input type="text" class="col-sm-12 workHiddenInput" readonly="readonly" style="cursor: inherit;" />
+             <input type="text" class="col-sm-12 input-text" readonly="readonly" style="cursor: inherit;" />
            </div>
          </div><!-- /.materialInputInfoBar -->
 	        <!-- BOM Table -->

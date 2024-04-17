@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../includes/header.jsp" %>
   <!-- Content Wrapper. Contains page content -->
@@ -178,10 +177,10 @@
                   <th>작업위치</th>
                   <th>제품번호</th>
                   <th>제품명</th>
-                  <th>진행상황</th>
                   <th>규격</th>
                   <th>단위</th>
                   <th>소요시간(분)</th>
+                  <th>진행상황</th>
                   <th>계획수량</th>
                   <th>생산수량</th>
                 </tr>
