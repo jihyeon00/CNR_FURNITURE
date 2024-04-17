@@ -30,15 +30,15 @@
                 <div class="machineSearch">
                     <div class="machineName">
                         <div class="searchMachine">설비명</div>
-                        <input type="search" name="find_machine_name" id="find_machine_name" class="machineBox" value='<c:out value="${searchMachine.find_machine_name}" />' autocomplete="off">
+                        <input type="search" name="find_machine_name" id="find_machine_name" class="machineBox" value='<c:out value="${searchMachineVO.find_machine_name}" />' autocomplete="off">
                     </div>
                     <div class="machineType">
                         <div class="searchMachine">설비유형</div>
-                        <input type="search" name="find_machine_type" id="find_machine_type" class="machineBox" value='<c:out value="${searchMachine.find_machine_type}" />' autocomplete="off">
+                        <input type="search" name="find_machine_type" id="find_machine_type" class="machineBox" value='<c:out value="${searchMachineVO.find_machine_type}" />' autocomplete="off">
                     </div>
-                    <div class="machinePosition">
+                    <div class="machineStatus">
                         <div class="searchMachine">가동현황</div>
-                        <input type="search" name="find_machine_position" id="find_machine_position" class="machineBox" value='<c:out value="${searchMachine.find_machine_position}" />' autocomplete="off">
+                        <input type="search" name="find_machine_status" id="find_machine_status" class="machineBox" value='<c:out value="${searchMachineVO.find_machine_status}" />' autocomplete="off">
                     </div>
                 </div>
                 <div class="searchbtn">
@@ -68,15 +68,16 @@
                     </tr>
                   </thead>
                   <tbody class="tbl-content">
-                    <c:forEach items="${getMachineCheckAll}" var="getMachineCheckAll">
+                    <c:forEach items="${mcWorkList}" var="list">
                         <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                          <td><c:out value="${list.rownum}" /></td>
+                          <td><c:out value="${list.mw_mi_id}" /></td>
+                          <td><c:out value="${list.mi_name}" /></td>
+                          <td><c:out value="${list.mi_type}" /></td>
+                          <td><c:out value="${list.pi_seq}" /> <c:out value="${list.mi_position}" /></td>
+                          <td><c:out value="${list.w_start_time}" /></td>
+                          <td><c:out value="${list.w_end_time}" /></td>
+                          <td><c:out value="${list.mw_status}" /></td>
                         </tr>
                     </c:forEach>
                   </tbody>
@@ -99,7 +100,10 @@
   <!-- /.control-sidebar -->
 
 <script>
-
+    // 검색
+    function searchMachine() {
+       document.getElementById('searchForm').submit();
+    }
 </script>
 
 <%@ include file="../includes/footer.jsp" %>

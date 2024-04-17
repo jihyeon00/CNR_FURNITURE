@@ -1,8 +1,6 @@
 package com.cnr_furniture.mapper;
 
-import com.cnr_furniture.domain.Machine.MachineAddVO;
-import com.cnr_furniture.domain.Machine.MachineVO;
-import com.cnr_furniture.domain.Machine.SearchMachineVO;
+import com.cnr_furniture.domain.Machine.*;
 
 import java.util.List;
 
@@ -22,4 +20,7 @@ public interface MachineInfoMapper {
 
     // 설비 위치 업데이트
     int updateMachinePosition(MachineAddVO machineAddVO);
+
+    // 설비 가동 현황 리스트
+    List<MachineWorkVO> mcWorkList(SearchMachineVO searchMachineVO);
 }

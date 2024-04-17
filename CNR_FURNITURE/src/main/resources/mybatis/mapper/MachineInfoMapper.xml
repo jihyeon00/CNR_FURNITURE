@@ -52,4 +52,50 @@
         where
             mi_id = #{modalUpdateNumber}
     </update>
+
+    <!-- 설비 가동 현황 리스트 -->
+    <select id="mcWorkList" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineWorkVO">
+        SELECT
+            ROWNUM,
+            mw.*
+        FROM (
+            SELECT
+                MW.MW_MI_ID,
+                MI.MI_NAME,
+                MI.MI_TYPE,
+                PI.PI_SEQ,
+                MI.MI_POSITION,
+                WT.W_START_TIME,
+                WT.W_END_TIME,
+                MW.MW_STATUS
+            FROM
+                MACHINE_WORK MW
+            JOIN
+                MACHINE_INFO MI ON MW.MW_MI_ID = MI.MI_ID
+            LEFT JOIN
+                PROCESS_INFO PI ON MW.MW_MI_ID = PI.PI_MACHINE_ID
+            LEFT JOIN (
+                SELECT
+                    W.W_PI_ID,
+                    W.W_START_TIME,
+                    W.W_END_TIME
+                FROM
+                    WORK W
+                JOIN
+                    PROCESS_INFO PI ON W.W_PI_ID = PI.PI_ID
+                ) WT ON PI.PI_ID = WT.W_PI_ID
+            ORDER BY
+                MW.MW_MI_ID
+        ) mw
+        where 1=1
+        <if test="find_machine_name != null and find_machine_name != ''">
+            AND mi_name Like '%' || #{find_machine_name} || '%'
+        </if>
+        <if test="find_machine_type != null and find_machine_type != ''">
+            AND mi_type Like '%' || #{find_machine_type} || '%'
+        </if>
+        <if test="find_machine_status != null and find_machine_status != ''">
+            AND mw_status Like '%' || #{find_machine_status} || '%'
+        </if>
+    </select>
 </mapper>
