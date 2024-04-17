@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnr_furniture.mapper.ScheduleMapper">
+
+
+    <select id="getWorkerList" resultType="com.cnr_furniture.domain.scheduler.ScheduleVO">
+        SELECT ROWNUM rn, E_DP_NAME, E_ID, E_NAME
+        FROM EMPLOYEE
+        WHERE 1=1
+        <foreach item="type" collection="typeArr">
+            <if test="type == 'DPName'.toString()">
+                and  E_DP_NAME like '%' || #{keyword} || '%'
+            </if>
+            <if test="type == 'EId'.toString()">
+                and E_ID like '%' || #{keyword} || '%'
+            </if>
+            <if test="type == 'EName'.toString()">
+                and E_NAME like '%' || #{keyword} || '%'
+            </if>
+        </foreach>
+        ORDER BY E_ID ASC
+    </select>
+</mapper>

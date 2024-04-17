@@ -23,7 +23,11 @@ public class MaterialInfoController {
     @Autowired
     MaterialInfoService mtInfoService;
 
-    //자재 조회
+
+    /**
+     * Desc: 자재 조회 및 검색
+     * @return: /materialInfo
+     */
     @GetMapping("/materialInfo")
     public String materialInfo(MaterialInfoSearch MTInfoSearch, Model model) {
 
@@ -33,8 +37,11 @@ public class MaterialInfoController {
 
         return "standardInfo/materialInfo";
     }
-    
-    //자재 등록
+
+    /**
+     * Desc: 자재 등록
+     * @return: /materialInsert
+     */
     @PostMapping("/materialInsert")
     public String materialInsert(
             @RequestParam("m_name") String m_name,
@@ -46,7 +53,10 @@ public class MaterialInfoController {
         return "redirect:materialInfo";
     }
 
-   // 수정할 제품 값 불러오기
+    /**
+     * Desc: 수정할 제품 값 불러오기
+     * @return: materialUpdate/{m_id}
+     */
     @ResponseBody
     @GetMapping(value = "/materialUpdate/{m_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MaterialInfoVO> get(@PathVariable("m_id") int m_id) {
@@ -54,6 +64,10 @@ public class MaterialInfoController {
     }
 
 
+    /**
+     * Desc: 제품 수정
+     * @return: /materialUpdate
+     */
     @PostMapping("/materialUpdate")
     public String materialUpdate(
             @RequestParam("m_name2") String m_name,
@@ -65,4 +79,6 @@ public class MaterialInfoController {
         rttr.addFlashAttribute("updateSuccessCount", rtn);
         return "redirect:materialInfo";
     }
+
+
 }

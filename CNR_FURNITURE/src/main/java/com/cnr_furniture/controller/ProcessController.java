@@ -220,18 +220,8 @@ public class ProcessController {
 
 
 
-    /** ***********************************작업자 관리 *********************************************** **/
 
 
-    /**
-     *
-     * @param
-     * @return
-     **/
-    @GetMapping("/workerManagement")
-    public String workerManagement() {
-        return "process/workerManagement";
-    }
 
 
 }
