@@ -4,7 +4,7 @@
 <mapper namespace="com.cnr_furniture.mapper.quality.InspectionIBMapper">
     <!-- [자재불량등록] - 검색 및 현황 조회 ====================================================================================================== -->
     <!-- 검색창 - 계약번호 -->
-    <select id="getContractIDList" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO">
+    <select id="getContractIDList" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO">
         SELECT
         CT_ID as contractID
         FROM
@@ -14,7 +14,7 @@
     </select>
 
     <!-- 검색창 - 자재번호 -->
-    <select id="getMatIDList" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO">
+    <select id="getMatIDList" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO">
         SELECT
             M_ID as matID
         FROM
@@ -22,7 +22,7 @@
     </select>
 
     <!-- 검색창 - 불량유형1 -->
-    <select id="getQsDiv1List" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO">
+    <select id="getQsDiv1List" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO">
         SELECT
             qs.QS_DF_DIV1 AS qsDiv1
         FROM
@@ -41,7 +41,7 @@
             qs.QS_ID ASC
     </select>
     <!-- 검색창 - 불량유형1에 따른 불량유형2 -->
-    <select id="getQsDiv2ListByQsDiv1" parameterType="string" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO">
+    <select id="getQsDiv2ListByQsDiv1" parameterType="string" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO">
         <!-- [불량유형2]의 option 값은 [불량유형1]의 option 값에 따라 다르다. -->
         SELECT
             DISTINCT qs.QS_DF_DIV2 AS qsDiv2
@@ -52,7 +52,7 @@
     </select>
 
     <!-- 수입검사현황(자재IB 불량) 조회 및 검색 -->
-    <select id="getInspectionIBList" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO"
+    <select id="getInspectionIBList" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO"
             parameterType="com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO">
         <![CDATA[
         SELECT
@@ -129,7 +129,7 @@
 
     <!-- [자재불량등록] - 모달창 ====================================================================================================== -->
     <!-- 모달창 - 계약번호 -->
-    <select id="getContractIDListForModal" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO">
+    <select id="getContractIDListForModal" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO">
         SELECT
             CT_ID as contractIDModal
         FROM
@@ -139,7 +139,7 @@
             AND CT_REAL_QUANTITY IS NULL
     </select>
     <!-- 모달창 - 불량유형1 -->
-    <select id="getQsDiv1ListForModal" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO">
+    <select id="getQsDiv1ListForModal" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO">
         SELECT
             qs.QS_DF_DIV1 AS qsDiv1Modal
         FROM
@@ -158,7 +158,7 @@
             qs.QS_ID ASC
     </select>
     <!-- 모달창 - 불량유형1에 따른 불량유형2 -->
-    <select id="getQsDiv2ListByQsDiv1ForModal" parameterType="string" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO">
+    <select id="getQsDiv2ListByQsDiv1ForModal" parameterType="string" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO">
         <!-- [불량유형2]의 option 값은 [불량유형1]의 option 값에 따라 다르다. -->
         SELECT
             DISTINCT qs.QS_DF_DIV2 AS qsDiv2Modal
@@ -168,7 +168,7 @@
             QS_DF_DIV1 = #{qsDiv1Modal}
     </select>
     <!-- 모달창 - [계약번호] 입력에 따른 [거래처명], [계약입고수량], [단위], [자재번호], [자재명], [자재용도] 자동 채우기 -->
-    <select id="getContractDetailsByContractIDModal" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO">
+    <select id="getContractDetailsByContractIDModal" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO">
         SELECT
             comp.C_NAME AS companyNameModal,
             ct.CT_QUANTITY AS contractQuantityModal,
@@ -185,7 +185,7 @@
     </select>
 
     <!-- [자재불량등록] - [품질검사 테이블] INSERT -->
-    <insert id="insertQualityInspection" parameterType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO">
+    <insert id="insertQualityInspection" parameterType="com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO">
         <![CDATA[
             INSERT INTO QUALITY_INSPECTION
                 (
@@ -233,7 +233,7 @@
         WHERE CT_ID = #{contractIDModal}
     </update>
     <!-- [자재불량등록] - [재고테이블] UPDATE 또는 INSERT -->
-    <insert id="insertOrUpdateInventory" parameterType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO">
+    <insert id="insertOrUpdateInventory" parameterType="com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO">
         MERGE INTO
             INVENTORY
         USING
@@ -252,7 +252,7 @@
 
     <!-- [자재불량수정] - 모달창 ====================================================================================================== -->
     <!-- [수입검사관리]: 수정 - 모달창 내용 조회 -->
-    <select id="getInspectionDetailsBySeq" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO"
+    <select id="getInspectionDetailsBySeq" resultType="com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO"
             parameterType="long">
         SELECT
             c.CT_ID AS contractID,
@@ -277,7 +277,7 @@
     </select>
 
     <!-- 수입검사 정보 업데이트 -->
-    <update id="updateInspectionRecord" parameterType="com.cnr_furniture.domain.quality.inspectionIB.InspectionUpdateVO">
+    <update id="updateInspectionRecord" parameterType="com.cnr_furniture.domain.quality.inspectionIB.InspUpdateVO">
         UPDATE
             QUALITY_INSPECTION
         SET

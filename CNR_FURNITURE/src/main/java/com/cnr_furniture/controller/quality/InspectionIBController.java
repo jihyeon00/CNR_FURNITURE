@@ -1,9 +1,9 @@
 package com.cnr_furniture.controller.quality;
 
 import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
-import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBInsertVO;
-import com.cnr_furniture.domain.quality.inspectionIB.InspectionIBListVO;
-import com.cnr_furniture.domain.quality.inspectionIB.InspectionUpdateVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspUpdateVO;
 import com.cnr_furniture.service.quality.inspectionIB.InspectionIBService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class InspectionIBController {
      * option1에 따른 option2 조회
      * 선택된 불량유형1이 있을 경우에만 불량유형2의 데이터를 조회
      */
-    private List<InspectionIBListVO> loadQsDiv2List(String qsDiv1) {
+    private List<InspIBListVO> loadQsDiv2List(String qsDiv1) {
         if (qsDiv1 != null && !qsDiv1.isEmpty()) {  // 불량유형1이 선택되면 해당하는 불량유형2의 목록을 반환
             return inspectionIBService.getQsDiv2ListByQsDiv1(qsDiv1);
         } else {
@@ -47,7 +47,7 @@ public class InspectionIBController {
      */
     @GetMapping("/qsDiv2List")
     @ResponseBody
-    public List<InspectionIBListVO> getQsDiv2ListByQsDiv1(
+    public List<InspIBListVO> getQsDiv2ListByQsDiv1(
             @RequestParam("qsDiv1") String qsDiv1
     ) {
         return inspectionIBService.getQsDiv2ListByQsDiv1(qsDiv1);
@@ -68,7 +68,7 @@ public class InspectionIBController {
         loadModalData(cri, model);  // 모달용 데이터 로드
 
         // 수입검사현황 목록 조회
-        List<InspectionIBListVO> inspectionIBList = inspectionIBService.getInspectionIBList(cri);
+        List<InspIBListVO> inspectionIBList = inspectionIBService.getInspectionIBList(cri);
         if (inspectionIBList.isEmpty()) {
             log.warn("검색 결과가 없습니다.");
             /*model.addAttribute("message", "검색된 결과가 없습니다.");*/
@@ -107,7 +107,7 @@ public class InspectionIBController {
      */
     @GetMapping("/qsDiv2ModalList")
     @ResponseBody
-    public List<InspectionIBInsertVO> getQsDiv2ListByQsDiv1ForModal(
+    public List<InspIBInsertVO> getQsDiv2ListByQsDiv1ForModal(
             @RequestParam("qsDiv1Modal") String qsDiv1Modal
     ) {
         return inspectionIBService.getQsDiv2ListByQsDiv1ForModal(qsDiv1Modal);
@@ -118,7 +118,7 @@ public class InspectionIBController {
      */
     @GetMapping("/contractDetailsModal")
     @ResponseBody
-    public InspectionIBInsertVO getContractDetailsByContractIDModal(
+    public InspIBInsertVO getContractDetailsByContractIDModal(
             @RequestParam("contractIDModal") Long contractIDModal
     ) {
         return inspectionIBService.getContractDetailsByContractIDModal(contractIDModal);
@@ -126,7 +126,7 @@ public class InspectionIBController {
 
     /**
      * Desc: 자재불량 등록 시, DB 저장 - [품질검사 테이블], [재고 테이블]
-     * @param items 수입검사 항목 목록, 클라이언트로부터 JSON 형태로 받아 InspectionIBInsertVO 객체 리스트로 변환
+     * @param items 수입검사 항목 목록, 클라이언트로부터 JSON 형태로 받아 InspIBInsertVO 객체 리스트로 변환
      * @return 성공 시 HTTP 200 상태와 성공메시지를 반환, 실패 시 HTTP 500 상태와 함께 실패 메시지를 반환
      * ResponseEntity<?>는 Spring Framework에서 HTTP 요청에 대한 응답을 표현하는 클래스다.
      * 이 클래스를 사용하면 HTTP 상태 코드, 응답 본문, 헤더 등을 포함하는 전체 HTTP 응답을 구성하고 관리할 수 있다. 
@@ -136,7 +136,7 @@ public class InspectionIBController {
     @PostMapping("/registerInspectionItems")
     @ResponseBody
     public ResponseEntity<?> registerInspectionItems(
-            @RequestBody List<InspectionIBInsertVO> items
+            @RequestBody List<InspIBInsertVO> items
     ) {
         log.info(items);
         try {
@@ -155,7 +155,7 @@ public class InspectionIBController {
      */
     @GetMapping("/qsDiv2ListForEdit")
     @ResponseBody
-    public List<InspectionIBListVO> getQsDiv2ListByQsDiv1ForEdit(
+    public List<InspIBListVO> getQsDiv2ListByQsDiv1ForEdit(
             @RequestParam("qsDiv1") String qsDiv1
     ) {
         return inspectionIBService.getQsDiv2ListByQsDiv1(qsDiv1);
@@ -167,9 +167,9 @@ public class InspectionIBController {
      */
     @GetMapping("/inspectionIB/edit")
     @ResponseBody
-    public InspectionIBListVO getInspectionForEdit(@RequestParam("qiID") Long qiID) {
+    public InspIBListVO getInspectionForEdit(@RequestParam("qiID") Long qiID) {
         log.info("수정을 위한 qiID: " + qiID);
-        InspectionIBListVO inspectionDetails = inspectionIBService.getInspectionDetails(qiID);
+        InspIBListVO inspectionDetails = inspectionIBService.getInspectionDetails(qiID);
         if (inspectionDetails == null) {
             log.warn("정보를 찾지 못함. qiID: " + qiID);
         }
@@ -183,7 +183,7 @@ public class InspectionIBController {
      */
     @PostMapping("/inspectionIB/update")
     public ResponseEntity<?> updateInspectionDetails(
-            @RequestBody InspectionUpdateVO updateVO
+            @RequestBody InspUpdateVO updateVO
     ) {
         try {
             log.info("수정될 내용: " + updateVO);

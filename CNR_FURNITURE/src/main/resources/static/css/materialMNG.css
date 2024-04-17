@@ -1,5 +1,99 @@
 @charset "UTF-8";
 
+/* 상단 검색 section */
+/*   검색창   */
+.materialMNG-searchBar {
+	display: flex;
+	align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+/*   검색명   */
+.materialMNG-name {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+  height: 46px;
+  background-color: #D9D9D9;
+}
+/*   검색내용   */
+.materialMNG-text {
+  display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.materialMNG-text input,
+.materialMNG-text select {
+  height: 40px;
+}
+
+/* 테이블명 */
+.materialMNG-titleAndTable {
+	margin-left: 0;
+  padding-right: 0;
+}
+/* 테이블명 */
+.materialMNG-title {
+  margin: 0.5% 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+/* 테이블 */
+.materialMNG-table {
+	max-height: 70vh;	/* 뷰포트 높이의 70%로 최대 높이 설정 */
+  overflow-y: auto;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.materialMNG-table table {
+	width: 100%;
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+/* 테이블 글씨 위치 및 크기 */
+.materialMNG-table-header,
+.materialMNG-table-header th,
+.materialMNG-table-content td {
+	white-space: nowrap;	/* 셀 내용을 한 줄에 표시 */
+	text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+  font-size: 12px;
+  border-right: 1px solid #fff;
+}
+/* 테이블 헤더 특정 스타일 */
+.materialMNG-table-header {
+	background-color: #374056;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  /* y축 스크롤 시, 헤더 고정 */
+  position: sticky;
+  top: 0;
+}
+
+/* 테이블 컨텐츠 특정 스타일 */
+.materialMNG-table-content tr:hover,
+.materialMNG-table-content tr:nth-child(even):hover {
+	background: #d9d9d9;
+}
+.materialMNG-table-content tr:nth-child(even) {
+	background: #eaeaed;
+}
+.materialMNG-table-content td {
+	border-right: 1px solid #BDBDBD;
+}
+
+/* ============================================================ */
+
 /*   검색창   */
 .material-searchBar {
 	display: flex;

@@ -2,6 +2,7 @@ package com.cnr_furniture.domain.quality.inspectionIB;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  * inspectionIB 에서 테이블 조회하는 VO (with. 검색 기능 포함)
  *  */
 @Data
-public class InspectionIBListVO {
+public class InspIBListVO {
     /* 테이블 조회내용 */
     private Long listSeq;               // 테이블 행번호
     private Long qiID;                  // 품질검사 번호(from Qualisty_Inspection 테이블)
@@ -26,7 +27,9 @@ public class InspectionIBListVO {
 
     private Long inspectionQuantity;    // 검사수량(실제 입고되어 검사한 수량, from Quality_Inspection 테이블)
     private Long poorQuantity;          // 불량수량(from Quality_Inspection 테이블)
-    private Long defectRate;            // 불량률(from Quality_Inspection 테이블에서 가져온 값을 계산)
+    // Long: 정수형이므로, 불량률(소숫점) 표현에 적합하지 않음.
+    // BigDecimal: 금융이나 정밀 계산이 필요한 애플리케이션에서 BigDecimal을 사용하면 더욱 정확한 계산이 가능
+    private BigDecimal defectRate;            // 불량률(from Quality_Inspection 테이블에서 가져온 값을 계산)
                                         // 불량률 = (불량품 수 / 전체 수량) * 100
     private Long goodQuantity;          // 양품수량(from Quality_Inspection 테이블)
     private Date inspectionDate;        // 검사일자(입고일자), (from Quality_Inspection 테이블)
