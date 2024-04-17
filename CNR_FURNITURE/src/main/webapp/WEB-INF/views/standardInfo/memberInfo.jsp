@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<script defer src="/resources/js/memberSearch.js"></script>
 
 <%@ include file="../includes/header.jsp" %>
 
@@ -28,8 +29,14 @@
             <div class="searchBer">
               <div class="col-md-1 sb-name">부서</div>
               <div class="col-md-2 sb-text">
-                <input type="text" class="col-sm-12" id="find_DP_name" name="find_DP_name"
-                  value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+                <input list="companyList" class="col-sm-12 input-companyList" name="find_DP_name" id="find_DP_name"
+                  value='<c:out value="${search.find_DP_name}" />' autocomplete="off" >
+                <datalist id="companyList">
+                  <c:forEach var="list" items = "${dpNameList}">
+                    <option value='${list.dp_name}'label='${list.dp_name}'>
+                    </option>
+                  </c:forEach>
+                </datalist>
               </div>
               <div class="col-md-1 sb-name">사원명</div>
               <div class="col-md-2 sb-text">
@@ -38,7 +45,7 @@
               </div>
               <div class="col-md-6 ">
                 <div class="sb-btns">
-                  <button type="submit" class="btn btn-reset" id="" onClick="location.href='/memberInfo'">
+                  <button type="button" class="btn btn-reset" id="" onClick="location.href='/memberInfo'">
                     <img class="resetPng" alt="reset" id="btn-reset" src="/resources/img/reset.png">
                   </button>
                   <button type="submit" class="btn btn-primary" id=""
@@ -187,13 +194,5 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-
-
-<script>
-  // 검색창
-	function search() {
-		document.getElementById('searchForm').submit();
-	}
-</script>
 
 <%@ include file="../includes/footer.jsp" %>

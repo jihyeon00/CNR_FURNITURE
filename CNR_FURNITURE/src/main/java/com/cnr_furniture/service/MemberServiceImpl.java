@@ -2,6 +2,7 @@ package com.cnr_furniture.service;
 
 import com.cnr_furniture.domain.member.MemberVO;
 import com.cnr_furniture.domain.member.MemberSearch;
+import com.cnr_furniture.domain.member.PassWordVO;
 import com.cnr_furniture.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,5 +62,23 @@ public class MemberServiceImpl implements MemberService{
   public List<MemberVO> dpNameList() {
     List<MemberVO> dpNameList = memberMapper.dpNameList();
     return dpNameList;
+  }
+
+  /** 비밀번호 변경 **/
+  @Override
+  public int passwordUpdate(PassWordVO passWord) {
+    return memberMapper.passwordUpdate(passWord);
+  }
+
+  /** 사원 등록 **/
+  @Override
+  public int addStaff(MemberVO memberVO) {
+    return memberMapper.addStaff(memberVO);
+  }
+
+  /** 권한 변경 **/
+  @Override
+  public int modifyRole(MemberVO memberVO) {
+    return memberMapper.modifyRole(memberVO);
   }
 }

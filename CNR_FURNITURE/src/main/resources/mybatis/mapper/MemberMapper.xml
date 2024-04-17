@@ -26,7 +26,7 @@
     WHERE   E_EMAIL = #{email}
   </select>
 
-  <!-- 직원목록 조회 -->
+  <!-- 사용자별 권한관리 - 직원목록 조회 -->
   <select id="employeeList" resultType="com.cnr_furniture.domain.member.MemberVO" resultMap="mapping_memberVO">
     SELECT  E_ID,
             E_NAME,
@@ -36,18 +36,21 @@
             E_DP_NAME,
             E_ROLE
     FROM    EMPLOYEE
-    WHERE   1 = 1
-    <!--  권한 검색  -->
+    <!-- 권한 선택이 되어 있지 않은 경우 -->
+    <if test="find_Role == null or find_Role == ''">
+      WHERE 1=2
+    </if>
+    <!--  권한 검색을 했을경우  -->
     <if test="find_Role != null and find_Role != ''">
-      AND E_ROLE = #{find_Role}
-    </if>
-    <!--  부서명 검색  -->
-    <if test="find_DP_name != null and find_DP_name != ''">
-      AND E_DP_NAME Like '%' || #{find_DP_name} || '%'
-    </if>
-    <!--  사원명 검색  -->
-    <if test="find_emp_name != null and find_emp_name != ''">
-      AND E_NAME Like '%' || #{find_emp_name} || '%'
+      WHERE E_ROLE = #{find_Role}
+      <!--  부서명 검색  -->
+      <if test="find_DP_name != null and find_DP_name != ''">
+        AND E_DP_NAME Like '%' || #{find_DP_name} || '%'
+      </if>
+      <!--  사원명 검색  -->
+      <if test="find_emp_name != null and find_emp_name != ''">
+        AND E_NAME Like '%' || #{find_emp_name} || '%'
+      </if>
     </if>
     ORDER BY E_ID
   </select>
@@ -130,4 +133,32 @@
     GROUP BY E_DP_NAME
     ORDER BY E_DP_NAME
   </select>
+
+  <!-- 비밀번호 변경 -->
+  <update id="passwordUpdate">
+    UPDATE EMPLOYEE
+    SET    E_PWD = #{password}
+    WHERE  E_EMAIL = #{email}
+  </update>
+
+  <!-- 사원등록 -->
+  <insert id="addStaff">
+    INSERT INTO EMPLOYEE(E_NAME, E_EMAIL, E_PH, E_DP_NAME)
+    VALUES (#{name}, #{email}, #{ph}, #{dp_name})
+  </insert>
+
+  <!-- 권한 변경 -->
+  <update id="modifyRole">
+    UPDATE EMPLOYEE
+    <if test="role == 'Role_Staff'">
+      SET    E_ROLE = 'Role_Manager'
+    </if>
+    <if test="role == 'Role_Manager'">
+      SET    E_ROLE = 'Role_Director'
+    </if>
+    <if test="role == 'Role_Director'">
+      SET    E_ROLE = 'Role_Director'
+    </if>
+    WHERE  E_ID = #{id}
+  </update>
 </mapper>

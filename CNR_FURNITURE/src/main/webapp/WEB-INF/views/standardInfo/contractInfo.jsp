@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<script defer src="/resources/js/memberSearch.js"></script>
 
 <%@ include file="../includes/header.jsp" %>
 
@@ -17,7 +18,7 @@
           <div class="col-md-6 ml-auto">
             <ol class="breadcrumb float-sm-right">
               <div class="sb-btns">
-                <button type="submit" class="btn btn-reset" id="" onClick="location.href='/contractInfo'">
+                <button type="button" class="btn btn-reset" id="" onClick="location.href='/contractInfo'">
                   <img class="resetPng" alt="reset" id="btn-reset" src="/resources/img/reset.png" >
                 </button>
                 <button type="submit" class="btn btn-primary" id=""
@@ -27,63 +28,74 @@
             </ol>
           </div><!-- /.col -->
         </div>
-        <div class="row mb-2" style="margin-top: -40px;">
+        <div class="row mb-2" style="margin-top: -20px;">
           <!-- 검색창 -->
-          <form action="" id="searchForm" class="col-md-12" onSubmit="return false">
+          <form action="" id="searchForm" class="col-md-12" method='get' onSubmit="return false">
             <!-- 검색행1 -->
             <div class="searchBar">
-              <!-- 제조LOT번호 -->
-              <div class="col-sm-2 sb-name" style="">제조LOT번호</div>
+              <!-- 거래처명 -->
+              <div class="col-sm-1 sb-name" style="">거래처명</div>
+              <div class="col-sm-3 sb-text">
+                <input list="companyList" class="col-sm-12 input-companyList" name="find_name" id="find_name"
+                  value='<c:out value="${search.find_name}" />'>
+                <datalist id="companyList">
+                  <c:forEach var="list" items = "${CompanyNameList}">
+                    <option value='${list.c_NAME}'label='${list.c_NAME}'>
+                    </option>
+                  </c:forEach>
+                </datalist>
+              </div><!-- /.거래처명 -->
+              <!-- 자재명/번호 -->
+              <div class="col-sm-2 sb-name">자재명/번호</div>
               <div class="col-sm-2 sb-text">
-                <input list="workCompanyNameList" class="col-sm-12"  id="" name="">
-              </div><!-- /.제조LOT번호 -->
-              <!-- 제품번호 -->
-              <div class="col-sm-1 sb-name">제품번호</div>
-              <div class="col-sm-2 sb-text">
-                <input list="workCompanyNameList" class="col-sm-12"  id="" name="">
-              </div><!-- /.제품번호 -->
-              <!-- 제품명 -->
-              <div class="col-sm-1 sb-name">제품명</div>
-              <div class="col-sm-2 sb-text">
-                <input list="workCompanyNameList" class="col-sm-12"  id="" name="">
-              </div><!-- /.제품명 -->
+                <input list="materialList" class="col-sm-12 input-companyList" name="find_material" id="find_material"
+                  value='<c:out value="${search.find_material}" />'>
+                <datalist id="materialList">
+                  <c:forEach var="materialList" items = "${materialList}">
+                    <option value='${materialList.m_id}'label='${materialList.m_name}'>
+                    </option>
+                  </c:forEach>
+                </datalist>
+              </div><!-- /.자재명/번호 -->
+              <!-- 입고일 -->
+              <div class="col-sm-1 sb-name">입고일</div>
+              <div class="col-sm-3 sb-text">
+                <input type="date" class="col-sm-6" value='<c:out value="${search.find_ib_start_Date}" />'
+                    id="find_ib_start_Date" name="find_ib_start_Date">~
+                <input type="date" class="col-sm-6" value='<c:out value="${search.find_ib_end_Date}" />'
+                    id="find_ib_end_Date" name="find_ib_end_Date">
+              </div><!-- /.입고일 -->
             </div><!-- /.검색행1 -->
             <!-- 검색행2 -->
             <div class="searchBar" style="margin-top: -12px;">
-              <!-- 불량유형 -->
-              <div class="col-sm-1 sb-name" style="">불량유형</div>
+              <!-- 계약날짜 -->
+              <div class="col-sm-1 sb-name" style="">계약날짜</div>
               <div class="col-sm-3 sb-text">
-                <!-- 불량유형1 -->
-                <select class="col-sm-6"  id="find_Role" name="find_Role">
-                  <option value="">불량유형1 선택</option>
-                  <c:forEach var="list" items = "${roleList}">
-                    <option value='${list.e_ROLE}'
-                      <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
+                <input type="date" class="col-sm-6" value='<c:out value="${search.find_contract_start_date}" />'
+                    id="find_contract_start_date" name="find_contract_start_date">
+                <input type="date" class="col-sm-6" value='<c:out value="${search.find_contract_end_date}" />'
+                    id="find_contract_end_date" name="find_contract_end_date">
+              </div><!-- /.계약날짜 -->
+              <!-- 제품명/번호 -->
+              <div class="col-sm-2 sb-name">제품명/번호</div>
+              <div class="col-sm-2 sb-text">
+                <input list="itemList" class="col-sm-12 input-companyList" name="find_item" id="find_item"
+                  value='<c:out value="${search.find_item}" />'>
+                <datalist id="itemList">
+                  <c:forEach var="itemList" items = "${itemList}">
+                    <option value='${itemList.itemId}'label='${itemList.itemName}'>
                     </option>
                   </c:forEach>
-                </select><!-- /.불량유형1 -->
-                &nbsp;
-                <!-- 불량유형2 -->
-                <select class="col-sm-6"  id="find_Role" name="find_Role">
-                  <option value="">불량유형2 선택</option>
-                  <c:forEach var="list" items = "${roleList}">
-                    <option value='${list.e_ROLE}'
-                      <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
-                    </option>
-                  </c:forEach>
-                </select><!-- /.불량유형2 -->
-              </div><!-- /.불량유형 -->
-              <!-- 작업번호 -->
-              <div class="col-sm-1 sb-name">작업번호</div>
-              <div class="col-sm-2 sb-text">
-                <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-              </div><!-- /.작업번호 -->
-              <!-- 공정번호 -->
-              <div class="col-sm-1 sb-name">공정번호</div>
-              <div class="col-sm-2 sb-text">
-                <input type="text" class="col-sm-12" id="find_emp_name" name="find_emp_name"
-                  value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
-              </div><!-- /.공정번호 -->
+                </datalist>
+              </div><!-- /.제품명/번호 -->
+              <!-- 출고일 -->
+              <div class="col-sm-1 sb-name">출고일</div>
+              <div class="col-sm-3 sb-text">
+                <input type="date" class="col-sm-6" value='<c:out value="${search.find_ob_start_Date}" />'
+                    id="find_ob_start_Date" name="find_ob_start_Date"> ~
+                <input type="date" class="col-sm-6" value='<c:out value="${search.find_ob_end_Date}" />'
+                    id="find_ob_end_Date" name="find_ob_end_Date">
+              </div><!-- /.출고일 -->
             </div><!-- /.검색행2 -->
           </form>
         </div>
@@ -97,9 +109,9 @@
         <div class="row">
           <div class="col-md-12">
             <!-- 직원목록 테이블 -->
-            <div class="ETableTitle">
+            <div class="ETableTitle" style="margin-top: -15px;">
               <div class="icon"><i class="fa fa-list"></i></div>
-              <div class="employee">직원목록</div>
+              <div class="employee">계약목록</div>
             </div>
             <div class="table member-ETable">
               <table cellpadding="0" cellspacing="0" border="0">
@@ -132,19 +144,19 @@
                   </tr>
                 </thead>
                 <tbody class="tbl-content member-ETable">
-                  <c:forEach var="Employee" items="${EmployeeList}">
+                  <c:forEach var="Contract" items="${ContractList}">
                     <tr>
-                      <td>${Employee.e_ID}</td>
-                      <td>${Employee.e_NAME}</td>
-                      <td>${Employee.e_ROLE}</td>
-                      <td>${Employee.e_DP_NAME}</td>
-                      <td>${Employee.e_PH}</td>
-                      <td>${Employee.e_EMAIL}</td>
-                      <td>${Employee.e_EMAIL}</td>
-                      <td>${Employee.e_EMAIL}</td>
-                      <td>${Employee.e_EMAIL}</td>
-                      <td>${Employee.e_EMAIL}</td>
-                      <td>${Employee.e_EMAIL}</td>
+                      <td>${Contract.id}</td>
+                      <td>${Contract.c_div}</td>
+                      <td>${Contract.company_name}</td>
+                      <td>${Contract.material_name}</td>
+                      <td>${Contract.item_name}</td>
+                      <td>${Contract.money}</td>
+                      <td>${Contract.quantity}</td>
+                      <td>${Contract.unit}</td>
+                      <td>${Contract.c_date}</td>
+                      <td>${Contract.ib_date}</td>
+                      <td>${Contract.ob_date}</td>
                     </tr>
                   </c:forEach>
                 </tbody>
@@ -167,12 +179,5 @@
   </aside>
   <!-- /.control-sidebar -->
 
-  <script>
-    // 검색창
-  	function search() {
-      // 검색 로직 실행
-  		document.getElementById('searchForm').submit();
-  	}
-  </script>
 
 <%@ include file="../includes/footer.jsp" %>

@@ -8,4 +8,6 @@ import java.util.List;
 public interface CompanyMapper {
   /** 거래처 정보 조회 **/
   List<CompanyVO> getCompanyList(MemberSearch search);
+  /** 거래처명 리스트 **/
+  List<CompanyVO> CompanyNameList();
 }
