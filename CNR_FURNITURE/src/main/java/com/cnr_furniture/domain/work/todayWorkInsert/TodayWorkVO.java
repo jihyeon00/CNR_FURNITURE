@@ -1,14 +1,16 @@
-package com.cnr_furniture.domain.work.workMNG;
+package com.cnr_furniture.domain.work.todayWorkInsert;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * work.jsp 의 작업목록, 생산실적 VO
+ * todayWorkInsert.jsp 의 당일작업목록 VO
  */
+
 @Getter
 @Setter
-public class WorkVO {
-    // 작업목록
+public class TodayWorkVO {
+    // 당일작업목록
     private int rn;
     private int w_id;
     private int w_lot_id;
@@ -26,10 +28,4 @@ public class WorkVO {
     private String w_time;
     private int w_plan_quantity;
     private int w_item_quantity;
-
-    // 작업목록 + 생산실적 (작업자 사원번호,불량수량 추가)
-    private String allemplist;
-    private String substrallemp;
-    private int qi_dft_quantity;
-
 }

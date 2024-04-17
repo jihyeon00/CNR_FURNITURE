@@ -419,5 +419,105 @@
             </if>
         </trim>
     </select>
+    <!-- todayWorkInsert 의 공정조회 -->
+    <select id="selectWorkProcessMachine"
+            resultType="com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO">
+        SELECT
+            ROWNUM AS rn,
+            pimi.pi_id,
+            pimi.pi_name,
+            pimi.pi_machine_id,
+            pimi.mi_name,
+            pimi.position,
+            pimi.mw_status,
+            pimi.mw_condition
+        FROM
+            (SELECT
+                pi.pi_id,
+                pi.pi_name,
+                pi.pi_machine_id,
+                mi.mi_name,
+                pi.PI_SEQ || '-' || mi.MI_POSITION AS POSITION,
+                mw.MW_STATUS,
+                mw.MW_CONDITION
+            FROM
+                process_info pi
+                JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
+                JOIN MACHINE_WORK mw ON mw.MW_MI_ID = mi.mi_id
+            ORDER BY pi.pi_id, pi.pi_machine_id) pimi
+        <trim prefix="where " prefixOverrides="and">
+            <if test="find_work_processInfo != null">
+                <if test="find_work_processInfo != ''">
+                    AND pi_id = #{find_work_processInfo}
+                </if>
+                <if test="find_work_processInfo == '' ">
+                    AND 1=0
+                </if>
+            </if>
+        </trim>
+    </select>
+    <!-- todayWorkInsert 의 당일작업목록-->
+    <select id="selectTodayWork" resultType="com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO">
+        SELECT
+            ROWNUM AS rn,
+            WORK.W_ID ,
+            WORK.W_LOT_ID ,
+            WORK.W_DATE,
+            WORK.E_DP_NAME,
+            WORK.W_PI_ID,
+            WORK.PI_NAME,
+            WORK.MI_NAME,
+            WORK.POSITION,
+            WORK.INS_ITEM_ID,
+            WORK.I_NAME,
+            WORK.W_STATUS,
+            WORK.I_STANDARD,
+            WORK.CT_UNIT,
+            WORK.W_TIME,
+            WORK.W_PLAN_QUANTITY,
+            WORK.W_ITEM_QUANTITY
+        FROM
+            (SELECT
+                DISTINCT w.W_ID AS W_ID,
+                w.W_LOT_ID AS W_LOT_ID,
+                TO_CHAR(w.W_START_TIME, 'YYYY-MM-DD') AS W_DATE,
+                e.E_DP_NAME,
+                w.W_PI_ID,
+                pi.PI_NAME,
+                mi.MI_NAME,
+                pi.PI_SEQ || '-' || mi.MI_POSITION AS POSITION,
+                ins.INS_ITEM_ID,
+                it.I_NAME,
+                w.W_STATUS,
+                it.I_STANDARD,
+                UPPER(ct.CT_UNIT) AS CT_UNIT,
+                w.W_TIME,
+                w.W_PLAN_QUANTITY,
+                w.W_ITEM_QUANTITY
+            FROM
+                WORK w
+                JOIN WORKER wr ON w.W_ID = wr.WR_WORK_ID
+                JOIN PROCESS pr ON w.W_LOT_ID = pr.P_LOT_ID
+                JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
+                JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
+                JOIN INSTRUCTION ins ON w.W_LOT_ID = ins.INS_LOT_ID
+                JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+                JOIN ITEM it ON pr.P_B_ITEM_ID = it.I_ID
+                JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
+            ORDER BY W_DATE) WORK
+        WHERE
+            WORK.W_DATE = to_char( sysdate, 'YYYY-MM-DD')
+            <if test="find_work_instruction != null or find_work_processInfo != null">
+                <if test="find_work_instruction != ''">
+                    AND W_LOT_ID = #{find_work_instruction}
+                </if>
+                <if test="find_work_processInfo != ''">
+                    AND W_PI_ID = #{find_work_processInfo}
+                </if>
+                <if test="find_work_instruction == '' and find_work_processInfo == '' ">
+                    AND 1=0
+                </if>
+            </if>
+    </select>
 
 </mapper>

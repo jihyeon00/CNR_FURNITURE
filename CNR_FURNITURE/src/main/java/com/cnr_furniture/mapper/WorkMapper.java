@@ -1,6 +1,8 @@
 package com.cnr_furniture.mapper;
 
 import com.cnr_furniture.domain.work.search.*;
+import com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO;
+import com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO;
 import com.cnr_furniture.domain.work.workMNG.WorkProcessInfoVO;
 import com.cnr_furniture.domain.work.workMNG.WorkSelectInsertMaterialVO;
 import com.cnr_furniture.domain.work.workMNG.WorkVO;
@@ -62,4 +64,16 @@ public interface WorkMapper {
      * work 의 작업자
      */
     List<WorkerVO> selectWorker(WorkSearchVO workSearchVO);
+
+    /**
+     * 공정별 설비상태 조회
+     * todayWorkInsert 의 공정별 설비상태
+     */
+    List<WorkProcessMachineVO> selectWorkProcessMachine(WorkSearchVO workSearchVO);
+
+    /**
+     * 당일작업목록 조회
+     * todayWorkInsert 의 공정별 설비상태
+     */
+    List<TodayWorkVO> selectTodayWork(WorkSearchVO workSearchVO);
 }

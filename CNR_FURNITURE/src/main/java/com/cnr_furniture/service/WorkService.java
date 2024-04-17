@@ -1,6 +1,8 @@
 package com.cnr_furniture.service;
 
 import com.cnr_furniture.domain.work.search.*;
+import com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO;
+import com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO;
 import com.cnr_furniture.domain.work.workMNG.WorkProcessInfoVO;
 import com.cnr_furniture.domain.work.workMNG.WorkSelectInsertMaterialVO;
 import com.cnr_furniture.domain.work.workMNG.WorkVO;
@@ -35,5 +37,11 @@ public interface WorkService {
 
     /** work의 자재투입내역 조회 */
     List<WorkerVO> selectWorker(WorkSearchVO workSearchVO);
+
+    /** todayWorkInsert 의 공정조회 */
+    List<WorkProcessMachineVO> selectWorkProcessMachine(WorkSearchVO workSearchVO);
+
+    /** todayWorkInsert의 당일작업목록 조회 */
+    List<TodayWorkVO> selectTodayWork(WorkSearchVO workSearchVO);
 
 }

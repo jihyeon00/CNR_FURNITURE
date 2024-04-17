@@ -1,6 +1,8 @@
 package com.cnr_furniture.controller;
 
 import com.cnr_furniture.domain.work.search.*;
+import com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO;
+import com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO;
 import com.cnr_furniture.domain.work.workMNG.WorkProcessInfoVO;
 import com.cnr_furniture.domain.work.workMNG.WorkSelectInsertMaterialVO;
 import com.cnr_furniture.domain.work.workMNG.WorkVO;
@@ -76,9 +78,17 @@ public class WorkController {
         // 검색을 위한 공정정보 리스트
         List<WorkSelectProcessInfoVO> processInfoList = workService.findProcessInfoList();
 
+        // 공정병 설비상태 조회
+        List<WorkProcessMachineVO> processMachineList = workService.selectWorkProcessMachine(workSearchVO);
+        // 당일작업목록 조회
+        List<TodayWorkVO> todayWorkList = workService.selectTodayWork(workSearchVO);
+
         // view에서 사용할 모델명 지정
         model.addAttribute("instructionList", instructionList);
         model.addAttribute("processInfoList", processInfoList);
+
+        model.addAttribute("processMachineList", processMachineList);
+        model.addAttribute("todayWorkList", todayWorkList);
 
         return "work/todayWorkInsert";
     }
