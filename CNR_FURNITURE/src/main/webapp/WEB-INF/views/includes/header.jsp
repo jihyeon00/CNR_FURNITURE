@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
@@ -36,11 +38,15 @@
   <link rel="stylesheet" href="/resources/css/production.css">
   <link rel="stylesheet" href="/resources/css/work.css">
 	<link rel="stylesheet" href="/resources/css/quality/quality.css">
-	<link rel="stylesheet" href="/resources/css/quality/defectiveItem.css">
-	<link rel="stylesheet" href="/resources/css/quality/defectiveProcess.css">
-	<!-- stickyOnTable.css 연결 -->
+  <link rel="stylesheet" href="/resources/css/quality/defectiveItem.css">
+  <link rel="stylesheet" href="/resources/css/quality/defectiveProcess.css">
+  <!-- stickyOnTable.css 연결 -->
   <link rel="stylesheet" href="/resources/css/quality/stickyOnTable.css">
-  
+
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal.memberVO.name" var="name" />
+</sec:authorize>
+
   <!-- jQuery -->
   <script defer src="/resources/js/jquery-3.7.1.min.js"></script>
 </head>
@@ -65,8 +71,8 @@
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600">
-                    <%-- <c:out value="${id}"/> --%>
-                    <%-- <sec:authentication property="principal.memberVO.korName" /> --%>ㅁㅁㅁ(100001)
+                  <%-- <sec:authentication property="principal.memberVO.dp_name" />
+                  <c:out value="${name}"/> --%>님
                 </span>
             </a>
             <!-- Dropdown - User Information -->
@@ -87,7 +93,7 @@
     </ul>
   </nav>
   <!-- /.navbar -->
- <!-- Main Sidebar Container -->
+  <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="main" class="brand-link">
@@ -215,7 +221,7 @@
               </li>
               <li class="nav-item sideBarSub">
                 <a href="workerManagement" class="nav-link">
-                  <p>작업자 스케줄 조회</p>
+                  <p>작업자 스케줄 관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
@@ -225,12 +231,7 @@
               </li>
               <li class="nav-item sideBarSub">
                 <a href="todayWorkInsert" class="nav-link">
-                  <p>당일작업등록</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="workerInsert" class="nav-link">
-                  <p>작업자등록</p>
+                  <p>당일작업조회</p>
                 </a>
               </li>
             </ul>
