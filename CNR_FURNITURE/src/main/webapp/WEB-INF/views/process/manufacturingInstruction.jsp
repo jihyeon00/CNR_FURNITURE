@@ -23,8 +23,8 @@
                 <div class="col-md-6">
                     <h1 class="m-0"><i class="far fa-clipboard"></i> 제조지시</h1>
                 </div><!-- /.col -->
-                <div class="col-md-6 ml-auto">
                     <form action="/manufacturingInstruction" method="get">
+                     <div class="col-md-6 ml-auto">
                         <div class="pro-btn">
                             <button type="submit" class="btn btn-primary asb">조회</button>
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>

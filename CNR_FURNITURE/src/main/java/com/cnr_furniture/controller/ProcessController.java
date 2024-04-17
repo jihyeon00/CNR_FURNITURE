@@ -197,13 +197,18 @@ public class ProcessController {
  */
 
     @GetMapping("/processInfo")
-    public String processInfo(Model model) {
+    public String processInfo(ProcessDate processDate, Model model) {
         List<ManagementVO> managementVOList = processService.selectM();
+        List<ProcessInfoVO> findPromotion = processService.selectByList(processDate);
+        List<ProcessInfoVO> processInfoVOList = processService.selectByListSearch();
         model.addAttribute("managementVOList", managementVOList);
+        model.addAttribute("findPromotion", findPromotion);
+        model.addAttribute("processList",processInfoVOList);
+        model.addAttribute("processDate",processDate);
         return "process/processInfo";
     }
 
-    /** 공정정보등록창: 설비 목록 조회 - Ajax로 보내기 **/
+    /** 공정정보등록창: 설비 목록 조회 - Ajax로 보내기 null 인 설비 찾아서 **/
     @GetMapping("/searchManagementVO")
     @ResponseBody
     public List<ManagementVO> searchManagementVO(@RequestParam(value = "miId", required = false) Integer miId) {
@@ -217,6 +222,24 @@ public class ProcessController {
     public List<ManagementVO> processInfoAjax() {
         return processService.selectM();
     }
+
+    @PostMapping("/processInfoInsert")
+    public String processInfoInsert (
+            ProcessInfoVO processInfoVO,
+            RedirectAttributes rttr
+    ){
+
+        int rtn = processService.insertAddProcess(
+                processInfoVO.getPi_id()
+                , processInfoVO.getPi_machine_id()
+                , processInfoVO.getPi_name()
+                , processInfoVO.getPi_seq()
+
+        );
+        rttr.addFlashAttribute("insertSuccessCount", rtn);
+        return "redirect:processInfo";
+    }
+
 
 
 
