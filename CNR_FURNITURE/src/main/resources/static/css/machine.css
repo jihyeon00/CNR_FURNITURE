@@ -28,7 +28,7 @@
 
 }
 
-.machineName, .machineType, .machinePosition, .machineCheckWriter, .machineCheckDate{
+.machineName, .machineType, .machinePosition, .machineCheckWriter, .machineCheckDate, .machineStatus{
     display: flex;
 }
 

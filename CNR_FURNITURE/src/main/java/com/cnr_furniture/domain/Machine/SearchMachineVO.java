@@ -13,6 +13,8 @@ public class SearchMachineVO {
     private String find_machine_type;
     private String find_machine_position;
     private String find_machine_id;
+    private String find_machine_status;
+
 
     public String[] getTypeArr(){
         return type == null ? new String[] {} : type.split("");

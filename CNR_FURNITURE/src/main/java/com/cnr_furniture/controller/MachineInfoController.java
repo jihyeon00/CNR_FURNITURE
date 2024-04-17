@@ -2,6 +2,7 @@ package com.cnr_furniture.controller;
 
 import com.cnr_furniture.domain.Machine.MachineAddVO;
 import com.cnr_furniture.domain.Machine.MachineVO;
+import com.cnr_furniture.domain.Machine.MachineWorkVO;
 import com.cnr_furniture.domain.Machine.SearchMachineVO;
 import com.cnr_furniture.service.machine.MachineInfoService;
 import lombok.AllArgsConstructor;
@@ -79,7 +80,14 @@ public class MachineInfoController {
 
     // 설비 가동 현황
     @GetMapping("/machineOperationStatus")
-    public String machineOperationStatus(){
+    public String machineOperationStatus(SearchMachineVO searchMachineVO, Model model){
+
+        model.addAttribute("searchMachine", searchMachineVO);
+
+        List<MachineWorkVO> mcWorkList = machineInfoService.mcWorkList(searchMachineVO);
+
+        model.addAttribute("mcWorkList", mcWorkList);
+
         return "machine/machineOperationStatus";
     }
 
