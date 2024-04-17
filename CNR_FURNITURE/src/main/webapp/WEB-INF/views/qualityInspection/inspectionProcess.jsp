@@ -2,6 +2,8 @@
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<!-- 포맷팅 -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!-- jQuery 연결 -->
 <script defer src="/resources/js/quality/inspectionProcess.js"></script>
@@ -177,22 +179,23 @@
                 </thead>
                 <tbody class="inspection-table-content">
                 	<!-- 조회 목록 -->
-                	<c:forEach var="insp" items="${inspOBList}">
+                	<c:forEach var="insp" items="${inspProcessList}">
                 		<tr>
-                			<td class="id"><c:out value="${insp.listSeq}" /></td>
-                			<td><c:out value="${insp.workID}" /></td>
-                			<td><c:out value="${insp.lotID}" /></td>
-                			<td><c:out value="${insp.machineID}" /></td>
-                			<td><c:out value="${insp.processID}" /></td>
+                			<td><fmt:formatNumber value="${insp.listSeq}" pattern="#,##0" /></td>
+                			<td><fmt:formatNumber value="${insp.workID}" pattern="#,##0" /></td>
+                			<td><fmt:formatNumber value="${insp.lotID}" pattern="#,##0" /></td>
+                			<td><fmt:formatNumber value="${insp.machineID}" pattern="#,##0" /></td>
+                			<td><fmt:formatNumber value="${insp.processID}" pattern="#,##0" /></td>
                 			<td><c:out value="${insp.processName}" /></td>
                 			<td><c:out value="${insp.unit}" /></td>
-                			<td><c:out value="${insp.dailyWorkQuantity}" /></td>
-                			<td><c:out value="${insp.inspectionQuantity}" /></td>
-                			<td><c:out value="${insp.defectQuantity}" /></td>
-                			<td><c:out value="${insp.defectRate}" /></td>
-                			<td><c:out value="${insp.goodQuantity}" /></td>
+                			<td><fmt:formatNumber value="${insp.dailyWorkQuantity}" pattern="#,##0" /></td>
+                			<td><fmt:formatNumber value="${insp.inspectionQuantity}" pattern="#,##0" /></td>
+                			<td><fmt:formatNumber value="${insp.defectQuantity}" pattern="#,##0" /></td>
+                			<td><fmt:formatNumber value="${insp.defectRate}" pattern="#,###0.000"/></td>
+                			<td><fmt:formatNumber value="${insp.goodQuantity}" pattern="#,##0" /></td>
                 			<td><c:out value="${insp.qsDiv1}" /></td>
                 			<td><c:out value="${insp.qsDiv2}" /></td>
+                			<td><c:out value="${insp.inspectionDate}" /></td>
                 			<td><c:out value="${insp.note}" /></td>
                 			<td style="cursor:pointer; color:#17a2b8; text-align:center;" 
                 				data-toggle="modal" class="editBtn" id="editBtn" 
@@ -216,7 +219,7 @@
 
 
 
-<!-- 수입검사-자재불량 및 입고등록 모달 -->
+<!-- 공정불량등록 모달 -->
 <div class="modal fade" id="registerProcessInspection" aria-labelledby="#register-ProcessInspection-ModalLabel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
   <div class="modal-dialog" role="document" style="min-width: 60%;">
     <div class="modal-content">
@@ -231,7 +234,7 @@
 		      	<!-- 작업번호 -->
 		        <div class="col-sm-2 inspection-modal-name">작업번호</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input list="contractIDModalList" class="col-sm-12 modal-input" id="workID" name="workID" value="${data.workID}">
+		          <input list="contractIDModalList" class="col-sm-12 modal-input" id="workIDForInsertModal" name="workID" value="${data.workID}">
 		         	<datalist id="workIDModalList">
 		         		<c:forEach items="${workIDModalList}" var="workList">
 									<option value='${workList.workID}'
@@ -243,13 +246,13 @@
 		        <!-- 공정번호 -->
 		        <div class="col-sm-2 inspection-modal-name">공정번호</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="text" class="col-sm-12 modal-input" id="processID" name="processID"
+		          <input type="text" class="col-sm-12 modal-input" id="processIDForInsertModal" name="processID"
 		            value='<c:out value="${data.processID}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.공정번호 -->
 		        <!-- 공정명 -->
 		        <div class="col-sm-2 inspection-modal-name">공정명</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="text" class="col-sm-12 modal-input" id="processName" name="processName"
+		          <input type="text" class="col-sm-12 modal-input" id="processNameForInsertModal" name="processName"
 		            value='<c:out value="${data.processName}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.공정명 -->
 		      </div><!-- /.등록행 1 -->
@@ -258,19 +261,19 @@
 		      	<!-- 제조LOT번호 -->
 		        <div class="col-sm-2 inspection-modal-name">제조LOT번호</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="text" class="col-sm-12 modal-input" id="lotID" name="lotID"
+		          <input type="text" class="col-sm-12 modal-input" id="lotIDForInsertModal" name="lotID"
 		            value='<c:out value="${data.lotID}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.제조LOT번호 -->
 		        <!-- 설비번호 -->
 		        <div class="col-sm-2 inspection-modal-name">설비번호</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		        	<input type="text" class="col-sm-12 modal-input" id="machineID" name="machineID"
+		        	<input type="text" class="col-sm-12 modal-input" id="machineIDForInsertModal" name="machineID"
 		        		value='<c:out value="${data.machineID}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.설비번호 -->
 		        <!-- 단위 -->
 		        <div class="col-sm-2 inspection-modal-name">단위</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		        	<input type="text" class="col-sm-12 modal-input" id="unit" name="unit"
+		        	<input type="text" class="col-sm-12 modal-input" id="unitForInsertModal" name="unit"
 		        		value='<c:out value="${data.unit}"/>' autocomplete="off" readonly="readonly"/>
 		        </div><!-- /.단위 -->
 		      </div><!-- /.등록행 2 -->
@@ -279,18 +282,18 @@
 		        <!-- 일일총작업수량 -->
 		        <div class="col-sm-2 inspection-modal-name">일일총작업수량</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="number" class="col-sm-12 modal-input" id="dailyWorkQuantity" name="dailyWorkQuantity" 
+		          <input type="number" class="col-sm-12 modal-input" id="dailyWorkQuantityForInsertModal" name="dailyWorkQuantity" 
 		          	value='<c:out value="${data.dailyWorkQuantity}" />' readonly="readonly"/>
 		        </div><!-- /.일일총작업수량 -->
 		        <!-- 검사수량 -->
 		        <div class="col-sm-2 inspection-modal-name">검사수량</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="number" class="col-sm-12 modal-input" id="inspectionQuantity" name="inspectionQuantity" />
+		          <input type="number" class="col-sm-12 modal-input" id="inspQuantityForInsertModal" name="inspectionQuantity" />
 		        </div><!-- /.검사수량 -->
 		        <!-- 불량수량 -->
 		        <div class="col-sm-2 inspection-modal-name">불량수량</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		          <input type="number" class="col-sm-12 modal-input" id="defectQuantity" name="defetQuantity" />
+		          <input type="number" class="col-sm-12 modal-input" id="dftQuantityForInsertModal" name="defectQuantity" />
 		        </div><!-- /.불량수량 -->
 		      </div><!-- /.등록행 3 -->
 		      <!-- 등록행 4 -->
@@ -298,9 +301,9 @@
 		      	<!-- 불량유형1 -->
 		        <div class="col-sm-2 inspection-modal-name">불량유형1</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		        	<select class="col-sm-12 modal-input"  id="qsDiv1" name="qsDiv1">
+		        	<select class="col-sm-12 modal-input"  id="qsDiv1ForInsertModal" name="qsDiv1">
 		         		<option value="">불량유형1 선택</option>
-		         		<c:forEach items="${qsDiv1List}" var="list">
+		         		<c:forEach items="${qsDiv1ModalList}" var="list">
 							    <option value='${list.qsDiv1}'
 			            	<c:if test="${cri.qsDiv1 == list.qsDiv1}">selected</c:if> >${list.qsDiv1}
 							    </option>
@@ -310,9 +313,9 @@
 		        <!-- 불량유형2 -->
 		        <div class="col-sm-2 inspection-modal-name">불량유형2</div>
 		        <div class="col-sm-2 inspection-modal-text">
-		        	<select class="col-sm-12 modal-input"  id="qsDiv2" name="qsDiv2">
+		        	<select class="col-sm-12 modal-input"  id="qsDiv2ForInsertModal" name="qsDiv2">
 		            <option value="">불량유형2 선택</option>
-		            <c:forEach items="${qsDiv2List}" var="list">
+		            <c:forEach items="${qsDiv2ModalList}" var="list">
 							    <option value='${list.qsDiv2}'
 							    	<c:if test="${cri.qsDiv2 == list.qsDiv2}">selected</c:if> >${list.qsDiv2}
 							    </option>
@@ -326,7 +329,7 @@
 		      	<!-- 비고 -->
 		      	<div class="col-sm-2 inspection-modal-name">비고</div>
 		      	<div class="col-sm-10 inspection-modal-text">
-		      		<input type="text" class="col-sm-12 modal-input" id="note" name="note"/>
+		      		<input type="text" class="col-sm-12 modal-input" id="noteForInsertModal" name="note"/>
 		      	</div><!-- /.비고 -->
 		      </div><!-- /.등록행 5 -->
 		      <!-- 추가버튼 -->
@@ -338,12 +341,12 @@
 		          </button>
 		        </div><!-- /.추가버튼 -->
 	        </div><!-- /.row -->
-	        <!-- 자재불량 및 입고 목록 -->
+	        <!-- 공정불량 및 입고 목록 -->
 	        <div class="row newInspList">
 	        	<!-- Title -->
 	        	<div class="col-sm-6 newInspTitle">
 	        		<i class="fa fa-list"></i>
-	            <span>자재불량목록</span>
+	            <span>공정불량목록</span>
 	        	</div><!-- /.Title -->
 	        	<!-- Table -->
 	        	<div class="col-sm-12">
@@ -376,7 +379,7 @@
 		            </table>  
 		        	</div><!-- /.Table -->
 	        	</div><!-- /.col -->
-	        </div><!-- /.자재불량 및 입고 목록 -->
+	        </div><!-- /.공정불량 및 입고 목록 -->
         </form><!-- 모달 form -->
       </div><!-- /.modal-body -->
       

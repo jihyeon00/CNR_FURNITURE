@@ -110,6 +110,8 @@
 .itemContractInfo-titleAndTable {
   margin-left: 0;
   padding-right: 0;
+  max-height: 70vh;	/* 뷰포트 높이의 70%로 최대 높이 설정 */
+  overflow-y: auto;
 }
 .itemIB-title,
 .itemSemiOB-title,

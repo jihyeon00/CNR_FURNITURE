@@ -9,7 +9,7 @@ import java.util.Date;
  * inspectionIB의 [자재불량등록] 시, INSERT에 필요한 VO
  */
 @Data
-public class InspectionIBInsertVO {
+public class InspIBInsertVO {
     /* 등록 모달창 1행 */
     private Long contractIDModal;           // 계약번호(from Contract 테이블), [검색 keyword]
     private String companyNameModal;        // 거래처명(from Contract 테이블의 ct_id에 포함된 ct_company_id를 join하여,

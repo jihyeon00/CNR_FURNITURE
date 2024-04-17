@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
-<!--날짜 포맷팅-->
+<!-- 포맷팅 -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!-- jQuery 연결 -->
 <script defer src="/resources/js/quality/inspectionIB.js"></script>
@@ -151,28 +151,25 @@
                 <tbody class="inspection-table-content">
                 	<c:forEach var="inspIB" items="${inspIBList}">
 	                  <tr>
-	                  	<td class="id"><c:out value="${inspIB.listSeq}" /></td>
-	                  	<td><c:out value="${inspIB.matID}" /></td>
+	                  	<td class="id"><fmt:formatNumber value="${inspIB.listSeq}" pattern="#,##0" /></td>
+	                  	<td><fmt:formatNumber value="${inspIB.matID}" pattern="#,##0" /></td>
 	                  	<td><c:out value="${inspIB.matName}" /></td>
 	                  	<td><c:out value="${inspIB.matUses}" /></td>
-	                  	<td><c:out value="${inspIB.contractID}" /></td>
+	                  	<td><fmt:formatNumber value="${inspIB.contractID}" pattern="#,##0" /></td>
 	                  	<td><c:out value="${inspIB.companyName}" /></td>
 	                  	<td><c:out value="${inspIB.units}" /></td>
-	                  	<td><c:out value="${inspIB.contractQuantity}" /></td>
-	                  	<td><c:out value="${inspIB.inspectionQuantity}" /></td>
+	                  	<td><fmt:formatNumber value="${inspIB.contractQuantity}" pattern="#,##0" /></td>
+	                  	<td><fmt:formatNumber value="${inspIB.inspectionQuantity}" pattern="#,##0" /></td>
 	                  	<td><c:out value="${inspIB.qsDiv1}" /></td>
 	                  	<td><c:out value="${inspIB.qsDiv2}" /></td>
-	                  	<td><c:out value="${inspIB.poorQuantity}" /></td>
-	                  	<td><c:out value="${inspIB.defectRate}" /></td>
-	                  	<td><c:out value="${inspIB.goodQuantity}" /></td>
+	                  	<td><fmt:formatNumber value="${inspIB.poorQuantity}" pattern="#,##0" /></td>
+	                  	<td><fmt:formatNumber value="${inspIB.defectRate}" pattern="#,###0.000"/></td>
+	                  	<td><fmt:formatNumber value="${inspIB.goodQuantity}" pattern="#,##0" /></td>
 	                  	<td><c:out value="${inspIB.formattedInspectionDate}" /></td>
 	                  	<td><c:out value="${inspIB.notes}" /></td>
 	                  	<td style="cursor:pointer; color:#17a2b8; text-align:center;" data-toggle="modal" class="editBtn" id="editBtn" data-qi-id="${inspIB.qiID}" data-toggle="modal" data-target="#editModal">
                   			수정
 	                  	</td>
-	                  	<%-- <td onclick="javascript:deleteeRow(${inspIB.listSeq});" style="cursor:pointer; color:#c82333; text-align:center;">
-                  			삭제
-	                  	</td> --%>
 	                  </tr>
                   </c:forEach>
                   <!-- 추가적인 행들 -->
