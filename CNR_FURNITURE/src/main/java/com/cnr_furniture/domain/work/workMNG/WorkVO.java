@@ -30,6 +30,6 @@ public class WorkVO {
     // 작업목록 + 생산실적 (작업자 사원번호,불량수량 추가)
     private String allemplist;
     private String substrallemp;
-    private int qi_dft_quantity;
+    private int w_dft_quantity;
 
 }

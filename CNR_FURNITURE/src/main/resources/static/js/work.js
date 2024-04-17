@@ -50,6 +50,7 @@ window.onload = function() {
 	  $('#selectMaterialInputBtn').css('background', 'inherit');
 	});
 	
+	// reset 이미지가 담긴 박스를 클릭할 경우 검색바의 input 값 초기화
 	$('.reset').click(function() {
   	$('#find_work_company').val("");
   	$('#find_work_item').val("");
@@ -59,7 +60,8 @@ window.onload = function() {
   	$('#find_work_processInfo').val("");
   	$('#find_work_id').val("");
 	});
-
+	
 	
 	
 }
+

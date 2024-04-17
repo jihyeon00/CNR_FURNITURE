@@ -40,15 +40,15 @@ public class WorkController {
         List<WorkSelectProcessInfoVO> processInfoList = workService.findProcessInfoList();
 
         // 제조수행정보 목록 조회
-        List<WorkProcessInfoVO> workProcessInfoList = workService.selectWorkProcessInfo(workSearchVO);
+        List<WorkProcessInfoVO> workProcessInfoList = workService.getWorkProcessInfo(workSearchVO);
         // 작업 목록 조회
-        List<WorkVO> workList = workService.selectWork(workSearchVO);
+        List<WorkVO> workList = workService.getWork(workSearchVO);
         // 생산실적 조회
-        List<WorkVO> productionPerformanceList = workService.selectWorkProductionPerformance(workSearchVO);
+        List<WorkVO> productionPerformanceList = workService.getWorkProductionPerformance(workSearchVO);
         // 자재투입내역 조회
-        List<WorkSelectInsertMaterialVO> insertMaterialList = workService.selectWorkInsertMaterial(workSearchVO);
+        List<WorkSelectInsertMaterialVO> insertMaterialList = workService.getWorkInsertMaterial(workSearchVO);
         // 작업자 조회
-        List<WorkerVO> workerList = workService.selectWorker(workSearchVO);
+        List<WorkerVO> workerList = workService.getWorker(workSearchVO);
 
 
         // view에서 사용할 모델명 지정
@@ -79,9 +79,9 @@ public class WorkController {
         List<WorkSelectProcessInfoVO> processInfoList = workService.findProcessInfoList();
 
         // 공정병 설비상태 조회
-        List<WorkProcessMachineVO> processMachineList = workService.selectWorkProcessMachine(workSearchVO);
+        List<WorkProcessMachineVO> processMachineList = workService.getWorkProcessMachine(workSearchVO);
         // 당일작업목록 조회
-        List<TodayWorkVO> todayWorkList = workService.selectTodayWork(workSearchVO);
+        List<TodayWorkVO> todayWorkList = workService.getTodayWork(workSearchVO);
 
         // view에서 사용할 모델명 지정
         model.addAttribute("instructionList", instructionList);

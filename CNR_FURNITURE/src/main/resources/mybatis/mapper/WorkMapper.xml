@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.WorkMapper">
-    <!-- 회사 정보 조회 -->
+    <!-- [회사 정보] 조회 -->
     <select id="workSelectCompanyList" resultType="com.cnr_furniture.domain.work.search.WorkSelectCompanyVO">
         SELECT
             c_id as companyId, c_name as companyName, c_div as companyDiv
@@ -10,7 +10,7 @@
             COMPANY
     </select>
 
-    <!-- 제품 정보 조회 -->
+    <!-- [제품 정보] 조회 -->
     <select id="workSelectItemList" resultType="com.cnr_furniture.domain.work.search.WorkSelectItemVO">
         SELECT
             i_id as itemId, i_name as itemName, i_uses as itemUses
@@ -18,7 +18,7 @@
             ITEM
     </select>
 
-    <!-- 계획 정보 조회 -->
+    <!-- [계획 정보] 조회 -->
     <select id="workSelectInstructionList" resultType="com.cnr_furniture.domain.work.search.WorkSelectInstructionVO">
         SELECT
             DISTINCT INS_LOT_ID as insLotId,
@@ -34,7 +34,7 @@
             insLotId, insCtId
     </select>
 
-    <!-- 공정 정보 조회 -->
+    <!-- [공정정보] 조회 -->
     <select id="workSelectProcessInfoList" resultType="com.cnr_furniture.domain.work.search.WorkSelectProcessInfoVO">
         SELECT
             pi.PI_ID AS pi_id, pi.PI_NAME AS PI_NAME, pi.PI_MACHINE_ID AS PI_MACHINE_ID,
@@ -46,7 +46,7 @@
         ORDER BY PI_ID, position
     </select>
 
-    <!-- 제조수행정보 조회-->
+    <!-- [공정별 제조수행정보] 조회-->
     <select id="selectWorkProcessInfo" resultType="com.cnr_furniture.domain.work.workMNG.WorkProcessInfoVO">
         SELECT
             ROWNUM AS RN,
@@ -90,7 +90,7 @@
                     JOIN COMPANY co ON ct.CT_Company_ID = co.C_ID
                     JOIN ITEM it ON pr.P_B_ITEM_ID = it.I_ID
                 ORDER BY
-                    P_START_DATE desc, pr.P_LOT_ID, pr.P_PI_ID, pr.P_B_ITEM_ID) PICTC
+                    P_START_DATE desc, pr.P_LOT_ID, pr.P_PI_ID*1, pr.P_B_ITEM_ID) PICTC
         <trim prefix="where " prefixOverrides="and">
             <if test="find_work_company != null or find_work_item != null or
                      workStartDate != null or workEndDate != null or
@@ -121,7 +121,7 @@
             </if>
         </trim>
     </select>
-    <!-- 작업목록 조회 -->
+    <!-- work의 [작업목록] 조회 -->
     <select id="selectWork" resultType="com.cnr_furniture.domain.work.workMNG.WorkVO">
         SELECT
             ROWNUM AS rn,
@@ -202,7 +202,22 @@
             </if>
         </trim>
     </select>
-    <!-- 생산실적 조회 (작업목록에서 작업자사원번호(작업자명), 불량수량 추가) -->
+
+    <!-- work 자재투입 모달창의 [로트번호의 공정번호] 조회-->
+    <select id="workSelectInsProIdList" resultType="com.cnr_furniture.domain.work.search.WorkSelectInsProIdVO">
+        SELECT
+            ins.ins_lot_id, ins.ins_pi_id
+        FROM
+            INSTRUCTION ins
+        WHERE
+            ins.ins_lot_id = #{find_work_instruction}
+        ORDER BY
+            ins.ins_lot_id, ins.ins_pi_id*1
+    </select>
+
+    <!-- work 자재투입등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[자재번호],[자재명],[투입단위] 조회 -->
+
+    <!-- work의 [생산실적] 조회 (작업목록에서 작업자사원번호(작업자명), 불량수량 추가) -->
     <select id="selectWorkProductionPerformance" resultType="com.cnr_furniture.domain.work.workMNG.WorkVO">
         SELECT
             ROWNUM AS RN,
@@ -224,7 +239,7 @@
             WORK.W_TIME,
             WORK.W_PLAN_QUANTITY,
             WORK.W_ITEM_QUANTITY,
-            WORK.QI_DFT_QUANTITY
+            WORK.w_dft_quantity
         FROM
             (SELECT
                 DISTINCT w.W_ID AS W_ID,
@@ -245,7 +260,7 @@
                 w.W_TIME,
                 w.W_PLAN_QUANTITY,
                 w.W_ITEM_QUANTITY,
-                qi.QI_DFT_QUANTITY
+                w.w_dft_quantity
             FROM
                 WORK w
                 JOIN WORKER wr ON w.W_ID = wr.WR_WORK_ID
@@ -256,7 +271,6 @@
                 JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
                 JOIN ITEM it ON pr.P_B_ITEM_ID = it.I_ID
                 JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
-                JOIN QUALITY_INSPECTION qi ON w.W_QI_ID = qi.qi_id
             ORDER BY W_DATE) WORK
         <trim prefix="where " prefixOverrides="and">
             <if test="find_work_item != null or
@@ -290,7 +304,7 @@
             </if>
         </trim>
     </select>
-    <!-- work의 자재투입내역-->
+    <!-- work의 [자재투입내역]-->
     <select id="selectWorkInsertMaterial"
             resultType="com.cnr_furniture.domain.work.workMNG.WorkSelectInsertMaterialVO">
     <![CDATA[
@@ -328,10 +342,9 @@
                 JOIN ITEM it ON ins.INS_ITEM_ID = it.I_ID
                 JOIN BOM b ON ins.ins_ITEM_ID = b.B_ITEM_ID
                 JOIN MATERIAL m ON b.B_MATERIAL_ID = m.M_ID
-                JOIN INVENTORY inv ON b.B_MATERIAL_ID = inv.INV_MATERIAL_ID
+                JOIN INVENTORY inv ON w.W_PI_ID = inv.INV_pi_ID
             WHERE inv.INV_LOT_ID IS NOT NULL
                 AND inv.INV_PI_ID IS NOT NULL
-                AND inv.INV_WORK_ID IS NOT NULL
                 AND inv.INV_QUANTITY<0
             ORDER BY
                 w.W_LOT_ID,w.W_PI_ID,b.B_MATERIAL_ID) mi
@@ -366,7 +379,7 @@
             </if>
         </trim>
     </select>
-    <!-- work의 작업자 조회-->
+    <!-- work의 [작업자] 조회-->
     <select id="selectWorker" resultType="com.cnr_furniture.domain.work.workMNG.WorkerVO">
         SELECT
             ROWNUM AS rn,
@@ -419,7 +432,7 @@
             </if>
         </trim>
     </select>
-    <!-- todayWorkInsert 의 공정조회 -->
+    <!-- todayWorkInsert 의 [공정별 설비상태]조회 -->
     <select id="selectWorkProcessMachine"
             resultType="com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO">
         SELECT
@@ -456,7 +469,7 @@
             </if>
         </trim>
     </select>
-    <!-- todayWorkInsert 의 당일작업목록-->
+    <!-- todayWorkInsert 의 [당일작업목록] 조회-->
     <select id="selectTodayWork" resultType="com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO">
         SELECT
             ROWNUM AS rn,
@@ -519,5 +532,7 @@
                 </if>
             </if>
     </select>
+
+
 
 </mapper>
