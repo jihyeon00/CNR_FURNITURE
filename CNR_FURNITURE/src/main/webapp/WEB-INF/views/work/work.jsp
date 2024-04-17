@@ -232,7 +232,7 @@
 	              <div class="icon"><i class="fa fa-list"></i></div>
 	              <div class="workTableName">생산실적</div>
 	            </div>
-	          <div class="workTable" id="selectProductionTable" style="max-height: 174px">
+	          <div class="workTable" style="max-height:300px; ">
 	            <table cellpadding="0" cellspacing="0" border="0">
 	              <thead class="work-tbl-header" style="height: 48px;">
 	                <tr>
@@ -303,7 +303,7 @@
 	              <div class="icon"><i class="fa fa-list"></i></div>
 	              <div class="workTableName">자재투입내역</div>
 	            </div>
-	          <div class="workTable" id="selectProductionTable" style="max-height: 174px">
+	          <div class="workTable" style="max-height:300px; overflow-x :hidden;">
 	            <table cellpadding="0" cellspacing="0" border="0">
 	              <thead class="work-tbl-header">
 	                <tr>
@@ -320,24 +320,38 @@
 	                </tr>
 	              </thead>
 	              <tbody class="work-tbl-content">
-	                <c:if test="${fn:length(productionPerformanceList) == 0}">
+	                <c:if test="${fn:length(insertMaterialList) == 0}">
 	             	 		<tr>
-											<td colspan="19">조회된 내용이 없습니다.</td>             	 		
+											<td colspan="10">조회된 내용이 없습니다.</td>             	 		
 	             	 		</tr>
 	             	 	</c:if>
-	               	<c:if test="${fn:length(productionPerformanceList) != 0}">
-		              	<c:forEach items="${productionPerformanceList}" var="productionPerformanceList">
+	               	<c:if test="${fn:length(insertMaterialList) != 0}">
+		              	<c:forEach items="${insertMaterialList}" var="insertMaterialList">
 			                <tr>
-			                  <td>1</td>
-			                  <td>300001</td>
-			                  <td>3001</td>
-			                  <td>10000001</td>
-			                  <td>노트북트레이-A</td>
-			                  <td>인테리어스케이프</td>
-			                  <td>2024-04-08</td>
-			                  <td>20000001</td>
-			                  <td>플라스틱 테두리</td>
-			                  <td>1000</td>
+			                  <td>${insertMaterialList.rn}</td>
+			                  <td>${insertMaterialList.w_lot_id}</td>
+			                  <td>${insertMaterialList.w_pi_id}</td>
+			                  <td>${insertMaterialList.ins_item_id}</td>
+			                  <td>${insertMaterialList.ct_company_id}</td>
+			                  <td>${insertMaterialList.c_name}</td>
+			                  <td>${insertMaterialList.b_material_id}</td>
+			                  <td>${insertMaterialList.m_name}</td>
+			                  <td>${insertMaterialList.b_unit}</td>
+			                  <td>${insertMaterialList.inv_quantity}</td>
+			                </tr>
+	                  </c:forEach>
+		              	<c:forEach items="${insertMaterialList}" var="insertMaterialList">
+			                <tr>
+			                  <td>${insertMaterialList.rn}</td>
+			                  <td>${insertMaterialList.w_lot_id}</td>
+			                  <td>${insertMaterialList.w_pi_id}</td>
+			                  <td>${insertMaterialList.ins_item_id}</td>
+			                  <td>${insertMaterialList.ct_company_id}</td>
+			                  <td>${insertMaterialList.c_name}</td>
+			                  <td>${insertMaterialList.b_material_id}</td>
+			                  <td>${insertMaterialList.m_name}</td>
+			                  <td>${insertMaterialList.b_unit}</td>
+			                  <td>${insertMaterialList.inv_quantity}</td>
 			                </tr>
 	                  </c:forEach>
                   </c:if>
@@ -351,11 +365,12 @@
 	              <div class="icon"><i class="fa fa-list"></i></div>
 	              <div class="workTableName">작업자</div>
 	            </div>
-	          <div class="workTable" style="max-height: 174px">
+	          <div class="workTable" style=" max-height:300px; overflow-x :hidden;">
 	            <table cellpadding="0" cellspacing="0" border="0">
 	              <thead class="work-tbl-header">
 	                <tr>
 	                  <th>No</th>
+	                  <th>사원번호</th>
 	                  <th>작업팀</th>
 	                  <th>작업자명</th>
 	                  <th>작업자직급</th>
@@ -367,16 +382,27 @@
 	                </tr>
 	              </thead>
 	              <tbody class="work-tbl-content">
-	                <tr>
-	                  <td>AAC</td>
-	                  <td>생산1팀, 생산2팀</td>
-	                  <td>작업자들작업자들작업자들</td>
-	                  <td>300001</td>
-	                  <td>3001</td>
-	                  <td>1-1</td>
-	                  <td>2024-04-08 11:09:08</td>
-	                  <td>2024-04-08 20:09:08</td>
-	                </tr>
+	              	<c:if test="${fn:length(workerList) == 0}">
+	             	 		<tr>
+											<td colspan="10">조회된 내용이 없습니다.</td>             	 		
+	             	 		</tr>
+	             	 	</c:if>
+	               	<c:if test="${fn:length(workerList) != 0}">
+		              	<c:forEach items="${workerList}" var="workerList">
+			                <tr>
+			                  <td>${workerList.rn}</td>
+			                  <td>${workerList.wr_emp_id}</td>
+			                  <td>${workerList.e_dp_name}</td>
+			                  <td>${workerList.e_name}</td>
+			                  <td>${workerList.e_role}</td>
+			                  <td>${workerList.w_lot_id}</td>
+			                  <td>${workerList.w_pi_id}</td>
+			                  <td>${workerList.position}</td>
+			                  <td>${workerList.wr_start_time}</td>
+			                  <td>${workerList.wr_end_time}</td>
+			                </tr>
+	                  </c:forEach>
+                  </c:if>
 	              </tbody>
 	            </table><!-- /.table -->
           	</div><!-- /.workTable -->

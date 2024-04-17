@@ -401,10 +401,10 @@
             <if test="workStartDate != null or workEndDate != null or
                      find_work_instruction != null or find_work_processInfo != null">
                 <if test="workStartDate != ''">
-                    AND to_char(wr_start_time,'yyyy-mm-dd') >= #{workStartDate}
+                    AND wr_start_time >= #{workStartDate}
                 </if>
                 <if test="workEndDate != ''">
-                    AND #{workEndDate} >= to_char(wr_end_time,'yyyy-mm-dd')
+                    AND #{workEndDate} >= wr_end_time
                 </if>
                 <if test="find_work_instruction != ''">
                     AND W_LOT_ID = #{find_work_instruction}
