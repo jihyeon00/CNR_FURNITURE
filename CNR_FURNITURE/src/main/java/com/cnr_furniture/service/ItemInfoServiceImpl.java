@@ -17,17 +17,21 @@ public class ItemInfoServiceImpl implements ItemInfoService{
     @Autowired
     private ItemInfoMapper itemInfoMapper;
 
+
+    /** 제품 조회 및 검색 **/
     @Override
     public List<ItemInfoVO> getItemInfoList(ItemInfoSearch itemInfoSearch) {
 
         return itemInfoMapper.getItemInfoList(itemInfoSearch);
     }
 
+    /** 수정할 제품 값 불러오기 **/
     @Override
     public ItemInfoVO getOneItem(int i_id) {
         return itemInfoMapper.getOneItem(i_id);
     }
 
+    /** 제품 등록 **/
     @Override
     public int insertItem(
             String i_name,
@@ -47,6 +51,7 @@ public class ItemInfoServiceImpl implements ItemInfoService{
         return rtn;
     }
 
+    /** 제품 수정 **/
     @Override
     public int updateItem(
             String i_name,

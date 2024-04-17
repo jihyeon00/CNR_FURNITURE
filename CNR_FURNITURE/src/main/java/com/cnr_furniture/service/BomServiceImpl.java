@@ -21,50 +21,50 @@ public class BomServiceImpl implements BomService{
     @Autowired
     BomMapper bomMapper;
 
+    /** BOM관리 제품목록 조회, 검색 **/
     @Override
     public List<ItemInfoVO> getBomInfoList(BomSearch bomSearch) {
         return bomMapper.getBomInfoList(bomSearch);
     } //전체 조회
 
+    /** BOM관리 제품번호 한 개 값 가져오기 **/
     @Override
     public List<BomVO> getListBom(int i_id) {
         return bomMapper.getListBom(i_id);
     }
 
+    /** BOM관리 bom 세부목록 조회 **/
     @Override
     public List<BomVO> getBomDetails() {
         return bomMapper.getBomDetails();
     }
 
+    /** BOM Insert 자재목록 조회, 검색 **/
     @Override
     public List<MaterialInfoVO> getMaterialList(MaterialInfoSearch mtSearch) {
         return bomMapper.getMaterialList(mtSearch);
     }
 
+    /** BOM관리 BOM수정 **/
     @Override
     public int modify(BomVO bomVO) {
         int rtn = bomMapper.update(bomVO);
         return rtn;
     }
 
+    /** Bom Insert bom추가 후 수정**/
     @Override
     public int modifyAll(BomVO bomVO) {
         int rtn = bomMapper.updateAll(bomVO);
         return rtn;
     }
 
+
+    /** Bom Insert bom추가 **/
     @Override
     public int insertBomList(BomVO bomVO) {
-//        int rtn = 0;
-//        try {
-//            rtn = bomMapper.addBomList(bomVO);
-//        } catch (Exception e) {
-//            rtn = -1;
-//        }
-//
-//        return rtn;
         return bomMapper.addBomList(bomVO);
     }
 
-    /*try catch*/
+
 }
