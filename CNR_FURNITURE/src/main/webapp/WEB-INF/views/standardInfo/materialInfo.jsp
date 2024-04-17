@@ -124,7 +124,7 @@
 	        </form>
 	      </div>
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-primary" onClick="insertMTBox()">등록</button>
+	      	<button type="button" class="btn btn-primary" id="saveChanges" onClick="insertMTBox()">등록</button>
 	       	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
 	      </div>
 	    </div>

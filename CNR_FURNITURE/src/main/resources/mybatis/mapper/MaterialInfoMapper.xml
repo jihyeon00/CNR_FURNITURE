@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.MaterialInfoMapper">
 
+    <!--자재 조회 및 검색-->
     <select id="getMaterialInfo" resultType="com.cnr_furniture.domain.MaterialInfo.MaterialInfoVO">
         SELECT ROWNUM rn, M_ID, M_NAME, M_USES
         FROM MATERIAL
@@ -21,6 +22,7 @@
         ORDER BY M_ID ASC
     </select>
 
+    <!--자재 등록-->
     <insert id="addMaterial">
         INSERT INTO MATERIAL
         (M_ID, M_NAME, M_USES)
@@ -28,10 +30,12 @@
         (MATERIAL_SEQ.nextval, #{m_name}, #{m_uses})
     </insert>
 
+    <!--수정할 자재 가져오기-->
     <select id="getOneMaterial" resultType="com.cnr_furniture.domain.MaterialInfo.MaterialInfoVO">
         SELECT * FROM MATERIAL WHERE M_ID = #{m_id}
     </select>
 
+    <!--자재 수정-->
     <update id="modifyMaterial">
         UPDATE MATERIAL SET
         M_NAME = #{m_name}

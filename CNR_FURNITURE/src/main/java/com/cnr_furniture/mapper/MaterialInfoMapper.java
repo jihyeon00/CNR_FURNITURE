@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface MaterialInfoMapper {
 
-    List<MaterialInfoVO> getMaterialInfo(MaterialInfoSearch MTInfoSearch);
+    List<MaterialInfoVO> getMaterialInfo(MaterialInfoSearch MTInfoSearch); //자재 조회 및 검색
 
-    int addMaterial (MaterialInfoVO materialInfoVO);
+    int addMaterial (MaterialInfoVO materialInfoVO); //자재 등록
 
-    MaterialInfoVO getOneMaterial (int m_id);
+    MaterialInfoVO getOneMaterial (int m_id); //수정할 자재 가져오기
 
-    int modifyMaterial(MaterialInfoVO materialInfoVO);
+    int modifyMaterial(MaterialInfoVO materialInfoVO); //자재 수정
 
 }

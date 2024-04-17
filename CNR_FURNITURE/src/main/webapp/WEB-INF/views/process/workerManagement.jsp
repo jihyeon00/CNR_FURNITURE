@@ -3,93 +3,114 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <link rel="stylesheet" href="/resources/plugins/fullcalendar/main.css">
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-<script src='fullcalendar/dist/index.global.js'>
+<link rel="stylesheet" href="/resources/css/workerManagement.css">
 
+<!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script> -->
+<!-- jquery CDN -->  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+<!-- fullcalendar CDN -->  
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />  
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>  
+<!-- fullcalendar 언어 CDN -->  
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+<!-- jQuery 및 부트스트랩 CSS 및 JavaScript 로드 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<style>
+  /* body 스타일 */
+  html, body {
+    overflow: hidden;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+  /* 캘린더 위의 해더 스타일(날짜가 있는 부분) */
+  .fc-header-toolbar {
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+</style>
 
 <%@ include file="../includes/header.jsp" %>
 	
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" id="wcontent-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-md-6">
                     <h1 class="m-0"><i class="far fa-clipboard"></i> 작업자관리</h1>
                 </div><!-- /.col -->
-                <div class="col-md-6 ml-auto">
-                        <div class="pro-btn">
-                            <button type="submit" class="btn btn-primary asb">조회</button>
-                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
-                        </div>
-                </div><!-- /.col -->
+                <div class="col-md-6">
+	                <div class="resetBtn">
+	              		<a href="./workerManagement"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+	           			</div>
+                </div>
             </div>
-            <div class="row mb-2">
-            </div>
-            <!-- /.container-fluid -->
         </div>
-        <!-- /.content-header -->
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content">
+    <div class="content" style="padding-top: 11px;">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-3">
-            <div class="sticky-top mb-3">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">Draggable Events</h4>
-                </div>
-                <div class="card-body">
-                  <!-- the events -->
-                  <div id="external-events">
-                    <div class="external-event bg-success">Lunch</div>
-                    <div class="external-event bg-warning">Go home</div>
-                    <div class="external-event bg-info">Do homework</div>
-                    <div class="external-event bg-primary">Work on UI design</div>
-                    <div class="external-event bg-danger">Sleep tight</div>
-                    <div class="checkbox">
-                      <label for="drop-remove">
-                        <input type="checkbox" id="drop-remove">
-                        remove after drop
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.card-body -->
+        
+          <div class="col-md-4">
+            <div class="workerTable">
+              <div class="icon"><i class="fa fa-list"></i></div>
+              <div>사원 목록</div>
               </div>
-              <!-- /.card -->
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Create Event</h3>
-                </div>
-                <div class="card-body">
-                  <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-                    <ul class="fc-color-picker" id="color-chooser">
-                      <li><a class="text-primary" href="#"><i class="fas fa-square"></i></a></li>
-                      <li><a class="text-warning" href="#"><i class="fas fa-square"></i></a></li>
-                      <li><a class="text-success" href="#"><i class="fas fa-square"></i></a></li>
-                      <li><a class="text-danger" href="#"><i class="fas fa-square"></i></a></li>
-                      <li><a class="text-muted" href="#"><i class="fas fa-square"></i></a></li>
-                    </ul>
-                  </div>
-                  <!-- /btn-group -->
-                  <div class="input-group">
-                    <input id="new-event" type="text" class="form-control" placeholder="Event Title">
-
-                    <div class="input-group-append">
-                      <button id="add-new-event" type="button" class="btn btn-primary">Add</button>
-                    </div>
-                    <!-- /btn-group -->
-                  </div>
-                  <!-- /input-group -->
-                </div>
-              </div>
-            </div>
+   						<div class="col-md-12">
+	   						<form id='searchWorkerForm' action='./workerManagement' method='get' class="workerSearch"> 
+			             	<div class="workMg">
+				            	<select name='type'>
+				            		<option value="">--선택--</option>
+								    		<option value="DPName"<c:out value="${workerSearch.type == 'DPName' ? 'selected' : ''}" />>부서명</option>
+						    				<option value="EId"<c:out value="${workerSearch.type == 'EId' ? 'selected' : ''}" />>사원번호</option>
+						    				<option value="EName"<c:out value="${workerSearch.type == 'EName' ? 'selected' : ''}" />>사원명</option>
+				            	</select>
+			            	</div>
+		                <div class="workMg">
+			        	      <input type="text" name="keyword" />
+			          	  </div> 
+				            <div class="workMg">
+				              <button type="button" class="btn btn-primary searchWorkerBtn" id="" name="" >검색</button>
+				            </div>
+			            </form>
+		            </div>
+		            
+            <div class="table" style="height: 700px;">
+              <table cellpadding="0" cellspacing="0" border="0" style="height: 700px;">
+                <thead class="worker-header">
+                  <tr>
+                    <th>NO</th>
+                    <th>부서명</th>
+                    <th>사원번호</th>
+                    <th>사원명</th>
+                  </tr>
+                </thead>
+                <tbody class="table-content">
+                	<c:forEach var="worker" items="${workerList}">
+	                  <tr>
+	                    <td><c:out value="${worker.rn}" /></td>
+	                    <td><c:out value="${worker.e_dp_name}" /></td>
+	                    <td><c:out value="${worker.e_id}" /></td>
+	                    <td><c:out value="${worker.e_name}" /></td>            
+	                  </tr>     
+	                 </c:forEach>    
+                </tbody>
+              </table>
+              <!-- /.table -->
+	          </div>
           </div>
+          
           <!-- /.col -->
-          <div class="col-md-9">
+          <div class="col-md-8">
             <div class="card card-primary">
               <div class="card-body p-0">
                 <!-- THE CALENDAR -->
@@ -97,13 +118,12 @@
               </div>
               <!-- /.card-body -->
             </div>
-            <!-- /.card -->
           </div>
           <!-- /.col -->
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
-    </section>
+    </div>
     <!-- /.content -->
       <!-- /.row -->
       </div>
@@ -112,200 +132,192 @@
     <!-- /.content -->
 
 
+<!-- 모달창 등록  -->
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	  <div class="modal-content">
+	    <div class="modal-header">
+       	<h4 class="mt-modal-title" id="exampleModalLabel">일정추가</h4>
+      	 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <label for="modalUpdateName" class="form-label">자재명</label>
+          <input type="text" name="m_name" id="m_name" class="form-control" autocomplete="off">
+
+          <label for="modalProductAmount" class="form-label">자재 용도</label>
+          <input type="text" name="m_uses" id="m_uses" class="form-control" autocomplete="off">     
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary" onClick="insertMTBox()">등록</button>
+       	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!--============================================================== -->
+ 
 
 
 <%@ include file="../includes/footer.jsp" %>
 
 	
-	
-<!-- jQuery -->
-<script src="/resources/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap -->
-<script src="/resources/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="/resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- jQuery UI -->
-<script src="/resources/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/resources/js/adminlte.min.js"></script>
-<!-- fullCalendar 2.2.5 -->
-<script src="/resources/plugins/moment/moment.min.js"></script>
-<script src="/resources/plugins/fullcalendar/main.js"></script>
-<script src="./resources/plugins/fullcalendar/fullcalendar.min.js"></script> 
-<!-- AdminLTE for demo purposes -->
-<script src="/resources/js/demo.js"></script>	
-<script src="/resources/plugins/fastclick/fastclick.js"></script>
-	
+
 	
 <script>	
 
 
+
+/*worker 검색*/
+let searchWorkerForm = $("#searchWorkerForm");
+	$("#searchWorkerForm button").on("click",
+    function(e) {
+        if (!searchWorkerForm.find("option:selected").val()) {
+            alert("검색종류를 선택하세요");
+            return false;
+        }
+
+        if (!searchWorkerForm.find("input[name='keyword']").val()) {
+            alert("키워드를 입력하세요");
+            return false;
+        }
+
+        e.preventDefault();
+
+        searchWorkerForm.submit();
+    });
+	
+
+/* 
 	document.addEventListener('DOMContentLoaded', function() {
 	    var calendarEl = document.getElementById('calendar');
 	    var calendar = new FullCalendar.Calendar(calendarEl, {
 	      initialView: 'dayGridMonth'
 	    });
 	    calendar.render();
-	  });
+	  }); */
+	 /*  jQuery(function($) {
+		    $('#exampleModal').modal('show');
+		});   */
   
-  
-  $(function () {
+	 (function(){
+		    $(function(){
+		      // calendar element 취득
+		      var calendarEl = $('#calendar')[0];
+		      // full-calendar 생성하기
+		      var calendar = new FullCalendar.Calendar(calendarEl, {
+		        height: '700px', // calendar 높이 설정
+		        expandRows: true, // 화면에 맞게 높이 재설정
+		        slotMinTime: '08:00', // Day 캘린더에서 시작 시간
+		        slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
+		        customButtons: {
+		        	myCustomBotton:{
+		        	/* 	text: "일정 추가",
+		       		 click : function(){
+		        				//부트스트랩 모달 열기
+		        					$("#exampleModal").modal("show");
+		        					console.log("일정 추가 버튼 클릭됨");
+		        		}  */
+		        	},
+		        /* 	mySaveButton: {
+		        		text:"저장"
+		        	} */
+		        },
+		        // 해더에 표시할 툴바
+		        headerToolbar: {
+		          left: 'prev,next today',
+		          center: 'title',
+		          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+		        },
+		        initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+		        //initialDate: '2024-04-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+		        navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+		        editable: true, // 수정 가능?
+		        selectable: true, // 달력 일자 드래그 설정가능
+		        nowIndicator: true, // 현재 시간 마크
+		        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+		        locale: 'ko', // 한국어 설정
+		        eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
+		          console.log(obj);
+		        },
+		        eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
+		          console.log(obj);
+		        },
+		        eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
+		          console.log(obj);
+		        },
+		        select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+		          var title = prompt('Event Title:');
+		          if (title) {
+		            calendar.addEvent({
+		              title: title,
+		              start: arg.start,
+		              end: arg.end,
+		              allDay: arg.allDay
+		            })
+		          }
+		          calendar.unselect()
+		        },
+		        // 이벤트 
+		        events: [
+		          {
+		            title: 'All Day Event',
+		            start: '2024-04-01',
+		          },
+		          {
+		            title: 'Long Event',
+		            start: '2024-04-04',
+		            end: '2024-04-10'
+		          },
+		          {
+		            groupId: 999,
+		            title: 'Repeating Event',
+		            start: '2024-04-09T16:00:00'
+		          },
+		          {
+		            groupId: 999,
+		            title: 'Repeating Event',
+		            start: '2024-04-16T16:00:00'
+		          },
+		          {
+		            title: 'Conference',
+		            start: '2024-04-11',
+		            end: '2024-04-13'
+		          },
+		          {
+		            title: 'Meeting',
+		            start: '2024-04-12T10:30:00',
+		            end: '2024-04-12T12:30:00'
+		          },
+		          {
+		            title: 'Lunch',
+		            start: '2024-04-12T12:00:00'
+		          },
+		          {
+		            title: 'Meeting',
+		            start: '2024-04-12T14:30:00'
+		          },
+		          {
+		            title: 'Happy Hour',
+		            start: '2024-04-12T17:30:00'
+		          },
+		          {
+		            title: 'Dinner',
+		            start: '2024-04-12T20:00:00'
+		          },
+		          {
+		            title: 'Birthday Party',
+		            start: '2024-04-13T04:00:00'
+		          },
+		          {
+		            title: 'Click for Google',
+		            url: 'http://google.com/', // 클릭시 해당 url로 이동
+		            start: '2024-04-28'
+		          }
+		        ]
+		      });
+		      // 캘린더 랜더링
+		      calendar.render();
+		    });
+		  })();
 
-    /* initialize the external events
-     -----------------------------------------------------------------*/
-    function init_events(ele) {
-      ele.each(function () {
-
-        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-        // it doesn't need to have a start or end
-        var eventObject = {
-          title: $.trim($(this).text()) // use the element's text as the event title
-        }
-
-        // store the Event Object in the DOM element so we can get to it later
-        $(this).data('eventObject', eventObject)
-
-        // make the event draggable using jQuery UI
-        $(this).draggable({
-          zIndex        : 1070,
-          revert        : true, // will cause the event to go back to its
-          revertDuration: 0  //  original position after the drag
-        })
-
-      })
-    }
-
-    init_events($('#external-events div.external-event'))
-
-    /* initialize the calendar
-     -----------------------------------------------------------------*/
-    //Date for the calendar events (dummy data)
-    var date = new Date()
-    var d    = date.getDate(),
-        m    = date.getMonth(),
-        y    = date.getFullYear()
-    $('#calendar').fullCalendar({
-      header    : {
-        left  : 'prev,next today',
-        center: 'title',
-        right : 'month,agendaWeek,agendaDay'
-      },
-      buttonText: {
-        today: 'today',
-        month: 'month',
-        week : 'week',
-        day  : 'day'
-      },
-      //Random default events
-      events    : [
-        {
-          title          : 'All Day Event',
-          start          : new Date(y, m, 1),
-          backgroundColor: '#f56954', //red
-          borderColor    : '#f56954' //red
-        },
-        {
-          title          : 'Long Event',
-          start          : new Date(y, m, d - 5),
-          end            : new Date(y, m, d - 2),
-          backgroundColor: '#f39c12', //yellow
-          borderColor    : '#f39c12' //yellow
-        },
-        {
-          title          : 'Meeting',
-          start          : new Date(y, m, d, 10, 30),
-          allDay         : false,
-          backgroundColor: '#0073b7', //Blue
-          borderColor    : '#0073b7' //Blue
-        },
-        {
-          title          : 'Lunch',
-          start          : new Date(y, m, d, 12, 0),
-          end            : new Date(y, m, d, 14, 0),
-          allDay         : false,
-          backgroundColor: '#00c0ef', //Info (aqua)
-          borderColor    : '#00c0ef' //Info (aqua)
-        },
-        {
-          title          : 'Birthday Party',
-          start          : new Date(y, m, d + 1, 19, 0),
-          end            : new Date(y, m, d + 1, 22, 30),
-          allDay         : false,
-          backgroundColor: '#00a65a', //Success (green)
-          borderColor    : '#00a65a' //Success (green)
-        },
-        {
-          title          : 'Click for Google',
-          start          : new Date(y, m, 28),
-          end            : new Date(y, m, 29),
-          url            : 'http://google.com/',
-          backgroundColor: '#3c8dbc', //Primary (light-blue)
-          borderColor    : '#3c8dbc' //Primary (light-blue)
-        }
-      ],
-      editable  : true,
-      droppable : true, // this allows things to be dropped onto the calendar !!!
-      drop      : function (date, allDay) { // this function is called when something is dropped
-
-        // retrieve the dropped element's stored Event Object
-        var originalEventObject = $(this).data('eventObject')
-
-        // we need to copy it, so that multiple events don't have a reference to the same object
-        var copiedEventObject = $.extend({}, originalEventObject)
-
-        // assign it the date that was reported
-        copiedEventObject.start           = date
-        copiedEventObject.allDay          = allDay
-        copiedEventObject.backgroundColor = $(this).css('background-color')
-        copiedEventObject.borderColor     = $(this).css('border-color')
-
-        // render the event on the calendar
-        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
-
-        // is the "remove after drop" checkbox checked?
-        if ($('#drop-remove').is(':checked')) {
-          // if so, remove the element from the "Draggable Events" list
-          $(this).remove()
-        }
-
-      }
-    })
-
-    /* ADDING EVENTS */
-    var currColor = '#3c8dbc' //Red by default
-    //Color chooser button
-    var colorChooser = $('#color-chooser-btn')
-    $('#color-chooser > li > a').click(function (e) {
-      e.preventDefault()
-      //Save color
-      currColor = $(this).css('color')
-      //Add color effect to button
-      $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor })
-    })
-    $('#add-new-event').click(function (e) {
-      e.preventDefault()
-      //Get value and make sure it is not null
-      var val = $('#new-event').val()
-      if (val.length == 0) {
-        return
-      }
-
-      //Create events
-      var event = $('<div />')
-      event.css({
-        'background-color': currColor,
-        'border-color'    : currColor,
-        'color'           : '#fff'
-      }).addClass('external-event')
-      event.html(val)
-      $('#external-events').prepend(event)
-
-      //Add draggable funtionality
-      init_events(event)
-
-      //Remove event from text input
-      $('#new-event').val('')
-    })
-  })
-
-  </script>
+</script>

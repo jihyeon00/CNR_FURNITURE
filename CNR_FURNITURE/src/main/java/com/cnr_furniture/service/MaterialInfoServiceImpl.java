@@ -17,12 +17,15 @@ public class MaterialInfoServiceImpl implements MaterialInfoService{
     @Autowired
     MaterialInfoMapper mtInfoMapper;
 
+
+    /** 자재 조회 및 검색 **/
     @Override
     public List<MaterialInfoVO> getMaterialInfo(MaterialInfoSearch MTInfoSearch) {
         return mtInfoMapper.getMaterialInfo(MTInfoSearch);
     }
 
 
+    /** 자재 등록 **/
     @Override
     public int insertMaterial(
             String m_name,
@@ -36,11 +39,15 @@ public class MaterialInfoServiceImpl implements MaterialInfoService{
         return rtn;
     }
 
+
+    /** 수정 할 자재 조회 **/
     @Override
     public MaterialInfoVO getOneMaterial(int m_id) {
         return mtInfoMapper.getOneMaterial(m_id);
     }
 
+
+    /** 자재 수정 **/
     @Override
     public int updateMaterial(
             String m_name,
