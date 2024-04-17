@@ -69,7 +69,6 @@
 }
 
 /* 자재투입(추가) 버튼 스타일*/
-#materialInputTd,
 #workerInsertTd{
 	color: #6c757d;
 }
@@ -77,12 +76,6 @@
 /* 작업상세(상세) 버튼 스타일*/
 #workDetailTd{
 	color: #007bff;
-}
-
-/* 작업삭제(삭제) 버튼 스타일*/
-#todayWorkDeleteTd,
-#workMaterialInputDeleteTd{
-	color: #c82333;
 }
 
 /* divBorder 이용해 선 긋기 */
@@ -417,4 +410,123 @@
 .divBorderModal{
   width: 100%;
   border-top: 1px solid #e9ecef;
+}
+
+
+
+/* work 모달 : 자재투입 */
+
+/* work 모달 입력창 이름 */
+.work-modal-name{
+	display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  background-color: #374056;
+  color: #fff;
+}
+
+/* work 모달 - 입력창 */
+.work-modal-text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* work 모달 - 입력창 한행 스타일 */
+.work-modal-board {
+	display: flex;
+  align-items: center;
+  height: 50px;
+  background-color: #fff;
+  border: 1px solid #999;
+}
+  
+ /* work 모달 - 검색바의 input 박스 높이 지정*/
+.work-modal-text input,
+.work-modal-text select{
+  height: 40px;
+}
+
+/* work 모달 - 테이블 제목 */
+.newWorkMaterialTitle {
+	padding-top: 2%;
+	padding-bottom: 1%;
+	font-weight: 500;
+}
+/* work 모달 - 테이블 위쪽 구분선 */
+.newWorkMaterialList {
+	border-top: 1px solid  #D9D9D9;
+}
+/* work 모달 - 자재투입목록 테이블 */
+.work-modal-table {
+	max-height: 70vh;	/* 뷰포트 높이의 70%로 최대 높이 설정 */
+  overflow-y: auto;
+  width: auto;
+  overflow-x: auto;
+}
+/* work 모달 - 자재투입목록 테이블 스타일 */
+.work-modal-table table {
+  table-layout: fixed;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-top: none;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* work 모달 - 자재투입목록 테이블 글씨 위치 및 크기 */
+.work-modal-table-header,
+.work-modal-table-header th,
+.work-modal-table-header td {
+	white-space: nowrap;	/* 셀 내용을 한 줄에 표시 */
+	text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+  font-size: 12px;
+  border-right: 1px solid #fff;
+}
+/* work 모달 - 자재투입목록 테이블 헤더 특정 스타일 */
+.work-modal-table-header {
+	background-color: #374056;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  /* y축 스크롤 시, 헤더 고정 */
+  position: sticky;
+  top: 0;
+}
+/* work 모달 - 자재투입목록 x축 스크롤 시, th 헤더 고정 */
+.work-modal-table-header th:first-child {
+	background-color: #374056;
+	position: sticky;
+	left: 0;
+	z-index: 100;		/* 다른 내용보다 위에 위치 */
+}
+/* work 모달 - 자재투입목록 x축 스크롤 시, td 헤더 고정 */
+.work-modal-table-content td:first-child {
+	position: sticky;
+	left:0;
+}
+/* work 모달 - 자재투입목록 x축 스크롤 시, td 헤더 - 짝수행 배경 */
+.work-modal-table-content tr:nth-child(even) td:first-child,
+.work-modal-table-content tr:nth-child(even) td:first-child:hover {
+	background-color: #eaeaed;
+	z-index:100;
+}
+/* work 모달 - 자재투입목록 x축 스크롤 시, td 헤더 - 홀수행 배경 */
+.work-modal-table-content tr:nth-child(odd) td:first-child,
+.work-modal-table-content tr:nth-child(odd) td:first-child:hover {
+	background-color: #fff;
+	z-index:100;
+}
+/* 테이블 컨텐츠 특정 스타일 */
+.work-modal-table-content tr:hover,
+.work-modal-table-content tr:nth-child(even):hover {
+	background: #d9d9d9;
+}
+.work-modal-table-content tr:nth-child(even) {
+	background: #eaeaed;
+}
+.work-modal-table-content td {
+	border-right: 1px solid #BDBDBD;
 }

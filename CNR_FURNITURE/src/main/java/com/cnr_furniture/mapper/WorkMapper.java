@@ -36,6 +36,12 @@ public interface WorkMapper {
     List<WorkSelectProcessInfoVO> workSelectProcessInfoList();
 
     /**
+     * 공정 정보 조회
+     * work 의 공정 정보 검색을 위함
+     */
+    List<WorkSelectInsProIdVO> workSelectInsProIdList();
+
+    /**
      * 제조수행정보 조회
      * work 의 제조수행정보 목록
      */

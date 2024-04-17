@@ -150,13 +150,24 @@
         <br>
         <!-- 작업목록 Table -->
         <div class=divBorder></div>
-        <!-- 당일작업등록 페이지 이동 버튼 -->
+        <!-- 자재투입, 작업자등록, 작업등록 모달창 버튼 -->
         <div class="col-sm-12 todayWorkInsertBtn" style="margin-top: -20px;">
-           <button type="button" id="" class="btn btn-default search-btn" onclick="location.href='todayWorkInsert'">
+	         <button type="button" id="" class="btn btn-default search-btn" onclick="location.href='workerInsert'"
+	            style="margin-right: 10px;">
+	            <img class="add-circle-icon" alt="add" src="/resources/img/add-circle-outline.svg">
+	            작업자등록
+           </button>
+	         <button type="button" id="" data-toggle="modal" data-target="#workMaterialInsertModal"
+	         		class="btn btn-default search-btn" style="margin-right: 10px;">
+	            <img class="add-circle-icon" alt="add" src="/resources/img/add-circle-outline.svg">
+	            자재투입
+           </button>
+           <button type="button" id="" class="btn btn-default search-btn" 
+           		data-toggle="modal" data-target="#todayWorkInsertModal">
             <img class="add-circle-icon" alt="add" src="/resources/img/add-circle-outline.svg">
-            당일작업등록
+            작업등록
           </button>
-        </div><!-- /.당일작업등록 버튼 -->
+        </div><!-- /.작업등록 버튼 -->
         <div class="titleAndTable" id="selectWorkTable">
            <div class="workTableTitle">
               <div class="icon"><i class="fa fa-list"></i></div>
@@ -183,12 +194,13 @@
                   <th>진행상황</th>
                   <th>계획수량</th>
                   <th>생산수량</th>
+                  <th>작업상세</th>
                 </tr>
               </thead>
              <tbody class="work-tbl-content">
              	 <c:if test="${fn:length(workList) == 0}">
              	 		<tr>
-										<td colspan="17">조회된 내용이 없습니다.</td>             	 		
+										<td colspan="18">조회된 내용이 없습니다.</td>             	 		
              	 		</tr>
              	 </c:if>
                <c:if test="${fn:length(workList) != 0}">
@@ -211,6 +223,7 @@
 		                  <td>${workList.w_time}</td>
 		                  <td>${workList.w_plan_quantity}</td>
 		                  <td>${workList.w_item_quantity}</td>
+		                  <td><button id="workDetailTd" data-toggle="modal" data-target="#workDetailModal">작업상세</button></td>
 		                </tr>
 	                </c:forEach>
                 </c:if>
@@ -259,7 +272,7 @@
 	              <tbody class="work-tbl-content">
 	              	<c:if test="${fn:length(productionPerformanceList) == 0}">
 	             	 		<tr>
-											<td colspan="19">조회된 내용이 없습니다.</td>             	 		
+											<td colspan="10">조회된 내용이 없습니다.</td>             	 		
 	             	 		</tr>
 	             	 	</c:if>
 	               	<c:if test="${fn:length(productionPerformanceList) != 0}">
@@ -285,7 +298,7 @@
 			                  <td>${productionPerformanceList.w_time}</td>
 			                  <td>${productionPerformanceList.w_plan_quantity}</td>
 			                  <td>${productionPerformanceList.w_item_quantity}</td>
-			                  <td>${productionPerformanceList.qi_dft_quantity}</td>
+			                  <td>${productionPerformanceList.w_dft_quantity}</td>
 			                </tr>
 	                  </c:forEach>
                   </c:if>
@@ -303,7 +316,7 @@
 	              <div class="workTableName">자재투입내역</div>
 	            </div>
 	          <div class="workTable" style="max-height:300px; overflow-x :hidden;">
-	            <table cellpadding="0" cellspacing="0" border="0">
+	            <table cellpadding="0" cellspacing="0" border="0" id="selectMaterialInputTable">
 	              <thead class="work-tbl-header">
 	                <tr>
 	                  <th>No</th>
@@ -315,6 +328,7 @@
 	                  <th>투입일자</th>
 	                  <th>자재번호</th>
 	                  <th>자재명</th>
+	                  <th>단위</th>
 	                  <th>투입수량</th>
 	                </tr>
 	              </thead>
@@ -333,20 +347,7 @@
 			                  <td>${insertMaterialList.ins_item_id}</td>
 			                  <td>${insertMaterialList.ct_company_id}</td>
 			                  <td>${insertMaterialList.c_name}</td>
-			                  <td>${insertMaterialList.b_material_id}</td>
-			                  <td>${insertMaterialList.m_name}</td>
-			                  <td>${insertMaterialList.b_unit}</td>
-			                  <td>${insertMaterialList.inv_quantity}</td>
-			                </tr>
-	                  </c:forEach>
-		              	<c:forEach items="${insertMaterialList}" var="insertMaterialList">
-			                <tr>
-			                  <td>${insertMaterialList.rn}</td>
-			                  <td>${insertMaterialList.w_lot_id}</td>
-			                  <td>${insertMaterialList.w_pi_id}</td>
-			                  <td>${insertMaterialList.ins_item_id}</td>
-			                  <td>${insertMaterialList.ct_company_id}</td>
-			                  <td>${insertMaterialList.c_name}</td>
+			                  <td>${insertMaterialList.inv_date}</td>
 			                  <td>${insertMaterialList.b_material_id}</td>
 			                  <td>${insertMaterialList.m_name}</td>
 			                  <td>${insertMaterialList.b_unit}</td>
@@ -412,6 +413,335 @@
     	</div><!-- /.container-fluid -->
   	</div><!-- /.content -->
   </div><!-- /.content-wrapper -->
+  
+ <!-- 자재투입등록 모달 -->
+<div class="modal fade" id="workMaterialInsertModal" aria-labelledby="#workMaterialInsertModallLabel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="min-width: 60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="workMaterialInsertModal" id="workMaterialInsertModallLabel" style="font-size: 150%; font-weight:800;">자재투입등록</div>
+      </div>
+      <!-- modal-body -->
+      <div class="modal-body work-modal-body">
+      	<form action="/workMaterialInsertModal" id=workMaterialInsertForm name="workMaterialInsertForm" class="col-md-12" >
+      		<!-- 등록행 1 -->
+		      <div class="work-modal-board">
+		      	<!-- 제조LOT번호 -->
+		        <div class="col-sm-2 work-modal-name">제조LOT번호</div>
+		        <div class="col-sm-2 work-modal-text">
+		          <input type="text" list="workInstructuionList" class="col-sm-12 input-text" id="find_work_instruction" name="find_work_instruction">
+                <datalist id="workInstructuionList">
+                    <c:forEach items="${instructionList}" var="instruction">
+                        <option value="${instruction.insLotId}">생산제품번호: ${instruction.insItemId}</option>
+                    </c:forEach>
+                </datalist>
+		        </div><!-- /.제조LOT번호 -->
+		        <!-- 거래처명 -->
+		        <div class="col-sm-2 work-modal-name">거래처명</div>
+		        <div class="col-sm-2 work-modal-text">
+		          <input type="text" class="col-sm-12 modal-input" id="companyNameModal" name="companyNameModal"
+		            value='<c:out value="${data.companyNameModal}"/>' autocomplete="off" readonly="readonly"/>
+		        </div><!-- /.거래처명 -->
+		        <!-- 단위 -->
+		        <div class="col-sm-2 work-modal-name">단위</div>
+		        <div class="col-sm-2 work-modal-text">
+		          <input type="text" class="col-sm-12 modal-input" id="unitModal" name="unitModal"
+		            value='<c:out value="${data.unitModal}"/>' autocomplete="off" readonly="readonly"/>
+		        </div><!-- /.단위 -->
+		      </div><!-- /.등록행 1 -->
+		      <!-- 등록행 2 -->
+		      <div class="work-modal-board">
+		      	<!-- 자재번호 -->
+		        <div class="col-sm-2 work-modal-name">자재번호</div>
+		        <div class="col-sm-2 work-modal-text">
+		        	<input type="text" class="col-sm-12 modal-input" id="matIDModal" name="matIDModal"
+	            	value='<c:out value="${data.matIDModal}"/>' autocomplete="off" readonly="readonly"/>
+		        </div><!-- /.자재번호 -->
+		        <!-- 자재명 -->
+		        <div class="col-sm-2 work-modal-name">자재명</div>
+		        <div class="col-sm-2 work-modal-text">
+		          <input type="text" class="col-sm-12 modal-input" id="matNameModal" name="matNameModal"
+		            value='<c:out value="${data.matNameModal}"/>' autocomplete="off" readonly="readonly"/>
+		        </div><!-- /.자재명 -->
+		        <!-- 자재용도 -->
+		        <div class="col-sm-2 work-modal-name">자재용도</div>
+		        <div class="col-sm-2 work-modal-text">
+		        	<input type="text" class="col-sm-12 modal-input" id="matUsesModal" name="matUsesModal" readonly="readonly" />
+		        </div><!-- /.자재용도 -->
+		      </div><!-- /.등록행 2 -->
+		      <!-- 등록행 3 -->
+		      <div class="work-modal-board">
+		        <!-- 계약입고수량 -->
+		        <div class="col-sm-2 work-modal-name">계약입고수량</div>
+		        <div class="col-sm-2 work-modal-text">
+		          <input type="number" class="col-sm-12 modal-input" id="contractQuantityModal" name="contractQuantityModal" 
+		          	value='<c:out value="${data.contractQuantityModal}" />' readonly="readonly"/>
+		        </div><!-- /.계약입고수량 -->
+		        <!-- 검사수량 -->
+		        <div class="col-sm-2 work-modal-name">검사수량<br>(입고수량)</div>
+		        <div class="col-sm-2 work-modal-text">
+		          <input type="number" class="col-sm-12 modal-input" id="inspectionQuantityModal" name="inspectionQuantityModal" />
+		        </div><!-- /.검사수량 -->
+		        <!-- 불량수량 -->
+		        <div class="col-sm-2 work-modal-name">불량수량</div>
+		        <div class="col-sm-2 work-modal-text">
+		          <input type="number" class="col-sm-12 modal-input" id="poorQuantityModal" name="poorQuantityModal" />
+		        </div><!-- /.불량수량 -->
+		      </div><!-- /.등록행 3 -->
+		      <!-- 등록행 4 -->
+		      <div class="work-modal-board">
+		      	<!-- 불량유형1 -->
+		        <div class="col-sm-2 work-modal-name">불량유형1</div>
+		        <div class="col-sm-2 work-modal-text">
+		        	<select class="col-sm-12 modal-input"  id="qsDiv1Modal" name="qsDiv1Modal">
+		         		<option value="">불량유형1 선택</option>
+		         		<c:forEach items="${qsDiv1ModalList}" var="qsDiv1Modals">
+							    <option value='${qsDiv1Modals.qsDiv1Modal}'
+			            	<c:if test="${cri.qsDiv1Modal == qsDiv1Modals.qsDiv1Modal}">selected</c:if> >${qsDiv1Modals.qsDiv1Modal}
+							    </option>
+							  </c:forEach>
+		          </select>
+		        </div><!-- /.불량유형1 -->
+		        <!-- 불량유형2 -->
+		        <div class="col-sm-2 work-modal-name">불량유형2</div>
+		        <div class="col-sm-2 work-modal-text">
+		        	<select class="col-sm-12 modal-input"  id="qsDiv2Modal" name="qsDiv2Modal">
+		            <option value="">불량유형2 선택</option>
+		            <c:forEach items="${qsDiv2ModalList}" var="qsDiv2Modals">
+							    <option value='${qsDiv2Modals.qsDiv2Modal}'
+							    	<c:if test="${cri.qsDiv2Modal == qsDiv2Modals.qsDiv2Modal}">selected</c:if> >${qsDiv2Modals.qsDiv2Modal}
+							    </option>
+							  </c:forEach>
+		          </select>
+		        </div><!-- /.불량유형2 -->
+		        <div class="col-sm-4 emptyModal"></div>
+		      </div><!-- /.등록행 4 -->
+		      <!-- 등록행 5 -->
+		      <div class="work-modal-board">
+		      	<!-- 비고 -->
+		      	<div class="col-sm-2 work-modal-name">비고</div>
+		      	<div class="col-sm-10 work-modal-text">
+		      		<input type="text" class="col-sm-12 modal-input" id="notesModal" name="notesModal"/>
+		      	</div><!-- /.비고 -->
+		      </div><!-- /.등록행 5 -->
+		      <!-- 추가버튼 -->
+		      <div class="row modal-add-btn">
+		      	<div class="col-sm-12 add-insp-btn">
+		         	<button type="button" id="addInspectionBtn" class="btn btn-primary add-insp-btn">
+		            <svg class="add-circle-icon2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>
+		            추가
+		          </button>
+		        </div><!-- /.추가버튼 -->
+	        </div><!-- /.row -->
+	        <!-- 자재불량 및 입고 목록 -->
+	        <div class="row newWorkMaterialList">
+	        	<!-- Title -->
+	        	<div class="col-sm-6 newWorkMaterialTitle">
+	        		<i class="fa fa-list"></i>
+	            <span>자재투입목록</span>
+	        	</div><!-- /.Title -->
+	        	<!-- Table -->
+	        	<div class="col-sm-12">
+		        	<div class="work-modal-table">
+		        		<table cellpadding="0" cellspacing="0" border="0">
+		            	<thead class="work-modal-table-header">
+		            		<tr>
+		            			<th>No</th>
+		                  <th>제조LOT번호</th>
+		                  <th>공정번호</th>
+		                  <th>제품번호</th>
+		                  <th>제품명</th>
+		                  <th>자재번호</th>
+		                  <th>자재명</th>
+		                  <th>단위</th>
+		                  <th>투입수량</th>
+		                  <th>삭제</th>
+		            		</tr>
+		              </thead>
+		              <tbody class="work-modal-table-content">
+		              	<!-- 추가된 목록 내용 -->
+	                  
+		              </tbody>
+		            </table>  
+		        	</div><!-- /.Table -->
+	        	</div><!-- /.col -->
+	        </div><!-- /.자재투입목록 -->
+        </form><!-- 모달 form -->
+      </div><!-- /.modal-body -->
+      
+      
+      <!-- 구분선 -->
+      <div class=divBorderModal></div>
+      
+      <div class="modal-footer">
+           <button type="button" class="btn btn-primary" id="registerBtn">등록</button>
+           <!-- <button type="button" class="btn btn-danger" id="cancelBtn">취소</button> -->
+           <button type="button" class="btn btn-danger" id="cancelBtn" data-dismiss="modal">취소</button>
+      </div><!-- /.modal-footer -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal --> 
+       
+  
+<!-- 작업등록 모달 -->
+<div class="modal fade" id="todayWorkInsertModal" aria-labelledby="#todayWorkInsertModalLabel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+  <div class="modal-dialog todayWorkInsert-Modal-Dialog" role="document" style="min-width: 60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="todayWorkInsertModalTitle" id="workDetailModalLabel" style="font-size: 150%; font-weight:800;">작업등록</div>
+      </div>
+      <!-- modal-body -->
+      <div class="modal-body work-modal-body">
+     		<!-- 등록행 1 -->
+      	<div class="work-modal-input">
+           <div class="col-sm-2 workModal-name">제조LOT번호</div>
+           <div class="col-sm-2 workModal-text">
+             <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+           </div>
+           <div class="col-sm-2 workModal-name">공정번호</div>
+           <div class="col-sm-2 workModal-text">
+             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+               value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+           </div>
+           <div class="col-sm-2 workModal-name">설비번호</div>
+           <div class="col-sm-2 workModal-text">
+             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+               value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+           </div>
+         </div><!-- /.등록행 1 -->
+     		<!-- 등록행 2 -->
+      	<div class="work-modal-input">
+           <div class="col-sm-2 workModal-name">제품번호</div>
+           <div class="col-sm-2 workModal-text">
+             <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+           </div>
+           <div class="col-sm-2 workModal-name">계획수량</div>
+           <div class="col-sm-2 workModal-text">
+             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+               value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+           </div>
+           <div class="col-sm-2 workModal-name">예상<br>소요시간(분)</div>
+           <div class="col-sm-2 workModal-text">
+             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+               value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+           </div>
+         </div><!-- /.등록행 2 -->
+     		<!-- 등록행 3 -->
+      	<div class="work-modal-input">
+           <div class="col-sm-2 workModal-name">기준단위</div>
+           <div class="col-sm-2 workModal-text">
+             <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+           </div>
+           <div class="col-sm-8 emptyModal"></div>
+         </div><!-- /.등록행 3 -->
+      </div><!-- /.modal-body -->
+      
+      <!-- 구분선 -->
+      <div class=divBorderModal></div>
+      
+      
+      <div class="modal-footer">
+           <button type="button" class="btn btn-primary">등록</button>
+           <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+      </div><!-- /.modal-footer -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 작업상세 및 수정, 삭제 모달 -->
+<div class="modal fade" id="workDetailModal" aria-labelledby="#workDetailModalLabel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+  <div class="modal-dialog workDetail-Modal-Dialog" role="document" style="min-width: 60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="workDetailModalTitle" id="workDetailModalLabel" style="font-size: 150%; font-weight:800;">당일작업 상세 및 수정</div>
+      </div>
+			<!-- modal-body -->
+      <div class="modal-body work-modal-body">
+     		<!-- 등록행 1 -->
+      	<div class="work-modal-input">
+           <div class="col-sm-2 workModal-name">제조LOT번호</div>
+           <div class="col-sm-2 workModal-text">
+             <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+           </div>
+           <div class="col-sm-2 workModal-name">공정번호</div>
+           <div class="col-sm-2 workModal-text">
+             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+               value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+           </div>
+           <div class="col-sm-2 workModal-name">설비번호</div>
+           <div class="col-sm-2 workModal-text">
+             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+               value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+           </div>
+         </div><!-- /.등록행 1 -->
+     		<!-- 등록행 2 -->
+      	<div class="work-modal-input">
+           <div class="col-sm-2 workModal-name">제품번호</div>
+           <div class="col-sm-2 workModal-text">
+             <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+           </div>
+           <div class="col-sm-2 workModal-name">계획수량</div>
+           <div class="col-sm-2 workModal-text">
+             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+               value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+           </div>
+           <div class="col-sm-2 workModal-name">예상<br>소요시간(분)</div>
+           <div class="col-sm-2 workModal-text">
+             <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
+               value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+           </div>
+         </div><!-- /.등록행 2 -->
+     		<!-- 등록행 3 -->
+      	<div class="work-modal-input">
+           <div class="col-sm-2 workModal-name">기준단위</div>
+           <div class="col-sm-2 workModal-text">
+             <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+           </div>
+           <div class="col-sm-2 workModal-name">생산수량</div>
+           <div class="col-sm-2 workModal-text">
+             <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+           </div>
+           <div class="col-sm-2 workModal-name">진행상황</div>
+           <div class="col-sm-2 workModal-text">
+             <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
+           </div>
+         </div><!-- /.등록행 3 -->
+      </div><!-- /.modal-body -->
+      
+      <!-- 구분선 -->
+      <div class=divBorderModal></div>
+      
+      <div class="modal-footer">
+           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#todayWorkDeleteModal">삭제</button>
+           <button type="button" class="btn btn-primary">저장</button>
+           <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+      </div><!-- /.modal-footer -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 작업상세의 삭제 Modal -->
+<div class="modal fade" id="todayWorkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="#todayWorkDeleteModalLabel" data-backdrop="static" data-keyboard="false"  aria-hidden="true">
+  <div class="modal-dialog todayWorkDelete-Modal-Dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="todayWorkDeleteModalLabel">작업삭제</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- modal-body -->
+      <div class="modal-body">
+        정말 삭제하시겠습니까?
+      </div>
+      <!-- modal-footer -->
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-danger">삭제</button>
+       	<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+      </div><!-- /.modal-footer -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -425,8 +755,6 @@
 	    // 검색 로직 실행
 			document.getElementById('searchForm').submit();
 		}
-		
-		
   </script>
   <script defer src="/resources/js/work.js"></script>
 <%@ include file="../includes/footer.jsp" %>

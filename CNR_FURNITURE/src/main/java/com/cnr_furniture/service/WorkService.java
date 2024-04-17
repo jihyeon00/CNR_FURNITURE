@@ -24,24 +24,24 @@ public interface WorkService {
     List<WorkSelectProcessInfoVO> findProcessInfoList();
 
     /** work의 제조수행정보 목록 조회 */
-    List<WorkProcessInfoVO> selectWorkProcessInfo(WorkSearchVO workSearchVO);
+    List<WorkProcessInfoVO> getWorkProcessInfo(WorkSearchVO workSearchVO);
 
     /** work의 작업목록 조회 */
-    List<WorkVO> selectWork(WorkSearchVO workSearchVO);
+    List<WorkVO> getWork(WorkSearchVO workSearchVO);
 
     /** work의 생산실적 조회 */
-    List<WorkVO> selectWorkProductionPerformance(WorkSearchVO workSearchVO);
+    List<WorkVO> getWorkProductionPerformance(WorkSearchVO workSearchVO);
 
     /** work의 자재투입내역 조회 */
-    List<WorkSelectInsertMaterialVO> selectWorkInsertMaterial(WorkSearchVO workSearchVO);
+    List<WorkSelectInsertMaterialVO> getWorkInsertMaterial(WorkSearchVO workSearchVO);
 
     /** work의 자재투입내역 조회 */
-    List<WorkerVO> selectWorker(WorkSearchVO workSearchVO);
+    List<WorkerVO> getWorker(WorkSearchVO workSearchVO);
 
     /** todayWorkInsert 의 공정조회 */
-    List<WorkProcessMachineVO> selectWorkProcessMachine(WorkSearchVO workSearchVO);
+    List<WorkProcessMachineVO> getWorkProcessMachine(WorkSearchVO workSearchVO);
 
     /** todayWorkInsert의 당일작업목록 조회 */
-    List<TodayWorkVO> selectTodayWork(WorkSearchVO workSearchVO);
+    List<TodayWorkVO> getTodayWork(WorkSearchVO workSearchVO);
 
 }

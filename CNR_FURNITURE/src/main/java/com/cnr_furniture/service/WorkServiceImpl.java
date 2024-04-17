@@ -47,43 +47,43 @@ public class WorkServiceImpl implements WorkService{
 
     /** work의 제조수행정보 조회 */
     @Override
-    public List<WorkProcessInfoVO> selectWorkProcessInfo(WorkSearchVO workSearchVO) {
+    public List<WorkProcessInfoVO> getWorkProcessInfo(WorkSearchVO workSearchVO) {
         return workMapper.selectWorkProcessInfo(workSearchVO);
     }
 
     /** work의 작업목록 조회 */
     @Override
-    public List<WorkVO> selectWork(WorkSearchVO workSearchVO) {
+    public List<WorkVO> getWork(WorkSearchVO workSearchVO) {
         return workMapper.selectWork(workSearchVO);
     }
 
     /** work의 생산실적 조회 */
     @Override
-    public List<WorkVO> selectWorkProductionPerformance(WorkSearchVO workSearchVO) {
+    public List<WorkVO> getWorkProductionPerformance(WorkSearchVO workSearchVO) {
         return workMapper.selectWorkProductionPerformance(workSearchVO);
     }
 
     /** work의 자재투입내역 조회 */
     @Override
-    public List<WorkSelectInsertMaterialVO> selectWorkInsertMaterial(WorkSearchVO workSearchVO) {
+    public List<WorkSelectInsertMaterialVO> getWorkInsertMaterial(WorkSearchVO workSearchVO) {
         return workMapper.selectWorkInsertMaterial(workSearchVO);
     }
 
     /** work의 작업자 조회 */
     @Override
-    public List<WorkerVO> selectWorker(WorkSearchVO workSearchVO) {
+    public List<WorkerVO> getWorker(WorkSearchVO workSearchVO) {
         return workMapper.selectWorker(workSearchVO);
     }
 
     /** todayWorkInsert의 공정별 설비상태 조회 */
     @Override
-    public List<WorkProcessMachineVO> selectWorkProcessMachine(WorkSearchVO workSearchVO) {
+    public List<WorkProcessMachineVO> getWorkProcessMachine(WorkSearchVO workSearchVO) {
         return workMapper.selectWorkProcessMachine(workSearchVO);
     }
 
     /** todayWorkInsert의 당일작업목록 조회 */
     @Override
-    public List<TodayWorkVO> selectTodayWork(WorkSearchVO workSearchVO) {
+    public List<TodayWorkVO> getTodayWork(WorkSearchVO workSearchVO) {
         return workMapper.selectTodayWork(workSearchVO);
     }
 }
