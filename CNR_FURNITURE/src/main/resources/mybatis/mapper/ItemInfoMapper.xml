@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.ItemInfoMapper">
 
+    <!--제품 조회 및 검색-->
     <select id="getItemInfoList" resultType="com.cnr_furniture.domain.ItemInfo.ItemInfoVO">
         SELECT ROWNUM rn, I_ID, I_NAME, I_COLOR, I_STANDARD, I_TYPE, I_USES
         FROM ITEM
@@ -21,10 +22,12 @@
         ORDER BY I_ID ASC
     </select>
 
+    <!--수정할 제품 값 불러오기-->
     <select id="getOneItem" resultType="com.cnr_furniture.domain.ItemInfo.ItemInfoVO">
         SELECT * FROM ITEM WHERE I_ID = #{i_id}
     </select>
 
+    <!--제품 등록-->
     <insert id="addItem">
         INSERT INTO ITEM
         (I_ID, I_NAME, I_COLOR, I_STANDARD, I_TYPE, I_USES)
@@ -32,6 +35,7 @@
         (ITEM_SEQ.nextval, #{i_name}, #{i_color}, #{i_standard}, #{i_type}, #{i_uses})
     </insert>
 
+    <!--제품 수정-->
     <update id="modifyList">
         UPDATE ITEM SET
             I_NAME = #{i_name}

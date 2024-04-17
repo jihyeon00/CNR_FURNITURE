@@ -23,7 +23,10 @@ public class ItemInfoController {
     private ItemInfoService itemInfoService;
 
 
-    // 제품 조회
+    /**
+     * Desc: 제품 조회
+     * @return: /itemInfo
+     */
     @GetMapping("/itemInfo")
     public String itemInfo(ItemInfoSearch itemInfoSearch, Model model) {
 
@@ -34,7 +37,10 @@ public class ItemInfoController {
         return "standardInfo/itemInfo";
     }
 
-    // 제품 등록
+    /**
+     * Desc: 제품 등록
+     * @return: /itemInsert
+     */
     @PostMapping("/itemInsert")
     public String itemInsert(
             @RequestParam("i_name") String i_name,
@@ -48,14 +54,21 @@ public class ItemInfoController {
         rttr.addFlashAttribute("insertSuccessCount", rtn);
         return "redirect:itemInfo";
     }
-    // 수정할 제품 값 불러오기
+
+    /**
+     * Desc: 수정할 제품 값 불러오기
+     * @return: /itemUpdate/{i_id}
+     */
     @ResponseBody
     @GetMapping(value = "/itemUpdate/{i_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ItemInfoVO> get(@PathVariable("i_id") int i_id) {
         return new ResponseEntity<>(itemInfoService.getOneItem(i_id), HttpStatus.OK);
     }
 
-    // 제품 수정
+    /**
+     * Desc: 제품 수정
+     * @return: /itemUpdate
+     */
     @PostMapping("/itemUpdate")
     public String itemUpdate(
             @RequestParam("i_name2") String i_name,
@@ -71,18 +84,6 @@ public class ItemInfoController {
 
         return "redirect:itemInfo";
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

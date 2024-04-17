@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface ItemInfoMapper {
 
-    List<ItemInfoVO> getItemInfoList(ItemInfoSearch itemInfoSearch); //전체 조회
+    List<ItemInfoVO> getItemInfoList(ItemInfoSearch itemInfoSearch); //제품 조회 및 검색
 
-    ItemInfoVO getOneItem(int i_id);
-    int addItem(ItemInfoVO itemInfoVO); //등록
+    ItemInfoVO getOneItem(int i_id); //수정할 제품 값 불러오기
+    int addItem(ItemInfoVO itemInfoVO); //제품 등록
 
-    int modifyList(ItemInfoVO itemInfoVO);  //수정
+    int modifyList(ItemInfoVO itemInfoVO);  //제품 수정
 }
