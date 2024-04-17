@@ -33,6 +33,15 @@ public class ProcessDate {
     private Integer pLotId;             // 제조고트번호:제조수행지시, Integer을 사용함으로써 null도 가능하게 함
 
 
+
+    /**공정정보*/
+    private int rn;
+    private Integer piId;                   // 공정 정보 아이디
+    private int piMachineId;            // 공정정보 설비 아이디
+    private String piName;              // 공정명
+    private String piSeq ;              // 공정 위치 번호
+
+
     /**리스트*/
     private List<ProcessItemVO> itemProList; // 아이템 정보 리스트 추가
     private List<ProcessCtVO>   ctProList;   // 계약 정보 리스트 추가

@@ -174,6 +174,18 @@ public class ProcessServiceImpl implements ProcessService{
         int rtn = processMapper.insertAddProcess(processInfoVO);
         return rtn;
     }
+
+    /** 공정정보등록창: 공정정보 목록 조회**/
+    @Override
+    public List<ProcessInfoVO> selectByList(ProcessDate processDate){
+        return processMapper.selectByList(processDate);
+    }
+
+    @Override
+    public List<ProcessInfoVO> selectByListSearch(){
+        return processMapper.selectByListSearch();
+    }
+
 }
 
 

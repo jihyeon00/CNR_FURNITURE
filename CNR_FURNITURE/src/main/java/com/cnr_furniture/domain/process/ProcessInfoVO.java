@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProcessInfoVO {
+    private int rn;
     private int pi_id;
     private int pi_machine_id;
     private String pi_name;

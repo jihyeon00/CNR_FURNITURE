@@ -87,5 +87,10 @@ public interface ProcessService {
              String pi_seq
     );
 
+    /** 공정정보등록창: 공정정보 목록 조회 **/
+    List<ProcessInfoVO> selectByList(ProcessDate processDate);
+
+    List<ProcessInfoVO> selectByListSearch();
+
 }
 

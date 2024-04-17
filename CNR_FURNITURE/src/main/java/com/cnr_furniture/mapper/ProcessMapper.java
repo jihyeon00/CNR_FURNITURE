@@ -73,6 +73,13 @@ public interface ProcessMapper {
 
     /** 공정정보등록창: 공정정보 등록 **/
     int insertAddProcess(ProcessInfoVO processInfoVO);
+
+    /** 공정정보등록창: 공정정보 목록 조회 **/
+    List<ProcessInfoVO> selectByList(ProcessDate processDate);
+
+    List<ProcessInfoVO> selectByListSearch();
+
+
 }
 
 
