@@ -2,6 +2,8 @@ package com.cnr_furniture.mapper;
 
 import com.cnr_furniture.domain.member.MemberVO;
 import com.cnr_furniture.domain.member.MemberSearch;
+import com.cnr_furniture.domain.member.PassWordVO;
+
 import java.util.List;
 
 public interface MemberMapper {
@@ -22,4 +24,11 @@ public interface MemberMapper {
   /** 부서 조회 **/
   List<MemberVO> dpNameList();
 
+  /** 비밀번호 변경 **/
+  int passwordUpdate(PassWordVO passWord);
+
+  /** 사원 등록 **/
+  int addStaff(MemberVO memberVO);
+  /** 권한 변경 **/
+  int modifyRole(MemberVO memberVO);
 }

@@ -16,8 +16,17 @@ public class CompanyServiceImpl implements CompanyService{
   @Autowired
   private CompanyMapper companyMapper;
 
+  /** 거래처 정보 조회 **/
   @Override
   public List<CompanyVO> getCompanyList(MemberSearch search) {
-    return companyMapper.getCompanyList(search);
+    List<CompanyVO> CompanyList = companyMapper.getCompanyList(search);
+    return CompanyList;
+  }
+
+  /** 거래처명 리스트 **/
+  @Override
+  public List<CompanyVO> CompanyNameList() {
+    List<CompanyVO> CompanyNameList = companyMapper.CompanyNameList();
+    return CompanyNameList;
   }
 }

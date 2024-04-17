@@ -2,4 +2,81 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.ContractMapper">
+  <resultMap type="com.cnr_furniture.domain.contract.ContractVO" id="mapping_contractVO">
+    <result property="id" column="CT_ID"/>
+    <result property="company_id" column="CT_Company_ID"/>
+    <result property="company_name" column="C_NAME"/>
+    <result property="material_id" column="CT_Material_ID"/>
+    <result property="material_name" column="M_NAME"/>
+    <result property="item_id" column="CT_ITEM_ID"/>
+    <result property="item_name" column="I_NAME"/>
+    <result property="c_div" column="CT_DIV"/>
+    <result property="money" column="CT_AMOUT_MONEY"/>
+    <result property="c_date" column="CT_DATE"/>
+    <result property="unit" column="CT_UNIT"/>
+    <result property="quantity" column="CT_QUANTITY"/>
+    <result property="real_quantity" column="CT_REAL_QUANTITY"/>
+    <result property="ib_date" column="CT_IB_DATE"/>
+    <result property="ob_date" column="CT_OB_DATE"/>
+    <result property="real_ib_date" column="CT_REAL_IB_DATE"/>
+    <result property="real_ob_date" column="CT_REAL_OB_DATE"/>
+  </resultMap>
+  <!-- 사원정보 조회 -->
+  <select id="selectByContract" resultType="com.cnr_furniture.domain.contract.ContractVO"
+          resultMap="mapping_contractVO">
+    SELECT 	c.CT_ID,
+            c.CT_DIV,
+            cp.C_NAME,
+            m.M_NAME,
+            c.CT_MATERIAL_ID,
+            i.I_NAME,
+            c.CT_ITEM_ID,
+            c.CT_AMOUT_MONEY,
+            c.CT_QUANTITY,
+            c.CT_UNIT,
+            to_char(c.CT_DATE,'yyyy-mm-dd') as CT_DATE,
+            to_char(c.CT_IB_DATE,'yyyy-mm-dd') as CT_IB_DATE,
+            to_char(c.CT_OB_DATE,'yyyy-mm-dd') as CT_OB_DATE
+    FROM    CONTRACT c, COMPANY cp, ITEM i, MATERIAL m
+    WHERE 	c.CT_COMPANY_ID = cp.C_ID
+      AND   c.CT_ITEM_ID = i.I_ID(+)
+      AND   c.CT_MATERIAL_ID = m.M_ID(+)
+
+    <!-- 제품명/번호 검색 -->
+    <if test="find_item != null and find_item != '' ">
+      AND (c.CT_ITEM_ID LIKE '%' || #{find_item} || '%' OR i.I_NAME like '%' || #{find_item} || '%')
+    </if>
+    <!-- 자재명/번호 검색 -->
+    <if test="find_material != null and find_material != '' ">
+      AND (c.CT_MATERIAL_ID LIKE '%' || #{find_material} || '%' OR m.M_NAME like '%' || #{find_material} || '%')
+    </if>
+    <!-- 거래처명 검색 -->
+    <if test="find_name != null and find_name != '' ">
+      AND cp.C_NAME LIKE '%' || #{find_name} || '%'
+    </if>
+    <!--  계약날짜 검색  -->
+    <if test="find_contract_start_date != null and find_contract_start_date != ''
+              and find_contract_end_date != null and find_contract_end_date != ''">
+      AND c.CT_DATE BETWEEN TO_DATE(#{find_contract_start_date}, 'yyyy-mm-dd')
+      AND TO_DATE(#{find_contract_end_date}, 'yyyy-mm-dd')
+    </if>
+    <!--  입고날짜 검색  -->
+    <if test="find_ib_start_Date != null and find_ib_start_Date != ''
+              and find_ib_end_Date != null and find_ib_end_Date != ''">
+      AND c.CT_IB_DATE BETWEEN TO_DATE(#{find_ib_start_Date}, 'yyyy-mm-dd')
+      AND TO_DATE(#{find_ib_end_Date}, 'yyyy-mm-dd')
+    </if>
+    <!--  출고날짜 검색  -->
+    <if test="find_ob_start_Date != null and find_ob_start_Date != ''
+              and find_ob_end_Date != null and find_ob_end_Date != ''">
+      AND c.CT_OB_DATE BETWEEN TO_DATE(#{find_ob_start_Date}, 'yyyy-mm-dd')
+      AND TO_DATE(#{find_ob_end_Date}, 'yyyy-mm-dd')
+    </if>
+    ORDER BY c.CT_ID
+  </select>
+  <select id="materialList" resultType="com.cnr_furniture.domain.MaterialInfo.MaterialInfoVO">
+    SELECT M_ID, M_NAME
+    FROM MATERIAL
+    ORDER BY M_ID
+  </select>
 </mapper>
