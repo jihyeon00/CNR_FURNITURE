@@ -75,6 +75,12 @@ button {
   margin-left: 5px;
 }
 
+.workerId:hover {
+	font-size: large;
+	font-weight: bold;
+	cursor: pointer;
+}
+
 
 /*   테이블 길이 조절   */
 .table{

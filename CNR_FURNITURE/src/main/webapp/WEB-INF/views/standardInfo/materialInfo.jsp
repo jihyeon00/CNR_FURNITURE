@@ -185,7 +185,7 @@
             searchMaterialForm.submit();
         });
     
-  /* 자재 등록시 사용  */
+  /* 자재 등록시 null 체크  */
 	function checkAllFields() {
 	    return ($('#m_name').val() && $('#m_uses').val());
 	}
