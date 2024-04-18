@@ -3,7 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.ScheduleMapper">
 
+    <resultMap id="schedule" type="com.cnr_furniture.domain.scheduler.ScheduleVO">
+        <result property="id" column="wr_emp_id" />
+        <result property="title" column="wr_work_id" />
+        <result property="start" column="wr_start_time" />
+        <result property="end" column="wr_end_time" />
+    </resultMap>
 
+    <!--사원테이블의 목록 조회-->
     <select id="getWorkerList" resultType="com.cnr_furniture.domain.scheduler.ScheduleVO">
         SELECT ROWNUM rn, E_DP_NAME, E_ID, E_NAME
         FROM EMPLOYEE
@@ -21,4 +28,11 @@
         </foreach>
         ORDER BY E_ID ASC
     </select>
+
+    <!--작업자 목록 조회-->
+    <select id="getScheduleAll" resultType="com.cnr_furniture.domain.scheduler.ScheduleVO" resultMap="schedule">
+        SELECT *
+        FROM WORKER
+    </select>
+
 </mapper>
