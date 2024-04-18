@@ -448,6 +448,30 @@
   height: 40px;
 }
 
+/* 모달-readonly 입력 필드 스타일링 - 테두리 없음 */
+.work-modal-text input[readonly] {
+  background-color: #D9D9D9;
+}
+
+/* work 모달 - 추가 버튼 */
+.add-insert-mat-btn {
+	padding: 1% 1% 1% 0;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;	/* 버튼 내 아이콘과 텍스트 세로 중앙 정렬 */
+}
+/* work 모달 - 추가 버튼 크기 */
+.add-insert-mat-btn .btn {
+	width: auto;	/* 버튼의 너비를 자동으로 설정하여 텍스트에 맞게 조정 */
+	padding: 0.375rem 0.75rem; /* Bootstrap 기본 버튼 패딩 */
+	
+	display: flex;	/* Flexbox를 사용하여 아이콘과 텍스트 정렬 */
+	align-items: center; /* 세로 중앙 정렬 */
+	justify-content: center; /* 가로 중앙 정렬 */
+	background-color: #007bff; /* 버튼 배경 색상 설정 */
+	color: white; /* 버튼 텍스트 색상을 하얀색으로 설정 */
+}
+
 /* work 모달 - 테이블 제목 */
 .newWorkMaterialTitle {
 	padding-top: 2%;
@@ -477,12 +501,12 @@
 /* work 모달 - 자재투입목록 테이블 글씨 위치 및 크기 */
 .work-modal-table-header,
 .work-modal-table-header th,
-.work-modal-table-header td {
+.work-modal-table-content td {
 	white-space: nowrap;	/* 셀 내용을 한 줄에 표시 */
 	text-align: center;
   vertical-align: middle;
   padding: 15px;
-  font-size: 12px;
+  font-size: 14px;
   border-right: 1px solid #fff;
 }
 /* work 모달 - 자재투입목록 테이블 헤더 특정 스타일 */
@@ -519,6 +543,7 @@
 	background-color: #fff;
 	z-index:100;
 }
+
 /* 테이블 컨텐츠 특정 스타일 */
 .work-modal-table-content tr:hover,
 .work-modal-table-content tr:nth-child(even):hover {

@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * 검색을 위한 클래스
+ * Desc: Work의 검색을 위한 VO
  */
 @Getter
 @Setter

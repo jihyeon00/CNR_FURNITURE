@@ -203,20 +203,6 @@
         </trim>
     </select>
 
-    <!-- work 자재투입 모달창의 [로트번호의 공정번호] 조회-->
-    <select id="workSelectInsProIdList" resultType="com.cnr_furniture.domain.work.search.WorkSelectInsProIdVO">
-        SELECT
-            ins.ins_lot_id, ins.ins_pi_id
-        FROM
-            INSTRUCTION ins
-        WHERE
-            ins.ins_lot_id = #{find_work_instruction}
-        ORDER BY
-            ins.ins_lot_id, ins.ins_pi_id*1
-    </select>
-
-    <!-- work 자재투입등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[자재번호],[자재명],[투입단위] 조회 -->
-
     <!-- work의 [생산실적] 조회 (작업목록에서 작업자사원번호(작업자명), 불량수량 추가) -->
     <select id="selectWorkProductionPerformance" resultType="com.cnr_furniture.domain.work.workMNG.WorkVO">
         SELECT
@@ -310,44 +296,44 @@
     <![CDATA[
         SELECT
             ROWNUM AS rn,
-            mi.w_lot_id,
-            mi.w_pi_id,
+            mi.inv_LOT_ID,
+            mi.inv_PI_ID,
             mi.ins_item_id,
+            mi.i_name,
             mi.ct_company_id,
             mi.c_name,
             mi.inv_date,
-            mi.b_material_id,
+            mi.INV_MATERIAL_ID,
             mi.m_name,
             mi.b_unit,
             mi.inv_quantity
         FROM
             (SELECT
-                DISTINCT w.W_LOT_ID,
-                w.W_PI_ID,
-                ins.INS_ITEM_ID ,
+                DISTINCT inv.inv_LOT_ID,
+                inv.inv_PI_ID,
+                ins.INS_ITEM_ID,
                 it.i_name,
                 ct.CT_Company_ID,
                 c.c_name,
                 to_char(inv.INV_DATE,'yyyy-mm-dd') AS inv_date,
-                b.B_MATERIAL_ID,
+                inv.INV_MATERIAL_ID,
                 m.M_NAME,
                 upper(b.B_UNIT) AS B_UNIT,
                 substr(inv.INV_QUANTITY,2) AS INV_QUANTITY
             FROM
-                WORK w
-                JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
-                JOIN INSTRUCTION ins ON w.W_LOT_ID = ins.INS_LOT_ID
+                INVENTORY inv
+                JOIN INSTRUCTION ins ON inv.inv_LOT_ID = ins.INS_LOT_ID
+                JOIN PROCESS_INFO pi ON ins.ins_PI_ID = pi.PI_ID
                 JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
                 JOIN COMPANY c ON ct.CT_Company_ID = c.C_ID
                 JOIN ITEM it ON ins.INS_ITEM_ID = it.I_ID
-                JOIN BOM b ON ins.ins_ITEM_ID = b.B_ITEM_ID
-                JOIN MATERIAL m ON b.B_MATERIAL_ID = m.M_ID
-                JOIN INVENTORY inv ON w.W_PI_ID = inv.INV_pi_ID
+                JOIN BOM b ON inv.INV_MATERIAL_ID = b.B_MATERIAL_ID
+                JOIN MATERIAL m ON inv.INV_MATERIAL_ID = m.M_ID
             WHERE inv.INV_LOT_ID IS NOT NULL
                 AND inv.INV_PI_ID IS NOT NULL
                 AND inv.INV_QUANTITY<0
-            ORDER BY
-                w.W_LOT_ID,w.W_PI_ID,b.B_MATERIAL_ID) mi
+                ORDER BY
+                    inv.INV_LOT_ID,inv.inv_PI_ID,inv.INV_MATERIAL_ID) mi
     ]]>
         <trim prefix="where " prefixOverrides="and">
             <if test="find_work_company != null or find_work_item != null or
@@ -366,10 +352,10 @@
                     <![CDATA[ AND #{workEndDate} >=  inv_date ]]>
                 </if>
                 <if test="find_work_instruction != ''">
-                    AND W_LOT_ID = #{find_work_instruction}
+                    AND inv_LOT_ID = #{find_work_instruction}
                 </if>
                 <if test="find_work_processInfo != ''">
-                    AND W_PI_ID = #{find_work_processInfo}
+                    AND inv_PI_ID = #{find_work_processInfo}
                 </if>
                 <if test="find_work_company == '' and find_work_item == '' and
                      workStartDate == '' and workEndDate == '' and
@@ -432,6 +418,94 @@
             </if>
         </trim>
     </select>
+
+    <!-- work 자재투입 모달창의 [로트번호의 공정번호] 조회-->
+    <select id="workSelectInsProIdModal" resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertMaterialModalVO">
+        SELECT
+            ins.ins_lot_id as insLotIdModal,
+            ins.ins_pi_id as processIdModal
+        FROM
+            INSTRUCTION ins
+        WHERE
+            ins.ins_lot_id = #{insLotIdModal}
+        ORDER BY
+            insLotIdModal, processIdModal*1
+    </select>
+
+    <!-- work 자재투입등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[계획생산수량] 조회 -->
+    <select id="workSelectInsLotIdAutoDataModal"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertMaterialModalVO">
+        SELECT
+            DISTINCT ins.INS_LOT_ID AS insLotIdModal,
+            ins.INS_ITEM_ID AS itemIdModal,
+            it.I_NAME AS itemNameModal,
+            ins.INS_LOT_SIZE AS productionPlanQuantityModal
+        FROM
+            INSTRUCTION ins
+            JOIN BOM b ON ins.ins_ITEM_ID = b.B_ITEM_ID
+            JOIN ITEM it ON ins.INS_ITEM_ID = it.I_ID
+            JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+        WHERE
+            ins.INS_LOT_ID = #{insLotIdModal}
+    </select>
+
+    <!-- 로트번호 입력에 따른 [자재번호] 조회 -->
+    <select id="workSelectMaterialIdModal"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertMaterialModalVO">
+        SELECT
+            DISTINCT ins.INS_LOT_ID AS insLotIdModal,
+            b.B_MATERIAL_ID AS materialIdModal
+        FROM
+            INSTRUCTION ins
+            JOIN BOM b ON ins.ins_ITEM_ID = b.B_ITEM_ID
+            JOIN MATERIAL m ON b.B_MATERIAL_ID = m.M_ID
+        WHERE
+            ins.INS_LOT_ID = #{insLotIdModal}
+        ORDER BY b.B_MATERIAL_ID
+    </select>
+
+    <!-- 자재번호 선택에 따른 [자재명],[제품1EA별 투입수량],[최소투입수량],[단위] 조회 -->
+    <select id="workSelectMaterialIdAutoDataModal"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertMaterialModalVO">
+        SELECT
+            DISTINCT ins.INS_LOT_ID AS insLotIdModal,
+            b.B_MATERIAL_ID AS materialIdModal,
+            m.M_NAME AS materialNameModal,
+            upper(b.B_UNIT) AS unitMaterialModal,
+            b.B_MATERIAL_QUANTITY AS item1EaMaterialModal,
+            ins.INS_LOT_SIZE * b.B_MATERIAL_QUANTITY AS minInsertQuantityModal
+        FROM
+            INSTRUCTION ins
+            JOIN BOM b ON ins.ins_ITEM_ID = b.B_ITEM_ID
+            JOIN ITEM it ON ins.INS_ITEM_ID = it.I_ID
+            JOIN MATERIAL m ON b.B_MATERIAL_ID = m.M_ID
+        WHERE
+            ins.INS_LOT_ID = #{insLotIdModal}
+            AND b.B_MATERIAL_ID = #{materialIdModal}
+    </select>
+
+    <!-- work 자재투입 모달창의 [자재투입] 등록 -->
+    <insert id="workInsertMaterial" parameterType="com.cnr_furniture.domain.work.workMNG.WorkInsertMaterialModalVO">
+        INSERT INTO INVENTORY
+            (
+            inv_material_id,
+            inv_lot_id,
+            inv_pi_id,
+            inv_date,
+            inv_quantity,
+            inv_unit
+            )
+        VALUES
+            (
+            #{materialIdModal},
+            #{insLotIdModal},
+            #{processIdModal},
+            CURRENT_TIMESTAMP,
+            '-'||#{insertQuantityModal},
+            #{unitMaterialModal}
+            )
+    </insert>
+
     <!-- todayWorkInsert 의 [공정별 설비상태]조회 -->
     <select id="selectWorkProcessMachine"
             resultType="com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO">
@@ -532,7 +606,6 @@
                 </if>
             </if>
     </select>
-
 
 
 </mapper>

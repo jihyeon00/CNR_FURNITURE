@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Desc: Work의 거래처 VO
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

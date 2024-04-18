@@ -44,8 +44,6 @@
 <!-- AdminLTE -->
 <script src="/resources/js/adminlte.js"></script>
 
-<!-- OPTIONAL SCRIPTS -->
-<script src="/resources/plugins/chart.js/Chart.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/resources/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
