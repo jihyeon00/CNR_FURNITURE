@@ -15,4 +15,7 @@ public class MachineWorkVO {
     private String w_end_time;      // 작동 종료 시간
     private int rownum;             // 목차
 
+
+    private int mcr_mi_id;
+
 }

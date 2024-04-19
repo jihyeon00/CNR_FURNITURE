@@ -4,10 +4,12 @@
 <mapper namespace="com.cnr_furniture.mapper.MachineInfoMapper">
     <!--설비 정보 리스트-->
     <select id="getMachineList" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineVO">
-        SELECT ROWNUM, MI.*
+        SELECT ROWNUM, MI.*, PI.pi_seq
         FROM  (SELECT mi_id, mi_name, mi_position, mi_type
                 FROM MACHINE_INFO
                 order by mi_id) MI
+        LEFT JOIN
+            PROCESS_INFO PI ON MI.MI_ID = PI.PI_MACHINE_ID
         where 1=1
             <if test="find_machine_name != null and find_machine_name != ''">
                 AND mi_name Like '%' || #{find_machine_name} || '%'
@@ -16,7 +18,7 @@
                 AND mi_type Like '%' || #{find_machine_type} || '%'
             </if>
             <if test="find_machine_position != null and find_machine_position != ''">
-                AND mi_position Like '%' || #{find_machine_position} || '%'
+                AND mi_position Like '%' || #{find_machine_position} || '%' OR PI.pi_seq LIKE '%' || #{find_machine_position} || '%'
             </if>
     </select>
 
@@ -65,8 +67,9 @@
                 MI.MI_TYPE,
                 PI.PI_SEQ,
                 MI.MI_POSITION,
-                WT.W_START_TIME,
-                WT.W_END_TIME,
+                MAX(WT.W_START_TIME) AS W_START_TIME,
+                MAX(WT.W_END_TIME) AS W_END_TIME,
+                MW.MW_CONDITION,
                 MW.MW_STATUS
             FROM
                 MACHINE_WORK MW
@@ -84,6 +87,14 @@
                 JOIN
                     PROCESS_INFO PI ON W.W_PI_ID = PI.PI_ID
                 ) WT ON PI.PI_ID = WT.W_PI_ID
+            GROUP BY
+                MW.MW_MI_ID,
+                MI.MI_NAME,
+                MI.MI_TYPE,
+                PI.PI_SEQ,
+                MI.MI_POSITION,
+                MW.MW_CONDITION,
+                MW.MW_STATUS
             ORDER BY
                 MW.MW_MI_ID
         ) mw
@@ -98,4 +109,80 @@
             AND mw_status Like '%' || #{find_machine_status} || '%'
         </if>
     </select>
+
+    <!-- 설비 관리 리스트 -->
+    <select id="mcManagementList" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineWorkVO">
+        SELECT
+            rownum,
+            MC.*
+        FROM (
+            SELECT
+                MW.MW_MI_ID,
+                MI.MI_NAME,
+                MI.MI_TYPE,
+                PI.PI_SEQ,
+                MI.MI_POSITION,
+                MW.MW_CONDITION
+            FROM
+                MACHINE_WORK MW
+            JOIN
+                MACHINE_INFO MI ON MW.MW_MI_ID = MI.MI_ID
+            LEFT JOIN
+                PROCESS_INFO PI ON MW.MW_MI_ID = PI.PI_MACHINE_ID
+            ORDER BY
+                MW.MW_MI_ID
+            ) MC
+        WHERE 1=1
+        <if test="find_machine_name != null and find_machine_name != ''">
+            AND MI.MI_NAME LIKE '%' || #{find_machine_name} || '%'
+        </if>
+        <if test="find_machine_type != null and find_machine_type != ''">
+            AND MI.MI_TYPE LIKE '%' || #{find_machine_type} || '%'
+        </if>
+        <if test="find_machine_condition != null and find_machine_condition != ''">
+            AND MC.MW_CONDITION LIKE '%' || #{find_machine_condition} || '%'
+        </if>
+
+    </select>
+
+    <!-- 수리버튼 클릭 시 '수리중'으로 업데이트 -->
+    <update id="mcUpdateRepair">
+        update
+            MACHINE_WORK
+        set
+            MW_STATUS = '수리중',
+            MW_CONDITION = '수리중'
+        where
+            MW_MI_ID = #{mw_mi_id}
+    </update>
+
+    <!-- 수리완료버튼 클릭 시 '수리완료' 로 업데이트 -->
+    <update id="mcRepairCompleted">
+        update
+            MACHINE_WORK
+        set
+            MW_STATUS = '비가동',
+            MW_CONDITION = '수리완료'
+        where
+            MW_MI_ID = #{mw_mi_id}
+    </update>
+
+    <!-- 수리완료 되었을 때 설비수리이력 테이블에 데이터 insert-->
+    <insert id="addMcRepair">
+        INSERT INTO MACHINE_REPAIR (MR_ID, MR_MI_ID, MR_MCR_ID, MR_DATE)
+        SELECT
+            MACHINE_REPAIR_SEQ.NEXTVAL,
+            #{mw_mi_id},
+            mcr_id,
+            SYSDATE
+        FROM
+            MACHINE_WORK
+        JOIN
+            MACHINE_CHECK_RECORD ON MACHINE_WORK.MW_MI_ID = MACHINE_CHECK_RECORD.MCR_MI_ID
+        WHERE
+            MACHINE_WORK.MW_MI_ID = #{mw_mi_id}
+            AND MACHINE_WORK.MW_CONDITION = '수리완료'
+            AND MACHINE_CHECK_RECORD.MCR_ANSWER = 'Y'
+            AND TRUNC(MACHINE_CHECK_RECORD.MCR_DATE) = TRUNC(SYSDATE)
+    </insert>
 </mapper>

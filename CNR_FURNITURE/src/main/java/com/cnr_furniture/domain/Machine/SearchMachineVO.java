@@ -14,6 +14,7 @@ public class SearchMachineVO {
     private String find_machine_position;
     private String find_machine_id;
     private String find_machine_status;
+    private String find_machine_condition;
 
 
     public String[] getTypeArr(){

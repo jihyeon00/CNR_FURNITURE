@@ -69,7 +69,7 @@
                           <td><c:out value="${list.mr_mi_id}" /></td>
                           <td><c:out value="${list.mi_name}" /></td>
                           <td><c:out value="${list.mi_type}" /></td>
-                          <td><c:out value="${list.pi_seq}" />-<c:out value="${list.mi_position}" /></td>
+                          <td><c:out value="${list.pi_seq}" /> <c:out value="${list.mi_position}" /></td>
                           <td><c:out value="${list.mcr_note}" /></td>
                           <td><c:out value="${list.mr_date}" /></td>
                         </tr>

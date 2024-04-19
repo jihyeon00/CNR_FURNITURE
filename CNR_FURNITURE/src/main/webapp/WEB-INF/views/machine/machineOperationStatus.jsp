@@ -64,6 +64,7 @@
                       <th>설비위치</th>
                       <th>작동시작시간</th>
                       <th>작동종료시간</th>
+                      <th>설비상태</th>
                       <th>설비가동현황</th>
                     </tr>
                   </thead>
@@ -77,6 +78,7 @@
                           <td><c:out value="${list.pi_seq}" /> <c:out value="${list.mi_position}" /></td>
                           <td><c:out value="${list.w_start_time}" /></td>
                           <td><c:out value="${list.w_end_time}" /></td>
+                          <td><c:out value="${list.mw_condition}" /></td>
                           <td><c:out value="${list.mw_status}" /></td>
                         </tr>
                     </c:forEach>
