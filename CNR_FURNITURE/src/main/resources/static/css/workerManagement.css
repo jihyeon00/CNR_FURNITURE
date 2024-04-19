@@ -25,6 +25,13 @@ button {
 	border-bottom: 2px solid #999;
 }
 
+.workerInsert-btn {
+	float: right;
+	position: relative;
+	top: 18px;
+	right: 32px;
+}
+
 .workMg select {
 	height: 35px;
 	margin: 5px;
