@@ -284,94 +284,35 @@ $(document).ready(function() {
 
 
 
-//  /**
-//   * 제조지시
-//   * 계약 목록 ajax
-//   */
-//
-//$(document).ready(function() {
-//    updateDateDisplay();  // 날짜 업데이트 함수 호출
-//
-//
-//    $('#addCt').click(checkboxArrPro);  // 데이터 로드 버튼 이벤트 연결
-//});
-//
-//function checkboxArrPro() {
-//    var checkProArr = [];
-//    if ($('.cityPro:checked').length < 1) {
-//        alert('계약을 선택하십시오.');
-//        return; // 선택된 체크박스가 없을 때 함수를 종료합니다.
-//    }
-//
-//    $(".cityPro:checked").each(function() {
-//        var id = $(this).closest('tr').find("#ctProAjax").text().trim(); // ID 추출 시 공백 제거
-//        checkProArr.push(id);
-//    });
-//
-//    var formattedIds = checkProArr.join(","); // 배열을 문자열로 변환합니다.
-//    console.log("Selected IDs: " + formattedIds); // 콘솔에 선택된 ID들을 표시합니다.
-//
-//    // AJAX 요청
-//    $.ajax({
-//        url: "manufacturingInstructionForm", // 요청을 받을 서버의 URL
-//        type: "GET",                        // 요청 방식
-//        data: {
-//            formattedIds: formattedIds      // 서버로 전송할 데이터
-//        },
-//        success: function(response) {
-//            console.log("Response from server: ", response); // 서버 응답 콘솔에 표시
-//            updateTableWithResponse(response); // 서버 응답을 테이블 업데이트 함수로 넘깁니다.
-//            $("#register-Process-Btn2").modal('show'); // 모달 창을 보여줍니다.
-//        },
-//        error: function(xhr, status, error) {
-//            console.error("Error occurred: " + error); // 에러 출력
-//        }
-//    });
-//}
-//
-//
-//  /**
-//   * 서버 응답을 받아 테이블 업데이트
-//   * @param {Array} data 서버로부터 받은 데이터 (배열을 예상)
-//   */
-//function updateTableWithResponse(data) {
-//    var $table = $("#resultsTable tbody");
-//    $table.empty(); // 기존의 테이블 내용을 지웁니다.
-//
-//    data.forEach(function(item) {
-//        var $row = $("<tr></tr>");
-//        $row.append($("<td></td>").text(item.id));
-//        $row.append($("<td></td>").text(item.company_name));
-//        $row.append($("<td></td>").text(item.item_name));
-//        $row.append($("<td></td>").text(item.money));
-//        $row.append($("<td></td>").text(item.quantity));
-//        $row.append($("<td></td>").text(item.unit));
-//        $row.append($("<td></td>").text(item.c_date));
-//        $row.append($("<td></td>").text(item.ob_date));
-//        $table.append($row); // 테이블에 새 행 추가
-//    });
-//      $table.append($row);
-//}
-//
-//function updateDateDisplay() {
-//    var currentDate = new Date().toLocaleDateString('ko-KR');
-//    $('.ctP').text('날짜: ' + currentDate);
-//}
-//
-
 
 
     function generatePDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
+        // 맑은 고딕 폰트 파일을 VFS에 추가하고 폰트를 등록합니다.
+        doc.addFileToVFS('malgun.ttf', _fonts); // '_fonts'는 폰트의 base64 인코딩된 문자열입니다.
+        doc.addFont('malgun.ttf', 'malgun', 'normal');
+
+        // 텍스트 출력을 위해 폰트 설정
+        doc.setFont('malgun');
+
+
+        // autoTable이 사용 가능한지 확인
         if (doc.autoTable) {
-            doc.autoTable({ html: '#resultsTable' });
+            // 테이블에 폰트를 적용하여 추가합니다.
+            doc.autoTable({
+                html: '#resultsTable',
+                styles: { font: 'malgun', fontStyle: 'normal' } // 테이블의 모든 셀에 맑은 고딕 폰트를 적용
+            });
+
+            // PDF 파일을 저장합니다.
             doc.save('contract-details.pdf');
         } else {
             console.error('autoTable function is not available.');
         }
     }
+
 
         function checkboxArrPro() {
             var checkProArr = [];
@@ -395,7 +336,7 @@ $(document).ready(function() {
                 success: function(response) {
                     console.log("Response from server: ", response);
                     updateTableWithResponse(response);
-                    $("#register-Process-Btn2").modal('show');
+                    //$("#register-Process-Btn2").modal('show');
                 },
                 error: function(xhr, status, error) {
                     console.error("Error occurred: " + error);
@@ -425,7 +366,6 @@ $(document).ready(function() {
             var currentDate = new Date().toLocaleDateString('ko-KR');
             $('.ctP').text('날짜: ' + currentDate);
         }
-
 
 
 
