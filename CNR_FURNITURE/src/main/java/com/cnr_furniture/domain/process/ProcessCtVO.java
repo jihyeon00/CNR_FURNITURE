@@ -20,4 +20,5 @@ public class ProcessCtVO {
     private int ct_quantity;
     private String ct_ib_date;
     private String ct_ob_date;
+    private int ct_amout_money;
 }

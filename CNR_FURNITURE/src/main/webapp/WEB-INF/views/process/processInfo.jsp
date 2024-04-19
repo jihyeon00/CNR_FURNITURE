@@ -137,7 +137,7 @@
                                     </tr>
                                 </table>
                             </div>
-
+                                <button type="button" id="prosearchbtn" class="btn btn-info"> <a href="./machineInfo" style="color: fff;">수정</a></button>
                         </div>
                     </div>
 

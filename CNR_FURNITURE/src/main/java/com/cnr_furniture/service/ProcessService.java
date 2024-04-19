@@ -1,5 +1,6 @@
 package com.cnr_furniture.service;
 
+import com.cnr_furniture.domain.contract.ContractVO;
 import com.cnr_furniture.domain.process.*;
 
 import java.util.List;
@@ -92,5 +93,7 @@ public interface ProcessService {
 
     List<ProcessInfoVO> selectByListSearch();
 
+//    List<ContractVO> selectArrayCt(String id);
+List<ContractVO> selectArrayCt(List<String> ids);
 }
 

@@ -73,7 +73,7 @@
               <div class="icon"><i class="fa fa-list"></i></div>
               <div class="employee">제조수행지시목록</div>
             </div>
-            <div class="table ProTable">
+            <div class="table ETable">
               <table cellpadding="0" cellspacing="0" border="0">
                 <thead class="tbl-headerPro">
                        <th>NO</th>
