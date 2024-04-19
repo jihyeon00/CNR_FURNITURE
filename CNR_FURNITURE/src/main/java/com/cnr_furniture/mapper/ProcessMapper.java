@@ -1,5 +1,6 @@
 package com.cnr_furniture.mapper;
 
+import com.cnr_furniture.domain.contract.ContractVO;
 import com.cnr_furniture.domain.process.*;
 import com.cnr_furniture.domain.process.ManagementVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -79,6 +80,8 @@ public interface ProcessMapper {
 
     List<ProcessInfoVO> selectByListSearch();
 
+//    List<ContractVO> selectArrayCt(String id);
+List<ContractVO> selectArrayCt(List<String> ids);
 
 }
 

@@ -82,6 +82,31 @@
         return false; // 폼의 기본 제출 동작을 방지
     }
 
+    // 제조지시
+    // 제조지시에서 등록 모달창에 데이터 추출 함수
+    $(document).ready(function() {
+        $('#addText').click(function() {
+            $('#ctProList input:checked').each(function() {
+                var row = $(this).closest('tr');
+                var ct_id = row.find('td:nth-child(2)').text().trim();  // 계약번호 추출
+                var ct_item_id = row.find('td:nth-child(3)').text().trim();  // 제품번호 추출
+                var ct_quantity = parseFloat(row.find('td:nth-child(4)').text().trim());  // 수량 추출
+
+                var calculated_quantity = ct_quantity * 1.2;  // 계약수량에 1.2 곱하기
+
+                // 입력 필드에 값 설정
+                $('#ins_ct_id').val(ct_id);
+                $('#ins_item_id').val(ct_item_id);
+                $('#ins_lot_size').val(calculated_quantity);  // 소수점 없이 설정
+
+                console.log('Set Data:', ct_id, ct_item_id, calculated_quantity.toFixed(2));  // 콘솔에 설정된 데이터 로그
+
+                $(this).prop('checked', false);  // 체크박스 해제
+            });
+
+            $('input[name="checkAll3"]').prop('checked', false);  // 전체 선택 체크박스 해제
+        });
+    });
 
 
 
@@ -248,7 +273,7 @@ $(document).ready(function() {
         $.each(data, function(i, managementVO) {
             tableContent += '<tr>' +
                             '<td><input type="checkbox" name="check1"></td>' +
-                           '<td class="miId">' + managementVO.miId + '</td>' +
+                            '<td class="miId">' + managementVO.miId + '</td>' +
                             '<td>' + managementVO.miName + '</td>' +
                             '<td>' + managementVO.miType + '</td>' +
                             '</tr>';
@@ -258,6 +283,148 @@ $(document).ready(function() {
 });
 
 
+
+//  /**
+//   * 제조지시
+//   * 계약 목록 ajax
+//   */
+//
+//$(document).ready(function() {
+//    updateDateDisplay();  // 날짜 업데이트 함수 호출
+//
+//
+//    $('#addCt').click(checkboxArrPro);  // 데이터 로드 버튼 이벤트 연결
+//});
+//
+//function checkboxArrPro() {
+//    var checkProArr = [];
+//    if ($('.cityPro:checked').length < 1) {
+//        alert('계약을 선택하십시오.');
+//        return; // 선택된 체크박스가 없을 때 함수를 종료합니다.
+//    }
+//
+//    $(".cityPro:checked").each(function() {
+//        var id = $(this).closest('tr').find("#ctProAjax").text().trim(); // ID 추출 시 공백 제거
+//        checkProArr.push(id);
+//    });
+//
+//    var formattedIds = checkProArr.join(","); // 배열을 문자열로 변환합니다.
+//    console.log("Selected IDs: " + formattedIds); // 콘솔에 선택된 ID들을 표시합니다.
+//
+//    // AJAX 요청
+//    $.ajax({
+//        url: "manufacturingInstructionForm", // 요청을 받을 서버의 URL
+//        type: "GET",                        // 요청 방식
+//        data: {
+//            formattedIds: formattedIds      // 서버로 전송할 데이터
+//        },
+//        success: function(response) {
+//            console.log("Response from server: ", response); // 서버 응답 콘솔에 표시
+//            updateTableWithResponse(response); // 서버 응답을 테이블 업데이트 함수로 넘깁니다.
+//            $("#register-Process-Btn2").modal('show'); // 모달 창을 보여줍니다.
+//        },
+//        error: function(xhr, status, error) {
+//            console.error("Error occurred: " + error); // 에러 출력
+//        }
+//    });
+//}
+//
+//
+//  /**
+//   * 서버 응답을 받아 테이블 업데이트
+//   * @param {Array} data 서버로부터 받은 데이터 (배열을 예상)
+//   */
+//function updateTableWithResponse(data) {
+//    var $table = $("#resultsTable tbody");
+//    $table.empty(); // 기존의 테이블 내용을 지웁니다.
+//
+//    data.forEach(function(item) {
+//        var $row = $("<tr></tr>");
+//        $row.append($("<td></td>").text(item.id));
+//        $row.append($("<td></td>").text(item.company_name));
+//        $row.append($("<td></td>").text(item.item_name));
+//        $row.append($("<td></td>").text(item.money));
+//        $row.append($("<td></td>").text(item.quantity));
+//        $row.append($("<td></td>").text(item.unit));
+//        $row.append($("<td></td>").text(item.c_date));
+//        $row.append($("<td></td>").text(item.ob_date));
+//        $table.append($row); // 테이블에 새 행 추가
+//    });
+//      $table.append($row);
+//}
+//
+//function updateDateDisplay() {
+//    var currentDate = new Date().toLocaleDateString('ko-KR');
+//    $('.ctP').text('날짜: ' + currentDate);
+//}
+//
+
+
+
+    function generatePDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        if (doc.autoTable) {
+            doc.autoTable({ html: '#resultsTable' });
+            doc.save('contract-details.pdf');
+        } else {
+            console.error('autoTable function is not available.');
+        }
+    }
+
+        function checkboxArrPro() {
+            var checkProArr = [];
+            if ($('.cityPro:checked').length < 1) {
+                alert('계약을 선택하십시오.');
+                return;
+            }
+
+            $(".cityPro:checked").each(function() {
+                var id = $(this).closest('tr').find("#ctProAjax").text().trim();
+                checkProArr.push(id);
+            });
+
+            var formattedIds = checkProArr.join(",");
+            console.log("Selected IDs: " + formattedIds);
+
+            $.ajax({
+                url: "manufacturingInstructionForm",
+                type: "GET",
+                data: { formattedIds: formattedIds },
+                success: function(response) {
+                    console.log("Response from server: ", response);
+                    updateTableWithResponse(response);
+                    $("#register-Process-Btn2").modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error occurred: " + error);
+                }
+            });
+        }
+
+        function updateTableWithResponse(data) {
+            var $table = $("#resultsTable tbody");
+            $table.empty();
+
+            data.forEach(function(item) {
+                var $row = $("<tr></tr>");
+                $row.append($("<td></td>").text(item.id));
+                $row.append($("<td></td>").text(item.company_name));
+                $row.append($("<td></td>").text(item.item_name));
+                $row.append($("<td></td>").text(item.money));
+                $row.append($("<td></td>").text(item.quantity));
+                $row.append($("<td></td>").text(item.unit));
+                $row.append($("<td></td>").text(item.c_date));
+                $row.append($("<td></td>").text(item.ob_date));
+                $table.append($row);
+            });
+        }
+
+        function updateDateDisplay() {
+            var currentDate = new Date().toLocaleDateString('ko-KR');
+            $('.ctP').text('날짜: ' + currentDate);
+        }
 
 
 

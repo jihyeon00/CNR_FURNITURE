@@ -403,3 +403,43 @@ margin-left: 2%;
 .buttonSession {
 padding: 5px;
 }
+
+
+
+.cth1 {
+  text-align: center;
+}
+.ctP {
+    text-align: center;
+    width: 100%;
+    margin-top: 3%;
+}
+
+.tablectP {
+    margin: 0 auto; /* 테이블을 페이지 중앙에 배치 */
+    border-collapse: collapse;
+    width: 80%; /* 테이블의 너비를 80%로 설정 */
+ }
+
+.tablectP th, .tablectP td {
+     border: 1px solid #999;
+     padding: 8px;
+     text-align: center;
+ }
+
+   .tablectcP {
+     background-color: #f2f2f2;
+ }
+
+ .modalCtPr{
+ margin-top: 40px;
+ }
+ 
+ .ctP1{
+     text-align: center;
+     width: 100%;
+     margin-top: 3%;
+ }
+    
+    
+    

@@ -3,18 +3,78 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.ProcessMapper">
 
+    <resultMap type="com.cnr_furniture.domain.contract.ContractVO" id="mapping_contractVO">
+        <result property="id" column="CT_ID"/>
+        <result property="company_id" column="CT_Company_ID"/>
+        <result property="company_name" column="C_NAME"/>
+        <result property="material_id" column="CT_Material_ID"/>
+        <result property="material_name" column="M_NAME"/>
+        <result property="item_id" column="CT_ITEM_ID"/>
+        <result property="item_name" column="I_NAME"/>
+        <result property="c_div" column="CT_DIV"/>
+        <result property="money" column="CT_AMOUT_MONEY"/>
+        <result property="c_date" column="CT_DATE"/>
+        <result property="unit" column="CT_UNIT"/>
+        <result property="quantity" column="CT_QUANTITY"/>
+        <result property="real_quantity" column="CT_REAL_QUANTITY"/>
+        <result property="ib_date" column="CT_IB_DATE"/>
+        <result property="ob_date" column="CT_OB_DATE"/>
+        <result property="real_ib_date" column="CT_REAL_IB_DATE"/>
+        <result property="real_ob_date" column="CT_REAL_OB_DATE"/>
+    </resultMap>
+    <!-- 사원정보 조회 -->
+<!--    <select id="selectArrayCt" resultType="com.cnr_furniture.domain.contract.ContractVO"-->
+<!--            resultMap="mapping_contractVO">-->
+<!--        SELECT 	c.CT_ID,-->
+<!--                cp.C_NAME,-->
+<!--                I.I_NAME,-->
+<!--                c.CT_AMOUT_MONEY,-->
+<!--                c.CT_QUANTITY,-->
+<!--                c.CT_UNIT,-->
+<!--                to_char(c.CT_DATE,'yyyy-mm-dd') as CT_DATE,-->
+<!--                to_char(c.CT_OB_DATE,'yyyy-mm-dd') as CT_OB_DATE-->
+<!--        FROM    CONTRACT c, COMPANY cp, ITEM i-->
+<!--        WHERE 	c.CT_COMPANY_ID = cp.C_ID-->
+<!--            AND   c.CT_ITEM_ID = i.I_ID-->
+<!--            AND C.CT_DIV ='수주'-->
+<!--        <if test="id != null and id !='' ">-->
+<!--            AND c.CT_ID IN  #{id}-->
+<!--        </if>-->
+<!--        ORDER BY c.CT_ID-->
+<!--    </select>-->
+
+    <select id="selectArrayCt" resultType="com.cnr_furniture.domain.contract.ContractVO" resultMap="mapping_contractVO">
+        SELECT c.CT_ID,
+        cp.C_NAME,
+        i.I_NAME,
+        c.CT_AMOUT_MONEY,
+        c.CT_QUANTITY,
+        c.CT_UNIT,
+        to_char(c.CT_DATE, 'yyyy-mm-dd') as CT_DATE,
+        to_char(c.CT_OB_DATE, 'yyyy-mm-dd') as CT_OB_DATE
+        FROM CONTRACT c
+        JOIN COMPANY cp ON c.CT_COMPANY_ID = cp.C_ID
+        JOIN ITEM i ON c.CT_ITEM_ID = i.I_ID
+        WHERE c.CT_DIV = '수주'
+        AND c.CT_ID IN
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY c.CT_ID
+    </select>
+
+
     <!-- 제조 지시======================================================================================-->
     <!-- 제조지시 목록 조회-->
     <select id="selectProcess" resultType="com.cnr_furniture.domain.process.ProcessVO">
-        SELECT ROWNUM rn
-                    , INS_LOT_ID
-                    , INS_ITEM_ID
-                    , INS_EMP_ID
-                    , INS_CT_ID
-                    , INS_PI_ID
-                    , INS_LOT_SIZE
-                    , TO_CHAR(INS_START_DATE, 'YYYY-MM-DD') AS INS_START_DATE
-                    , TO_CHAR(INS_END_DATE, 'YYYY-MM-DD') AS INS_END_DATE
+        SELECT    INS_LOT_ID
+                , INS_ITEM_ID
+                , INS_EMP_ID
+                , INS_CT_ID
+                , INS_LOT_SIZE
+                , TO_CHAR(INS_START_DATE, 'YYYY-MM-DD') AS INS_START_DATE
+                , TO_CHAR(INS_END_DATE, 'YYYY-MM-DD') AS INS_END_DATE
         FROM INSTRUCTION
         WHERE 1=1
                 <if test="startDate != null and startDate !=''" >
@@ -26,8 +86,29 @@
                 <if test="find_item_process != null and find_item_process !=''">
                     AND INS_ITEM_ID = #{find_item_process}
                 </if>
-                ORDER BY rn ASC
+        GROUP BY INS_LOT_ID , INS_CT_ID,INS_ITEM_ID,INS_EMP_ID, INS_LOT_SIZE,INS_START_DATE,INS_END_DATE
+                ORDER BY INS_LOT_ID ASC
     </select>
+
+
+    <select id="selectPList" resultType="com.cnr_furniture.domain.process.ProcessVO">
+        SELECT
+                , INS_ITEM_ID
+
+                , INS_CT_ID
+                , INS_LOT_SIZE
+                , TO_CHAR(INS_START_DATE, 'YYYY-MM-DD') AS INS_START_DATE
+                , TO_CHAR(INS_END_DATE, 'YYYY-MM-DD') AS INS_END_DATE
+                FROM INSTRUCTION
+                WHERE 1=1
+
+                GROUP BY INS_LOT_ID , INS_CT_ID,INS_ITEM_ID,INS_EMP_ID, INS_LOT_SIZE,INS_START_DATE,INS_END_DATE
+                ORDER BY INS_LOT_ID ASC
+    </select>
+
+
+
+
     <!-- 제조지시 목록 조회: 제품-->
     <select id="selectAllItems" resultType="com.cnr_furniture.domain.process.ProcessItemVO">
         SELECT I_ID, I_NAME FROM ITEM
@@ -79,8 +160,6 @@
                     </if>
         ORDER BY rn ASC
     </select>
-
-
 
 
     <!--제조 수행 지시 ======================================================================================-->

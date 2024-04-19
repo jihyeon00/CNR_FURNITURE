@@ -2,10 +2,11 @@
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script src="/resources/js/process.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.min.js"></script>
+<script src="/resources/js/process.js"></script>
 
 <!--날짜 포맷팅-->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -24,12 +25,12 @@
                     <h1 class="m-0"><i class="far fa-clipboard"></i> 제조지시</h1>
                 </div><!-- /.col -->
                     <form action="/manufacturingInstruction" method="get">
-                     <div class="col-md-6 ml-auto">
+
                         <div class="pro-btn">
                             <button type="submit" class="btn btn-primary asb">조회</button>
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
                         </div>
-                </div><!-- /.col -->
+
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
@@ -69,34 +70,37 @@
                         <div class="ProTableName">
                             <div class="icon"><i class="fa fa-list"></i></div>
                             <div class="process">제조지시목록</div>
+                            <div class="processIcon"><button onClick ="checkboxArrPro()" class="buttonAddCt" data-toggle="modal" data-target="#register-Process-Btn2" id="addCt"><i class="fa fa-fw fa-plus"></i></button></div>
                         </div>
-                        <div class="table ProTable">
+                        <div class="table ETable">
                             <table cellpadding="0" cellspacing="0" border="0">
                                 <thead class="tbl-headerPro">
-                                <th>NO</th>
+                                <th><input type="checkbox" name="checkCt1" class="checkCt1" id="selectAllCt"></th>
                                 <th>제조LOT번호</th>
-                                <th>공정번호</th>
                                 <th>계약번호</th>
                                 <th>계획착수일</th>
                                 <th>계획완수일</th>
                                 <th>제품번호</th>
                                 <th>계획수량</th>
                                 </thead>
-                                <tbody class="tbl-content ProTable">
-                                <c:forEach var="ProSearch" items="${proList}">
-                                    <tr>
-                                        <td><c:out value="${ProSearch.rn}"/></td>
-                                        <td><c:out value="${ProSearch.ins_lot_id}"/></td>
-                                        <td><c:out value="${ProSearch.ins_pi_id}"/></td>
-                                        <td><c:out value="${ProSearch.ins_ct_id}"/></td>
-                                        <td><c:out value="${ProSearch.ins_start_date}" /></td>
-                                        <td><c:out value="${ProSearch.ins_end_date}"  /></td>
-                                        <td><c:out value="${ProSearch.ins_item_id}"/></td>
-                                        <td><c:out value="${ProSearch.ins_lot_size}"/></td>
-                                    </tr>
-                                </c:forEach>
-                              </tbody>
-                            </table>
+                                <form action="/manufacturingInstructionForm" id="searchContractInfo" method="get"  onSubmit="return false">
+                                    <tbody class="tbl-content ProTable" id="proList">
+                                    <c:forEach var="ProSearch" items="${proList}">
+                                        <tr>
+                                            <td><input type="checkbox" class ="cityPro" id="checkCt">
+                                                <input type="hidden" id="formattedIds" name="formattedIds" value="">
+                                            </td>
+                                            <td><c:out value="${ProSearch.ins_lot_id}"/></td>
+                                            <td><div id="ctProAjax"><c:out value="${ProSearch.ins_ct_id}"/></div></td>
+                                            <td><c:out value="${ProSearch.ins_start_date}" /></td>
+                                            <td><c:out value="${ProSearch.ins_end_date}"  /></td>
+                                            <td><c:out value="${ProSearch.ins_item_id}"/></td>
+                                            <td><c:out value="${ProSearch.ins_lot_size}"/></td>
+                                        </tr>
+                                    </c:forEach>
+                                </form>
+                               </tbody>
+                             </table>
                             <!-- /.table -->
                           </div>
                        </div>
@@ -130,12 +134,12 @@
                                         <th class ="proTh" >담당사원번호</th>
                                         <td class ="proTd"><input type="text" class="processInput" id="ins_emp_id" name="ins_emp_id"></td>
                                         <th class ="proTh">제품번호</th>
-                                        <td class ="proTd"><input type="text" class="processInput" id="ins_item_id" name="ins_item_id"> </td>
+                                        <td class ="proTd"><input type="text" class="processInput" id="ins_item_id" name="ins_item_id" readonly> </td>
                                         <th class ="proTh">제조LOT번호</th>
                                         <td class ="proTd"><input type="text" class="processInput" id="ins_lot_id" name="ins_lot_id"></td>
                                     </tr>
                                         <th class ="proTh">계약번호</th>
-                                        <td class ="proTd"><input type="text" class="processInput" id="ins_ct_id" name="ins_ct_id"></td>
+                                        <td class ="proTd"><input type="text" class="processInput" id="ins_ct_id" name="ins_ct_id" readonly></td>
                                         <th class ="proTh">공정번호</th>
                                         <td class ="proTd">
                                             <input list="piProList" name="ins_pi_id" id="ins_pi_id" class="col-sm-12 processInput" aria-label=".form-select-sm example" placeholder="--선택--">
@@ -147,7 +151,7 @@
                                             </datalist
                                         </td>
                                         <th class ="proTh">계획수량</th>
-                                        <td class ="proTd"><input type="text" class="processInput" id="ins_lot_size" name="ins_lot_size"></td>
+                                        <td class ="proTd"><input type="text" class="processInput" id="ins_lot_size" name="ins_lot_size" readonly></td>
                                     </tr>
                                     <tr>
                                         <th class ="proTh">계획착수일</th>
@@ -181,6 +185,7 @@
                         <div class="ETableTitle">
                             <div class="icon"><i class="fa fa-list"></i></div>
                             <div class="employee">계약목록</div>
+                            <div class="processIcon"><button class="buttonSession" id="addText" ><i class="fa fa-fw fa-plus"></i></button></div>
                         </div>
                         <div class="table DOTable">
                             <table cellpadding="0" cellspacing="0" border="0" id="contractListTable">
@@ -202,11 +207,11 @@
                                     <th>계약출고일</th>
                                 </tr>
                                 </thead>
-                                <tbody class="tbl-content ProTable1">
+                                <tbody class="tbl-content ProTable1" id="ctProList">
                                 <!-- 계약 목록 데이터 -->
                                 <c:forEach var="ct" items="${ctProList}">
                                     <tr>
-                                        <td><c:out value="${ct.rn}"/></td>
+                                        <td><input type="checkbox" name="checkAll3" id="checkAll3"></td>
                                         <td><c:out value="${ct.ct_id}"/></td>
                                         <td><c:out value="${ct.ct_item_id}"/></td>
                                         <td><c:out value="${ct.ct_quantity}"/></td>
@@ -229,13 +234,62 @@
     </div>
 </div>
 
+
+<!-- Modal -->
+<!--계약 모달 -->
+<div class="modal fade" id="register-Process-Btn2" tabindex="-1" role="dialog" aria-labelledby="registerProcessGridSystemModalLabel">
+    <div class="modal-dialog register-Process-Modal-Dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modalCtPr">
+                <div class="processModalTitle" id="registerProcessGridSystemModalLabel" style="font-size: 150%; font-weight:800;"></div>
+            </div>
+                <div class="modal-body1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="processModal">
+                                <h1 class="cth1">제품 공급 계약 내역서</h1>
+                                        <p class= "ctP1"></p>
+                                    <section>
+                                        <table class="tablectP" id="resultsTable">
+                                            <thead  class="tablectcP">
+                                                <tr>
+                                                    <th>계약번호</th>
+                                                    <th>거래처</th>
+                                                    <th>제품명</th>
+                                                    <th>계약금</th>
+                                                    <th>계약수량</th>
+                                                    <th>계약수량단위</th>
+                                                    <th>계약체결일</th>
+                                                    <th>계약출고일</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tbl-content ProTable15" id="ctProLis">
+                                            </table>
+                                     </section>
+                                        <p class= "ctP1">계약 당사자 서명:  <strong>C&R Furniture</strong></p>
+                                        <p class= "ctP">날짜:</p>
+                                  </div>
+                              </div>
+                          </div><!-- /.row -->
+                      </div><!-- /.modal-body -->
+                      <!-- 모달 바닥글 -->
+                      <div class="modal-footer" style="margin-right: 3%;">
+                          <button type="button" class="btn btn-success" onclick="generatePDF()">PDF로 보기</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+                      </div>
+                  </div><!-- /.modal-content -->
+              </div>
+            </div>
+
+
+
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
 </aside>
 
 <%@ include file="../includes/footer.jsp" %>
-
+<script src="/resources/js/process.js"></script>
 <script>
     window.onload = function() {
         var selectedItem = "<c:out value='${processDate.find_item_process}'/>";
@@ -244,4 +298,5 @@
             selectElement.value = selectedItem;
         }
     };
+
 </script>

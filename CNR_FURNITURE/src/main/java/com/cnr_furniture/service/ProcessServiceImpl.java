@@ -1,4 +1,5 @@
 package com.cnr_furniture.service;
+import com.cnr_furniture.domain.contract.ContractVO;
 import com.cnr_furniture.domain.process.*;
 import com.cnr_furniture.mapper.ProcessMapper;
 import lombok.Builder;
@@ -186,6 +187,18 @@ public class ProcessServiceImpl implements ProcessService{
         return processMapper.selectByListSearch();
     }
 
+//    @Override
+//    public List<ContractVO> selectArrayCt(String id) {
+//        List<ContractVO> selectArrayCtList = processMapper.selectArrayCt(id);
+//        return selectArrayCtList;
+//    }
+
+
+    @Override
+    public List<ContractVO> selectArrayCt(List<String> ids) {
+        List<ContractVO> selectArrayCtList = processMapper.selectArrayCt(ids);
+        return selectArrayCtList;
+    }
 }
 
 

@@ -1,15 +1,21 @@
 package com.cnr_furniture.controller;
 
+import com.cnr_furniture.domain.contract.ContractVO;
 import com.cnr_furniture.domain.process.*;
 import com.cnr_furniture.service.ProcessService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+@Log4j
 @Controller
 public class ProcessController {
 
@@ -25,19 +31,39 @@ public class ProcessController {
      * @param model 뷰에 전달할 데이터를 담고 있는 모델 객체
      * @return "process/manufacturingInstruction" - manufacturingInstruction 뷰 페이지 경로
      */
+
     @GetMapping("/manufacturingInstruction")
-    public String manufacturingInstruction(ProcessDate processDate, Model model) {
+    public String manufacturingInstruction(ProcessDate processDate, Model model, @RequestParam(required = false) String id) {
         List<ProcessVO> processVOList = processService.selectProcess(processDate);
         List<ProcessItemVO> itemProList = processService.findAllItems();
         List<ProcessInfoVO> piProList= processService.findAllPi();
         List<ProcessCtVO> ctProList= processService.findAllProCt(processDate);
+
+        List<ContractVO> contractVOList = new ArrayList<>();
+        if (id != null && !id.isEmpty()) {
+            List<String> ids = Arrays.asList(id.split("\\s*,\\s*")); // Split the id by commas and trim spaces
+            contractVOList = processService.selectArrayCt(ids);
+        }
+
         model.addAttribute("proList", processVOList);
         model.addAttribute("itemProList", itemProList);
         model.addAttribute("piProList", piProList);
         model.addAttribute("ctProList", ctProList);
         model.addAttribute("processDate", processDate);
+        model.addAttribute("contractVOList", contractVOList);
+
         return "process/manufacturingInstruction";
     }
+
+
+    @GetMapping("/manufacturingInstructionForm")
+    @ResponseBody
+    public List<ContractVO> manufacturingInstructionForm(@RequestParam("formattedIds") String formattedIds) {
+        List<String> idList = Arrays.asList(formattedIds.split(","));
+        return processService.selectArrayCt(idList);
+    }
+
+
 
     /**
      * 제조 지시 정보를 데이터베이스에 등록
@@ -65,6 +91,8 @@ public class ProcessController {
         rttr.addFlashAttribute("insertSuccessCount", rtn);
         return "redirect:manufacturingInstruction";
     }
+
+
 
 
 
@@ -101,7 +129,7 @@ public class ProcessController {
     @GetMapping("/insPiList")
     @ResponseBody
     public List<ProcessVO> selectProcessIdsByItemAndLotId(
-            @RequestParam("ins_lot_id") int ins_lot_id,                                      // 입력받은 제조 LOT 번호
+            @RequestParam("ins_lot_id") int ins_lot_id,                                     // 입력받은 제조 LOT 번호
             @RequestParam("ins_item_id") int ins_item_id) {                                 // 입력받은 제조 LOT 번호
         return processService.selectProcessIdsByItemAndLotId(ins_lot_id, ins_item_id);      // 서비스를 호출하여 데이터를 조회한 후 반환
     }
@@ -239,13 +267,5 @@ public class ProcessController {
         rttr.addFlashAttribute("insertSuccessCount", rtn);
         return "redirect:processInfo";
     }
-
-
-
-
-
-
-
-
 }
 
