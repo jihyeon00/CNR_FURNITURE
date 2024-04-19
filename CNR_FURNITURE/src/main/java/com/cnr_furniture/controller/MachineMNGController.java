@@ -104,10 +104,20 @@ public class MachineMNGController {
         int rtn = machineMNGService.insertMachineCheckRecord(machineCheckRecordVO);
         rttr.addFlashAttribute("insertSuccessCount", rtn);
 
-        // 설비 상태 업데이트
-        String newCondition = machineCheckRecordVO.getMcr_answer(); // 가정: MachineCheckRecordVO에서 설비 상태를 가져옴
-        int updateSuccessCount = machineMNGService.updateMachineCondition(newCondition);
-        rttr.addFlashAttribute("updateSuccessCount", updateSuccessCount);
+        // 체크리스트 답변에 따라 업데이트 실행
+        String newCondition = machineCheckRecordVO.getMcr_answer();
+        int newMI_ID = machineCheckRecordVO.getMcr_mi_id();
+
+        if (newCondition.equals("Y")) {
+            // 설비 상태와 설비 가동 현황 업데이트
+            String newStatus = machineCheckRecordVO.getMcr_answer();
+            int updateSuccessCount = machineMNGService.updateMachineCondition(newCondition, newStatus, newMI_ID);
+            rttr.addFlashAttribute("updateSuccessCount", updateSuccessCount);
+        } else if (newCondition.equals("N")) {
+            // 설비 상태 업데이트
+            int updateMcSuccessCount = machineMNGService.updateMcWork(newCondition, newMI_ID);
+            rttr.addFlashAttribute("updateSuccessCount", updateMcSuccessCount);
+        }
 
         return ResponseEntity.ok(machineCheckRecordVO);
     }

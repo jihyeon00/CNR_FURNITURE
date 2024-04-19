@@ -30,15 +30,15 @@
                 <div class="machineSearch">
                     <div class="machineName">
                         <div class="searchMachine">설비명</div>
-                        <input type="search" name="find_machine_name" id="find_machine_name" class="machineBox" value='<c:out value="${searchMachine.find_machine_name}" />' autocomplete="off">
+                        <input type="search" name="find_machine_name" id="find_machine_name" class="machineBox" value='<c:out value="${searchMachineVO.find_machine_name}" />' autocomplete="off">
                     </div>
                     <div class="machineType">
                         <div class="searchMachine">설비유형</div>
-                        <input type="search" name="find_machine_type" id="find_machine_type" class="machineBox" value='<c:out value="${searchMachine.find_machine_type}" />' autocomplete="off">
+                        <input type="search" name="find_machine_type" id="find_machine_type" class="machineBox" value='<c:out value="${searchMachineVO.find_machine_type}" />' autocomplete="off">
                     </div>
                     <div class="machinePosition">
                         <div class="searchMachine">상태</div>
-                        <input type="search" name="find_machine_position" id="find_machine_position" class="machineBox" value='<c:out value="${searchMachine.find_machine_position}" />' autocomplete="off">
+                        <input type="search" name="find_machine_condition" id="find_machine_condition" class="machineBox" value='<c:out value="${searchMachineVO.find_machine_condition}" />' autocomplete="off">
                     </div>
                 </div>
                 <div class="searchbtn">
@@ -67,15 +67,24 @@
                     </tr>
                   </thead>
                   <tbody class="tbl-content">
-                    <c:forEach items="${getMachineCheckAll}" var="getMachineCheckAll">
+                    <c:forEach items="${mcManagementList}" var="list">
                         <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                          <td><c:out value="${list.rownum}" /></td>
+                          <td><c:out value="${list.mw_mi_id}" /></td>
+                          <td><c:out value="${list.mi_name}" /></td>
+                          <td><c:out value="${list.mi_type}" /></td>
+                          <td><c:out value="${list.pi_seq}" /> <c:out value="${list.mi_position}" /></td>
+                          <td><c:out value="${list.mw_condition}" /></td>
+                          <td>
+                            <button type="button" class="btn btn-block btn-Info repair-button" data-mw-mi-id="${list.mw_mi_id}"
+                            style="${list.mw_condition == '수리요청' ? '' : 'display: none;'}">
+                              수리
+                            </button>
+                            <button type="button" class="btn btn-block btn-Info repairCompleted" data-mw-mi-id="${list.mw_mi_id}"
+                            style="${list.mw_condition == '수리중' ? '' : 'display: none;'}">
+                              수리완료
+                            </button>
+                          </td>
                         </tr>
                     </c:forEach>
                   </tbody>
@@ -98,7 +107,72 @@
   <!-- /.control-sidebar -->
 
 <script>
+    // 수리버튼 눌렀을 때 '수리중'으로 바꾸기
+    $(document).ready(function() {
+        // 각 수리 버튼에 대한 클릭 이벤트 처리
+        $('.repair-button').click(function() {
+            // 해당 설비의 고유 식별자 가져오기
+            var mwMiId = $(this).data('mw-mi-id');
 
+            // 콘솔 확인
+            console.log('수리 버튼이 클릭되었습니다. 설비 ID:', mwMiId);
+
+            // 서버로 데이터를 전송하여 상태를 업데이트하는 코드
+            $.ajax({
+                type: "POST",
+                url: "/updateRepairStatus", // 서버의 업데이트 처리를 담당하는 URL
+                data: JSON.stringify({ mw_mi_id: mwMiId }),
+                contentType : "application/json; charset=utf-8",
+                success: function(response) {
+                    alert('수리중으로 되었습니다.');
+                    console.log('수리 상태가 업데이트되었습니다.');
+                    // 페이지 새로고침
+                    window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // 오류 발생 시 처리하는 코드
+                    console.error("상태 업데이트 중 오류 발생:", error);
+                    alert('등록에 실패하였습니다.');
+                }
+            });
+        });
+    });
+
+    // 수리완료 버튼 눌렀을 대 '수리 완료'로 바꾸기
+    $(document).ready(function() {
+        // 각 수리 버튼에 대한 클릭 이벤트 처리
+        $('.repairCompleted').click(function() {
+            // 해당 설비의 고유 식별자 가져오기
+            var mwMiId = $(this).data('mw-mi-id');
+
+            // 콘솔 확인
+            console.log('수리완료 버튼이 클릭되었습니다. 설비 ID:', mwMiId);
+
+            // 서버로 데이터를 전송하여 상태를 업데이트하는 코드
+            $.ajax({
+                type: "POST",
+                url: "/mcRepairCompleted", // 서버의 업데이트 처리를 담당하는 URL
+                data: JSON.stringify({ mw_mi_id: mwMiId }),
+                contentType : "application/json; charset=utf-8",
+                success: function(response) {
+                    alert('수리완료 되었습니다.');
+                    console.log('수리 상태가 업데이트되었습니다.');
+                    // 페이지 새로고침
+                    window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // 오류 발생 시 처리하는 코드
+                    console.error("상태 업데이트 중 오류 발생:", error);
+                    alert('등록에 실패하였습니다.');
+                }
+            });
+        });
+    });
+
+    // 검색
+    function searchMachine() {
+       document.getElementById('searchForm').submit();
+    }
 </script>
 
 <%@ include file="../includes/footer.jsp" %>

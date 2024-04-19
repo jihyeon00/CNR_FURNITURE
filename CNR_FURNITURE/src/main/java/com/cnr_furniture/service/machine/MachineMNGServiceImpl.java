@@ -66,13 +66,25 @@ public class MachineMNGServiceImpl implements MachineMNGService {
         return rtn;
     }
 
-    // 설비 작동 테이블에서 설비 상태 업데이트
+    // 체크리스트 기록에서 'y'가 있으면 설비 상태 업데이트
     @Override
-    public int updateMachineCondition(String mw_condition) {
+    public int updateMachineCondition(String mw_condition, String mw_status, int mcr_mi_id) {
         MachineWorkVO machineWorkVO = new MachineWorkVO();
         machineWorkVO.setMw_condition(mw_condition);
+        machineWorkVO.setMw_status(mw_status);
+        machineWorkVO.setMcr_mi_id(mcr_mi_id);
 
         return machineMNGMapper.updateMachineCondition(machineWorkVO);
+    }
+
+    // 체크리스트 기록에서 'y'가 없으면 설비상태가 '이상없음'으로 업데이트
+    @Override
+    public int updateMcWork(String mw_condition, int mcr_mi_id) {
+        MachineWorkVO machineWorkVO = new MachineWorkVO();
+        machineWorkVO.setMw_condition(mw_condition);
+        machineWorkVO.setMcr_mi_id(mcr_mi_id);
+
+        return machineMNGMapper.updateMcWork(machineWorkVO);
     }
 
     // 설비 수리 이력관리 리스트 가져오기

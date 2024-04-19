@@ -1,8 +1,6 @@
 package com.cnr_furniture.domain.Machine;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @AllArgsConstructor
@@ -16,4 +14,5 @@ public class MachineCheckRecordVO {
     private String mcr_date;   // 설비체크날짜
     private String mcr_answer;  // 답변(Y / N)
     private String mcr_note;    // 비고
+
 }

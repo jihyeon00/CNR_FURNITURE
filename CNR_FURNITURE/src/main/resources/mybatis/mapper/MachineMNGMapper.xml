@@ -110,59 +110,85 @@
     </select>
     
     <!-- 체크리스트 기록 추가 -->
-    <insert id="insertMachineCheckRecord" >
+    <insert id="insertMachineCheckRecord" parameterType="com.cnr_furniture.domain.Machine.MachineCheckRecordVO">
         INSERT INTO Machine_Check_Record (MCR_ID, MCR_MCI_ID, MCR_MI_ID, MCR_EMP_ID, MCR_DATE, MCR_ANSWER, MCR_NOTE)
         VALUES
                 (
         MACHINE_CHECK_RECORD_SEQ.NEXTVAL,
         #{mcr_mci_id},
-        ${mcr_mi_id},
-        ${mcr_emp_id},
+        #{mcr_mi_id},
+        #{mcr_emp_id},
         sysdate,
         #{mcr_answer},
         #{mcr_note} )
     </insert>
 
-    <!-- 설비 작동 테이블에서 설비 상태 업데이트 -->
-    <update id="updateMachineCondition">
+    <!-- 체크리스트 기록에서 'y'가 없으면 설비상태가 '이상없음'으로 업데이트-->
+    <update id="updateMcWork" parameterType="com.cnr_furniture.domain.Machine.MachineCheckRecordVO">
         UPDATE
             MACHINE_WORK
         SET
+            MW_CONDITION = '이상없음'
+        WHERE
+            MW_MI_ID IN (
+                SELECT MCR_MI_ID
+                FROM Machine_Check_Record
+                WHERE MCR_ANSWER = 'N'
+                AND MCR_MI_ID = #{mcr_mi_id}
+                AND TRUNC(MCR_DATE) = TRUNC(SYSDATE)
+            )
+    </update>
+
+    <!-- 체크리스트 기록에서 'y'가 있으면 설비 상태 업데이트 -->
+    <update id="updateMachineCondition" parameterType="com.cnr_furniture.domain.Machine.MachineCheckRecordVO">
+        UPDATE
+            MACHINE_WORK
+        SET
+            MW_STATUS = '비가동',
             MW_CONDITION = '수리요청'
         WHERE
             MW_MI_ID IN (
                 SELECT MCR_MI_ID
                 FROM Machine_Check_Record
                 WHERE MCR_ANSWER = 'Y'
+                AND MCR_MI_ID = #{mcr_mi_id}
+                AND TRUNC(MCR_DATE) = TRUNC(SYSDATE)
             )
     </update>
 
     <!-- 설비수리 이력 관리 리스트 가져오기 -->
     <select id="McRepairList" parameterType="String" resultType="com.cnr_furniture.domain.Machine.MachineRepairVO">
         SELECT
-            rownum,
-            MR.MR_MI_ID,
-            MI.MI_NAME,
-            MI.MI_TYPE,
-            PI.PI_SEQ,
-            MI.MI_POSITION,
-            MCR.MCR_NOTE,
-            to_char(MR.MR_DATE, 'yyyy-MM-dd') AS MR_DATE
+            ROWNUM,
+            MC.*
         FROM
-            MACHINE_REPAIR MR
-        JOIN
-            MACHINE_INFO MI ON MR.MR_MI_ID = MI.MI_ID
-        JOIN
-            PROCESS_INFO PI ON MR.MR_MI_ID = PI.PI_MACHINE_ID
-        JOIN
-            MACHINE_CHECK_RECORD MCR ON MR.MR_MCR_ID = MCR.MCR_ID
-        where 1=1
-            <if test="find_machine_name != null and find_machine_name != ''">
-                AND mi_name Like '%' || #{find_machine_name} || '%'
-            </if>
-            <if test="find_machine_type != null and find_machine_type != ''">
-                AND mi_type Like '%' || #{find_machine_type} || '%'
-            </if>
+            (SELECT
+                rownum,
+                MR.MR_MI_ID,
+                MI.MI_NAME,
+                MI.MI_TYPE,
+                PI.PI_SEQ,
+                MI.MI_POSITION,
+                MCR.MCR_NOTE,
+                to_char(MR.MR_DATE, 'yyyy-MM-dd') AS MR_DATE
+            FROM
+                MACHINE_REPAIR MR
+            JOIN
+                MACHINE_INFO MI ON MR.MR_MI_ID = MI.MI_ID
+            LEFT JOIN
+                PROCESS_INFO PI ON MR.MR_MI_ID = PI.PI_MACHINE_ID
+            JOIN
+                MACHINE_CHECK_RECORD MCR ON MR.MR_MCR_ID = MCR.MCR_ID
+            where 1=1
+                <if test="find_machine_name != null and find_machine_name != ''">
+                    AND mi_name Like '%' || #{find_machine_name} || '%'
+                </if>
+                <if test="find_machine_type != null and find_machine_type != ''">
+                    AND mi_type Like '%' || #{find_machine_type} || '%'
+                </if>
+            ORDER BY
+                MR.MR_DATE DESC
+            ) MC
     </select>
 
 </mapper>

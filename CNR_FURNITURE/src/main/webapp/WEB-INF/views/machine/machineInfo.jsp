@@ -74,7 +74,7 @@
                       <td id="machineId"><c:out value="${machineList.mi_id}" /></td>
                       <td id="machineName"><c:out value="${machineList.mi_name}" /></td>
                       <td id="machineType"><c:out value="${machineList.mi_type}" /></td>
-                      <td id="machinePosition"><c:out value="${machineList.mi_position}" /></td>
+                      <td id="machinePosition"><c:out value="${machineList.pi_seq}" /> <c:out value="${machineList.mi_position}" /></td>
                       <td><a id="updateMachine" data-toggle="modal" data-target="#updateModal">수정</a></td>
                     </tr>
                   </c:forEach>
