@@ -2,10 +2,13 @@ package com.cnr_furniture.controller;
 
 import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
 import com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspUpdateVO;
 import com.cnr_furniture.domain.work.search.*;
 import com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO;
 import com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO;
 import com.cnr_furniture.domain.work.workMNG.*;
+import com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO;
 import com.cnr_furniture.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +37,10 @@ public class WorkController {
         model.addAttribute("itemList", workService.findItemList());
         model.addAttribute("instructionList", workService.findInstructionList());
         model.addAttribute("processInfoList", workService.findProcessInfoList());
+        model.addAttribute("machineInfoList", workService.findMachineInfoList());
+        model.addAttribute("workList", workService.findWorkList());
+        model.addAttribute("dpNameList", workService.findDpNameList());
+        model.addAttribute("empInfoList", workService.findEmpInfoList());
     }
 
     /**
@@ -48,10 +55,6 @@ public class WorkController {
                        Model model){
 
         loadSearchData(workSearchVO, model); // 검색용 데이터 로드
-        // loadModalData(workSearchVO, model);  // 모달용 데이터 로드
-
-//        // [로트번호] 입력에 따른 [공정번호 리스트] 조회
-//        List<WorkInsertMaterialModalVO> insProidList = workService.getInsProIdModal(insLotIdModal);
 
         // 제조수행정보 목록 조회
         List<WorkProcessInfoVO> workProcessInfoList = workService.getWorkProcessInfo(workSearchVO);
@@ -140,19 +143,68 @@ public class WorkController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "등록에 실패하였습니다. 에러: " + e.getMessage()));
         }
     }
+    /* [work.jsp 의 자재투입내역 수정 모달창] ============================================================== */
+
+    /**
+     * Desc: Work 의 자재투입내역 중 조건에 따른 수정할 자재투입내역 조회
+     * @return: /insertMaterialForUpdateModal?inv_lot_id=inv_lot_id&inv_pi_id=inv_pi_id&inv_material_id=inv_material_id&inv_quantity=inv_quantity
+     */
+    @GetMapping("/insertMaterialForUpdateModal")
+    @ResponseBody
+    public WorkSelectInsertMaterialVO getInsertMaterialForUpdate(
+            @RequestParam("inv_lot_id") int inv_lot_id,
+            @RequestParam("inv_pi_id") int inv_pi_id,
+            @RequestParam("inv_material_id") int inv_material_id,
+            @RequestParam("inv_quantity") int inv_quantity
+    ) {
+        log.info("수정을 위한 inv_lot_id : " + inv_lot_id);
+        log.info("수정을 위한 inv_pi_id : " + inv_pi_id);
+        log.info("수정을 위한 inv_material_id : " + inv_material_id);
+        log.info("수정을 위한 inv_quantity : " + inv_quantity);
+
+        WorkSelectInsertMaterialVO insertMaterialForUpdate = workService.getInsertMaterialForUpdate(inv_lot_id, inv_pi_id, inv_material_id, inv_quantity);
+        if (insertMaterialForUpdate == null) {
+            log.warn("정보를 찾지 못함. insertMaterialForUpdate: " + insertMaterialForUpdate);
+        }
+        return insertMaterialForUpdate;
+    }
+    /**
+     * 자재투입수정
+     * Desc: Work 의 자재투입내역 - 모달창을 이용한 자재투입 수정
+     * @param: workUpdateMaterialModalVO - 업데이트 할 조건과 데이터를 담은 VO 객체
+     */
+    @PostMapping("/insertMaterialUpdate")
+    public ResponseEntity<?> workInsertMaterialUpdate(
+            @RequestBody WorkUpdateMaterialModalVO workUpdateMaterialModalVO
+    ) {
+        try {
+            log.info("수정될 내용: " + workUpdateMaterialModalVO);
+            log.info("수정할 inv_lot_id: " + workUpdateMaterialModalVO.getInv_lot_id());
+            log.info("수정할 inv_pi_id: " + workUpdateMaterialModalVO.getInv_pi_id());
+            log.info("수정할 inv_material_id: " + workUpdateMaterialModalVO.getInv_material_id());
+            log.info("수정할 inv_quantity: " + workUpdateMaterialModalVO.getInv_quantity());
+            log.info("수정된 updateInvQuantity: " + workUpdateMaterialModalVO.getUpdateInvQuantity());
+
+            workService.updateWorkInsertMaterial(workUpdateMaterialModalVO);
+            return ResponseEntity.ok().body(Map.of("success", true, "message", "업데이트가 성공적으로 완료되었습니다."));
+        } catch(Exception e) {
+            log.error("수정 실패: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("success", false, "message", "업데이트 실패: " + e.getMessage()));
+        }
+    }
+
 
     /* [todayWorkInsert.jsp] ============================================================== */
     /**
-     * Desc: 공정관리-작업관리-당일작업등록-공정조회, 당일작업목록, 당일작업등록, 당일작업상세(수정), 당일작업삭제
+     * Desc: 공정관리-작업관리-당일작업목록-공정별 설비가동현황, 당일작업목록
      * @return: work/todayWorkInsert
      */
     
     @GetMapping("/todayWorkInsert")
     public String todayWorkInsert(WorkSearchVO workSearchVO, Model model){
-        // 검색을 위한 제조지시 리스트
-        List<WorkSelectInstructionVO> instructionList = workService.findInstructionList();
-        // 검색을 위한 공정정보 리스트
-        List<WorkSelectProcessInfoVO> processInfoList = workService.findProcessInfoList();
+
+        loadSearchData(workSearchVO, model); // 검색용 데이터 로드
 
         // 공정별 설비상태 조회
         List<WorkProcessMachineVO> processMachineList = workService.getWorkProcessMachine(workSearchVO);
@@ -160,10 +212,6 @@ public class WorkController {
         List<TodayWorkVO> todayWorkList = workService.getTodayWork(workSearchVO);
 
         // view에서 사용할 모델명 지정
-
-        model.addAttribute("instructionList", instructionList);         // 제조지시 리스트
-        model.addAttribute("processInfoList", processInfoList);         // 공정정보 리스트
-
         model.addAttribute("processMachineList", processMachineList);   // 공정별 설비상태 조회
         model.addAttribute("todayWorkList", todayWorkList);             // 당일작업목록 조회
 
@@ -171,22 +219,40 @@ public class WorkController {
     }
     
     /**
-     * Desc: 공정관리-작업관리-당일작업등록-작업자등록-당일 작업자 배치 조회, 작업자등록
+     * Desc: 공정관리-작업관리-작업자등록-작업자 배치 목록, 작업자등록
      * @return: work/todayWorkInsert
      */
     
     @GetMapping("/workerInsert")
     public String workerInsert(WorkSearchVO workSearchVO, Model model){
-        // 검색을 위한 제조지시 리스트
-        List<WorkSelectInstructionVO> instructionList = workService.findInstructionList();
-        // 검색을 위한 공정정보 리스트
-        List<WorkSelectProcessInfoVO> processInfoList = workService.findProcessInfoList();
+
+        loadSearchData(workSearchVO, model); // 검색용 데이터 로드
+
+        // 작업자 배치 조회
+        List<WorkSelectWorkerVO> workerInsertList = workService.getWorkerInsert(workSearchVO);
 
         // view에서 사용할 모델명 지정
-        model.addAttribute("instructionList", instructionList);
-        model.addAttribute("processInfoList", processInfoList);
+        model.addAttribute("workerInsertList", workerInsertList);       // 작업자 배치 조회
 
     	return "work/workerInsert";
+    }
+
+    /**
+     * Desc: Work 의 자재투입내역 중 조건에 따른 수정할 자재투입내역 조회
+     * @return: /insertMaterialForUpdateModal?w_id=w_id
+     */
+    @GetMapping("/workerInsertModalSelectData")
+    @ResponseBody
+    public WorkSelectWorkerVO getWorkerInsertDataForInsert(
+            @RequestParam("w_id") int w_id
+    ) {
+        log.info("수정을 위한 w_id : " + w_id);
+
+        WorkSelectWorkerVO workerInsertDataForInsert = workService.getWorkerInsertDataForInsert(w_id);
+        if (workerInsertDataForInsert == null) {
+            log.info("정보를 찾지 못함. insertMaterialForUpdate: " + workerInsertDataForInsert);
+        }
+        return workerInsertDataForInsert;
     }
 
 }

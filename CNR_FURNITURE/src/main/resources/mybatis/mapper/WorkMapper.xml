@@ -34,11 +34,11 @@
             insLotId, insCtId
     </select>
 
-    <!-- [공정정보] 조회 -->
+    <!-- [공정 정보] 조회 -->
     <select id="workSelectProcessInfoList" resultType="com.cnr_furniture.domain.work.search.WorkSelectProcessInfoVO">
         SELECT
             pi.PI_ID AS pi_id, pi.PI_NAME AS PI_NAME, pi.PI_MACHINE_ID AS PI_MACHINE_ID,
-            mi.MI_NAME AS MI_NAME, pi.PI_SEQ || '-' || mi.MI_POSITION AS position
+            mi.MI_NAME AS MI_NAME, pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS position
         FROM
             PROCESS_INFO pi, MACHINE_INFO mi
         WHERE
@@ -46,7 +46,69 @@
         ORDER BY PI_ID, position
     </select>
 
-    <!-- [공정별 제조수행정보] 조회-->
+    <!-- 설비 정보 조회 -->
+    <select id="workSelectMachineInfoList" resultType="com.cnr_furniture.domain.work.search.WorkSelectMachineInfoVO">
+        SELECT
+            mi.MI_ID AS mi_id,
+            mi.MI_NAME AS MI_NAME, pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS position
+        FROM
+            MACHINE_INFO mi, PROCESS_INFO pi
+        WHERE
+            mi.MI_ID = pi.PI_MACHINE_ID
+        ORDER BY mi_id, POSITION
+    </select>
+
+    <!-- 작업 조회 -->
+    <select id="workSelectWorkList" resultType="com.cnr_furniture.domain.work.search.WorkSelectWorkVO">
+        SELECT
+            w_id, w_lot_id, W_PI_ID, W_START_TIME, W_END_TIME , W_TIME ,
+            W_STATUS , W_PLAN_QUANTITY , W_ITEM_QUANTITY ,W_NOTE ,W_DFT_QUANTITY
+        FROM
+            WORK
+        ORDER BY w_id, w_lot_id, W_PI_ID, W_START_TIME
+    </select>
+
+    <!-- 생산팀의 부서명 조회 -->
+    <select id="workDpNameList" resultType="com.cnr_furniture.domain.work.workMNG.WorkVO">
+        SELECT
+            DISTINCT e.E_DP_NAME as
+        FROM
+            EMPLOYEE e
+        WHERE
+            e.E_DP_NAME LIKE '생산%'
+        ORDER BY e.E_DP_NAME
+    </select>
+
+    <!-- 사원정보 조회 -->
+    <select id="workEmpInfoList" resultType="com.cnr_furniture.domain.work.search.WorkSelectEmpInfoVO">
+        SELECT
+            E_DP_NAME, E_ID, E_NAME,
+            CASE
+                WHEN e_role = 'ROLE_Director' THEN '디렉터'
+                WHEN e_role = 'ROLE_Manager' THEN '매니저'
+                WHEN e_role = 'ROLE_Staff' THEN '사원'
+                ELSE e_role
+            END AS e_role
+        FROM
+            EMPLOYEE
+        WHERE
+            E_DP_NAME LIKE '생산%'
+            <if test="find_dp_name != null or find_emp_id != null">
+                <if test="find_dp_name != ''">
+                    AND E_DP_NAME = #{find_dp_name}
+                </if>
+                <if test="find_emp_id != ''">
+                    AND E_ID = #{find_emp_id}
+                </if>
+            </if>
+        ORDER BY
+            E_DP_NAME, e_role
+    </select>
+
+
+    <!-- work.jsp ========================================================================================================= -->
+
+    <!-- 공정별 제조수행정보 조회-->
     <select id="selectWorkProcessInfo" resultType="com.cnr_furniture.domain.work.workMNG.WorkProcessInfoVO">
         SELECT
             ROWNUM AS RN,
@@ -150,7 +212,7 @@
                 w.W_PI_ID,
                 pi.PI_NAME,
                 mi.MI_NAME,
-                pi.PI_SEQ || '-' || mi.MI_POSITION AS POSITION,
+                pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS POSITION,
                 ins.INS_ITEM_ID,
                 it.I_NAME,
                 w.W_STATUS,
@@ -237,7 +299,7 @@
                 w.W_PI_ID,
                 pi.PI_NAME,
                 mi.MI_NAME,
-                pi.PI_SEQ || '-' || mi.MI_POSITION AS POSITION,
+                pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS POSITION,
                 ins.INS_ITEM_ID,
                 it.I_NAME,
                 w.W_STATUS,
@@ -340,7 +402,7 @@
                      workStartDate != null or workEndDate != null or
                      find_work_instruction != null or find_work_processInfo != null">
                 <if test="find_work_company != ''">
-                    AND C_ID = #{find_work_company}
+                    AND ct_company_id = #{find_work_company}
                 </if>
                 <if test="find_work_item != ''">
                     AND INS_ITEM_ID = #{find_work_item}
@@ -365,13 +427,84 @@
             </if>
         </trim>
     </select>
+
+    <!-- work 자재투입 수정 모달창에 띄울 데이터 조회-->
+    <select id="workSelectInsertMaterialForUpdate" parameterType="hashmap"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkSelectInsertMaterialVO">
+        <![CDATA[
+            SELECT
+                ROWNUM AS rn,
+                mi.inv_LOT_ID,
+                mi.inv_PI_ID,
+                mi.ins_item_id,
+                mi.i_name,
+                mi.ct_company_id,
+                mi.c_name,
+                mi.inv_date,
+                mi.INV_MATERIAL_ID,
+                mi.m_name,
+                mi.b_unit,
+                mi.inv_quantity
+            FROM
+                (SELECT
+                    DISTINCT inv.inv_LOT_ID,
+                    inv.inv_PI_ID,
+                    ins.INS_ITEM_ID,
+                    it.i_name,
+                    ct.CT_Company_ID,
+                    c.c_name,
+                    to_char(inv.INV_DATE,'yyyy-mm-dd') AS inv_date,
+                    inv.INV_MATERIAL_ID,
+                    m.M_NAME,
+                    upper(b.B_UNIT) AS B_UNIT,
+                    substr(inv.INV_QUANTITY,2) AS INV_QUANTITY
+                FROM
+                    INVENTORY inv
+                    JOIN INSTRUCTION ins ON inv.inv_LOT_ID = ins.INS_LOT_ID
+                    JOIN PROCESS_INFO pi ON ins.ins_PI_ID = pi.PI_ID
+                    JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+                    JOIN COMPANY c ON ct.CT_Company_ID = c.C_ID
+                    JOIN ITEM it ON ins.INS_ITEM_ID = it.I_ID
+                    JOIN BOM b ON inv.INV_MATERIAL_ID = b.B_MATERIAL_ID
+                    JOIN MATERIAL m ON inv.INV_MATERIAL_ID = m.M_ID
+                    WHERE inv.INV_LOT_ID IS NOT NULL
+                        AND inv.INV_PI_ID IS NOT NULL
+                        AND inv.INV_QUANTITY<0
+                        ORDER BY
+                        inv.INV_LOT_ID,inv.inv_PI_ID,inv.INV_MATERIAL_ID) mi
+            WHERE
+                mi.INV_LOT_ID = #{inv_lot_id}
+                AND mi.INV_PI_ID = #{inv_pi_id}
+                AND mi.INV_MATERIAL_ID = #{inv_material_id}
+                AND mi.INV_QUANTITY = #{inv_quantity}
+        ]]>
+    </select>
+
+    <!-- work 자재투입내역의 수정버튼을 통한 모달창의 [자재투입내역 수정]-->
+    <update id="workInsertMaterialUpdate" parameterType="com.cnr_furniture.domain.work.workMNG.WorkUpdateMaterialModalVO">
+        UPDATE
+            INVENTORY
+        SET
+            INV_QUANTITY = '-' || #{updateInvQuantity}
+        WHERE
+            INV_LOT_ID = #{inv_lot_id}
+            AND INV_PI_ID = #{inv_pi_id}
+            AND INV_MATERIAL_ID = #{inv_material_id}
+            AND INV_QUANTITY = '-' || #{inv_quantity}
+    </update>
+
     <!-- work의 [작업자] 조회-->
     <select id="selectWorker" resultType="com.cnr_furniture.domain.work.workMNG.WorkerVO">
         SELECT
             ROWNUM AS rn,
             wr.e_dp_name,
             wr.e_name,
-            wr.e_role,
+            CASE
+                WHEN wr.e_role = 'ROLE_Director' THEN '디렉터'
+                WHEN wr.e_role = 'ROLE_Manager' THEN '매니저'
+                WHEN wr.e_role = 'ROLE_Staff' THEN '사원'
+                ELSE wr.e_role
+            END AS e_role,
             wr.wr_emp_id,
             wr.w_lot_id,
             wr.w_pi_id,
@@ -386,7 +519,7 @@
                 wr.WR_EMP_ID,
                 w.W_LOT_ID,
                 w.W_PI_ID,
-                pi.PI_SEQ || '-' || mi.MI_POSITION AS POSITION,
+                pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS POSITION,
                 to_char(wr.WR_START_TIME,'yyyy-mm-dd HH24:mi:ss') AS WR_START_TIME,
                 to_char(wr.WR_END_TIME,'yyyy-mm-dd HH24:mi:ss') AS WR_END_TIME
             FROM
@@ -418,6 +551,8 @@
             </if>
         </trim>
     </select>
+
+    <!-- work.jsp 의 자재투입 모달창 =========================================================== -->
 
     <!-- work 자재투입 모달창의 [로트번호의 공정번호] 조회-->
     <select id="workSelectInsProIdModal" resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertMaterialModalVO">
@@ -506,6 +641,8 @@
             )
     </insert>
 
+    <!-- todayWorkInsert.jsp ============================================================================ -->
+
     <!-- todayWorkInsert 의 [공정별 설비상태]조회 -->
     <select id="selectWorkProcessMachine"
             resultType="com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO">
@@ -524,7 +661,7 @@
                 pi.pi_name,
                 pi.pi_machine_id,
                 mi.mi_name,
-                pi.PI_SEQ || '-' || mi.MI_POSITION AS POSITION,
+                pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS POSITION,
                 mw.MW_STATUS,
                 mw.MW_CONDITION
             FROM
@@ -572,7 +709,7 @@
                 w.W_PI_ID,
                 pi.PI_NAME,
                 mi.MI_NAME,
-                pi.PI_SEQ || '-' || mi.MI_POSITION AS POSITION,
+                pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS POSITION,
                 ins.INS_ITEM_ID,
                 it.I_NAME,
                 w.W_STATUS,
@@ -606,6 +743,94 @@
                 </if>
             </if>
     </select>
+
+    <!-- workerInsert.jsp ============================================================================ -->
+
+    <!-- workerInsert 의 작업자배치 조회 -->
+    <select id="selectWorkerInsertList" resultType="com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO">
+        SELECT
+            Rownum AS rn,
+            q.w_id,
+            q.w_start_time,
+            q.w_end_time,
+            q.w_lot_id,
+            q.w_pi_id,
+            q.pi_name,
+            q.pi_machine_id,
+            q.mi_name,
+            q.POSITION,
+            CASE WHEN TRIM(q.substrAllEmp) IS NULL OR TRIM(q.substrAllEmp) = '()...' THEN '' ELSE q.substrAllEmp END AS substrAllEmp,
+            CASE WHEN TRIM(q.allEmpList) IS NULL OR TRIM(q.allEmpList) = '()' THEN '' ELSE q.allEmpList END AS allEmpList
+        FROM
+            (SELECT
+                DISTINCT w.W_ID,
+                to_char(w.w_start_time, 'yyyy-mm-dd HH24:mi:ss') AS w_start_time,
+                to_char(w.w_end_time, 'yyyy-mm-dd HH24:mi:ss') AS w_end_time,
+                w.W_LOT_ID,
+                w.W_PI_ID,
+                pi.pi_name,
+                pi.PI_SEQ || '-' || nvl(mi.MI_POSITION, 'X') AS POSITION,
+                pi.PI_MACHINE_ID,
+                mi.MI_NAME,
+                Substr(LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME || ')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP (ORDER BY wr.WR_EMP_ID) OVER (PARTITION BY e.E_DP_NAME, w.W_ID), 1, 40) || '...' AS substrAllEmp,
+                LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME || ')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP (ORDER BY wr.WR_EMP_ID) OVER (PARTITION BY e.E_DP_NAME, w.W_ID) AS allEmpList
+            FROM
+                WORK w
+                LEFT JOIN WORKER wr ON w.W_ID = wr.WR_WORK_ID
+                LEFT JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
+                LEFT JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.MI_ID
+                LEFT JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
+            <trim prefix="where " prefixOverrides="and">
+                <if test="workStartDate != null or workEndDate != null or
+                         find_work_instruction != null or find_work_processInfo != null or
+                         find_work_id != null or find_work_machine != null">
+                    <if test="workStartDate != ''">
+                        <![CDATA[AND to_char(w.w_start_time,'yyyy-mm-dd') >= #{workStartDate}]]>
+                    </if>
+                    <if test="workEndDate != ''">
+                        <![CDATA[AND TO_char(w.w_end_time, 'yyyy-mm-dd') <= #{workEndDate}]]>
+                    </if>
+                    <if test="find_work_instruction != ''">
+                        AND w.w_lot_id = #{find_work_instruction}
+                    </if>
+                    <if test="find_work_processInfo != ''">
+                        AND w.w_pi_id = #{find_work_processInfo}
+                    </if>
+                    <if test="find_work_id != ''">
+                        AND w.w_id = #{find_work_id}
+                    </if>
+                    <if test="find_work_machine != ''">
+                        AND pi.pi_machine_id = #{find_work_machine}
+                    </if>
+                    <if test="workStartDate == '' and workEndDate == '' and
+                         find_work_instruction == '' and find_work_processInfo == '' and
+                         find_work_id == '' and find_work_machine != '' ">
+                        AND 1=0
+                    </if>
+                </if>
+            </trim>
+            ORDER BY w.W_ID, w.W_LOT_ID, w.W_PI_ID, POSITION ) q
+    </select>
+
+    <!-- workerInsert.jsp 의 작업자등록 모달창 ============================================================================ -->
+
+    <!-- workerInsert 의 작업자 등록 모달창의 작업자 등록을 위한 데이터 조회 -->
+    <select id="workSelectWorkerInsertDataForInsert" parameterType="int"
+            resultType="com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO">
+        SELECT
+            DISTINCT w.W_ID,
+            to_char(w.w_start_time, 'yyyy-mm-dd HH24:mi:ss') AS w_start_time,
+            to_char(w.w_end_time, 'yyyy-mm-dd HH24:mi:ss') AS w_end_time,
+            w.W_LOT_ID,
+            w.W_PI_ID,
+            pi.PI_MACHINE_ID
+        FROM
+            WORK w
+            LEFT JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
+            LEFT JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.MI_ID
+        WHERE w.W_ID = #{w_id}
+    </select>
+
 
 
 </mapper>

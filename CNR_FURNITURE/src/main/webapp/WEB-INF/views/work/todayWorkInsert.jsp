@@ -12,7 +12,7 @@
          <div id="searchForm" class="col-md-12">
 	          <div class="col-sm-12" >
 	          	<ol class="breadcrumb float-sm-left">
-	          		<h1 class="m-0"><i class="far fa-clipboard"></i>당일작업등록</h1>
+	          		<h1 class="m-0"><i class="far fa-clipboard"></i>당일작업조회</h1>
 	          	</ol>
 	            <ol class="breadcrumb float-sm-right">
 		            <div class="reset">
@@ -42,7 +42,7 @@
                		<input type="text" list="workProcessInfoList" class="col-sm-12 input-text" id="find_work_processInfo" name="find_work_processInfo">
 	                <datalist id="workProcessInfoList">
                      <c:forEach items="${processInfoList}" var="processInfo">
-                         <option value="${processInfo.pi_id}">공정명: ${processInfo.pi_name} | ${processInfo.mi_name}(${processInfo.pi_machine_id}, 위치:${processInfo.position}) </option>
+                         <option value="${processInfo.pi_id}">${processInfo.pi_name} | ${processInfo.mi_name}(${processInfo.pi_machine_id}, ${processInfo.position}) </option>
                      </c:forEach>
                  </datalist>
                </div>
