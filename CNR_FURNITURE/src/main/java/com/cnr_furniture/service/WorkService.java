@@ -1,11 +1,10 @@
 package com.cnr_furniture.service;
 
-import com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO;
 import com.cnr_furniture.domain.work.search.*;
 import com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO;
 import com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO;
 import com.cnr_furniture.domain.work.workMNG.*;
-import com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO;
+import com.cnr_furniture.domain.work.workerInsert.*;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ public interface WorkService {
     /** 생산팀 부서명 조회 */
     List<WorkVO> findDpNameList();
 
-    /** 생산팀 부서명 조회 */
+    /** 사원정보 조회 */
     List<WorkSelectEmpInfoVO> findEmpInfoList();
 
     /* [work.jsp] ============================================================== */
@@ -104,7 +103,19 @@ public interface WorkService {
     /** Desc: workerInsert 의 작업자 배치 조회 */
     List<WorkSelectWorkerVO> getWorkerInsert(WorkSearchVO workSearchVO);
 
-    /* [workerInsert.jsp 의 작업자등록 모달창] ============================================================== */
-    /** Desc: workerInsert 의 작업자 등록 모달창의 작업자 등록을 위한 데이터 조회 */
-    WorkSelectWorkerVO getWorkerInsertDataForInsert(int w_id);
+    /* [workerInsert.jsp 의 작업자 관리 모달창] ============================================================== */
+    /** Desc: workInsert 의 작업자 관리 모달창의 작업자 관리를 위한 데이터 조회 */
+    WorkerInsertModalVO getWorkerInsertDataForInsert(int w_id);
+
+    /** Desc: workInsert 의 작업자 관리 모달창의 부서명에 따른 사원번호 조회 */
+    List<WorkerInsertModalSelectEmpInfoByDpNameVO> getWorkerInsertModalEmpInfoList(String edit_dp_name);
+
+    /** Desc: workInsert 의 작업자 관리 모달창의 작업자 정보 조회 */
+    List<WorkerInsertModalSelectWorkerInfoByWorkIdVO> getWorkerInsertModalWorkerInfoList(int edit_w_id);
+
+    /** Desc: workInsert 의 작업자 관리 모달창의 작업자 등록 시, DB 저장 - [worker 테이블] */
+    void workerInsert(List<WorkerInsertModalWorkerInsertVO> arr);
+
+    /** Desc: workInsert 의 작업자 관리 모달창 중 작업자 삭제 */
+    void workerInsertModalDeleteWorker(int emp_id, int work_id);
 }

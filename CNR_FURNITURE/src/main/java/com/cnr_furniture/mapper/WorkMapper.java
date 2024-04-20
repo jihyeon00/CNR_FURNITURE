@@ -4,7 +4,7 @@ import com.cnr_furniture.domain.work.search.*;
 import com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO;
 import com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO;
 import com.cnr_furniture.domain.work.workMNG.*;
-import com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO;
+import com.cnr_furniture.domain.work.workerInsert.*;
 
 import java.util.List;
 import java.util.Map;
@@ -58,8 +58,6 @@ public interface WorkMapper {
      * Desc: 사원 정보 검색을 위함
      */
     List<WorkSelectEmpInfoVO> workEmpInfoList();
-
-
 
     /* [work.jsp] ============================================================== */
     /**
@@ -158,18 +156,40 @@ public interface WorkMapper {
      */
     List<WorkSelectWorkerVO> selectWorkerInsertList(WorkSearchVO workSearchVO);
 
-    /* [workerInsert.jsp 의 작업자등록 모달창] ============================================================== */
+
+    /* [workerInsert.jsp 의 작업자관리 모달창] ============================================================== */
 
     /**
-     * 작업자 등록을 위한 데이터 조회
-     * Desc: workInsert 의 작업자 등록 모달창의 작업자 등록을 위한 데이터 조회
+     * 작업자 관리를 위한 데이터 조회
+     * Desc: workInsert 의 작업자 관리 모달창의 작업자 관리를 위한 데이터 조회
      */
 
-    WorkSelectWorkerVO workSelectWorkerInsertDataForInsert(int w_id);
+    WorkerInsertModalVO workSelectWorkerInsertDataForInsert(int w_id);
+
+    /**
+     * 부서명에 따른 사원번호 조회
+     * Desc: workInsert 의 작업자 관리 모달창의 부서명에 따른 사원번호 조회
+     */
+    List<WorkerInsertModalSelectEmpInfoByDpNameVO> workSelectWorkerInsertModalEmpInfoList(String edit_dp_name);
+
+    /**
+     * 작업번호에 따른 작업자 정보 조회
+     * Desc: workInsert 의 작업자 관리 모달창의 작업자 정보 조회
+     */
+    List<WorkerInsertModalSelectWorkerInfoByWorkIdVO> workSelectWorkerInsertModalWorkerInfoList(int edit_w_id);
 
     /**
      * 작업자 등록
-     * Desc: workInsert 의 작업자 배치 중 작업자 등록
+     * Desc: workInsert 의 작업자 관리 모달창 중 작업자 등록
      */
+    void workerInsert(WorkerInsertModalWorkerInsertVO workerInsertModalWorkerInsertVO);
+
+    /**
+     * 작업자 삭제
+     * Desc: workInsert 의 작업자 관리 모달창 중 작업자 삭제
+     */
+
+    void workerInsertModalDeleteWorker(int emp_id, int work_id);
+
 
 }

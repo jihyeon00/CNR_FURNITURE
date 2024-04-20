@@ -93,18 +93,9 @@
             EMPLOYEE
         WHERE
             E_DP_NAME LIKE '생산%'
-            <if test="find_dp_name != null or find_emp_id != null">
-                <if test="find_dp_name != ''">
-                    AND E_DP_NAME = #{find_dp_name}
-                </if>
-                <if test="find_emp_id != ''">
-                    AND E_ID = #{find_emp_id}
-                </if>
-            </if>
         ORDER BY
             E_DP_NAME, e_role
     </select>
-
 
     <!-- work.jsp ========================================================================================================= -->
 
@@ -294,8 +285,8 @@
                 w.W_LOT_ID AS W_LOT_ID,
                 TO_CHAR(w.W_START_TIME, 'YYYY-MM-DD') AS W_DATE,
                 e.E_DP_NAME,
-                LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME ||')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP(ORDER BY wr.WR_EMP_ID) OVER(PARTITION BY e.E_DP_NAME, w.W_ID) AS allEmpList,
-                Substr(LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME ||')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP(ORDER BY wr.WR_EMP_ID) OVER(PARTITION BY e.E_DP_NAME, w.W_ID), 1, 40) || '...' AS substrallemp,
+                LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME ||')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP(ORDER BY e.e_role, wr.WR_EMP_ID) OVER(PARTITION BY e.E_DP_NAME, w.W_ID) AS allEmpList,
+                Substr(LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME ||')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP(ORDER BY e.e_role, wr.WR_EMP_ID) OVER(PARTITION BY e.E_DP_NAME, w.W_ID), 1, 40) || '...' AS substrallemp,
                 w.W_PI_ID,
                 pi.PI_NAME,
                 mi.MI_NAME,
@@ -772,8 +763,8 @@
                 pi.PI_SEQ || '-' || nvl(mi.MI_POSITION, 'X') AS POSITION,
                 pi.PI_MACHINE_ID,
                 mi.MI_NAME,
-                Substr(LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME || ')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP (ORDER BY wr.WR_EMP_ID) OVER (PARTITION BY e.E_DP_NAME, w.W_ID), 1, 40) || '...' AS substrAllEmp,
-                LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME || ')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP (ORDER BY wr.WR_EMP_ID) OVER (PARTITION BY e.E_DP_NAME, w.W_ID) AS allEmpList
+                Substr(LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME || ')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP (ORDER BY e.e_role, wr.WR_EMP_ID) OVER (PARTITION BY e.E_DP_NAME, w.W_ID), 1, 40) || '...' AS substrAllEmp,
+                LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME || ')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP (ORDER BY e.e_role, wr.WR_EMP_ID) OVER (PARTITION BY e.E_DP_NAME, w.W_ID) AS allEmpList
             FROM
                 WORK w
                 LEFT JOIN WORKER wr ON w.W_ID = wr.WR_WORK_ID
@@ -809,21 +800,20 @@
                     </if>
                 </if>
             </trim>
-            ORDER BY w.W_ID, w.W_LOT_ID, w.W_PI_ID, POSITION ) q
+            ORDER BY w.W_ID desc, w.W_LOT_ID, w.W_PI_ID, POSITION ) q
     </select>
+    <!-- workerInsert.jsp 의 작업자 관리 모달창 ============================================================================ -->
 
-    <!-- workerInsert.jsp 의 작업자등록 모달창 ============================================================================ -->
-
-    <!-- workerInsert 의 작업자 등록 모달창의 작업자 등록을 위한 데이터 조회 -->
+    <!-- workerInsert 의 작업자 관리 모달창의 작업자 관리를 위한 데이터 조회 -->
     <select id="workSelectWorkerInsertDataForInsert" parameterType="int"
-            resultType="com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO">
+            resultType="com.cnr_furniture.domain.work.workerInsert.WorkerInsertModalVO">
         SELECT
-            DISTINCT w.W_ID,
-            to_char(w.w_start_time, 'yyyy-mm-dd HH24:mi:ss') AS w_start_time,
-            to_char(w.w_end_time, 'yyyy-mm-dd HH24:mi:ss') AS w_end_time,
-            w.W_LOT_ID,
-            w.W_PI_ID,
-            pi.PI_MACHINE_ID
+            DISTINCT w.W_ID as edit_w_id,
+            to_char(w.w_start_time, 'yyyy-mm-dd HH24:mi:ss') AS edit_w_start_time,
+            to_char(w.w_end_time, 'yyyy-mm-dd HH24:mi:ss') AS edit_w_end_time,
+            w.W_LOT_ID as edit_w_lot_id,
+            w.W_PI_ID as edit_w_pi_id,
+            pi.PI_MACHINE_ID as edit_pi_machine_id
         FROM
             WORK w
             LEFT JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
@@ -831,6 +821,70 @@
         WHERE w.W_ID = #{w_id}
     </select>
 
+    <!-- 부서명에 따른 사원번호 조회 -->
+    <select id="workSelectWorkerInsertModalEmpInfoList" resultType="com.cnr_furniture.domain.work.workerInsert.WorkerInsertModalSelectEmpInfoByDpNameVO">
+        SELECT
+            E_DP_NAME AS edit_dp_name, E_ID AS edit_emp_id, E_NAME AS edit_e_name,
+            CASE
+                WHEN e_role = 'ROLE_Director' THEN '디렉터'
+                WHEN e_role = 'ROLE_Manager' THEN '매니저'
+                WHEN e_role = 'ROLE_Staff' THEN '사원'
+                ELSE e_role
+            END AS edit_e_role
+        FROM
+            EMPLOYEE
+        WHERE
+            E_DP_NAME like #{edit_dp_name}
+        ORDER BY
+            edit_dp_name, edit_e_role, edit_emp_id
+    </select>
 
+    <!-- [작업번호]에 따른 작업자 조회 -->
+    <select id="workSelectWorkerInsertModalWorkerInfoList" resultType="com.cnr_furniture.domain.work.workerInsert.WorkerInsertModalSelectWorkerInfoByWorkIdVO">
+        SELECT
+            wr.WR_WORK_ID AS edit_w_id,
+            e.E_DP_NAME AS workerInfoDpName,
+            e.E_ID AS workerInfoEmpId,
+            e.E_NAME AS workerInfoEmpName,
+            CASE
+                WHEN e_role = 'ROLE_Director' THEN '디렉터'
+                WHEN e_role = 'ROLE_Manager' THEN '매니저'
+                WHEN e_role = 'ROLE_Staff' THEN '사원'
+            ELSE e_role
+            END AS workerInfoEmpRole
+        FROM
+            WORKER wr
+            JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
+        WHERE
+            wr.WR_WORK_ID = #{edit_w_id}
+    </select>
+
+    <!-- 작업자 등록 -->
+    <insert id="workerInsert" parameterType="com.cnr_furniture.domain.work.workerInsert.WorkerInsertModalWorkerInsertVO">
+        insert into Worker
+            (
+            wr_emp_id,
+            wr_work_id,
+            wr_start_time,
+            wr_end_time
+            )
+        values
+            (
+            #{edit_w_emp_id},
+            #{edit_w_id},
+            #{edit_w_start_time},
+            #{edit_w_end_time}
+            )
+    </insert>
+
+    <!-- 작업자 삭제 -->
+    <delete id="workerInsertModalDeleteWorker" parameterType="int">
+        DELETE FROM
+            WORKER
+        WHERE
+            wr_emp_id = #{emp_id}
+            AND wr_work_id = #{work_id}
+
+    </delete>
 
 </mapper>

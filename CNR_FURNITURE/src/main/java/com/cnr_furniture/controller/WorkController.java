@@ -1,18 +1,12 @@
 package com.cnr_furniture.controller;
 
-import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
-import com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO;
-import com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO;
-import com.cnr_furniture.domain.quality.inspectionIB.InspUpdateVO;
 import com.cnr_furniture.domain.work.search.*;
-import com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO;
-import com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO;
+import com.cnr_furniture.domain.work.todayWorkInsert.*;
 import com.cnr_furniture.domain.work.workMNG.*;
-import com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO;
+import com.cnr_furniture.domain.work.workerInsert.*;
 import com.cnr_furniture.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import lombok.extern.log4j.Log4j;
@@ -49,7 +43,7 @@ public class WorkController {
      * @param model: 뷰에 데이터를 전달하기 위한 모델
      * @return: work/work
      */
-    
+
     @GetMapping("/work")
     public String work(WorkSearchVO workSearchVO,
                        Model model){
@@ -200,7 +194,7 @@ public class WorkController {
      * Desc: 공정관리-작업관리-당일작업목록-공정별 설비가동현황, 당일작업목록
      * @return: work/todayWorkInsert
      */
-    
+
     @GetMapping("/todayWorkInsert")
     public String todayWorkInsert(WorkSearchVO workSearchVO, Model model){
 
@@ -217,12 +211,12 @@ public class WorkController {
 
         return "work/todayWorkInsert";
     }
-    
+
     /**
      * Desc: 공정관리-작업관리-작업자등록-작업자 배치 목록, 작업자등록
-     * @return: work/todayWorkInsert
+     * @return: work/workerInsert
      */
-    
+
     @GetMapping("/workerInsert")
     public String workerInsert(WorkSearchVO workSearchVO, Model model){
 
@@ -238,21 +232,76 @@ public class WorkController {
     }
 
     /**
-     * Desc: Work 의 자재투입내역 중 조건에 따른 수정할 자재투입내역 조회
-     * @return: /insertMaterialForUpdateModal?w_id=w_id
+     * Desc: workerInsert 의 작업자 관리 모달창의 작업자 관리를 위한 데이터 조회
+     * @return: /workerInsertModalSelectData?w_id=w_id
      */
     @GetMapping("/workerInsertModalSelectData")
     @ResponseBody
-    public WorkSelectWorkerVO getWorkerInsertDataForInsert(
+    public WorkerInsertModalVO getWorkerInsertDataForInsert(
             @RequestParam("w_id") int w_id
     ) {
         log.info("수정을 위한 w_id : " + w_id);
 
-        WorkSelectWorkerVO workerInsertDataForInsert = workService.getWorkerInsertDataForInsert(w_id);
+        WorkerInsertModalVO workerInsertDataForInsert = workService.getWorkerInsertDataForInsert(w_id);
+
         if (workerInsertDataForInsert == null) {
             log.info("정보를 찾지 못함. insertMaterialForUpdate: " + workerInsertDataForInsert);
         }
         return workerInsertDataForInsert;
+    }
+
+    /**
+     * Desc: 작업자 관리 모달창 - 부서명 선택에 따른 사원정보 조회
+     */
+    @GetMapping("/workerInsertModalEmpInfoByDpName")
+    @ResponseBody
+    public List<WorkerInsertModalSelectEmpInfoByDpNameVO> getWorkerInsertModalEmpInfoList(
+            @RequestParam("edit_dp_name") String edit_dp_name
+    ) {
+        return workService.getWorkerInsertModalEmpInfoList(edit_dp_name);
+    }
+
+    /**
+     * Desc: 작업자 관리 모달창 - 작업번호에 따른 작업자 정보 조회
+     */
+    @GetMapping("/workerInsertModalWorkerInfoByWorkId")
+    @ResponseBody
+    public List<WorkerInsertModalSelectWorkerInfoByWorkIdVO> getWorkerInsertModalWorkerInfoList(
+            @RequestParam("edit_w_id") int edit_w_id
+    ) {
+        return workService.getWorkerInsertModalWorkerInfoList(edit_w_id);
+    }
+
+    /**
+     * Desc: workInsert 의 작업자 관리 모달창의 작업자 등록 시, DB 저장 - [worker 테이블]
+     * @param arrays 작업자 관리 클라이언트로부터 JSON 형태로 받아 WorkerInsertModalWorkerInsertVO 객체 리스트로 변환
+     */
+    @PostMapping(value = "/workerInsertArr")
+    @ResponseBody
+    public ResponseEntity<?> workerInsertArr(
+            @RequestBody List<WorkerInsertModalWorkerInsertVO> arrays
+    ) {
+        try {
+            workService.workerInsert(arrays);
+            return ResponseEntity.ok().body(Map.of("success", true, "message", "등록이 성공되었습니다."));
+        } catch (Exception e) {
+            log.error("등록 실패, Error: {}" + e.getMessage() + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "등록에 실패하였습니다. 에러: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/deleteWorker")
+    @ResponseBody
+    public ResponseEntity<?> deleteWorker(@RequestParam int emp_id, @RequestParam int work_id) {
+        try {
+            // 작업자 삭제 로직 실행
+            workService.workerInsertModalDeleteWorker(emp_id, work_id);
+            // 예: workService.deleteWorker(emp_id, work_id);
+            return ResponseEntity.ok(Map.of("success", true, "message", "작업자가 성공적으로 삭제되었습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("success", false, "message", "삭제 실패: " + e.getMessage()));
+        }
     }
 
 }
