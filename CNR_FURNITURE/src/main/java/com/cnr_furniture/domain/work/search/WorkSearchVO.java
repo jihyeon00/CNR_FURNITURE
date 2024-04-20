@@ -34,6 +34,7 @@ public class WorkSearchVO {
     private List<WorkSelectMachineInfoVO> machineInfoList;  // 설비 정보 리스트
     private List<WorkSelectWorkVO> workList;                // 작업 리스트
     private List<WorkVO> dpNameList;                        // 부서명 리스트
+    private List<WorkSelectEmpInfoVO> empInfoList;          // 사원정보 리스트
 
 
     public String[] getTypeArr() {
