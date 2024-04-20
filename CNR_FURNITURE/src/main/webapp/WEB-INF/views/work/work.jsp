@@ -51,10 +51,10 @@
                <div class="col-sm-1 sb-name">조회일자</div>
                <div class="col-sm-4 sb-text" style="margin-left: 8px;">
                  <input type="date" class="col-sm-6 input-text"  id="workStartDate" name="workStartDate"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" style="margin-right: 4px;"/>
+                   value='' autocomplete="off" style="margin-right: 4px;"/>
                    ~
                  <input type="date" class="col-sm-6 input-text"  id="workEndDate" name="workEndDate"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" style="margin-left: 4px;"/>
+                   value='' autocomplete="off" style="margin-left: 4px;"/>
                </div>
              </div>
              <!-- 검색창 2줄 -->
@@ -73,14 +73,18 @@
                		<input type="text" list="workProcessInfoList" class="col-sm-12 input-text" id="find_work_processInfo" name="find_work_processInfo">
 	                <datalist id="workProcessInfoList">
                      <c:forEach items="${processInfoList}" var="processInfo">
-                         <option value="${processInfo.pi_id}">공정명: ${processInfo.pi_name} | ${processInfo.mi_name}(${processInfo.pi_machine_id}, 위치:${processInfo.position}) </option>
+                         <option value="${processInfo.pi_id}">${processInfo.pi_name} | ${processInfo.mi_name}(${processInfo.pi_machine_id}, ${processInfo.position}) </option>
                      </c:forEach>
                  </datalist>
                </div>
                <div class="col-sm-1 sb-name">작업번호</div>
                <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_work_id" name="find_work_id"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
+               		<input type="text" list="workList" class="col-sm-12 input-text" id="find_work_id" name="find_work_id">
+	                <datalist id="workList">
+                     <c:forEach items="${workList}" var="workList">
+                         <option value="${workList.w_id}">로트번호:${workList.w_lot_id}(공정번호:${workList.w_pi_id})</option>
+                     </c:forEach>
+                 </datalist>
                </div>
              </div>
            </form>
@@ -169,7 +173,7 @@
             <img class="add-circle-icon" alt="add" src="/resources/img/add-circle-outline.svg">
             작업등록
           </button>
-        </div><!-- /.작업등록 버튼 -->
+        </div><!-- /.자재투입, 작업자등록, 작업등록 모달창 버튼 -->
         <div class="titleAndTable" id="selectWorkTable">
            <div class="workTableTitle">
               <div class="icon"><i class="fa fa-list"></i></div>
@@ -355,7 +359,10 @@
 			                  <td>${insertMaterialList.m_name}</td>
 			                  <td>${insertMaterialList.b_unit}</td>
 			                  <td>${insertMaterialList.inv_quantity}</td>
-			                  <td style="cursor:pointer; color:#17a2b8; text-align:center;" data-toggle="modal" class="editBtn" id="editBtn" data-qi-id="${inspIB.qiID}" data-toggle="modal" data-target="#editModal">
+			                  <td style="cursor:pointer; color:#17a2b8; text-align:center;" data-toggle="modal" class="insertMatEditBtn" id="insertMatEditBtn"
+			                   data-lot-id="${insertMaterialList.inv_lot_id}" data-pi-id="${insertMaterialList.inv_pi_id}" 
+			                   data-mat-id="${insertMaterialList.inv_material_id}" data-inv-quantity="${insertMaterialList.inv_quantity}"
+			                   data-toggle="modal" data-target="#workMaterialInsertEditModal">
                   			수정
 	                  	</td>
 			                </tr>
@@ -379,7 +386,7 @@
 	                  <th>사원번호</th>
 	                  <th>작업팀</th>
 	                  <th>작업자명</th>
-	                  <th>작업자직급</th>
+	                  <th>직급</th>
 	                  <th>제조LOT번호</th>
 	                  <th>공정번호</th>
 	                  <th>작업위치</th>
@@ -569,7 +576,93 @@
       <div class=divBorderModal></div>
       
       <div class="modal-footer">
-           <button type="button" class="btn btn-primary" id="insertBtn">등록</button>
+           <button type="button" class="btn btn-primary" id="insertMatModalInsertBtn">등록</button>
+           <button type="button" class="btn btn-danger" id="cancelBtn" data-dismiss="modal">취소</button>
+      </div><!-- /.modal-footer -->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal --> 
+
+	<!-- 자재투입수정 모달 -->
+	<div class="modal fade" id="workMaterialInsertEditModal" aria-labelledby="#workMaterialInsertEditModallLabel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+	  <div class="modal-dialog" role="document" style="min-width: 60%;">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <div class="workMaterialInsertEditModal" id="workMaterialInsertEditModalLabel" style="font-size: 150%; font-weight:800;">자재투입수정</div>
+	      </div>
+	      <!-- modal-body -->
+	      <div class="modal-body work-modal-body">
+	      	<form action="/workMaterialInsertModal" id=workMaterialInsertForm name="workMaterialInsertForm" class="col-md-12" >
+	      		<!-- 등록행 1 -->
+			      <div class="work-modal-board">
+			      	<!-- 제조LOT번호 -->
+			        <div class="col-sm-2 work-modal-name">제조LOT번호</div>
+			        <div class="col-sm-2 work-modal-text">
+			           <input type="text" class="col-sm-12 input-text" id="inv_lot_id" name="inv_lot_id"
+			            value='<c:out value="${data.ins_lot_id}" />' readonly="readonly"/>
+			        </div><!-- /.제조LOT번호 -->
+			        <!-- 공정번호 -->
+			        <div class="col-sm-2 work-modal-name">공정번호</div>
+			        <div class="col-sm-2 work-modal-text">
+			        	<input type="text" class="col-sm-12 modal-input" id="inv_pi_id" name="inv_pi_id" 
+			          value='<c:out value="${data.inv_pi_id}" />' readonly="readonly" />
+			        </div><!-- /.공정번호 -->
+			        <div class="col-sm-4 emptyModal"></div>
+			      </div><!-- /.등록행 1 -->
+			      <!-- 등록행 2 -->
+			      <div class="work-modal-board">
+			      	<!-- 제품번호 -->
+			        <div class="col-sm-2 work-modal-name">제품번호</div>
+			        <div class="col-sm-2 work-modal-text">
+			          <input type="text" class="col-sm-12 modal-input" id="ins_item_id" name="ins_item_id"
+			            value='<c:out value="${data.ins_item_id}"/>'  readonly="readonly"/>
+			        </div><!-- /.제품번호 -->
+			      	<!-- 제품명 -->
+			        <div class="col-sm-2 work-modal-name">제품명</div>
+			        <div class="col-sm-2 work-modal-text">
+			        	<input type="text" class="col-sm-12 modal-input" id="i_name" name="i_name"
+		            	value='<c:out value="${data.i_name}"/>'  readonly="readonly"/>
+			        </div><!-- /.제품명 -->
+			        <!-- 단위 -->
+			        <div class="col-sm-2 work-modal-name">단위</div>
+			        <div class="col-sm-2 work-modal-text">
+			          <input type="text" class="col-sm-12 modal-input" id="b_unit" name="b_unit" 
+			          	value='<c:out value="${data.b_unit}" />' readonly="readonly"/>
+			        </div><!-- /.단위 -->
+			      </div><!-- /.등록행 2 -->
+			      <!-- 등록행 3 -->
+			      <div class="work-modal-board">
+			        <!-- 자재번호 -->
+			        <div class="col-sm-2 work-modal-name">자재번호</div>
+			        <div class="col-sm-2 work-modal-text">
+			       	 	<input type="text" class="col-sm-12 modal-input" id="inv_material_id" name="inv_material_id" 
+			          	value='<c:out value="${data.inv_material_id}" />' readonly="readonly"/>
+				        </select>
+			        </div><!-- /.자재번호 -->
+			        <!-- 자재명 -->
+			        <div class="col-sm-2 work-modal-name">자재명</div>
+			        <div class="col-sm-2 work-modal-text">
+			          <input type="text" class="col-sm-12 modal-input" id="m_name" name="m_name" 
+			          value='<c:out value="${data.m_name}" />' readonly="readonly" />
+			        </div><!-- /.자재명 -->
+			        <!-- 투입수량 -->
+			        <div class="col-sm-2 work-modal-name">투입수량</div>
+			        <div class="col-sm-2 work-modal-text">
+			          <input type="number" class="col-sm-12 modal-input" id="updateInvQuantity" name="updateInvQuantity" 
+			          	value='<c:out value="${data.inv_quantity}"/>'/>
+			          <input type="hidden" class="col-sm-12 modal-input" id="inv_quantity" name="inv_quantity" 
+			          	value='<c:out value="${data.inv_quantity}"/>'/>
+			        </div><!-- /.투입수량 -->
+			      </div><!-- /.등록행 3 -->
+		        </form><!-- 모달 form -->
+	        </div><!-- /.modal-body -->
+      
+      
+      <!-- 구분선 -->
+      <div class=divBorderModal></div>
+      
+      <div class="modal-footer">
+           <button type="button" class="btn btn-primary" id="insertMatModalUpdateBtn">수정</button>
            <button type="button" class="btn btn-danger" id="cancelBtn" data-dismiss="modal">취소</button>
       </div><!-- /.modal-footer -->
     </div><!-- /.modal-content -->

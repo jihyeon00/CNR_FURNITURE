@@ -5,6 +5,7 @@ import com.cnr_furniture.domain.work.search.*;
 import com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO;
 import com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO;
 import com.cnr_furniture.domain.work.workMNG.*;
+import com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO;
 
 import java.util.List;
 
@@ -21,6 +22,18 @@ public interface WorkService {
 
     /** 공정 정보 조회 */
     List<WorkSelectProcessInfoVO> findProcessInfoList();
+
+    /** 설비 정보 조회 */
+    List<WorkSelectMachineInfoVO> findMachineInfoList();
+
+    /** 작업 조회 */
+    List<WorkSelectWorkVO> findWorkList();
+
+    /** 생산팀 부서명 조회 */
+    List<WorkVO> findDpNameList();
+
+    /** 생산팀 부서명 조회 */
+    List<WorkSelectEmpInfoVO> findEmpInfoList();
 
     /* [work.jsp] ============================================================== */
     /** Desc: work의 제조수행정보 목록 조회 */
@@ -65,6 +78,21 @@ public interface WorkService {
      */
     void workInsertMaterial(List<WorkInsertMaterialModalVO> arr);
 
+    /* [work.jsp 의 자재투입내역 수정 모달창] ============================================================== */
+
+    /**
+     * Desc: Work 의 조건에 따른 수정할 자재투입내역 데이터를 가져오는 메소드
+     */
+    WorkSelectInsertMaterialVO getInsertMaterialForUpdate(int inv_lot_id,
+                                                          int inv_pi_id,
+                                                          int inv_material_id,
+                                                          int inv_quantity);
+
+    /**
+     * Desc: Work 의 자재투입내역 - 모달창을 이용한 자재투입 수정
+     */
+    void updateWorkInsertMaterial(WorkUpdateMaterialModalVO workUpdateMaterialModalVO);
+
     /* [todayWorkInsert.jsp] ============================================================== */
     /** Desc: todayWorkInsert 의 공정조회 */
     List<WorkProcessMachineVO> getWorkProcessMachine(WorkSearchVO workSearchVO);
@@ -72,4 +100,11 @@ public interface WorkService {
     /** Desc: todayWorkInsert의 당일작업목록 조회 */
     List<TodayWorkVO> getTodayWork(WorkSearchVO workSearchVO);
 
+    /* [workerInsert.jsp] ============================================================== */
+    /** Desc: workerInsert 의 작업자 배치 조회 */
+    List<WorkSelectWorkerVO> getWorkerInsert(WorkSearchVO workSearchVO);
+
+    /* [workerInsert.jsp 의 작업자등록 모달창] ============================================================== */
+    /** Desc: workerInsert 의 작업자 등록 모달창의 작업자 등록을 위한 데이터 조회 */
+    WorkSelectWorkerVO getWorkerInsertDataForInsert(int w_id);
 }

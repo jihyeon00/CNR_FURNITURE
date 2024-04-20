@@ -126,7 +126,8 @@
 
 /* 작업관리의 제조수행정보, 작업목록 */
 #selectManufacturingPerformInfo,
-#selectWorkTable{
+#selectWorkTable,
+#selectWorkerInsertTable{
 	overflow-x: auto;
 }
 
@@ -185,62 +186,11 @@
 	display: flex;
 	align-items: center;
 	margin-left: auto;
-	
-}
-
-/* todayWorkInsert.jsp의 자재투입등록 모달창의 정보 첫번째줄,두번째줄*/
-.materialInputInfoBar {
-  display: flex;
-	align-items: center;
-  height: 50px;
-  background-color: #fff;
-  border: 1px solid #999;
-  margin-bottom: 20px;
-}
-/* todayWorkInsert.jsp의 자재투입등록 모달창의 정보 두번째줄*/
-.materialInputInfoBar:nth-child(2) {
-  margin-top: -21px;
-}
-
-/* todayWorkInsert.jsp의 자재투입등록 모달창의 정보의 input 스타일 */
-.materialInputInfoBar .sb-text input[type="text"]{
-	outline: none;
-	border: none;
 }
 
 /*   검색명   */
 .materialInputInfoBar .sb-name {
   height: 48px;
-}
-
-/* todayWorkInsert.jsp의 자재투입등록 모달창의 div class */
-.materialInputModalTable{
-	max-height: 174px;
-	margin-bottom: 20px;
-}
-
-/* todayWorkInsert.jsp의 자재투입등록 모달창의 div 안 테이블 */
-.materialInputModalTable table{
-	width:100%
-}
-
-/*  todayWorkInsert.jsp의 자재투입등록 모달창의 테이블의 자재투입 버튼 class */
-.workMaterialInputBtn{
-	margin-left: auto;
-  width: auto;
-}
-
-/* todayWorkInsert.jsp의 자재투입등록 모달창의 테이블 input 스타일 */
-.materialInputModalTable input[type="text"]{
-	border: none;
-	outline: none;
-	background-color: transparent;
-	width: 100%;
-	height: 100%;
-}
-/* todayWorkInsert.jsp의 자재투입등록 모달창의 테이블 중 input을 가진 td의 스타일 */
-.materialInputModalTable #materialInputModalInputTd{
-	background-color: rgb(23,162,183,0.1);
 }
 
 /* 테이블 제목 및 테이블 양쪽 여백*/
@@ -412,6 +362,16 @@
   border-top: 1px solid #e9ecef;
 }
 
+/* WorkerInsert 모달창 구분선 */
+.divBorderWorkerInsertModal{
+  width: 100%;
+  border-top: 1px solid #374056;
+  margin: 20px 0px;
+}
+
+.workerInsert-modal-table{
+	margin-top: 20px;
+}
 
 
 /* work 모달 : 자재투입 */

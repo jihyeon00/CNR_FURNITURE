@@ -5,13 +5,16 @@ import com.cnr_furniture.domain.work.search.*;
 import com.cnr_furniture.domain.work.todayWorkInsert.TodayWorkVO;
 import com.cnr_furniture.domain.work.todayWorkInsert.WorkProcessMachineVO;
 import com.cnr_furniture.domain.work.workMNG.*;
+import com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO;
 import com.cnr_furniture.mapper.WorkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.log4j.Log4j;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Log4j
 @Service
@@ -37,10 +40,34 @@ public class WorkServiceImpl implements WorkService{
         return workMapper.workSelectInstructionList();
     }
 
-    /** 제조수행 조회 */
+    /** 공정 정보 조회 */
     @Override
     public List<WorkSelectProcessInfoVO> findProcessInfoList() {
         return workMapper.workSelectProcessInfoList();
+    }
+
+    /** 설비 정보 조회 */
+    @Override
+    public List<WorkSelectMachineInfoVO> findMachineInfoList() {
+        return workMapper.workSelectMachineInfoList();
+    }
+
+    /** 작업 조회 */
+    @Override
+    public List<WorkSelectWorkVO> findWorkList() {
+        return workMapper.workSelectWorkList();
+    }
+
+    /** 부서명 조회 */
+    @Override
+    public List<WorkVO> findDpNameList() {
+        return workMapper.workDpNameList();
+    }
+
+    /** 사원 정보 조회 */
+    @Override
+    public List<WorkSelectEmpInfoVO> findEmpInfoList() {
+        return workMapper.workEmpInfoList();
     }
 
     /** Desc: work의 제조수행정보 조회 */
@@ -100,10 +127,7 @@ public class WorkServiceImpl implements WorkService{
         return workMapper.workSelectMaterialIdAutoDataModal(insLotIdModal, materialIdModal);
     }
 
-    /**
-     * Desc: 자재투입 등록 시, DB 저장 - [재고 테이블]
-     * @param
-     */
+    /** Desc: 자재투입 등록 시, DB 저장 - [재고 테이블] */
     @Override
     public void workInsertMaterial(List<WorkInsertMaterialModalVO> arrays) {
         for(WorkInsertMaterialModalVO arr: arrays) {
@@ -111,8 +135,31 @@ public class WorkServiceImpl implements WorkService{
         }
     }
 
+    /* [work.jsp 의 자재투입내역 수정 모달창] ============================================================== */
+
+    /** Desc: Work 의 조건에 따른 수정할 자재투입내역 데이터를 가져오는 메소드 */
+    @Override
+    public WorkSelectInsertMaterialVO getInsertMaterialForUpdate(int inv_lot_id,
+                                                                 int inv_pi_id,
+                                                                 int inv_material_id,
+                                                                 int inv_quantity) {
+        Map<String, Object> paramInsertMaterialForUpdate = new HashMap<>();
+        paramInsertMaterialForUpdate.put("inv_lot_id", inv_lot_id);
+        paramInsertMaterialForUpdate.put("inv_pi_id", inv_pi_id);
+        paramInsertMaterialForUpdate.put("inv_material_id", inv_material_id);
+        paramInsertMaterialForUpdate.put("inv_quantity", inv_quantity);
+        WorkSelectInsertMaterialVO getInsertMaterialForUpdate = workMapper.workSelectInsertMaterialForUpdate(paramInsertMaterialForUpdate);
+        return getInsertMaterialForUpdate;
+    }
+
+    /** Desc: Work 의 자재투입내역 - 모달창을 이용한 자재투입 수정 */
+    @Override
+    public void updateWorkInsertMaterial(WorkUpdateMaterialModalVO workUpdateMaterialModalVO) {
+        workMapper.workInsertMaterialUpdate(workUpdateMaterialModalVO);
+    }
 
     /* [todayWorkInsert.jsp] ============================================================== */
+
     /** Desc: todayWorkInsert의 공정별 설비상태 조회 */
     @Override
     public List<WorkProcessMachineVO> getWorkProcessMachine(WorkSearchVO workSearchVO) {
@@ -123,5 +170,21 @@ public class WorkServiceImpl implements WorkService{
     @Override
     public List<TodayWorkVO> getTodayWork(WorkSearchVO workSearchVO) {
         return workMapper.selectTodayWork(workSearchVO);
+    }
+
+    /* [workerInsert.jsp] ============================================================== */
+
+    /** Desc: workerInsert 의 작업자 배치 조회 */
+    @Override
+    public List<WorkSelectWorkerVO> getWorkerInsert(WorkSearchVO workSearchVO) {
+        return workMapper.selectWorkerInsertList(workSearchVO);
+    }
+
+    /* [workerInsert.jsp 의 작업자등록 모달창] ============================================================== */
+
+    /** Desc: workerInsert 의 작업자 등록 모달창의 작업자 등록을 위한 데이터 조회 */
+    @Override
+    public WorkSelectWorkerVO getWorkerInsertDataForInsert(int w_id) {
+        return workMapper.workSelectWorkerInsertDataForInsert(w_id);
     }
 }

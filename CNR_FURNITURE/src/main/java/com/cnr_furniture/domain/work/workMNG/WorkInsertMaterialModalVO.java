@@ -18,8 +18,8 @@ public class WorkInsertMaterialModalVO {
 
     /* 등록 모달창 2행 */
     private int itemIdModal;                    // 제품번호(from instruction 테이블)
-    private String itemNameModal;                  // 제품명(from instruction 테이블의 ins_item_id와
-                                                //       item 테이블의 i_id를 조인하여 i_name 조회 )
+    private String itemNameModal;               // 제품명(from instruction 테이블의 ins_item_id와
+                                                // item 테이블의 i_id를 조인하여 i_name 조회 )
     private int productionPlanQuantityModal;    // 계획생산수량(from instruction 테이블의 ins_lot_size)
 
     /* 등록 모달창 3행 */

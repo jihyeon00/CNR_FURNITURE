@@ -284,7 +284,7 @@ $(document).ready(function() {
 	}
 	
 	/* 모달창 - [등록] 버튼 클릭 이벤트 */
-	$('#insertBtn').click(function() {
+	$('#insertMatModalInsertBtn').click(function() {
 		var arrays = collectArrFromTable();	// 테이블에서 모든 항목 수집
 		if(arrays.length === 0) {
 			alert('등록할 내용이 없습니다.');
@@ -336,32 +336,37 @@ $(document).ready(function() {
 	}
 	
 	/* 수정 - Ajax로 해당 행의 내용 조회 */
-	$(document).on('click', '.editBtn', function() {
-		var qiID = $(this).data('qi-id');	// 수정 버튼에서 qiID 값 가져오기
-		console.log('선택된 qiID: ', qiID);
+	$(document).on('click', '.insertMatEditBtn', function() {
+		var inv_lot_id = $(this).data('lot-id');					// 수정 버튼에서 inv_lot_id 값 가져오기
+		var inv_pi_id = $(this).data('pi-id');						// 수정 버튼에서 inv_pi_id 값 가져오기
+		var inv_material_id = $(this).data('mat-id');			// 수정 버튼에서 inv_material_id 값 가져오기
+		var inv_quantity = $(this).data('inv-quantity');	// 수정 버튼에서 inv_quantity 값 가져오기
+		console.log('선택된 inv_lot_id: ', inv_lot_id);
+		console.log('선택된 inv_pi_id: ', inv_pi_id);
+		console.log('선택된 inv_material_id: ', inv_material_id);
+		console.log('선택된 inv_quantity: ', inv_quantity);
 		
 		$.ajax({
-			url: '/inspectionIB/edit',
+			url: '/insertMaterialForUpdateModal?inv_lot_id='+inv_lot_id+'&inv_pi_id='+inv_pi_id+'&inv_material_id='+inv_material_id+'&inv_quantity='+inv_quantity,
 			type: 'GET',
-			data: { qiID: qiID },
+			data: { 
+				inv_lot_id: inv_lot_id,
+				inv_pi_id : inv_pi_id,
+				inv_material_id : inv_material_id,
+				inv_quantity : inv_quantity
+				 },
 			success: function(data) {
-				$('#qiID').val(qiID);	// 모달의 hidden input 필드에 qiID 설정(수정을 위해 필요함.)
-				$('#editContractID').val(data.contractID);
-				$('#editCompanyName').val(data.companyName);
-				$('#editUnits').val(data.units);
-				$('#editMatID').val(data.matID);
-				$('#editMatName').val(data.matName);
-				$('#editMatUses').val(data.matUses);
-				$('#editContractQuantity').val(data.contractQuantity);
-				$('#editInspectionQuantity').val(data.inspectionQuantity);
-				$('#editPoorQuantity').val(data.poorQuantity);
-				$('#editQsDiv1').val(data.qsDiv1);
-				$('#editQsDiv2').val(data.qsDiv2);
-      	$('#editNotes').val(data.notes);
+				$('#inv_lot_id').val(data.inv_lot_id);
+				$('#inv_pi_id').val(data.inv_pi_id);
+				$('#ins_item_id').val(data.ins_item_id);
+				$('#i_name').val(data.i_name);
+				$('#b_unit').val(data.b_unit);
+				$('#inv_material_id').val(data.inv_material_id);
+				$('#m_name').val(data.m_name);
+				$('#inv_quantity').val(data.inv_quantity);
+				$('#updateInvQuantity').val(data.inv_quantity);
       	
-      	updateQsDiv2Options(data.qsDiv1, data.qsDiv2);	// 불량유형2 option 업데이트
-      	
-      	$('#editModal').modal('show');	// 모달창 보여주기
+      	$('#workMaterialInsertEditModal').modal('show');	// 모달창 보여주기
 			},
 			error: function() {
 				console.log("수정 모달창의 데이터 조회 실패 Error", error);
@@ -370,9 +375,90 @@ $(document).ready(function() {
 		});
 	});
 	
+	/* 수정 - Ajax로 DB에 업데이트 */
+	$('#insertMatModalUpdateBtn').on('click', function() {
+		if(!confirm('수정하시겠습니까?')) {
+			return;	// 사용자가 '아니오'를 선택하면 함수를 종료
+		}
+		
+		// Form에서 데이터 수집
+		var formData = {
+			inv_lot_id: $('#inv_lot_id').val(),
+			inv_pi_id: $('#inv_pi_id').val(),
+			inv_material_id: $('#inv_material_id').val(),
+			inv_quantity: $('#inv_quantity').val(),
+			updateInvQuantity: $('#updateInvQuantity').val()
+		};
+		
+		console.log(formData);
+		
+		// Ajax 요청을 사용하여 서버에 수정 사항 전송
+		$.ajax({
+			url: '/insertMaterialUpdate',	// 수정 처리를 위한 서버 URL
+			type: 'POST',	// HTTP 요청 방식
+			contentType: 'application/json',	// 요청 컨텐츠 타입
+			data: JSON.stringify(formData),		// JSON 형식으로 데이터 전송
+			success: function(response) {
+				if(response.success) {
+					alert('수정이 완료되었습니다.');
+					window.location.href = '/work';	// 성공 후, '/work' 페이지로 리다이렉트
+				} else {
+					alert('수정 실패: ' + response.message);
+				}
+			},
+			error: function(xhr, status, error) {	// 요청 실패 시
+				alert('수정 중 에러가 발생했습니다. 에러: ' + error);
+			}
+		}); // ./insertMaterialUpdate 의 ajax
+		
+	}); // /.insertMatModalUpdateBtn click function
 	
 	
+	/* workerInsert - 작업자 등록 */
 	
+	/* 작업자 등록 모달창 - Ajax로 해당 행의 내용 조회 */
+	$(document).on('click', '.workerInsertBtn', function() {
+		var w_id = $(this).data('work-id');								// 등록 버튼에서 w_id 값 가져오기
+		var w_lot_id = $(this).data('lot-id');						// 등록 버튼에서 w_lot_id 값 가져오기
+		var w_pi_id = $(this).data('pi-id');							// 등록 버튼에서 w_pi_id 값 가져오기
+		var pi_machine_id = $(this).data('mi-id');				// 등록 버튼에서 pi_machine_id 값 가져오기
+		var w_start_time = $(this).data('start-time');		// 등록 버튼에서 w_start_time 값 가져오기
+		var w_end_time = $(this).data('end-time');				// 등록 버튼에서 w_end_time 값 가져오기
+		
+		console.log('선택된 w_id: ', w_id);
+		console.log('선택된 w_lot_id: ', w_lot_id);
+		console.log('선택된 w_pi_id: ', w_pi_id);
+		console.log('선택된 pi_machine_id: ', pi_machine_id);
+		console.log('선택된 w_start_time: ', w_start_time);
+		console.log('선택된 w_end_time: ', w_end_time);
+		
+		$.ajax({
+			url: '/workerInsertModalSelectData?w_id='+w_id,
+			type: 'GET',
+			data: { 
+				w_id: w_id,
+				w_lot_id : w_lot_id,
+				w_pi_id : w_pi_id,
+				pi_machine_id : pi_machine_id,
+				w_start_time : w_start_time,
+				w_end_time : w_end_time
+				 },
+			success: function(data) {
+				$('#w_id').val(data.w_id);
+				$('#w_lot_id').val(data.w_lot_id);
+				$('#w_pi_id').val(data.w_pi_id);
+				$('#pi_machine_id').val(data.pi_machine_id);
+				$('#w_start_time').val(data.w_start_time);
+				$('#w_end_time').val(data.w_end_time);
+      	
+      	$('#workerInsertModal').modal('show');	// 모달창 보여주기
+			},
+			error: function() {
+				console.log("수정 모달창의 데이터 조회 실패 Error", error);
+				alert('데이터를 불러오는데 실패했습니다.');
+			}
+		}); // ./workerInsertModalSelectData 의 ajax
+	}); // /.workerInsertBtn click function
 	
 	
 	
