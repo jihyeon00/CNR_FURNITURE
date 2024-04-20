@@ -136,12 +136,12 @@
                             </th>
                         <th scope="col" class="process-highlight" >제품번호</th>
                         <th scope="col" class="process-highlight2">
-                                <select class="process-select" id="proItem" name="p_b_item_id">
+                          <select class="process-select" id="proItem" name="p_b_item_id">
                                     <option value="">--선택--</option>
                                 <c:forEach items="${insItemList}" var="proItem">
                                     <option value="${proItem.ins_item_id}" ${proItem.ins_item_id == processDate.ins_item_id ? 'selected' : ''}>${proItem.ins_item_id}</option>
                                 </c:forEach>
-                                </select>
+                          </select>
                         </th>
 					  </tr>
 					  <tr>
@@ -261,6 +261,7 @@
             proPiSelect.append('<option value="">Select Item first</option>');  // ITEM 먼저 선택하라는 메시지
         }
     });
+
 </script>
 
 

@@ -29,8 +29,8 @@
   display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	width:30%;
-	right:19%;
+	/*width:30%;*/
+	right:20%;
 
 }
 
@@ -214,7 +214,8 @@
 
 .process-textarea {
     resize: none; 
-    height: 100px; 
+    height: 50px; 
+    margin-top: -19px;
 }
 
 .process-highlight2 {
@@ -345,7 +346,7 @@ height: 10px;
 
 
 .asb{
- margin-right:8px;
+ margin-right:0px;
 }
 
 
@@ -396,6 +397,10 @@ height: 10px;
 margin-left: 35%;
 }
 
+.processIcon2{
+margin-left: 76%;
+}
+
 .processIcon1{
 margin-left: 2%;
 }
@@ -440,6 +445,46 @@ padding: 5px;
      width: 100%;
      margin-top: 3%;
  }
+ 
+ .formPro{
+    float: right;
+    position: relative;
+    left: 0%;
+    top: 18px;
+    margin-top: -39px;
+ 
+ }
+ .tablectP .tbl-content.ProTable15 tr td:last-child {
+	border-right: 1px solid #999;
+}
+ 
     
-    
+.tablectP .tbl-content.ProTable15 tr:hover,
+.tablectP .tbl-content.ProTable15 tr:nth-child(even):hover {
+	background: #FFF;
+	
+}
+/* 짝수 tr 색상 흰색 */
+.tablectP .tbl-content.ProTable15 tr:nth-child(even) {
+  background: #FFF;
+}
+
+
+
+.sb-buttons {
+    float: right;
+    padding-top: 1px;
+    width: 120px;
+    height: 40px;
+    margin-right: 114px;
+
+}
+
+
+.processIcon6{
+    margin-left: 76%;
+}
+
+
+
     

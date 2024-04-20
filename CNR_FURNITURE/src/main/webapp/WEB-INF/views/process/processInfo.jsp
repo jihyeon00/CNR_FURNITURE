@@ -137,7 +137,6 @@
                                     </tr>
                                 </table>
                             </div>
-                                <button type="button" id="prosearchbtn" class="btn btn-info"> <a href="./machineInfo" style="color: fff;">수정</a></button>
                         </div>
                     </div>
 
@@ -241,7 +240,8 @@
                 </div><!-- /.modal-body -->
                 <!-- 모달 바닥글 -->
                 <div class="modal-footer" style="margin-right: 3%;">
-                    <button type="submit" class="btn btn-primary" onClick="insertProjectBox()">등록</button>
+                    <button type="submit" class="btn btn-primary" onClick="insertProjectBox()">공정등록</button>
+                    <button type="button" id="prosearchbtn" class="btn btn-info"> <a href="./machineInfo" style="color: fff;">설비수정</a></button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -306,7 +306,8 @@
                             url: '/processInfoInsert',
                             data: formData,
                             success: function(response) {
-                                Swal.fire('게시가 완료되었습니다.', '', 'success');
+                                Swal.fire('게시가 완료되었습니다. 설비를 수정해 주세요', '', 'success');
+                                Swal.fire('설비를 수정해 주세요', '', 'info');
                             },
                             error: function(xhr, status, error) {
                                 Swal.fire('게시 실패', '서버 에러: ' + error, 'error');

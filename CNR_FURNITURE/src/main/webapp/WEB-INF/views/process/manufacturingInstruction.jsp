@@ -29,10 +29,9 @@
                 <div class="col-md-6">
                     <h1 class="m-0"><i class="far fa-clipboard"></i> 제조지시</h1>
                 </div><!-- /.col -->
-                    <form action="/manufacturingInstruction" method="get">
+                    <form action="/manufacturingInstruction" method="get" class ="formPro">
 
                         <div class="pro-btn">
-                            <button type="submit" class="btn btn-primary asb">조회</button>
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
                         </div>
 
@@ -46,24 +45,34 @@
                 <div class="row">
                     <!-- 검색창 -->
                     <div class="col-md-12 prosearchBer">
-                        <div class="col-sm-1 prosb-name">계획일자</div>
+                        <div class="col-sm-2 prosb-name">계획일자</div>
                         <div class="col-sm-2 prosb-text">
                             <input type="date" class="col-sm-12 sb-text1" id="startDate" name="startDate" value='<c:out value="${processDate.startDate}"/>'/>
                             <p class="textPro"> ~ </p>
                             <input type="date" class="col-sm-12 sb-text1" id="endDate" name="endDate" value='<c:out value="${processDate.endDate}"/>' />
                         </div>
-                        <div class="col-sm-1 prosb-name">제품번호</div>
-                            <input list="itemProcessList" name="find_item_process" class="col-sm-2 prosb-text" aria-label=".form-select-sm example" value="${processDate.find_item_process}">
+                        <div class="col-sm-2 prosb-name">제품번호</div>
+                        <div class="col-sm-2 prosb-text">
+                             <br><br><br>
+                            <input list="itemProcessList" name="find_item_process" class="col-sm-12 textTest" aria-label=".form-select-sm example" value="${processDate.find_item_process}">
                             <datalist id="itemProcessList">
                                 <option value="">--선택--</option>
                                 <c:forEach items="${itemProList}" var="item">
                                     <option value="${item.i_id}">${item.i_id} ${item.i_name}</option>
                                 </c:forEach>
                             </datalist>
-                             <div class="col-sm-12 proimage" >
+                        </div>
+                        <div class="col-md-1 ">
+                            <div class="sb-buttons">
+                             <button type="submit" class="btn btn-primary asb">조회</button>
+                                <button type="button" class="btn btn-reset" id="" onClick="location.href='/manufacturingInstruction'">
+                                    <img class="resetPng" alt="reset" id="btn-reset" src="/resources/img/reset.png">
+                                  </button>
+                            </div>
+                             <!-- <div class="col-sm-12 proimage" >
                                   <div class="reset" onclick="resetFields()">
                                       <a href="./manufacturingInstruction"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
-                             </div><!-- /.col -->
+                             </div> --><!-- /.col -->
                              <br>
                         </div>
                     </form>
@@ -75,12 +84,12 @@
                         <div class="ProTableName">
                             <div class="icon"><i class="fa fa-list"></i></div>
                             <div class="process">제조지시목록</div>
-                            <div class="processIcon"><button onClick ="checkboxArrPro()" class="buttonAddCt" data-toggle="modal" data-target="#register-Process-Btn2" id="addCt"><i class="fa fa-fw fa-plus"></i></button></div>
+                            <div class="processIcon2"><button onClick ="checkboxArrPro()" class="buttonAddCt" data-toggle="modal" data-target="#register-Process-Btn2" id="addCt">계약 내역서</button></div>
                         </div>
                         <div class="table ETable">
                             <table cellpadding="0" cellspacing="0" border="0">
                                 <thead class="tbl-headerPro">
-                                <th><input type="checkbox" name="checkCt1" class="checkCt1" id="selectAllCt"></th>
+                                <th></th>
                                 <th>제조LOT번호</th>
                                 <th>계약번호</th>
                                 <th>계획착수일</th>
@@ -190,7 +199,7 @@
                         <div class="ETableTitle">
                             <div class="icon"><i class="fa fa-list"></i></div>
                             <div class="employee">계약목록</div>
-                            <div class="processIcon"><button class="buttonSession" id="addText" ><i class="fa fa-fw fa-plus"></i></button></div>
+                            <div class="processIcon6"><button class="buttonSession" id="addText" ><i class="fa fa-fw fa-plus"></i></button></div>
                         </div>
                         <div class="table DOTable">
                             <table cellpadding="0" cellspacing="0" border="0" id="contractListTable">
@@ -272,7 +281,7 @@
                                             </table>
                                      </section>
                                         <p class= "ctP1">계약 당사자 서명:  <strong>C&R Furniture</strong></p>
-                                        <p class= "ctP">날짜:</p>
+                                        <p class= "ctP" onclick="updateDateDisplay()">날짜:</p>
                                   </div>
                               </div>
                           </div><!-- /.row -->
@@ -288,20 +297,19 @@
 
 
 
-<!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-</aside>
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
 
-<%@ include file="../includes/footer.jsp" %>
-<script src="/resources/js/process.js"></script>
-<script>
-    window.onload = function() {
-        var selectedItem = "<c:out value='${processDate.find_item_process}'/>";
-        if (selectedItem) {
-            var selectElement = document.querySelector('select[name="find_item_process"]');
-            selectElement.value = selectedItem;
-        }
-    };
-
-</script>
+    <%@ include file="../includes/footer.jsp" %>
+    <script src="/resources/js/process.js"></script>
+    <script>
+        window.onload = function() {
+            var selectedItem = "<c:out value='${processDate.find_item_process}'/>";
+            if (selectedItem) {
+                var selectElement = document.querySelector('select[name="find_item_process"]');
+                selectElement.value = selectedItem;
+            }
+        };
+    </script>
