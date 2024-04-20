@@ -285,7 +285,7 @@ $(document).ready(function() {
 
 
 
-
+ // 제조 지시 계약 내역서 업데이트 및 pdf 다운
     function generatePDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
@@ -313,59 +313,63 @@ $(document).ready(function() {
         }
     }
 
+        $(document).ready(function() {
+            updateDateDisplay();  // 날짜 업데이트 함수 호출
+            $('#addCt').click(checkboxArrPro);  // 데이터 로드 버튼 이벤트 연결
+        });
 
-        function checkboxArrPro() {
-            var checkProArr = [];
-            if ($('.cityPro:checked').length < 1) {
-                alert('계약을 선택하십시오.');
-                return;
+            function checkboxArrPro() {
+                var checkProArr = [];
+                if ($('.cityPro:checked').length < 1) {
+                    alert('계약을 선택하십시오.');
+                    return;
+                }
+
+                $(".cityPro:checked").each(function() {
+                    var id = $(this).closest('tr').find("#ctProAjax").text().trim();
+                    checkProArr.push(id);
+                });
+
+                var formattedIds = checkProArr.join(",");
+                console.log("Selected IDs: " + formattedIds);
+
+                $.ajax({
+                    url: "manufacturingInstructionForm",
+                    type: "GET",
+                    data: { formattedIds: formattedIds },
+                    success: function(response) {
+                        console.log("Response from server: ", response);
+                        updateTableWithResponse(response);
+                        //$("#register-Process-Btn2").modal('show');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error occurred: " + error);
+                    }
+                });
             }
 
-            $(".cityPro:checked").each(function() {
-                var id = $(this).closest('tr').find("#ctProAjax").text().trim();
-                checkProArr.push(id);
-            });
+            function updateTableWithResponse(data) {
+                var $table = $("#resultsTable tbody");
+                $table.empty();
 
-            var formattedIds = checkProArr.join(",");
-            console.log("Selected IDs: " + formattedIds);
+                data.forEach(function(item) {
+                    var $row = $("<tr></tr>");
+                    $row.append($("<td></td>").text(item.id));
+                    $row.append($("<td></td>").text(item.company_name));
+                    $row.append($("<td></td>").text(item.item_name));
+                    $row.append($("<td></td>").text(item.money));
+                    $row.append($("<td></td>").text(item.quantity));
+                    $row.append($("<td></td>").text(item.unit));
+                    $row.append($("<td></td>").text(item.c_date));
+                    $row.append($("<td></td>").text(item.ob_date));
+                    $table.append($row);
+                });
+            }
 
-            $.ajax({
-                url: "manufacturingInstructionForm",
-                type: "GET",
-                data: { formattedIds: formattedIds },
-                success: function(response) {
-                    console.log("Response from server: ", response);
-                    updateTableWithResponse(response);
-                    //$("#register-Process-Btn2").modal('show');
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error occurred: " + error);
-                }
-            });
-        }
-
-        function updateTableWithResponse(data) {
-            var $table = $("#resultsTable tbody");
-            $table.empty();
-
-            data.forEach(function(item) {
-                var $row = $("<tr></tr>");
-                $row.append($("<td></td>").text(item.id));
-                $row.append($("<td></td>").text(item.company_name));
-                $row.append($("<td></td>").text(item.item_name));
-                $row.append($("<td></td>").text(item.money));
-                $row.append($("<td></td>").text(item.quantity));
-                $row.append($("<td></td>").text(item.unit));
-                $row.append($("<td></td>").text(item.c_date));
-                $row.append($("<td></td>").text(item.ob_date));
-                $table.append($row);
-            });
-        }
-
-        function updateDateDisplay() {
-            var currentDate = new Date().toLocaleDateString('ko-KR');
-            $('.ctP').text('날짜: ' + currentDate);
-        }
+            function updateDateDisplay() {
+                var currentDate = new Date().toLocaleDateString('ko-KR');
+                $('.ctP').text('날짜: ' + currentDate);
+            }
 
 
 
