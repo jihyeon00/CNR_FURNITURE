@@ -56,11 +56,6 @@ html, body {
 				</div>
 				<!-- /.col -->
 				<div class="col-md-6">
-					<div class="workerInsert-btn">
-            <button type="button" class="btn btn-Default" style="height: 40px;"><a href="./workerInsert " style="color: #000;">
-            작업자 등록
-            </a></button>
-       		</div>
 					<div class="resetBtn">
 						<a href="./workerManagement"><img class="resetPng" alt="reset"
 							src="/resources/img/reset.png"></a>
@@ -122,7 +117,7 @@ html, body {
 								<c:forEach var="worker" items="${workerList}">
 									<tr>
 										<td onClick='showSchedule(<c:out value="${worker.e_id}"/>)' class="workerId"><c:out value="${worker.e_id}" /></td>
-										<td><c:out value="${worker.name}" /></td>
+										<td><c:out value="${worker.e_name}" /></td>
 										<td><c:out value="${worker.e_dp_name}" /></td>
 									</tr>
 								</c:forEach>
@@ -252,11 +247,9 @@ let searchWorkerForm = $("#searchWorkerForm");
 	                        // 서버에서 받은 데이터로 이벤트 배열 구성
 	                        for (var i = 0; i < result.length; i++) {
 	                            events.push({
-	                            		/* id: String(result[i].name), */
-	                                title: result[i].name,		//작업ID
+	                                title: result[i].title,
 	                                start: result[i].start,
 	                                end: result[i].end
-	                          
 	                            });
 	                        }
 	                        // 이벤트 배열을 FullCalendar에 전달하여 캘린더에 표시
@@ -273,6 +266,8 @@ let searchWorkerForm = $("#searchWorkerForm");
 	                }
 	            });
 	        	}	      
+
+
 
 	        });
 		      // 캘린더 랜더링

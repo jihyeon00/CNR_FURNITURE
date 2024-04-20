@@ -1,30 +1,27 @@
 
 
-    /*제품 검색*/
+  /*제품 검색*/
+  let searchItemForm = $("#searchItemForm");
+      $("#searchItemForm button").on("click",
+          function(e) {
+              if (!searchItemForm.find("option:selected").val()) {
+                  alert("검색종류를 선택하세요");
+                  return false;
+              }
+              if (!searchItemForm.find("input[name='keyword']").val()) {
+                  alert("키워드를 입력하세요");
+                  return false;
+              }
+              e.preventDefault();
 
-    let searchItemForm = $("#searchItemForm");
-        $("#searchItemForm button").on("click",
-            function(e) {
-                if (!searchItemForm.find("option:selected").val()) {
-                    alert("검색종류를 선택하세요");
-                    return false;
-                }
-
-                if (!searchItemForm.find("input[name='keyword']").val()) {
-                    alert("키워드를 입력하세요");
-                    return false;
-                }
-
-                e.preventDefault();
-
-                searchItemForm.submit();
-            });
+              searchItemForm.submit();
+          });
 
 
 	
 	
 	
-    /*제품 등록시 사용  */
+  /*제품 등록시 사용  */
 	function checkAllFields() {
 	    return ($('#i_name').val() && $('#i_color').val() && $('#i_standard').val() && $('#i_type').val() && $('#i_uses').val());
 	}
@@ -74,12 +71,12 @@
         $.get("/itemUpdate/"+i_id , function(result) {
             console.log("itemUpdate:", result);
 
-            $('#i_id2').val(result.i_id);
-              $('#i_name2').val(result.i_name);
-              $('#i_color2').val(result.i_color);
-              $('#i_standard2').val(result.i_standard);
-              $('#i_type2').val(result.i_type);
-              $('#i_uses2').val(result.i_uses);
+          $('#i_id2').val(result.i_id);
+          $('#i_name2').val(result.i_name);
+          $('#i_color2').val(result.i_color);
+          $('#i_standard2').val(result.i_standard);
+          $('#i_type2').val(result.i_type);
+          $('#i_uses2').val(result.i_uses);
 
           }).fail(function(xhr, status, err){
               console.log("itemUpdate err:", err);

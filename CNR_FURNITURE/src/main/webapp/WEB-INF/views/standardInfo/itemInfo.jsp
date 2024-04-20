@@ -77,7 +77,7 @@
 		      <tbody class="table-content">
 		      	<c:forEach var="Item" items="${itemList}">
 		        <tr>
-		       		<td><c:out value="${Item.rn}" /></td>	
+		       	  <td><c:out value="${Item.rn}" /></td>
 		          <td><c:out value="${Item.i_id}" /></td>	  
 		          <td><c:out value="${Item.i_name}" /></td>
 		          <td><c:out value="${Item.i_color}" /></td>
@@ -85,11 +85,11 @@
 		          <td><c:out value="${Item.i_type}" /></td>	
 		          <td><c:out value="${Item.i_uses}" /></td>	
 		          <td>  	
-						  	<div class="modifyItem" name="modifyItem" id="modifyItem<c:out value="${Item.i_id}" />" 
-						  	onClick='ItemUpdates(<c:out value="${Item.i_id}"/>)' data-toggle="modal" data-target="#myModal2"
-							 	value='<c:out value="${Item.i_id}"/>' data-i-id="<c:out value="${Item.i_id}" />" >수정
-								</div>										
-				  		</td>			          
+                    <div class="modifyItem" name="modifyItem" id="modifyItem<c:out value="${Item.i_id}" />"
+                    onClick='ItemUpdates(<c:out value="${Item.i_id}"/>)' data-toggle="modal" data-target="#myModal2"
+                        value='<c:out value="${Item.i_id}"/>' data-i-id="<c:out value="${Item.i_id}" />" >수정
+                    </div>
+                  </td>
 		        </tr>
 		        </c:forEach>
 		        </tbody>
@@ -113,87 +113,85 @@
   
   <!-- 모달창 등록  -->
 	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
-			  <div class="modal-dialog" role="document">
-				  <div class="modal-content">
-				    <div class="modal-header">
-		        	<h4 class="mt-modal-title" id="myModalLabel">제품정보 등록</h4>
-			      </div>
-			      <div class="modal-body">
-			        <form action="./itemInsert" method="post" id="insertItemForm" onSubmit="return false">
-			          <label for="modalUpdateName" class="form-label">제품명</label>
-			          <input type="text" name="i_name" id="i_name" class="form-control" autocomplete="off">
-			
-			          <label for="modalProductAmount" class="form-label">제품 색상</label>
-			          <input type="text" name="i_color" id="i_color" class="form-control" autocomplete="off">
-			          
-			          <label for="modalProductAmount" class="form-label">제품 규격</label>
-			          <input type="text" name="i_standard" id="i_standard" class="form-control" autocomplete="off">		
-			          
-			          <label for="modalProductAmount" class="form-label">제품 종류</label>
-			          <input type="text" name="i_type" id="i_type" class="form-control" autocomplete="off">		
-			          
-			          <label for="modalProductAmount" class="form-label">제품 용도</label>
-			          <input type="text" name="i_uses" id="i_uses" class="form-control" autocomplete="off" placeholder="필수! 반제품 또는 완제품으로 입력해주세요">						          
-			        </form>
-			      </div>
-			      <div class="modal-footer">
-			      	<button type="submit" class="btn btn-primary" onClick="insertItemBox()">등록</button>
-			       	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
-			      </div>
-			    </div>
-			  </div>
+	  <div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+        	<h4 class="mt-modal-title" id="myModalLabel">제품정보 등록</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form action="./itemInsert" method="post" id="insertItemForm" onSubmit="return false">
+	          <label for="modalUpdateName" class="form-label">제품명</label>
+	          <input type="text" name="i_name" id="i_name" class="form-control" autocomplete="off">
+	
+	          <label for="modalProductAmount" class="form-label">제품 색상</label>
+	          <input type="text" name="i_color" id="i_color" class="form-control" autocomplete="off">
+	          
+	          <label for="modalProductAmount" class="form-label">제품 규격</label>
+	          <input type="text" name="i_standard" id="i_standard" class="form-control" autocomplete="off">		
+	          
+	          <label for="modalProductAmount" class="form-label">제품 종류</label>
+	          <input type="text" name="i_type" id="i_type" class="form-control" autocomplete="off">		
+	          
+	          <label for="modalProductAmount" class="form-label">제품 용도</label>
+	          <input type="text" name="i_uses" id="i_uses" class="form-control" autocomplete="off" placeholder="필수! 반제품 또는 완제품으로 입력해주세요">						          
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	      	<button type="submit" class="btn btn-primary" onClick="insertItemBox()">등록</button>
+	       	<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
   <!--============================================================== -->
 	  
 	<!-- 모달창 수정  -->
 	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
-				 <div class="modal-dialog" role="document">
-				   <div class="modal-content">
-				      <div class="modal-header">
-		        <h4 class="mt-modal-title" id="myModalLabel">제품정보 수정</h4>
-		      </div>
-		      <div class="modal-body">
-		        <form  action="./itemUpdate" method="post" id="itemUpdateForm"	onSubmit="return false">        	
-		        	<div class="row modal-content1">
+		 <div class="modal-dialog" role="document">
+		   <div class="modal-content">
+     		<div class="modal-header">
+	       	<h4 class="mt-modal-title" id="myModalLabel">제품정보 수정</h4>
+	     	</div>
+		     <div class="modal-body">
+		       <form  action="./itemUpdate" method="post" id="itemUpdateForm"	onSubmit="return false">    	           	
+			       	<div class="row modal-content1">
 								<div class="col-md-6">
-					          <label for="modalProductAmount" class="form-label">제품 번호</label>
-					          <input type="text" name="i_id2" id="i_id2" value='<c:out value="${Item.i_id}" />' class="form-control" autocomplete="off" readonly>
-		          	</div>
-		          	<div class="col-md-6">
+				          <label for="modalProductAmount" class="form-label">제품 번호</label>
+				          <input type="text" name="i_id2" id="i_id2" value='<c:out value="${Item.i_id}" />' class="form-control" autocomplete="off" readonly>
+			         	</div>
+			         	<div class="col-md-6">
 				          <label for="modalProductAmount" class="form-label">제품명</label>
 				          <input type="text" name="i_name2" id="i_name2" value='<c:out value="${Item.i_name}" />' class="form-control" autocomplete="off">
 			          </div>		
-		          </div>	
-							
+		         	</div>	
 							<div class="row modal-content2">
 								<div class="col-md-6">
 					          <label for="modalProductAmount" class="form-label">제품 색상</label>
 					          <input type="text" name="i_color2" id="i_color2" value='<c:out value="${Item.i_color}" />' class="form-control" autocomplete="off">
-		          	</div>
-		          	<div class="col-md-6">
+			         	</div>
+			         	<div class="col-md-6">
 				          <label for="modalProductAmount" class="form-label">제품 규격</label>
 				          <input type="text" name="i_standard2" id="i_standard2" value='<c:out value="${Item.i_standard}" />' class="form-control" autocomplete="off">
 			          </div>		
-		          </div>
-		          
-		          <div class="row modal-content3">
+		         </div>  
+		         <div class="row modal-content3">
 								<div class="col-md-6">
-					          <label for="modalProductAmount" class="form-label">제품 종류</label>
-					          <input type="text" name="i_type2" id="i_type2" value='<c:out value="${Item.i_type}" />' class="form-control" autocomplete="off">
-		          	</div>
-		          	<div class="col-md-6">
+				          <label for="modalProductAmount" class="form-label">제품 종류</label>
+				          <input type="text" name="i_type2" id="i_type2" value='<c:out value="${Item.i_type}" />' class="form-control" autocomplete="off">
+			         	</div>
+			         	<div class="col-md-6">
 				          <label for="modalProductAmount" class="form-label">제품 용도</label>
 				          <input type="text" name="i_uses2" id="i_uses2" value='<c:out value="${Item.i_uses}" />' class="form-control" autocomplete="off">
 			          </div>		
-		          </div>      				          
-		        </form>
-		      </div>				     
-				     <div class="modal-footer">
-				       <button type="button" class="btn btn-info" onClick="updateItemBox()">수정</button>
-				       <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
-				     </div>
-			    </div>
-			  </div>
+		         </div>      				          
+	     		</form>
+	     </div>				     
+		     <div class="modal-footer">
+		       <button type="button" class="btn btn-info" onClick="updateItemBox()">수정</button>
+		       <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+		     </div>
+	    </div>
+	  </div>
 	</div>
 	<!-- 모달창 수정 끝============================ -->
 															
