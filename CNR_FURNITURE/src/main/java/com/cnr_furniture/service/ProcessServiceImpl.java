@@ -72,6 +72,18 @@ public class ProcessServiceImpl implements ProcessService{
         return rtn;
     }
 
+    /**
+     * 주어진 ID 목록에 해당하는 계약들을 조회하여 반환
+     * @param ids 계약 ID 목록. 이 목록에 포함된 모든 ID에 해당하는 계약 정보가 조회
+     */
+    @Override
+    public List<ContractVO> selectArrayCt(List<String> ids) {
+        // Mapper 인터페이스를 통해 데이터베이스에서 계약 ID 리스트에 해당하는 계약 정보를 조회
+        List<ContractVO> selectArrayCtList = processMapper.selectArrayCt(ids);
+        // 조회된 계약 정보 목록을 반환
+        return selectArrayCtList;
+    }
+
 
 
     /**
@@ -182,23 +194,13 @@ public class ProcessServiceImpl implements ProcessService{
         return processMapper.selectByList(processDate);
     }
 
+
+    /** 공정정보등록창: 공정 목록 조회 **/
     @Override
     public List<ProcessInfoVO> selectByListSearch(){
         return processMapper.selectByListSearch();
     }
 
-//    @Override
-//    public List<ContractVO> selectArrayCt(String id) {
-//        List<ContractVO> selectArrayCtList = processMapper.selectArrayCt(id);
-//        return selectArrayCtList;
-//    }
-
-
-    @Override
-    public List<ContractVO> selectArrayCt(List<String> ids) {
-        List<ContractVO> selectArrayCtList = processMapper.selectArrayCt(ids);
-        return selectArrayCtList;
-    }
 }
 
 

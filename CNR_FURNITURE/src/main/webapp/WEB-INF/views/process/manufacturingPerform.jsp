@@ -31,7 +31,7 @@
         <div class="process1Search">
             <div class="proName">
                 <div class="searchProbar">제조LOT번호</div>
-                <input list="proRunList" name="pLotId" class="processBox" aria-label=".form-select-sm example" value="${pLotId.p_lot_id}">
+                <input list="proRunList" name="pLotId" class="processBox" aria-label=".form-select-sm example" value="${param.pLotId}">
                     <datalist id="proRunList">
                         <option value="">--선택--</option>
                         <c:forEach items="${proRunList}" var="pLotId">
@@ -41,13 +41,14 @@
             </div>
     <div class="proType">
         <div class="searchProbar">지시일자</div>
-        <input type="date" class="processBox" name="startDate" value="${startDate.P_START_DATE}" autocomplete="off"/>
-        <p class="textPro5"> ~ </p>
-        <input type="date" class="processBox" name="endDate" value="${endDate.P_START_DATE}" autocomplete="off"/>
+         <input type="date" class="processBox" name="startDate" value="${param.startDate}" autocomplete="off"/>
+         <p class="textPro5"> ~ </p>
+         <input type="date" class="processBox" name="endDate" value="${param.endDate}" autocomplete="off"/>
+
     </div>
         <div class="proPosition">
             <div class="searchProbar">공정번호</div>
-            <input list="proRunList2" name="pPiId" class="processBox" aria-label=".form-select-sm example" value="${pPiId.p_pi_id}">
+           <input list="proRunList2" name="pPiId" class="processBox" aria-label=".form-select-sm example" value="${param.pPiId}">
                 <datalist id="proRunList2">
                     <option value="">--선택--</option>
                     <c:forEach items="${proRunList2}" var="pPiId">

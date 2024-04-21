@@ -30,6 +30,9 @@ public interface ProcessMapper {
     /** 제조지시 등록 **/
     int insertProInstruction(ProcessVO processVO);
 
+    /** 제조지시: 계약 내역 조회 **/
+    List<ContractVO> selectArrayCt(List<String> ids);
+
 
 
     /**
@@ -78,10 +81,10 @@ public interface ProcessMapper {
     /** 공정정보등록창: 공정정보 목록 조회 **/
     List<ProcessInfoVO> selectByList(ProcessDate processDate);
 
+    /** 공정정보등록창: 공정 목록 조회 **/
     List<ProcessInfoVO> selectByListSearch();
 
-//    List<ContractVO> selectArrayCt(String id);
-List<ContractVO> selectArrayCt(List<String> ids);
+
 
 }
 
