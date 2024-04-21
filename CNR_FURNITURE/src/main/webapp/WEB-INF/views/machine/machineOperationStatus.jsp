@@ -102,7 +102,7 @@
   <!-- /.control-sidebar -->
 
 <script>
-    // 검색
+    /* 검색 하기 */
     function searchMachine() {
        document.getElementById('searchForm').submit();
     }

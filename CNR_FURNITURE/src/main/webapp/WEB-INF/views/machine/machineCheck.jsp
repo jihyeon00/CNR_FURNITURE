@@ -117,17 +117,17 @@
   <!-- /.control-sidebar -->
 
 <script>
-    // 설비선택 value 값 '' 주기
+    /* 설비 선택 value 값 '' 주기 */
     $(document).ready(function() {
         $("#find_machine_id option[value='설비선택']").val('');
     });
 
-    // 검색 버튼
+    /* 검색 버튼 */
     function search() {
         document.getElementById('searchForm').submit();
     }
 
-    // 저장하기
+    /* 등록 모달창에서 저장버튼 */
     function machineCheckSave(mcr_mci_id, index){
        // mcr_mci_id 값 넣어주기
        $("#mcr_mci_id").val(mcr_mci_id);

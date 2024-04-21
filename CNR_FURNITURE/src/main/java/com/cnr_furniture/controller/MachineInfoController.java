@@ -18,10 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 public class MachineInfoController {
 
-    // 설비 정보 리스트
+
     @Autowired
     private MachineInfoService machineInfoService;
 
+    /**
+     * Desc: 설비정보관리 - 설비 정보 리스트 & 검색
+     * @return: machine/machineInfo
+     */
     @GetMapping("/machineInfo")
     public String machineInfo(SearchMachineVO searchMachineVO, Model model) {
         model.addAttribute("searchMachine", searchMachineVO);
@@ -33,7 +37,10 @@ public class MachineInfoController {
         return "machine/machineInfo";
     }
 
-    // 설비 등록
+    /**
+     * Desc: 설비정보관리 - 모달에서 설비 등록
+     * @return: machine/machineInfo
+     */
     @PostMapping("/machineInfoAdd")
     @ResponseBody
     public MachineVO insertMachine(
@@ -63,7 +70,10 @@ public class MachineInfoController {
         return machineVO;
     }
 
-    // 설비 수정
+    /**
+     * Desc: 설비정보관리 - 모달에서 설비 수정
+     * @return: machine/machineInfo
+     */
     @PostMapping("/machineInfoUpdate")
     public String updateMachinePosition(MachineAddVO machineAddVO, RedirectAttributes rttr){
         int rtn = machineInfoService.updateMachinePosition(machineAddVO);
@@ -72,7 +82,10 @@ public class MachineInfoController {
         return "redirect:/machineInfo";
     }
 
-    // 설비 가동 현황
+    /**
+     * Desc: 설비가동 현황 - 설비 가동 현황 리스트 & 검색
+     * @return: machine/machineOperationStatus
+     */
     @GetMapping("/machineOperationStatus")
     public String machineOperationStatus(SearchMachineVO searchMachineVO, Model model){
 
@@ -85,7 +98,10 @@ public class MachineInfoController {
         return "machine/machineOperationStatus";
     }
 
-    // 설비 관리 리스트
+    /**
+     * Desc: 설비관리 - 설비 관리 리스트 & 검색
+     * @return: machine/machineManagement
+     */
     @GetMapping("/machineManagement")
     public String machineManagement(SearchMachineVO searchMachineVO, Model model){
 
@@ -98,7 +114,10 @@ public class MachineInfoController {
         return "machine/machineManagement";
     }
 
-    // 설비 관리 수리버튼 클릭 시 '수리 중'으로 업데이트
+    /**
+     * Desc: 설비관리 - 수리 버튼 클릭 시 '수리중' 으로 업데이트
+     * @return: machine/machineManagement
+     */
     @PostMapping("/updateRepairStatus")
     @ResponseBody
     public String mcUpdateRepair(@RequestBody MachineWorkVO machineWorkVO, RedirectAttributes rttr){
@@ -111,7 +130,11 @@ public class MachineInfoController {
         return "redirect:/machineManagement";
     }
 
-    // 설비 관리 수리완료 버튼 클릭 시 '수리완료'로 업데이트 & insert
+    /**
+     * Desc: 설비관리 - 수리 완료 버튼 클릭 시 '수리 완료' 로 업데이트
+     * 수리 완료 되었을 때 설비수리이력 테이블에 데이터 insert
+     * @return: machine/machineManagement
+     */
     @PostMapping("/mcRepairCompleted")
     @ResponseBody
     public String mcRepairCompleted(@RequestBody MachineWorkVO machineWorkVO, MachineRepairAddVO machineRepairAddVO, RedirectAttributes rttr){
@@ -123,7 +146,7 @@ public class MachineInfoController {
 
         // 수리완료 되었을 때 설비수리이력 테이블에 데이터 insert
         machineRepairAddVO = new MachineRepairAddVO();
-        machineRepairAddVO.setMw_mi_id(mwMiId); // 설비 번호 설정
+        machineRepairAddVO.setMw_mi_id(mwMiId); // 업데이트 된 설비 번호 가져오기 & 사용
         int rtt = machineInfoService.addMcRepair(machineRepairAddVO);
         rttr.addFlashAttribute("insertSuccessCount", rtt);
 

@@ -2,6 +2,9 @@ package com.cnr_furniture.domain.Machine;
 
 import lombok.Data;
 
+/**
+ * 설비 수리 이력 관리 리스트로 보여주는 VO
+ */
 @Data
 public class MachineRepairVO {
     private int rownum;         // 목차

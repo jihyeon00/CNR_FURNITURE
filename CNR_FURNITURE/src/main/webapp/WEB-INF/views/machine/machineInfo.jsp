@@ -161,7 +161,7 @@
   <!-- /.control-sidebar -->
 
 <script>
-    // 설비 등록 모달
+    /* 설비 등록 모달 */
     $(document).ready(function(){
         $('#insertMachine').on('click', function() {
             var modalAddName = $('#modalAddName').val();
@@ -226,7 +226,7 @@
         });
     });
 
-    // 설비 수정 모달
+    /* 설비 수정 모달 */
     $(document).ready(function() {
         // 수정 버튼 클릭 시
         $(document).on('click', '#updateMachine', function() {
@@ -249,12 +249,12 @@
         });
     });
 
-    // 수정 등록
+    /* 수정 등록하기 */
     function modifySubmit() {
       document.getElementById('updateForm').submit();
    }
 
-    // 검색
+    /* 검색 버튼 */
     function searchMachine() {
        document.getElementById('searchForm').submit();
     }

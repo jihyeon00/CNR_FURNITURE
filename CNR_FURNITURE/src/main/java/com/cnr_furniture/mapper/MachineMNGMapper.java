@@ -5,36 +5,58 @@ import com.cnr_furniture.domain.Machine.*;
 import java.util.List;
 
 public interface MachineMNGMapper {
-    // 설비 체크리스트 정보 리스트
+    /**
+     * Desc: 설비 체크리스트 정보 리스트
+     */
     List<MachineCheckVO> getMachineCheckList(SearchMachineCheckVO searchMachineCheckVO);
 
-    // 설비 유형 가져오기
+    /**
+     * Desc: 설비 유형 가져오기
+     */
     List<MachineCheckVO> getMachineCheckType();
 
-    // 점검 방법 가져오기
+    /**
+     * Desc: 점검 방법 가져오기
+     */
     List<MachineCheckVO> getMachineCheckMethod();
 
-    // 체크리스트 추가
+    /**
+     * Desc: 체크리스트 추가
+     */
     int addMachineCheck(MachineCheckVO machineCheckVO);
 
-    // 마지막 체크리스트 보여주기
+    /**
+     * Desc: 마지막 체크리스트 보여주기
+     */
     MachineCheckVO getMachineCheckOne();
 
-    // 설비명 ID 가져오기
+    /**
+     * Desc: 설비명, 설비 ID 가져오기
+     */
     List<MachineVO> getMachineInfo();
 
-    // 체크리스트 가져오기
+    /**
+     * Desc: 선택한 설비명의 설비 ID에 맞는 체크리스트 보여주기
+     */
     List<MachineCheckVO> getMachineCheckAll(SearchMachineVO searchMachineVO);
 
-    // 체크리스트 기록 추가
+    /**
+     * Desc: 체크리스트 기록 추가
+     */
     int insertMachineCheckRecord(MachineCheckRecordVO machineCheckRecordVO);
 
-    // 체크리스트 기록에서 'y'가 있으면 설비 상태와 가동상태 업데이트
+    /**
+     * Desc: 체크리스트 기록에서 'Y' 면 설비 상태와 가동상태 업데이트
+     */
     int updateMachineCondition(MachineWorkVO machineWorkVO);
 
-    //체크리스트 기록에서 'y'가 없으면 설비상태가 '이상없음'으로 업데이트
+    /**
+     * Desc: 체크리스트 기록에서 'N' 면 설비 상태와 가동상태 업데이트
+     */
     int updateMcWork(MachineWorkVO machineWorkVO);
 
-    // 설비 수리 이력관리 리스트 가져오기
+    /**
+     * Desc: 설비 수리 이력관리 리스트 가져오기
+     */
     List<MachineRepairVO> McRepairList(SearchMachineVO searchMachineVO);
 }

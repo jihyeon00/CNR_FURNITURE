@@ -18,7 +18,6 @@ import java.util.List;
 @Log4j
 public class MachineMNGController {
 
-    // 설비 체크리스트 리스트
     @Autowired
     private final MachineMNGService machineMNGService;
     @Autowired
@@ -26,6 +25,10 @@ public class MachineMNGController {
         this.machineMNGService = machineMNGService;
     }
 
+    /**
+     * Desc: 설비관리체크기준관리 - 체크리스트 리스트 가져오기 & 검색
+     * @return: machine/machineCheckInfo
+     */
     @GetMapping("/machineCheckInfo")
     public String machineCheckInfo(SearchMachineCheckVO searchMachineCheckVO, Model model) {
         // 체크리스트 가져오기
@@ -46,7 +49,10 @@ public class MachineMNGController {
         return "machine/machineCheckInfo";
     }
 
-    // 체크리스트 등록
+    /**
+     * Desc: 설비관리체크기준관리 - 모달에서 체크리스트 등록
+     * @return: machine/machineCheckInfo
+     */
     @PostMapping("/machineCheckInfo")
     @ResponseBody
     public MachineCheckVO insertMachineCheck(
@@ -71,7 +77,10 @@ public class MachineMNGController {
 
     }
 
-    // 설비 체크리스트 작성
+    /**
+     * Desc: 설비 체크리스트 작성 - 선택한 설비명의 설비 ID에 맞는 체크리스트 보여주기
+     * @return: machine/machineCheck
+     */
     @GetMapping("/machineCheck")
     public String machineCheck(SearchMachineVO searchMachineVO, Model model) {
 
@@ -96,7 +105,11 @@ public class MachineMNGController {
         return "machine/machineCheck";
     }
 
-    // 체크리스트 기록 추가
+    /**
+     * Desc: 설비관리체크기준관리 - 체크리스트 기록 추가
+     * 체크리스트 답변에 따라 설비 상태와 설비 가동 현황 업데이트
+     * @return: machine/machineCheck
+     */
     @PostMapping("/machineCheckAdd")
     @ResponseBody
     public ResponseEntity<MachineCheckRecordVO> machineCheckRecord(@RequestBody MachineCheckRecordVO machineCheckRecordVO, RedirectAttributes rttr) {
@@ -122,7 +135,10 @@ public class MachineMNGController {
         return ResponseEntity.ok(machineCheckRecordVO);
     }
 
-    // 설비 수리 이력 관리
+    /**
+     * Desc: 설비수리 이력 관리 - 설비수리 이력 관리 리스트 & 검색
+     * @return: machine/machineRepair
+     */
     @GetMapping("/machineRepair")
     public String machineRepair(SearchMachineVO searchMachineVO, Model model){
         List<MachineRepairVO> machineRepairVOList = machineMNGService.McRepairList(searchMachineVO);

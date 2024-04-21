@@ -138,7 +138,7 @@
   <!-- /.control-sidebar -->
 
 <script>
-    // 체크리스트 등록 모달
+    /* 체크리스트 등록 모달 저장 */
     $(document).ready(function(){
         $('#insertMachineCheck').on('click', function() {
             var modalAddNumber = $('#modalAddNumber').val();
@@ -186,7 +186,7 @@
         });
     });
 
- // 검색
+    /* 검색 버튼 */
     function searchMachineCheck() {
         // form을 submit
         document.getElementById('searchForm').submit();

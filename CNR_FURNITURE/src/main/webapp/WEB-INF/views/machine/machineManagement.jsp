@@ -107,7 +107,7 @@
   <!-- /.control-sidebar -->
 
 <script>
-    // 수리버튼 눌렀을 때 '수리중'으로 바꾸기
+    /* 수리 버튼 눌렀을 때 '수리중' 으로 바꾸기 */
     $(document).ready(function() {
         // 각 수리 버튼에 대한 클릭 이벤트 처리
         $('.repair-button').click(function() {
@@ -138,7 +138,7 @@
         });
     });
 
-    // 수리완료 버튼 눌렀을 대 '수리 완료'로 바꾸기
+    /* 수리 완려 버튼 눌렀을 때 '수리 완료' 로 바꾸기  */
     $(document).ready(function() {
         // 각 수리 버튼에 대한 클릭 이벤트 처리
         $('.repairCompleted').click(function() {
@@ -169,7 +169,7 @@
         });
     });
 
-    // 검색
+    /* 검색 하기 */
     function searchMachine() {
        document.getElementById('searchForm').submit();
     }
