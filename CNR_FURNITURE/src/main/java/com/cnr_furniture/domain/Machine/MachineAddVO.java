@@ -2,6 +2,9 @@ package com.cnr_furniture.domain.Machine;
 
 import lombok.Data;
 
+/**
+ * 설비 등록 VO
+ */
 @Data
 public class MachineAddVO {
 

@@ -2,6 +2,9 @@ package com.cnr_furniture.domain.Machine;
 
 import lombok.Data;
 
+/**
+ * 설비 가동 현황 VO
+ */
 @Data
 public class MachineWorkVO {
     private int mw_mi_id;           // 설비 번호

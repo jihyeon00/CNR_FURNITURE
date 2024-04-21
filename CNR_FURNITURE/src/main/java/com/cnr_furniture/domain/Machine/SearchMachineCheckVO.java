@@ -3,6 +3,9 @@ package com.cnr_furniture.domain.Machine;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 설비 체크리스트 리스트에서 검색 VO
+ */
 @Getter
 @Setter
 public class SearchMachineCheckVO {

@@ -2,7 +2,9 @@ package com.cnr_furniture.domain.Machine;
 
 import lombok.*;
 
-
+/**
+ * 체크리스트 기록 VO
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
