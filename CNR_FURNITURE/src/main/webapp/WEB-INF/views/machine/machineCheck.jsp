@@ -25,7 +25,7 @@
       </div><!-- /.container-fluid -->
     </div>
         <div class="headerBar">
-            <form action="machineCheck" method="get" id="searchForm">
+            <form action="machineCheck" method="get" id="searchForm" onSubmit="return false">
                 <div class="machineSearch">
                     <div class="machineName">
                         <div class="searchMachine">설비명</div>
@@ -124,6 +124,13 @@
 
     /* 검색 버튼 */
     function search() {
+        if (!$('#machineCheckWriterBox').val()) {
+            // 작성자 입력이 없는 경우 알림 메시지 표시
+            alert('사원번호를 입력해주세요.');
+
+            return;
+        }
+        // 작성자 입력이 있는 경우에만 폼을 제출
         document.getElementById('searchForm').submit();
     }
 
