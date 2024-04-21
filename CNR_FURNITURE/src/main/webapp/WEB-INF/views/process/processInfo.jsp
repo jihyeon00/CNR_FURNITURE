@@ -128,9 +128,9 @@
                                         <th class="proTh">공정번호</th>
                                         <td class="proTd"><input type="text" class="processInput" name="pi_id" id="pi_id" placeholder="공정번호"></td>
                                         <th class="proTh">설비번호</th>
-                                        <td class="proTd"> <input type="text" name="pi_machine_id" id="pi_machine_id" value="" class="processInput"></td>
+                                        <td class="proTd"> <input type="text" name="pi_machine_id" id="pi_machine_id" value="" class="processInput" placeholder="설비번호"></td>
                                         <th class="proTh">공정명</th>
-                                        <td class="proTd"> <input type="text" class="processInput" name="pi_name" id="pi_name" /></td>
+                                        <td class="proTd"> <input type="text" class="processInput" name="pi_name" id="pi_name"  placeholder="공정명"/></td>
                                         <th class="proTh">공정위치</th>
                                         <td class="proTd"><input type="text" class="processInput" name="pi_seq" id="pi_seq" placeholder="공정위치"></td>
 
@@ -143,7 +143,7 @@
 
                     <div class="InnputBody1">
                         <div class="inputmedle">
-                            <input list="managementVOList" name="miId" id="miId" class="processSearchInput" aria-label=".form-select-sm example" value="${managementVO.miId}">
+                            <input list="managementVOList" name="miId" id="miId" class="processSearchInput" aria-label=".form-select-sm example" value="${managementVO.miId}"  placeholder="설비번호(설비명) 입력">
                             <datalist id="managementVOList">
                                 <option value="">--선택--</option>
                                 <c:forEach items="${managementVOList}" var="managementVOList">

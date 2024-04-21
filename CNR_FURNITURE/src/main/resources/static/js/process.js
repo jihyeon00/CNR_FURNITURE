@@ -115,7 +115,7 @@
       return ($('#proLot').val() &&
               $('#proItem').val() &&
               $('#proPi').val() &&
-              $('#p_plan_quantity').val() && // 생산시작날짜 확인 input ID 수정 필요
+              $('#p_plan_quantity').val() && // 생산시작날짜 확인
               $('#p_note').val()  // 계획수량 input ID 확인
              );
   }
@@ -284,93 +284,160 @@ $(document).ready(function() {
 
 
 
+/*===================================================================================================================**/
 
- // 제조 지시 계약 내역서 업데이트 및 pdf 다운
-    function generatePDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+/**
+ * 계약 내역서를 PDF 형태로 생성하고 다운로드
+ * jsPDF 라이브러리를 사용하여 PDF 문서를 초기화하고, 맑은 고딕 폰트를 설정한 후,
+ * HTML 테이블의 데이터를 PDF로 변환하여 포맷팅
+ */
 
-        // 맑은 고딕 폰트 파일을 VFS에 추가하고 폰트를 등록합니다.
-        doc.addFileToVFS('malgun.ttf', _fonts); // '_fonts'는 폰트의 base64 인코딩된 문자열입니다.
-        doc.addFont('malgun.ttf', 'malgun', 'normal');
+function generatePDF() {
+    const { jsPDF } = window.jspdf;  // window 객체에서 jsPDF를 추출합니다.
+    const doc = new jsPDF();  // 새로운 jsPDF 문서 객체를 생성합니다.
 
-        // 텍스트 출력을 위해 폰트 설정
-        doc.setFont('malgun');
+    // 맑은 고딕 폰트 파일을 VFS에 추가하고 폰트를 등록:  resources/js/fileFont
+    doc.addFileToVFS('malgun.ttf', _fonts);  // '_fonts'는 폰트의 base64 인코딩된 문자열
+    doc.addFont('malgun.ttf', 'malgun', 'normal');
+    doc.addFont('malgun.ttf', 'malgun', 'bold');  // 두꺼운 폰트도 등록
+
+    // 문서의 제목 설정 ("계약 내역서")
+    doc.setFont('malgun', 'bold');  // 폰트를 두꺼운 맑은 고딕으로 설정
+    doc.setFontSize(16);
+    const title = "계약 내역서";
+    const pageWidth = doc.internal.pageSize.width;  // 문서의 페이지 너비 계산
+    const titleWidth = doc.getTextWidth(title);  // 제목의 텍스트 너비 계산
+    doc.text(title, (pageWidth - titleWidth) / 2, 20);  // 페이지 중앙 상단에 제목 배치
+
+    doc.setFont('malgun', 'normal');  // 본문 폰트를 일반 맑은 고딕으로 설정
+    doc.setFontSize(10);
+
+    // autoTable 플러그인을 사용하여 HTML 테이블을 PDF로 변환
+    if (doc.autoTable) {
+        doc.autoTable({
+            html: '#resultsTable',
+            startY: 30,  // 제목 바로 아래에서 테이블 시작
+            margin: { bottom: 40 },  // 페이지 하단 여백 설정
+            styles: { font: 'malgun', fontStyle: 'normal' }, // 테이블의 폰트 스타일 지정
+            didDrawPage: function(data) {
+                // 계약 당사자 서명 추가
+                // "계약 당사자 서명: " 문자열과 실제 서명("C&R Furniture")
+                const signatureText = "계약 당사자 서명: ";
+                const signature = "C&R Furniture";
+                const fullSignatureText = signatureText + signature;  // 전체 서명 문자열 생성
+                // 전체 서명 문자열의 너비를 계산
+                const signatureTextWidth = doc.getTextWidth(fullSignatureText);
+                // 전체 페이지 너비를 기준으로 전체 서명 문자열을 페이지 중앙에 위치시키기 위한 X 좌표를 계산
+                const pageWidth = doc.internal.pageSize.width;  // 문서의 페이지 너비
+                const signatureXPosition = (pageWidth - signatureTextWidth) / 2;  // 중앙 정렬을 위한 X 좌표 계산
+                // 서명을 페이지의 하단에서 30pt 위에 위치시키기 위한 Y 좌표를 설정
+                const signatureYPosition = doc.internal.pageSize.height - 30;  // 하단에서 30pt 위
+                // 계산된 위치에 전체 서명 문자열을 삽입
+                doc.text(fullSignatureText, signatureXPosition, signatureYPosition);  // 서명 텍스트 출력
 
 
-        // autoTable이 사용 가능한지 확인
-        if (doc.autoTable) {
-            // 테이블에 폰트를 적용하여 추가합니다.
-            doc.autoTable({
-                html: '#resultsTable',
-                styles: { font: 'malgun', fontStyle: 'normal' } // 테이블의 모든 셀에 맑은 고딕 폰트를 적용
-            });
+                // 서명에 밑줄 추가 (굵게)
+                doc.setLineWidth(0.5);  // 밑줄의 굵기를 0.5로 설정
+                const signatureWidth = doc.getTextWidth(signature);  // 'C&R Furniture' 서명의 텍스트 너비를 계산
+                // 서명 시작 위치에서 서명 텍스트 너비만큼 오른쪽으로 이동한 위치에 밑줄 추가
+                // 밑줄의 시작 위치 설정: '계약 당사자 서명: ' 텍스트 너비를 추가
+                doc.line(signatureXPosition + doc.getTextWidth(signatureText), signatureYPosition + 1,
+                         signatureXPosition + doc.getTextWidth(signatureText) + signatureWidth, signatureYPosition + 1);
 
-            // PDF 파일을 저장합니다.
-            doc.save('contract-details.pdf');
-        } else {
-            console.error('autoTable function is not available.');
-        }
-    }
+                // 현재 날짜를 페이지 하단 중앙에 추가
+                var currentDate = new Date().toLocaleDateString('ko-KR', {
+                    year: 'numeric', month: '2-digit', day: '2-digit'
+                });  // 현재 날짜를 '년-월-일' 형식으로 포맷팅
+                const dateLabel = "날짜: ";  // 날짜 라벨
+                const fullDateText = dateLabel + currentDate;  // 전체 날짜 텍스트를 생성
+                const dateTextWidth = doc.getTextWidth(fullDateText);  // 전체 날짜 텍스트의 너비를 계산
+                const dateXPosition = (pageWidth - dateTextWidth) / 2;  // 날짜 텍스트를 페이지 중앙에 위치시키기 위한 X 좌표를 계산
+                const dateYPosition = doc.internal.pageSize.height - 20;  // 날짜 텍스트를 페이지 하단에서 20pt 위에 위치시키기 위한 Y 좌표를 설정
+                doc.text(fullDateText, dateXPosition, dateYPosition);  // 날짜 텍스트를 지정된 위치에 출력
 
-        $(document).ready(function() {
-            updateDateDisplay();  // 날짜 업데이트 함수 호출
-            $('#addCt').click(checkboxArrPro);  // 데이터 로드 버튼 이벤트 연결
+                // 날짜에 밑줄 추가 (굵게)
+                const dateWidth = doc.getTextWidth(currentDate);  // 실제 날짜 ('YYYY-MM-DD')의 텍스트 너비를 계산
+                // 날짜 라벨 너비를 추가한 위치에서 시작하여 날짜 너비만큼 오른쪽으로 이동한 위치에 밑줄을 추가
+                doc.line(dateXPosition + doc.getTextWidth(dateLabel), dateYPosition + 1,
+                         dateXPosition + doc.getTextWidth(dateLabel) + dateWidth, dateYPosition + 1);
+
+            }
         });
 
-            function checkboxArrPro() {
-                var checkProArr = [];
-                if ($('.cityPro:checked').length < 1) {
-                    alert('계약을 선택하십시오.');
-                    return;
-                }
+        // 생성된 PDF 파일을 'contract-details.pdf'라는 이름으로 저장
+        doc.save('contract-details.pdf');
+    } else {
+        console.error('autoTable function is not available.');  // autoTable 함수가 사용가능하지 않을 경우 에러 로그
+    }
+}
 
-                $(".cityPro:checked").each(function() {
-                    var id = $(this).closest('tr').find("#ctProAjax").text().trim();
-                    checkProArr.push(id);
-                });
-
-                var formattedIds = checkProArr.join(",");
-                console.log("Selected IDs: " + formattedIds);
-
-                $.ajax({
-                    url: "manufacturingInstructionForm",
-                    type: "GET",
-                    data: { formattedIds: formattedIds },
-                    success: function(response) {
-                        console.log("Response from server: ", response);
-                        updateTableWithResponse(response);
-                        //$("#register-Process-Btn2").modal('show');
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error occurred: " + error);
-                    }
-                });
-            }
-
-            function updateTableWithResponse(data) {
-                var $table = $("#resultsTable tbody");
-                $table.empty();
-
-                data.forEach(function(item) {
-                    var $row = $("<tr></tr>");
-                    $row.append($("<td></td>").text(item.id));
-                    $row.append($("<td></td>").text(item.company_name));
-                    $row.append($("<td></td>").text(item.item_name));
-                    $row.append($("<td></td>").text(item.money));
-                    $row.append($("<td></td>").text(item.quantity));
-                    $row.append($("<td></td>").text(item.unit));
-                    $row.append($("<td></td>").text(item.c_date));
-                    $row.append($("<td></td>").text(item.ob_date));
-                    $table.append($row);
-                });
-            }
-
-            function updateDateDisplay() {
-                var currentDate = new Date().toLocaleDateString('ko-KR');
-                $('.ctP').text('날짜: ' + currentDate);
-            }
+$(document).ready(function() {
+    $('#generatePDFBtn').click(generatePDF);  // PDF 생성 버튼에 이벤트 연결
+    $('#addCt').click(checkboxArrPro);  // 데이터 로드 버튼 이벤트 연결
+    updateDateDisplay();  // 날짜 업데이트 함수 호출
+});
 
 
+/**
+ * 선택된 계약 정보를 서버로부터 조회
+ * 체크박스로 선택된 계약 ID들을 서버에 요청하여 해당 계약 정보를 조회하고,
+ * 응답 받은 데이터로 테이블을 업데이트
+ */
+function checkboxArrPro() {
+    var checkProArr = [];
+    if ($('.cityPro:checked').length < 1) {
+        alert('계약을 선택하십시오.');  // 계약이 선택되지 않았을 때 경고 창
+        return;
+    }
 
+    $(".cityPro:checked").each(function() {
+        var id = $(this).closest('tr').find("#ctProAjax").text().trim();  // 선택된 체크박스에서 계약 ID 추출
+        checkProArr.push(id);
+    });
 
+    var formattedIds = checkProArr.join(",");  // 배열을 쉼표로 구분된 문자열로 변환
+    console.log("Selected IDs: " + formattedIds);  // 콘솔에 선택된 ID 로그
+
+    $.ajax({
+        url: "manufacturingInstructionForm",
+        type: "GET",
+        data: { formattedIds: formattedIds },
+        success: function(response) {
+            console.log("Response from server: ", response);  // 서버로부터의 응답 로그
+            updateTableWithResponse(response);  // 테이블 업데이트 함수 호출
+        },
+        error: function(xhr, status, error) {
+            console.error("Error occurred: " + error);  // 에러 발생시 로그
+        }
+    });
+}
+
+/**
+ * 서버로부터 받은 데이터로 테이블 내용을 업데이트
+ * @param {Array} data 서버로부터 받은 계약 데이터 배열
+ */
+function updateTableWithResponse(data) {
+    var $table = $("#resultsTable tbody");
+    $table.empty();  // 기존 테이블 내용 비우기
+
+    data.forEach(function(item) {  // 받은 데이터 각 항목에 대해 테이블 행 추가
+        var $row = $("<tr></tr>");
+        $row.append($("<td></td>").text(item.id));
+        $row.append($("<td></td>").text(item.company_name));
+        $row.append($("<td></td>").text(item.item_name));
+        $row.append($("<td></td>").text(item.money));
+        $row.append($("<td></td>").text(item.quantity));
+        $row.append($("<td></td>").text(item.unit));
+        $row.append($("<td></td>").text(item.c_date));
+        $row.append($("<td></td>").text(item.ob_date));
+        $table.append($row);
+    });
+}
+
+/**
+ * 현재 날짜를 화면에 업데이트
+ */
+function updateDateDisplay() {
+    var currentDate = new Date().toLocaleDateString('ko-KR');  // 현재 날짜를 한국어 형식으로 변환
+    $('.ctP').text('날짜: ' + currentDate);  // 날짜 표시 엘리먼트에 날짜 설정
+}
