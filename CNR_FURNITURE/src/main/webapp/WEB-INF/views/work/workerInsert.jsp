@@ -13,7 +13,7 @@
 	          <div class="col-sm-12" >
 	          	<a href="workerInsert" style="color: black;">
 		          	<div class="breadcrumb float-sm-left">
-		          		<h1 class="m-0"><i class="far fa-clipboard"></i>작업자</h1>
+		          		<h1 class="m-0"><i class="far fa-clipboard"></i>작업자관리</h1>
 		          	</div>
 	          	</a>
 	            <div class="breadcrumb float-sm-right">
@@ -108,7 +108,7 @@
 	                  <th>설비명</th>
 	                  <th>작업위치</th>
 	                  <th>작업자</th>
-	                  <th>수정</th>
+	                  <th>관리</th>
 	                </tr>
 	              </thead>
 	              <tbody class="work-tbl-content">
@@ -137,7 +137,7 @@
 				                  data-work-id="${workerInsertList.w_id}" data-lot-id="${workerInsertList.w_lot_id}" 
 				                  data-pi-id="${workerInsertList.w_pi_id}" data-mi-id="${workerInsertList.pi_machine_id}" 
 					                data-start-time="${workerInsertList.w_start_time}" data-end-time="${workerInsertList.w_end_time}"
-					                data-emp-list="${workerInsertList.allemplist}">수정</button>
+					                data-emp-list="${workerInsertList.allemplist}">관리</button>
 			                </td>
 		                </tr>
 		              </c:forEach>
@@ -246,7 +246,6 @@
 			           <div class="workTableTitle">
 			              <div class="icon"><i class="fa fa-list"></i></div>
 			              <div class="workTableName" >등록된 작업자 목록</div>
-			              <i class="far fa-plus-square" id="plus-square"></i>
 			            </div>
 			          <div class="table" style="max-height: 200px;">
 			            <table cellpadding="0" cellspacing="0" border="0" class="workerInsertModalWorkerInfoByWorkIdList">
@@ -271,7 +270,6 @@
 			           <div class="workTableTitle">
 			              <div class="icon"><i class="fa fa-list"></i></div>
 			              <div class="workTableName" >추가된 작업자 목록</div>
-			              <i class="fa-regular fa-square-minus" id="minus-spuare"></i>
 			            </div>
 			          <div class="table" style="max-height: 200px;">
 			            <table cellpadding="0" cellspacing="0" border="0" class="workerInsertModalWorkerInsertList">

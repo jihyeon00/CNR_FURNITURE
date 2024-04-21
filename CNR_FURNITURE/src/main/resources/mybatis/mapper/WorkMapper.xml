@@ -632,6 +632,22 @@
             )
     </insert>
 
+    <!-- work.jsp 의 작업등록 모달창 =========================================================== -->
+
+    <!-- work 작업등록 모달창의 [로트번호] 입력에 따른 [공정번호] 조회-->
+
+    <select id="workInsertModalSelectProIdByLotId"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertMaterialModalVO">
+        SELECT
+            ins.ins_lot_id as insLotIdModal,
+            ins.ins_pi_id as processIdModal
+        FROM
+            INSTRUCTION ins
+        WHERE
+            ins.ins_lot_id = #{insLotIdModal}
+        ORDER BY
+            insLotIdModal, processIdModal*1
+    </select>
     <!-- todayWorkInsert.jsp ============================================================================ -->
 
     <!-- todayWorkInsert 의 [공정별 설비상태]조회 -->

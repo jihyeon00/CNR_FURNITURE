@@ -24,9 +24,9 @@ public class WorkController {
     private WorkService workService;
 
     /**
-     * Decs: 검색용 데이터를 로드하는 메소드.
+     * Decs: 검색을 위한 메소드
      */
-    private void loadSearchData(WorkSearchVO workSearchVO, Model model) {
+    private void workSearch(WorkSearchVO workSearchVO, Model model) {
         model.addAttribute("companyList", workService.findCompanyList());
         model.addAttribute("itemList", workService.findItemList());
         model.addAttribute("instructionList", workService.findInstructionList());
@@ -48,7 +48,7 @@ public class WorkController {
     public String work(WorkSearchVO workSearchVO,
                        Model model){
 
-        loadSearchData(workSearchVO, model); // 검색용 데이터 로드
+        workSearch(workSearchVO, model); // 검색을 위한 메소드 사용
 
         // 제조수행정보 목록 조회
         List<WorkProcessInfoVO> workProcessInfoList = workService.getWorkProcessInfo(workSearchVO);
@@ -134,7 +134,8 @@ public class WorkController {
             return ResponseEntity.ok().body(Map.of("success", true, "message", "등록이 성공되었습니다."));
         } catch (Exception e) {
             log.error("등록 실패, Error: {}" + e.getMessage() + e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "등록에 실패하였습니다. 에러: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false,
+                    "message", "등록에 실패하였습니다. 에러: " + e.getMessage()));
         }
     }
     /* [work.jsp 의 자재투입내역 수정 모달창] ============================================================== */
@@ -198,7 +199,7 @@ public class WorkController {
     @GetMapping("/todayWorkInsert")
     public String todayWorkInsert(WorkSearchVO workSearchVO, Model model){
 
-        loadSearchData(workSearchVO, model); // 검색용 데이터 로드
+        workSearch(workSearchVO, model); // 검색을 위한 메소드 사용
 
         // 공정별 설비상태 조회
         List<WorkProcessMachineVO> processMachineList = workService.getWorkProcessMachine(workSearchVO);
@@ -220,7 +221,7 @@ public class WorkController {
     @GetMapping("/workerInsert")
     public String workerInsert(WorkSearchVO workSearchVO, Model model){
 
-        loadSearchData(workSearchVO, model); // 검색용 데이터 로드
+        workSearch(workSearchVO, model); // 검색을 위한 메소드 사용
 
         // 작업자 배치 조회
         List<WorkSelectWorkerVO> workerInsertList = workService.getWorkerInsert(workSearchVO);
@@ -296,11 +297,12 @@ public class WorkController {
         try {
             // 작업자 삭제 로직 실행
             workService.workerInsertModalDeleteWorker(emp_id, work_id);
-            // 예: workService.deleteWorker(emp_id, work_id);
-            return ResponseEntity.ok(Map.of("success", true, "message", "작업자가 성공적으로 삭제되었습니다."));
+            return ResponseEntity.ok(Map.of("success", true,
+                    "message", "작업자가 성공적으로 삭제되었습니다."));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("success", false, "message", "삭제 실패: " + e.getMessage()));
+                    .body(Map.of("success", false,
+                            "message", "삭제 실패: " + e.getMessage()));
         }
     }
 

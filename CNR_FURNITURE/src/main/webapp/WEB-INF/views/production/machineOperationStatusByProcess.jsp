@@ -12,7 +12,7 @@
          <form action="" id="searchForm" class="col-md-12" onSubmit="return false">
 	          <div class="col-sm-12" >
 	          	<ol class="breadcrumb float-sm-left">
-	          		<h1 class="m-0"><i class="far fa-clipboard"></i>생산현황</h1>
+	          		<h1 class="m-0"><i class="far fa-clipboard"></i>공정별 설비가동현황</h1>
 	          	</ol>
 	            <ol class="breadcrumb float-sm-right">
 		            <div class="reset">
@@ -27,55 +27,37 @@
 	          <br>
           	<!-- 검색창 1줄 -->
              <div class="searchBar">
-               <div class="col-sm-1 sb-name">거래처명</div>
-               <div class="col-sm-2 sb-text">
-                 <input list="workCompanyNameList" class="col-sm-12"  id="workCompanyName" name="workCompanyName">
-                 <datalist id="workCompanyNameList">
-                   <c:forEach var="list" items = "${roleList}">
-                     <option value='${list.e_ROLE}'
-                       <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}
-                     </option>
-                   </c:forEach>
-                  </datalist>
-               </div>
-               <div class="col-sm-1 sb-name">착수일</div>
-               <div class="col-sm-3 sb-text" style="margin-left: 4px;">
-                 <input type="date" class="col-sm-6 input-text"  id="workDate1" name="workDate1"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
-                   ~
-                 <input type="date" class="col-sm-6 input-text"  id="workDate2" name="workDate2"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
-               </div>
-               <div class="col-sm-1 sb-name">완수일</div>
-               <div class="col-sm-3 sb-text" style="margin-left: 4px;">
-                 <input type="date" class="col-sm-6 input-text"  id="workDate1" name="workDate1"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
-                   ~
-                 <input type="date" class="col-sm-6 input-text"  id="workDate2" name="workDate2"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
-               </div>
-             </div>
-             <!-- 검색창 2줄 -->
-             <div class="searchBar" style="margin-top: -12px;">
                <div class="col-sm-1 sb-name">제조<br>LOT번호</div>
-                 <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-                   value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+	             <div class="col-sm-2 sb-text">
+                 <input type="text" list="productionInstructuionList" class="col-sm-12 input-text" id="find_production_instruction" name="find_production_instruction">
+	                <datalist id="productionInstructuionList">
+                     <c:forEach items="${instructionList}" var="instruction">
+                         <option value="${instruction.insLotId}">생산제품번호: ${instruction.insItemId}</option>
+                     </c:forEach>
+                 </datalist>
                </div>
-               <div class="col-sm-1 sb-name">제품번호</div>
+               <div class="col-sm-1 sb-name">공정번호</div>
                <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_DP_name" name="find_DP_name"
-                   value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
+               		<input type="text" list="productionProcessInfoList" class="col-sm-12 input-text" id="find_production_processInfo" name="find_production_processInfo">
+	                <datalist id="productionProcessInfoList">
+                     <c:forEach items="${processInfoList}" var="processInfo">
+                         <option value="${processInfo.pi_id}">${processInfo.pi_name} | ${processInfo.mi_name}(${processInfo.pi_machine_id}, ${processInfo.position}) </option>
+                     </c:forEach>
+                 </datalist>
                </div>
-               <div class="col-sm-1 sb-name">제품명</div>
-               <div class="col-sm-2 sb-text">
-                 <input type="text" class="col-sm-12 input-text" id="find_emp_name" name="find_emp_name"
-                   value='<c:out value="${search.find_emp_name}"/>' autocomplete="off" />
+               <div class="col-sm-1 sb-name">설비번호</div>
+	             <div class="col-sm-2 sb-text">
+                 <input type="text" list="productionMachineInfoList" class="col-sm-12 input-text" id="find_production_machine" name="find_production_machine">
+	                <datalist id="productionMachineInfoList">
+                     <c:forEach items="${machineInfoList}" var="machineList">
+                         <option value="${machineList.mi_id}">${machineList.mi_name}(${machineList.position}) </option>
+                     </c:forEach>
+                 </datalist>
                </div>
-               <div class="col-sm-1 sb-name">진행상황</div>
+               <div class="col-sm-1 sb-name">가동여부</div>
                <div class="col-sm-2 sb-text">
                  <select class="col-sm-12"  id="find_Role" name="find_Role">
-	                <option value="">진행상황 선택</option>
+	                <option value="">가동여부 선택</option>
 	                <c:forEach var="list" items = "${roleList}">
 	                  <option value='${list.e_ROLE}'
 	                    <c:if test="${find_Role eq list.e_ROLE}">selected='selected'</c:if> >${list.e_ROLE}

@@ -65,9 +65,13 @@ $(document).ready(function() {
   	$('#find_work_id').val("");
 	});
 	
+	/***************** work - 자재투입 모달창 - 조회 등록 수정 ****************************/
+	
 	/* 자재투입 모달창
 	 * 1. [로트번호] 입력에 따른 [공정번호] 조회
-	 * 2. [로트번호] 입력에 따른 [제품번호],[제품명],[계획생산수량] 조회
+	 * 2. [로트번호] 입력에 따른 [제품번호],[제품명],[계획생산수량] 조회 및 자동채우기
+	 * 3. [로트번호] 입력에 따른 [제품번호]를 통한 [자재번호] 조회
+	 * 4. [자재번호] 선택에 따른 [자재명],[제품1EA별 투입수량],[최소투입수량],[단위] 조회 및 자동채우기
 	 */
 	$('#insLotIdModal').change(function() {
 		$('#materialNameModal').val(''),											
@@ -93,9 +97,9 @@ $(document).ready(function() {
 				error: function(xhr, status, error) {	// 실패 시
 					console.log("Error insertMaterial lotId proId : ", error);
 			}
-		});
+		}); // /.[로트번호] 입력에 따른 [공정번호] 조회
 		
-		// [로트번호] 입력에 따른 [제품번호],[제품명],[계획생산수량] 자동채우기
+		// [로트번호] 입력에 따른 [제품번호],[제품명],[계획생산수량] 조회 및 자동채우기
 		$.ajax({
 			url: '/insertMaterialModalInsProIdAutoData',	// 이 URL은 Backend에서 처리할 경로
 			type: 'GET',
@@ -110,8 +114,9 @@ $(document).ready(function() {
 			error: function(xhr, status, error) {	// 실패 시
 				console.log("Error insertMaterial lotId AutoData : ", error);
 			}
-		});
-		// [로트번호] 입력에 따른 [자재번호] 조회
+		}); // /.[로트번호] 입력에 따른 [제품번호],[제품명],[계획생산수량] 자동채우기
+		
+		// [로트번호] 입력에 따른 [제품번호]를 통한 [자재번호] 조회
 		$.ajax({
 			url: '/insertMaterialModalLoadMatId',	// 이 URL은 Backend에서 처리할 경로
 			type: 'GET',
@@ -127,9 +132,9 @@ $(document).ready(function() {
 				error: function(xhr, status, error) {	// 실패 시
 					console.log("Error insertMaterial lotId proId : ", error);
 			}
-		});
+		}); // /.[로트번호] 입력에 따른 [제품번호]를 통한 [자재번호] 조회
 		
-		/* 자재투입 모달창 - [자재번호] 선택에 따른 [자재명],[제품1EA별 투입수량],[최소투입수량],[단위] 자동채우기  */
+		/* 자재투입 모달창 - [자재번호] 선택에 따른 [자재명],[제품1EA별 투입수량],[최소투입수량],[단위] 조회 및 자동채우기  */
 		$('#materialIdModal').on('change', function() {
 		  var materialId = $(this).val();                // qsDiv1의 선택된 값 가져오기
 		  $.ajax({
@@ -152,9 +157,7 @@ $(document).ready(function() {
 				}
 			});
 		});/* ./ 자재투입 모달창의 [자재번호] 선택 따른 ajax*/
-		
-		
-	}); /* ./ 자재투입 모달창의 [로트번호] 입력에 따른 ajax*/
+	}); /* ./ insLotIdModal change function*/
 	
 	/* 모달창 - 처음에는 [자재투입목록]을 숨긴다. */
 	$('.newWorkMaterialList').css('display', 'none');
@@ -180,7 +183,7 @@ $(document).ready(function() {
 		$('.newWorkMaterialList').css('display', 'block');
 		console.log('display block');
 		
-	});
+	});/* /.자재투입 모달창 - [추가] 버튼 클릭 이벤트 */
 	
 	/* 모달창에서 입력된 데이터 수집하는 함수 */
 	function collectDataFromModal() {
@@ -199,7 +202,7 @@ $(document).ready(function() {
 			unitMaterial: $('#unitMaterialModal').val(),											// 단위
 			insertQuantity: $('#insertQuantityModal').val() 									// 투입수량
 		};
-	}
+	} //  /.collectDataFromModal
 	
 	/* 입력 필드 유효성 검사 */
 	function validateFields(data) {
@@ -238,7 +241,7 @@ $(document).ready(function() {
 			return false;
 		}
 	  return true;
-	}
+	} // /.function validateFields(data)
 	
 	/* 목록(Table)에 데이터(행) 추가하는 함수 */
   function addToInsertMaterialList(data) {
@@ -347,7 +350,8 @@ $(document).ready(function() {
 		console.log('선택된 inv_quantity: ', inv_quantity);
 		
 		$.ajax({
-			url: '/insertMaterialForUpdateModal?inv_lot_id='+inv_lot_id+'&inv_pi_id='+inv_pi_id+'&inv_material_id='+inv_material_id+'&inv_quantity='+inv_quantity,
+			url: '/insertMaterialForUpdateModal?inv_lot_id='+inv_lot_id+'&inv_pi_id='+inv_pi_id+'&inv_material_id='
+							+inv_material_id+'&inv_quantity='+inv_quantity,
 			type: 'GET',
 			data: { 
 				inv_lot_id: inv_lot_id,
@@ -508,7 +512,9 @@ $(document).ready(function() {
 								tbody +=	'<td>'+ data[i].workerInfoEmpId+'</td>';					// 사원번호
 								tbody +=	'<td>'+ data[i].workerInfoEmpName+'</td>';				// 사원명
 								tbody +=	'<td>'+ data[i].workerInfoEmpRole+'</td>';				// 직급
-								tbody += '<td class="delete-button" data-emp-id="' + data[i].workerInfoEmpId + '" data-work-id="' + edit_w_id + '" style="cursor:pointer; color:#c82333; text-align:center;">삭제</td>';
+								tbody += '<td class="delete-button" data-emp-id="' + data[i].workerInfoEmpId + 
+													'" data-work-id="' + edit_w_id + 
+													'" style="cursor:pointer; color:#c82333; text-align:center;">삭제</td>';
 								tbody +=	'</tr>';
 		        });
 		        
@@ -581,10 +587,12 @@ $(document).ready(function() {
 			function collectDataFromModal() {
 				// 모달창에서 입력된 데이터 수집
 				return {
-					wIdModal: $('#edit_w_id').val(),														// 작업번호
-					wStartTimeModal: $('#edit_w_start_time').val().substr(0,10)+' '+$('#edit_w_start_time').val().substr(11),					  // 작업시작시간
-					wEndTimeModal: $('#edit_w_end_time').val().substr(0,10)+' '+$('#edit_w_end_time').val().substr(11),									// 작업종료시간
-					empIdModal: $('#edit_emp_id').val()													// 사원번호
+					wIdModal: $('#edit_w_id').val(),																// 작업번호
+					wStartTimeModal: $('#edit_w_start_time').val().substr(0,10)+
+													' '+$('#edit_w_start_time').val().substr(11),		// 작업시작시간
+					wEndTimeModal: $('#edit_w_end_time').val().substr(0,10)+
+													' '+$('#edit_w_end_time').val().substr(11),			// 작업종료시간
+					empIdModal: $('#edit_emp_id').val()															// 사원번호
 				};
 			}
 			
@@ -610,8 +618,8 @@ $(document).ready(function() {
 				// [주의]: data.컬럼명의 '컬럼명'은 collectDataFromModal() 함수의 컬럼명과 일치시킬 것.
 				var newRow = `<tr>
 		    	<input type="hidden" class="wIdModal" value="${data.wIdModal}">											// 작업번호
-		    	<input type="hidden" class="wStartTimeModal" value="${data.wStartTimeModal}">				// 작업번호
-		    	<input type="hidden" class="wEndTimeModal" value="${data.wEndTimeModal}">						// 작업번호
+		    	<input type="hidden" class="wStartTimeModal" value="${data.wStartTimeModal}">				// 작업시작시간
+		    	<input type="hidden" class="wEndTimeModal" value="${data.wEndTimeModal}">						// 작업종료시간
 					<td class="empIdModal">${data.empIdModal}</td>																			// 사원번호
 		      <td onclick="removeRow(this);" 
 		      	style="cursor:pointer; 
@@ -708,10 +716,9 @@ $(document).ready(function() {
             error: function(xhr, status, error) {
                 alert('삭제 과정에서 오류가 발생했습니다: ' + error);
             }
-        });
-    }
-});
-		
+        }); // /. deleteWorker ajax
+	    }
+		}); // /.delete-button
 		
 	}); // /.workerInsertBtn click function
 	

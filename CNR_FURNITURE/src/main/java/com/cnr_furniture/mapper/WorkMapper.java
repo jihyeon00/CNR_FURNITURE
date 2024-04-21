@@ -135,6 +135,25 @@ public interface WorkMapper {
      */
     void workInsertMaterialUpdate(WorkUpdateMaterialModalVO workUpdateMaterialModalVO);
 
+    /* [work.jsp 의 작업등록 모달창] ============================================================== */
+    /**
+     * 로트번호 입력에 따른 공정번호 조회
+     * Desc: work 의 작업등록 모달창 중 [로트번호] 입력에 따른 [공정번호]
+     */
+    List<WorkInsertMaterialModalVO> workInsertModalSelectProIdByLotId(int insLotIdModal);
+
+    /**
+     * 로트번호 입력에 따른 제품번호, 제품명, 계획생산수량 조회
+     * Desc: work 의 자재투입등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[계획생산수량] 조회
+     */
+    // WorkInsertMaterialModalVO workSelectInsLotIdAutoDataModal(int insLotIdModal);
+
+    /**
+     * 로트번호 입력에 따른 [자재번호] 조회
+     * Desc: work 의 자재투입등록 모달창의 [자재번호] 선택에 따른 [자재명],[제품1EA별 투입수량],[최소투입수량],[단위] 조회
+     */
+    // List<WorkInsertMaterialModalVO> workSelectMaterialIdModal(int insLotIdModal);
+
 
     /* [todayWorkInsert.jsp] ============================================================== */
     /**
