@@ -2,4 +2,69 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cnr_furniture.mapper.ProductionMapper">
+    <!-- [회사 정보] 조회 -->
+    <select id="productionSelectCompanyList"
+            resultType="com.cnr_furniture.domain.production.search.ProductionSelectCompanyVO">
+        SELECT
+            c_id as companyId, c_name as companyName, c_div as companyDiv
+        FROM
+            COMPANY
+    </select>
+
+    <!-- [제품 정보] 조회 -->
+    <select id="productionSelectItemList"
+            resultType="com.cnr_furniture.domain.production.search.ProductionSelectItemVO">
+        SELECT
+            i_id as itemId, i_name as itemName, i_uses as itemUses
+        FROM
+            ITEM
+    </select>
+
+    <!-- [계획 정보] 조회 -->
+    <select id="productionSelectInstructionList"
+            resultType="com.cnr_furniture.domain.production.search.ProductionSelectInstructionVO">
+        SELECT
+            DISTINCT INS_LOT_ID as insLotId,
+            INS_ITEM_ID as insItemId,
+            INS_EMP_ID as insEmpId,
+            INS_CT_ID as insCtId,
+            INS_LOT_SIZE as insLotSize,
+            INS_START_DATE as insStartDate,
+            INS_END_DATE as insEndDate
+        FROM
+            INSTRUCTION
+        ORDER BY
+            insLotId, insCtId
+    </select>
+
+    <!-- [공정 정보] 조회 -->
+    <select id="productionSelectProcessInfoList"
+            resultType="com.cnr_furniture.domain.production.search.ProductionSelectProcessInfoVO">
+        SELECT
+            pi.PI_ID AS pi_id, pi.PI_NAME AS PI_NAME, pi.PI_MACHINE_ID AS PI_MACHINE_ID,
+            mi.MI_NAME AS MI_NAME, pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS position
+        FROM
+            PROCESS_INFO pi, MACHINE_INFO mi
+        WHERE
+            pi.PI_MACHINE_ID = mi.MI_ID
+        ORDER BY PI_ID, position
+    </select>
+
+    <!-- 설비 정보 조회 -->
+    <select id="productionSelectMachineInfoList"
+            resultType="com.cnr_furniture.domain.production.search.ProductionSelectMachineInfoVO">
+        SELECT
+            mi.MI_ID AS mi_id,
+            mi.MI_NAME AS MI_NAME, pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS position
+        FROM
+            MACHINE_INFO mi, PROCESS_INFO pi
+        WHERE
+            mi.MI_ID = pi.PI_MACHINE_ID
+        ORDER BY mi_id, POSITION
+    </select>
+
+    <!-- 작업 진행 상태 selectBox -->
+
+
+    <!-- 가동여부 selectBox -->
 </mapper>

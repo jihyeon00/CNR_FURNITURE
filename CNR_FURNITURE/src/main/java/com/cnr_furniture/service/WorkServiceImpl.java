@@ -148,8 +148,7 @@ public class WorkServiceImpl implements WorkService{
         paramInsertMaterialForUpdate.put("inv_pi_id", inv_pi_id);
         paramInsertMaterialForUpdate.put("inv_material_id", inv_material_id);
         paramInsertMaterialForUpdate.put("inv_quantity", inv_quantity);
-        WorkSelectInsertMaterialVO getInsertMaterialForUpdate = workMapper.workSelectInsertMaterialForUpdate(paramInsertMaterialForUpdate);
-        return getInsertMaterialForUpdate;
+        return  workMapper.workSelectInsertMaterialForUpdate(paramInsertMaterialForUpdate);
     }
 
     /** Desc: Work 의 자재투입내역 - 모달창을 이용한 자재투입 수정 */
