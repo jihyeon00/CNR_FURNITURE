@@ -117,7 +117,7 @@ html, body {
 								<c:forEach var="worker" items="${workerList}">
 									<tr>
 										<td onClick='showSchedule(<c:out value="${worker.e_id}"/>)' class="workerId"><c:out value="${worker.e_id}" /></td>
-										<td><c:out value="${worker.e_name}" /></td>
+										<td><c:out value="${worker.name}" /></td>
 										<td><c:out value="${worker.e_dp_name}" /></td>
 									</tr>
 								</c:forEach>
@@ -247,7 +247,7 @@ let searchWorkerForm = $("#searchWorkerForm");
 	                        // 서버에서 받은 데이터로 이벤트 배열 구성
 	                        for (var i = 0; i < result.length; i++) {
 	                            events.push({
-	                                title: result[i].title,
+	                                title: result[i].name,
 	                                start: result[i].start,
 	                                end: result[i].end
 	                            });
