@@ -64,7 +64,7 @@ public class MemberController {
    * Desc: 사원정보조회
    * @return 사원정보조회 view page
    */
-  @GetMapping("/memberInfo")
+  @GetMapping("/standardInfo/memberInfo")
   public String memberInfo(MemberSearch search, Model model) {
     // 검색창
     model.addAttribute("search", search);
@@ -87,7 +87,7 @@ public class MemberController {
    * Desc: 사용자별 권한관리
    * @return 사용자별 권한관리 view page
    */
-  @GetMapping("/memberRole")
+  @GetMapping("/M/member/memberRole")
   public String memberRole(MemberSearch search, Model model) {
 //    String Role = memberVO.getRole();
 //    if (Role == 'Role_Staff')
@@ -124,7 +124,7 @@ public class MemberController {
    * @return 사용자별 권한관리 view page
    */
   @ResponseBody
-  @RequestMapping(value = "/modifyMemberList", method = RequestMethod.POST)
+  @RequestMapping(value = "/D/modifyMemberList", method = RequestMethod.POST)
   public String modifyMemberList(@RequestBody List<MemberVO> checkList) {
     for (MemberVO member:checkList) { memberService.modifyRole(member); }
     return "success";

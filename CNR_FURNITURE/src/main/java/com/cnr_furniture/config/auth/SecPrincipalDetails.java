@@ -26,7 +26,7 @@ public class SecPrincipalDetails implements UserDetails {
   public Collection<? extends GrantedAuthority> getAuthorities() {
     Collection<GrantedAuthority> collect = new ArrayList<>();
     collect.add(() -> {
-      return memberVO.getRole();      // ROLE_ADMIN 문자열을 가져온다
+      return memberVO.getRole();      // ROLE_Director 문자열을 가져온다
     });
 
     return collect;

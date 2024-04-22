@@ -28,7 +28,7 @@ public class ContractController {
    * Desc: 계약 정보 조회 페이지
    * @return 계약 정보 조회 view page
    */
-  @GetMapping("/contractInfo")
+  @GetMapping("/standardInfo/contractInfo")
   public String contractInfo(ContractSearch search, Model model) {
     // 검색창
     model.addAttribute("search", search);

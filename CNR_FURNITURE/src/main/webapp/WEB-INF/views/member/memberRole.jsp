@@ -36,7 +36,7 @@
                   <option value="권한선택" disabled selected>권한선택</option>
                   <c:forEach var="list" items = "${roleList}">
                     <option value='${list.role}'
-                      <c:if test="${search.find_Role == list.role}">selected</c:if> >${list.role}
+                      <c:if test="${search.find_Role == list.role}">selected</c:if> >${list.role_kr}
                     </option>
                   </c:forEach>
                 </select>
@@ -59,7 +59,7 @@
               </div>
               <div class="col-sm-3">
                 <div class="sb-btns">
-                  <button type="button" class="btn btn-reset" id="" onClick="location.href='/memberRole'">
+                  <button type="button" class="btn btn-reset" id="" onClick="location.href='/M/member/memberRole'">
                     <img class="resetPng" alt="reset" id="btn-reset" src="/resources/img/reset.png" >
                   </button>
                   <button type="submit" class="btn btn-primary" id=""
@@ -112,7 +112,7 @@
                       <td><input type="checkbox" value="${list.id}" class="list-checkBox"></td>
                       <td><div id="m_id"><c:out value="${list.id}"/></div></td>
                       <td><div id="m_name"><c:out value="${list.name}"/></div></td>
-                      <td><div id="m_role"><c:out value="${list.role}"/></div></td>
+                      <td><div id="m_role"><c:out value="${list.role_kr}"/></div></td>
                       <td><c:out value="${list.dp_name}"/></td>
                       <td><c:out value="${list.ph}"/></td>
                       <td><c:out value="${list.email}"/></td>

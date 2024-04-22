@@ -27,21 +27,26 @@
         checkArr.push(param);
       })
       // console.log(checkArr);
-      // ajax를 통하여 전송
-      $.ajax({
-        type : "POST",
-        url : "/modifyMemberList",
-        contentType: "application/json",
-        data : JSON.stringify(checkArr),
-        dateType: "text",
-        success: function(text){
-          alert("권한 변경이 완료되었습니다.");
-          location.href="/memberRole"
-        },
-        error: function(request, status, error, xhr){
-          alert("권한 변경을 실패습니다.<br>에러코드: "+xhr.status);
-        }
-      });
+      // 권한 변경 확인 체크
+      if (confirm('사원권한 변경을 하시겠습니까?')) {
+        // ajax를 통하여 전송
+        $.ajax({
+          type : "POST",
+          url : "/D/modifyMemberList",
+          contentType: "application/json",
+          data : JSON.stringify(checkArr),
+          dateType: "text",
+          success: function(text){
+            alert("권한 변경이 완료되었습니다.");
+            location.href="/M/member/memberRole"
+          },
+          error: function(request, status, error, xhr){
+            alert("권한 변경을 실패습니다. \n 에러코드: "+xhr.status);
+          }
+        });
+      } else {
+        return false;
+      }
     }
   }
   // 사원등록

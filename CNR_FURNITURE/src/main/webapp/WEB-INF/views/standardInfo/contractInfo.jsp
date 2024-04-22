@@ -18,7 +18,7 @@
           <div class="col-md-6 ml-auto">
             <ol class="breadcrumb float-sm-right">
               <div class="sb-btns">
-                <button type="button" class="btn btn-reset" id="" onClick="location.href='/contractInfo'">
+                <button type="button" class="btn btn-reset" id="" onClick="location.href='/standardInfo/contractInfo'">
                   <img class="resetPng" alt="reset" id="btn-reset" src="/resources/img/reset.png" >
                 </button>
                 <button type="submit" class="btn btn-primary" id=""

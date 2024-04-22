@@ -45,7 +45,7 @@
               </div>
               <div class="col-md-6 ">
                 <div class="sb-btns">
-                  <button type="button" class="btn btn-reset" id="" onClick="location.href='/memberInfo'">
+                  <button type="button" class="btn btn-reset" id="" onClick="location.href='/standardInfo/memberInfo'">
                     <img class="resetPng" alt="reset" id="btn-reset" src="/resources/img/reset.png">
                   </button>
                   <button type="submit" class="btn btn-primary" id=""
