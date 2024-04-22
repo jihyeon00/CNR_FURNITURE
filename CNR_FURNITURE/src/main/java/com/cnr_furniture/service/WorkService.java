@@ -50,22 +50,6 @@ public interface WorkService {
     /** Desc: work의 작업자 조회 */
     List<WorkerVO> getWorker(WorkSearchVO workSearchVO);
 
-    /* [work.jsp 의 작업등록 모달창] ============================================================== */
-    /**  Desc: work 의 작업등록 모달창 중 [로트번호] 입력에 따른 [공정번호]  */
-    List<WorkInsertModalVO> getProIdByLotId(int workInsertModalLotId);
-
-    /** Desc: work 의 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회 */
-    WorkInsertModalVO getAutoDataByLotId(int workInsertModalLotId);
-
-    /** Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회 */
-    WorkInsertModalVO getAutoDataByProId(int workInsertModalProcessId);
-
-
-    /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
-
-
-
-
 
     /* [work.jsp 의 자재투입 모달창] ============================================================== */
     /**
@@ -108,6 +92,23 @@ public interface WorkService {
      * Desc: Work 의 자재투입내역 - 모달창을 이용한 자재투입 수정
      */
     void updateWorkInsertMaterial(WorkUpdateMaterialModalVO workUpdateMaterialModalVO);
+
+
+    /* [work.jsp 의 작업등록 모달창] ============================================================== */
+    /**  Desc: work 의 작업등록 모달창 중 [로트번호] 입력에 따른 [공정번호]  */
+    List<WorkInsertModalVO> getProIdByLotId(int workInsertModalLotId);
+
+    /** Desc: work 의 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회 */
+    WorkInsertModalVO getAutoDataByLotId(int workInsertModalLotId);
+
+    /** Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치],[남은생산수량]  조회 */
+    WorkInsertModalVO getAutoDataByProId(int workInsertModalLotId, int workInsertModalProcessId);
+
+    /** Desc: Work 의 작업 등록 시, DB 저장 - [작업 테이블] */
+    void workInsert(List<WorkInsertModalVO> arr);
+
+
+    /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
 
     /* [todayWorkInsert.jsp] ============================================================== */
     /** Desc: todayWorkInsert 의 공정조회 */

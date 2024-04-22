@@ -576,27 +576,24 @@
         ins.INS_LOT_ID = #{workInsertModalLotId}
     </select>
 
-    <!-- work 작업등록 모달창의 [공정번호] 입력에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회-->
+    <!-- work 작업등록 모달창의 [공정번호] 입력에 따른 [공정명], [설비번호], [설비명], [작업위치], [남은생산수량] 조회-->
     <select id="workInsertModalSelectAutoDataByProId"
             resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
         SELECT
-        p.P_LOT_ID AS workInsertModalLotId,
-        pi.PI_ID AS workInsertModalProcessId,
-        pi.PI_NAME AS workInsertModalProcessName,
-        pi.PI_MACHINE_ID AS workInsertModalMachineId,
-        mi.MI_NAME AS workInsertModalMachineName,
-        pi.PI_SEQ || '-' || mi.MI_POSITION AS workInsertModalWorkPosition
+            pi.PI_ID AS workInsertModalProcessId,
+            pi.PI_NAME AS workInsertModalProcessName,
+            pi.PI_MACHINE_ID AS workInsertModalMachineId,
+            mi.MI_NAME AS workInsertModalMachineName,
+            pi.PI_SEQ || '-' || mi.MI_POSITION AS workInsertModalWorkPosition,
+            p.P_PLAN_QUANTITY - p.P_ITEM_QUANTITY AS workInsertModalLeftoverQuantity
         FROM
-        PROCESS p
-        JOIN PROCESS_INFO pi ON p.p_PI_ID = pi.PI_ID
-        JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
+            PROCESS_INFO pi
+            JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
+            JOIN PROCESS p ON p.P_PI_ID = pi.PI_ID
         WHERE
-        p.P_LOT_ID = #{workInsertModalLotId}
-        AND pi.PI_ID = #{workInsertModalProcessId}
+            p.P_LOT_ID = #{workInsertModalLotId}
+            AND pi.PI_ID = #{workInsertModalProcessId}
     </select>
-
-    <!-- work 작업등록 모달창의 [공정번호] 입력에 따른 [남은생산수량] 조회-->
-
 
     <!-- [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== -->
 
@@ -692,6 +689,31 @@
             '-'||#{insertQuantityModal},
             #{unitMaterialModal}
             )
+    </insert>
+
+    <!-- work 작업등록 모달창의 [작업] 등록 -->
+    <insert id="workInsert" parameterType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
+        INSERT INTO WORK
+            (
+            W_LOT_ID,
+            W_PI_ID,
+            W_START_TIME,
+            W_END_TIME,
+            W_TIME,
+            W_PLAN_QUANTITY,
+            W_NOTE
+            )
+        VALUES
+            (
+            #{workInsertModalLotId},
+            #{workInsertModalProcessId},
+            #{workInsertModalWorkStartTime},
+            #{workInsertModalWorkEndTime},
+            #{workInsertModalWorkTime},
+            #{workInsertModalPlanQuantity},
+            #{workInsertModalNote}
+            )
+
     </insert>
 
     <!-- todayWorkInsert.jsp ============================================================================ -->
@@ -938,6 +960,7 @@
             #{edit_w_end_time}
             )
     </insert>
+
 
     <!-- 작업자 삭제 -->
     <delete id="workerInsertModalDeleteWorker" parameterType="int">

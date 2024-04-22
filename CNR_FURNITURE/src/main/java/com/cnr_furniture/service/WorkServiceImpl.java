@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.log4j.Log4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
@@ -100,30 +101,6 @@ public class WorkServiceImpl implements WorkService{
         return workMapper.selectWorker(workSearchVO);
     }
 
-    /* [work.jsp 의 작업등록 모달창] ============================================================== */
-
-    /**  Desc: work 의 작업등록 모달창 중 [로트번호] 입력에 따른 [공정번호] */
-    @Override
-    public List<WorkInsertModalVO> getProIdByLotId(int workInsertModalLotId) {
-        return workMapper.workInsertModalSelectProIdByLotId(workInsertModalLotId);
-    }
-
-    /** Desc: work 의 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회 */
-    @Override
-    public WorkInsertModalVO getAutoDataByLotId(int workInsertModalLotId) {
-        return workMapper.workInsertModalSelectAutoDataByLotId(workInsertModalLotId);
-    }
-
-    /** Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회 */
-    @Override
-    public WorkInsertModalVO getAutoDataByProId(int workInsertModalProcessId) {
-        return workMapper.workInsertModalSelectAutoDataByProId(workInsertModalProcessId);
-    }
-
-    /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
-
-
-
 
     /* [work.jsp 의 자재투입 모달창] ============================================================== */
     /** Desc: work 자재투입 모달창의 [로트번호의 공정번호] 조회 */
@@ -160,6 +137,7 @@ public class WorkServiceImpl implements WorkService{
         }
     }
 
+
     /* [work.jsp 의 자재투입내역 수정 모달창] ============================================================== */
 
     /** Desc: Work 의 조건에 따른 수정할 자재투입내역 데이터를 가져오는 메소드 */
@@ -181,6 +159,36 @@ public class WorkServiceImpl implements WorkService{
     public void updateWorkInsertMaterial(WorkUpdateMaterialModalVO workUpdateMaterialModalVO) {
         workMapper.workInsertMaterialUpdate(workUpdateMaterialModalVO);
     }
+
+    /* [work.jsp 의 작업등록 모달창] ============================================================== */
+
+    /**  Desc: work 의 작업등록 모달창 중 [로트번호] 입력에 따른 [공정번호] */
+    @Override
+    public List<WorkInsertModalVO> getProIdByLotId(int workInsertModalLotId) {
+        return workMapper.workInsertModalSelectProIdByLotId(workInsertModalLotId);
+    }
+
+    /** Desc: work 의 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회 */
+    @Override
+    public WorkInsertModalVO getAutoDataByLotId(int workInsertModalLotId) {
+        return workMapper.workInsertModalSelectAutoDataByLotId(workInsertModalLotId);
+    }
+
+    /** Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치], [남은생산수량] 조회 */
+    @Override
+    public WorkInsertModalVO getAutoDataByProId(int workInsertModalLotId, int workInsertModalProcessId) {
+        return workMapper.workInsertModalSelectAutoDataByProId(workInsertModalLotId, workInsertModalProcessId);
+    }
+
+    /** Desc: Work 의 작업 등록 시, DB 저장 - [작업 테이블] */
+    @Override
+    public void workInsert(List<WorkInsertModalVO> arrays) {
+        for(WorkInsertModalVO arr: arrays) {
+            workMapper.workInsert(arr);
+        }
+    }
+
+    /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
 
     /* [todayWorkInsert.jsp] ============================================================== */
 

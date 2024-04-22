@@ -752,19 +752,19 @@
      			 <!-- 남은생산수량 -->
            <div class="col-sm-2 work-modal-name">남은생산수량</div>
            <div class="col-sm-2 work-modal-text">
-           		<input type="text" class="col-sm-12 modal-input" id="workInsertModalLeftoverQuantity" name="workInsertModalLeftoverQuantity"
+           		<input type="number" class="col-sm-12 modal-input" id="workInsertModalLeftoverQuantity" name="workInsertModalLeftoverQuantity"
                value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" readonly="readonly"/>
            </div><!-- /.남은생산수량 -->
-           <!-- 계획수량 -->
+           <!-- 현재작업계획수량 -->
            <div class="col-sm-2 work-modal-name">현재작업계획수량</div>
            <div class="col-sm-2 work-modal-text">
-             <input type="text" class="col-sm-12 modal-input" id="workInsertModalPlanQuantity" name="workInsertModalPlanQuantity"
+             <input type="number" class="col-sm-12 modal-input" id="workInsertModalPlanQuantity" name="workInsertModalPlanQuantity"
                value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" />
-           </div><!-- /.계획수량 -->
+           </div><!-- /.현재작업계획수량 -->
            <!-- 소요시간 -->
            <div class="col-sm-2 work-modal-name">소요시간(분)</div>
            <div class="col-sm-2 work-modal-text">
-             <input type="text" class="col-sm-12 modal-input" id=workInsertModalWorkTime name="workInsertModalWorkTime"
+             <input type="number" class="col-sm-12 modal-input" id=workInsertModalWorkTime name="workInsertModalWorkTime"
                value='<c:out value="${search.find_DP_name}"/>' autocomplete="off" readonly="readonly"/>
            </div><!-- /.소요시간 -->
         </div> <!-- /.등록행 4 -->
@@ -802,31 +802,34 @@
 	        </div><!-- /.추가버튼 -->
         </div><!-- /.row -->
       	<!-- 작업등록목록 -->
-        <div class="row newWorkMaterialList">
+        <div class="row newWorkList">
         	<!-- Title -->
-        	<div class="col-sm-6 newWorkMaterialTitle">
+        	<div class="col-sm-6 newWorkTitle">
         		<i class="fa fa-list"></i>
             <span>작업등록목록</span>
         	</div><!-- /.Title -->
         	<!-- Table -->
         	<div class="col-sm-12">
 	        	<div class="work-modal-table">
-	        		<table cellpadding="0" cellspacing="0" border="0">
+	        		<table cellpadding="0" cellspacing="0" border="0" >
 	            	<thead class="work-modal-table-header">
 	            		<tr>
 	            			<th>No</th>
-	                  <th>투입일자</th>
 	                  <th>제조LOT번호</th>
 	                  <th>공정번호</th>
+	                  <th>공정명</th>
+	                  <th>설비번호</th>
+	                  <th>설비명</th>
+	                  <th>작업위치</th>
 	                  <th>제품번호</th>
 	                  <th>제품명</th>
-	                  <th>계획생산수량</th>
-	                  <th>자재번호</th>
-	                  <th>자재명</th>
-	                  <th>제품1EA별<br>투입수량</th>
-	                  <th>최소투입수량</th>
-	                  <th>단위</th>
-	                  <th>투입수량</th>
+	                  <th>생산단위</th>
+	                  <th>남은생산수량</th>
+	                  <th>현재작업계획수량</th>
+	                  <th>작업시작시간</th>
+	                  <th>작업종료시간</th>
+	                  <th>소요시간(분)</th>
+	                  <th>비고</th>
 	                  <th>삭제</th>
 	            		</tr>
 	              </thead>
@@ -844,7 +847,7 @@
       
       
       <div class="modal-footer">
-           <button type="button" class="btn btn-primary">등록</button>
+           <button type="button" class="btn btn-primary" id="workInsertBtn">등록</button>
            <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
       </div><!-- /.modal-footer -->
     </div><!-- /.modal-content -->
