@@ -418,6 +418,57 @@ $(document).ready(function() {
 	}); // /.insertMatModalUpdateBtn click function
 	
 	
+	
+	/***************** work - 작업등록 모달창 - 등록 ****************************/
+	
+	/* 작업등록 모달창
+	 * 1. [로트번호] 입력에 따른 [공정번호] 조회
+	 * 2. [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회 및 자동채우기
+	 * 3. [공정번호] 입력에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회 및 자동채우기
+	 * 4. 남은생산수량 : 로트번호, 공정번호 같은 값 가진 애들의 생산수량을 파악하여 자동채우기
+	 * 5. 추가버튼을 통해 배열 테이블 추가
+	 */
+	$('#workInsertModalLotId').change(function() {
+		$('#workInsertModalProcessId').val(''),											
+		$('#workInsertModalProcessName').val(''),								
+		$('#workInsertModalMachineId').val(''),						
+		$('#workInsertModalMachineName').val('');										
+		$('#workInsertModalWorkPosition').val(''); 
+		$('#workInsertModalItemId').val(''); 
+		$('#workInsertModalItemName').val(''); 
+		$('#workInsertModalUnit').val(''); 
+		$('#workInsertModalLeftoverQuantity').val(''); 
+		$('#workInsertModalPlanQuantity').val(''); 
+		$('#workInsertModalWorkTime').val(''); 
+		$('#workInsertModalWorkStartTime').val(''); 
+		$('#workInsertModalWorkEndTime').val(''); 
+		$('#workInsertModalNote').val(''); 
+		
+		var workInsertModalLotId = $(this).val();
+		
+		// [로트번호] 입력에 따른 [공정번호] 조회
+		$.ajax({
+			url: '/workInsertModalProIdByLotId',	// 이 URL은 Backend에서 처리할 경로
+			type: 'GET',
+			data: {workInsertModalLotId: workInsertModalLotId},
+			success: function(data) {	// 성공 시
+			console.log('workInsertModalLotId : '+ workInsertModalLotId);
+        $('#workInsertModalProcessId').empty();
+				let str = '<option value="">공정번호</option>';
+        $.each(data , function(i){
+            str += '<option value="' + data[i].workInsertModalProcessId + '">' + data[i].workInsertModalProcessId+'</option>'
+        });
+        $('#workInsertModalProcessId').append(str);
+			},
+				error: function(xhr, status, error) {	// 실패 시
+					console.log("Error workInsertModal lotId proId : ", error);
+			}
+		}); // /.[로트번호] 입력에 따른 [공정번호] 조회
+		
+	}); /* ./ insLotIdModal change function*/
+	
+	
+	
 	/***************** workerInsert - 작업자 관리 - 조회 등록 수정 삭제 ****************************/
 	
 	/* 작업자 관리 모달창 - Ajax로 해당 행의 내용 조회 */

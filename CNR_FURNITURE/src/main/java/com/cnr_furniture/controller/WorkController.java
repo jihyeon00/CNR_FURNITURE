@@ -36,7 +36,7 @@ public class WorkController {
         model.addAttribute("dpNameList", workService.findDpNameList());
         model.addAttribute("empInfoList", workService.findEmpInfoList());
     }
-
+    /* [work.jsp] ======================================================================== */
     /**
      * Desc: 공정관리-작업관리-제조수행, 작업목록, 생산실적, 자재투입내역, 작업자 조회
      * @param workSearchVO: 검색 조건을 담은 VO 객체
@@ -71,6 +71,23 @@ public class WorkController {
 
         return "work/work";
     }
+
+    /* [work.jsp 의 작업등록 모달창] ============================================================== */
+    /**
+     * Desc: 작업등록 모달창 - [로트번호] 입력에 따른 [공정번호 리스트] 조회
+     */
+    @GetMapping("/workInsertModalProIdByLotId")
+    @ResponseBody
+    public List<WorkInsertModalVO> getProIdByLotId(
+            @RequestParam("workInsertModalLotId") int workInsertModalLotId
+    ) {
+        return workService.getProIdByLotId(workInsertModalLotId);
+    }
+
+
+    /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
+
+
 
     /* [work.jsp 의 자재투입 모달창] ============================================================== */
     /**
@@ -213,6 +230,8 @@ public class WorkController {
         return "work/todayWorkInsert";
     }
 
+    /* [workInsert.jsp] ============================================================== */
+
     /**
      * Desc: 공정관리-작업관리-작업자등록-작업자 배치 목록, 작업자등록
      * @return: work/workerInsert
@@ -231,6 +250,8 @@ public class WorkController {
 
     	return "work/workerInsert";
     }
+
+    /* [workInsert.jsp 의 작업자 관리 모달창] ============================================================== */
 
     /**
      * Desc: workerInsert 의 작업자 관리 모달창의 작업자 관리를 위한 데이터 조회

@@ -543,6 +543,68 @@
         </trim>
     </select>
 
+    <!-- work.jsp 의 작업등록 모달창 =========================================================== -->
+
+    <!-- work 작업등록 모달창의 [로트번호] 입력에 따른 [공정번호] 조회-->
+    <select id="workInsertModalSelectProIdByLotId"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
+        SELECT
+        ins.ins_lot_id as workInsertModalLotId,
+        ins.ins_pi_id as workInsertModalProcessId
+        FROM
+        INSTRUCTION ins
+        WHERE
+        ins.ins_lot_id = #{workInsertModalLotId}
+        ORDER BY
+        workInsertModalLotId, workInsertModalProcessId*1
+    </select>
+
+    <!-- work 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회-->
+    <select id="workInsertModalSelectAutoDataByLotId"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
+        SELECT
+        DISTINCT INS_LOT_ID AS workInsertModalLotId,
+        ins.INS_ITEM_ID AS workInsertModalItemId,
+        it.I_NAME AS workInsertModalItemName,
+        upper(ct.CT_UNIT) AS workInsertModalUnit
+        FROM
+        INSTRUCTION ins
+        JOIN BOM b ON ins.ins_ITEM_ID = b.B_ITEM_ID
+        JOIN ITEM it ON ins.INS_ITEM_ID = it.I_ID
+        JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+        WHERE
+        ins.INS_LOT_ID = #{workInsertModalLotId}
+    </select>
+
+    <!-- work 작업등록 모달창의 [공정번호] 입력에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회-->
+    <select id="workInsertModalSelectAutoDataByProId"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
+        SELECT
+        p.P_LOT_ID AS workInsertModalLotId,
+        pi.PI_ID AS workInsertModalProcessId,
+        pi.PI_NAME AS workInsertModalProcessName,
+        pi.PI_MACHINE_ID AS workInsertModalMachineId,
+        mi.MI_NAME AS workInsertModalMachineName,
+        pi.PI_SEQ || '-' || mi.MI_POSITION AS workInsertModalWorkPosition
+        FROM
+        PROCESS p
+        JOIN PROCESS_INFO pi ON p.p_PI_ID = pi.PI_ID
+        JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
+        WHERE
+        p.P_LOT_ID = #{workInsertModalLotId}
+        AND pi.PI_ID = #{workInsertModalProcessId}
+    </select>
+
+    <!-- work 작업등록 모달창의 [공정번호] 입력에 따른 [남은생산수량] 조회-->
+
+
+    <!-- [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== -->
+
+
+
+
+
+
     <!-- work.jsp 의 자재투입 모달창 =========================================================== -->
 
     <!-- work 자재투입 모달창의 [로트번호의 공정번호] 조회-->
@@ -632,22 +694,6 @@
             )
     </insert>
 
-    <!-- work.jsp 의 작업등록 모달창 =========================================================== -->
-
-    <!-- work 작업등록 모달창의 [로트번호] 입력에 따른 [공정번호] 조회-->
-
-    <select id="workInsertModalSelectProIdByLotId"
-            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertMaterialModalVO">
-        SELECT
-            ins.ins_lot_id as insLotIdModal,
-            ins.ins_pi_id as processIdModal
-        FROM
-            INSTRUCTION ins
-        WHERE
-            ins.ins_lot_id = #{insLotIdModal}
-        ORDER BY
-            insLotIdModal, processIdModal*1
-    </select>
     <!-- todayWorkInsert.jsp ============================================================================ -->
 
     <!-- todayWorkInsert 의 [공정별 설비상태]조회 -->
