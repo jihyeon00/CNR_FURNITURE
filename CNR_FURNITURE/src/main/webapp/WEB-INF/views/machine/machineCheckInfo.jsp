@@ -34,7 +34,8 @@
                     <select id="find_machine_check_type" name="find_machine_check_type" class="find_machine_check_type">
                         <option class="checkType" disabled selected>유형</option>
                         <c:forEach var="list" items = "${getMachineCheckType}">
-                            <option value="${list.mci_div}" ${list.mci_div == searchMachineCheckVO.find_machine_check_type ? 'selected' : ''}>${list.mci_div}</option>
+                            <option value="${list.mci_div}" ${list.mci_div == searchMachineCheckVO.find_machine_check_type ? 'selected' : ''}>
+                            ${list.mci_div}</option>
                         </c:forEach>
                     </select>
                 </div>
