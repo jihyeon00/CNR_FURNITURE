@@ -44,7 +44,8 @@
   <link rel="stylesheet" href="/resources/css/quality/stickyOnTable.css">
 
 <sec:authorize access="isAuthenticated()">
-    <sec:authentication property="principal.memberVO.name" var="name" />
+    <sec:authentication property="principal.memberVO.name" var="e_name" />
+    <sec:authentication property="principal.memberVO.role" var="e_role"/>
 </sec:authorize>
 
   <!-- jQuery -->
@@ -60,7 +61,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="main" class="nav-link">Home</a>
+        <a href="http://localhost:8085/main" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -72,7 +73,7 @@
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600">
                   <%-- <sec:authentication property="principal.memberVO.dp_name" />
-                  <c:out value="${name}"/> --%>님
+                  <c:out value="${e_name}"/> --%> 님
                 </span>
             </a>
             <!-- Dropdown - User Information -->
@@ -96,7 +97,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="main" class="brand-link">
+    <a href="http://localhost:8085/main" class="brand-link">
       <img src="/resources/img/C&RLogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .9">
       <span class="brand-text font-weight-light">C&R Furniture</span>
     </a>
@@ -115,7 +116,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item sideBarSub">
-                <a href="memberInfo" class="nav-link">
+                <a href="http://localhost:8085/standardInfo/memberInfo" class="nav-link">
                   <p>사원정보조회</p>
                 </a>
               </li>
@@ -126,21 +127,21 @@
               </li>
               <li class="nav-item sideBarSub">
                 <a href="itemInfo" class="nav-link">
-                  <p>제품정보등록</p>
+                  <p>제품정보관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
                 <a href="materialInfo" class="nav-link">
-                  <p>자재정보등록</p>
+                  <p>자재정보관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="companyInfo" class="nav-link">
+                <a href="http://localhost:8085/standardInfo/companyInfo" class="nav-link">
                   <p>거래처관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="contractInfo" class="nav-link">
+                <a href="http://localhost:8085/standardInfo/contractInfo" class="nav-link">
                   <p>계약관리</p>
                 </a>
               </li>
@@ -169,29 +170,19 @@
           <li class="nav-item">
             <a href="#" class="nav-link">
               <p style="font-size: 18px;">
-                자재관리
+                재고관리
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item sideBarSub">
                 <a href="materialIB" class="nav-link">
-                  <p>자재입고현황</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="materialOB" class="nav-link">
-                  <p>자재출고현황</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="materialInventory" class="nav-link">
                   <p>자재재고조회</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="materialContractInfo" class="nav-link">
-                  <p>발주정보조회</p>
+                <a href="materialOB" class="nav-link">
+                  <p>제품재고조</p>
                 </a>
               </li>
             </ul>
@@ -221,7 +212,12 @@
               </li>
               <li class="nav-item sideBarSub">
                 <a href="workerManagement" class="nav-link">
-                  <p>작업자 스케줄 관리</p>
+                  <p>작업자스케줄조회</p>
+                </a>
+              </li>
+              <li class="nav-item sideBarSub">
+                <a href="workerManagement" class="nav-link">
+                  <p>작업자관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
@@ -232,75 +228,6 @@
               <li class="nav-item sideBarSub">
                 <a href="todayWorkInsert" class="nav-link">
                   <p>당일작업조회</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <p style="font-size: 18px;">
-                제품관리
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item sideBarSub">
-                <a href="itemIB" class="nav-link">
-                  <p>제품입고현황</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="itemOB" class="nav-link">
-                  <p>제품출고현황</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="itemInventory" class="nav-link">
-                  <p>제품재고조회</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="itemContractInfo" class="nav-link">
-                  <p>수주정보조회</p>
-                </a>
-              </li>
-            </ul>
-          </li><li class="nav-item">
-            <a href="#" class="nav-link">
-              <p style="font-size: 18px;">
-                설비관리
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item sideBarSub">
-                <a href="machineInfo" class="nav-link">
-                  <p>설비정보관리</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="machineCheckInfo" class="nav-link">
-                  <p>설비체크기준관리</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="machineCheck" class="nav-link">
-                  <p>설비 체크리스트 작성</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="machineManagement" class="nav-link">
-                  <p>설비관리</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="machineRepair" class="nav-link">
-                  <p>설비수리이력관리</p>
-                </a>
-              </li>
-              <li class="nav-item sideBarSub">
-                <a href="machineOperationStatus" class="nav-link">
-                  <p>설비가동현황</p>
                 </a>
               </li>
             </ul>
@@ -343,19 +270,39 @@
           <li class="nav-item">
             <a href="#" class="nav-link">
               <p style="font-size: 18px;">
-                현황 및 모니터링
+                설비관리
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item sideBarSub">
-                <a href="productionStatus" class="nav-link">
-                  <p>생산현황</p>
+                <a href="machineInfo" class="nav-link">
+                  <p>설비정보관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="pages/layout/top-nav.html" class="nav-link">
-                  <p>출하현황</p>
+                <a href="machineCheckInfo" class="nav-link">
+                  <p>설비체크기준관리</p>
+                </a>
+              </li>
+              <li class="nav-item sideBarSub">
+                <a href="machineCheck" class="nav-link">
+                  <p>설비 체크리스트 작성</p>
+                </a>
+              </li>
+              <li class="nav-item sideBarSub">
+                <a href="machineManagement" class="nav-link">
+                  <p>설비관리</p>
+                </a>
+              </li>
+              <li class="nav-item sideBarSub">
+                <a href="machineRepair" class="nav-link">
+                  <p>설비수리이력관리</p>
+                </a>
+              </li>
+              <li class="nav-item sideBarSub">
+                <a href="machineOperationStatus" class="nav-link">
+                  <p>설비가동현황</p>
                 </a>
               </li>
             </ul>
@@ -369,7 +316,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item sideBarSub">
-                <a href="memberRole" class="nav-link">
+                <a href="http://localhost:8085/M/member/memberRole" class="nav-link">
                   <p>사용자별 권한관리</p>
                 </a>
               </li>

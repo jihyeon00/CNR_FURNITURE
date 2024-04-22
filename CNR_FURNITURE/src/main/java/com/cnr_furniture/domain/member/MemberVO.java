@@ -15,7 +15,8 @@ public class MemberVO {
   private String ph;        // 사원 연락처
   private String password;  // 사원 비밀번호
   private String dp_name;   // 사원 부서이름 [생산(1,2,3)팀, 품질(1,2)팀, 재고(1,2)팀, 설비팀, 기획팀]
-  private String role;      // 사원 권한 [디렉터(Director)/매니저(manager)/사원()]
+  private String role;      // 사원 권한 [Director, manager, Staff]
+  private String role_kr;   // 사원 권한 한글명 [디렉터, 매니저, 사원]
 
   @Builder
   public MemberVO(String name, String email, String password, String role, String ph, String dp_name) {

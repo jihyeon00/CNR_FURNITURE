@@ -11,6 +11,7 @@
     <result property="password" column="E_PWD"/>
     <result property="dp_name" column="E_DP_NAME"/>
     <result property="role" column="E_ROLE"/>
+    <result property="role_kr" column="e_role_kr"/>
   </resultMap>
 
   <!-- 사원정보 조회 -->
@@ -34,7 +35,13 @@
             E_PH,
             E_PWD,
             E_DP_NAME,
-            E_ROLE
+            E_ROLE,
+      CASE
+          WHEN e_role = 'ROLE_Director' THEN '디렉터'
+          WHEN e_role = 'ROLE_Manager' THEN '매니저'
+          WHEN e_role = 'ROLE_Staff' THEN '사원'
+          ELSE e_role
+      END AS e_role_kr
     FROM    EMPLOYEE
     <!-- 권한 선택이 되어 있지 않은 경우 -->
     <if test="find_Role == null or find_Role == ''">
@@ -65,7 +72,7 @@
             E_DP_NAME,
             E_ROLE
     FROM    EMPLOYEE
-    WHERE   E_ROLE = 'Role_Staff'
+    WHERE   E_ROLE = 'ROLE_Staff'
     <!--  부서명 검색  -->
     <if test="find_DP_name != null and find_DP_name != ''">
       AND E_DP_NAME Like '%' || #{find_DP_name} || '%'
@@ -86,7 +93,7 @@
             E_DP_NAME,
             E_ROLE
     FROM    EMPLOYEE
-    WHERE   E_ROLE = 'Role_Manager'
+    WHERE   E_ROLE = 'ROLE_Manager'
     <!--  부서명 검색  -->
     <if test="find_DP_name != null and find_DP_name != ''">
       AND E_DP_NAME Like '%' || #{find_DP_name} || '%'
@@ -107,7 +114,7 @@
             E_DP_NAME,
             E_ROLE
     FROM    EMPLOYEE
-    WHERE   E_ROLE = 'Role_Director'
+    WHERE   E_ROLE = 'ROLE_Director'
     <!--  부서명 검색  -->
     <if test="find_DP_name != null and find_DP_name != ''">
       AND E_DP_NAME Like '%' || #{find_DP_name} || '%'
@@ -121,7 +128,13 @@
 
   <!-- 권한 조회  -->
   <select id="roleList" resultType="com.cnr_furniture.domain.member.MemberVO" resultMap="mapping_memberVO">
-    SELECT E_ROLE
+    SELECT E_ROLE,
+      CASE
+        WHEN e_role = 'ROLE_Director' THEN '디렉터'
+        WHEN e_role = 'ROLE_Manager' THEN '매니저'
+        WHEN e_role = 'ROLE_Staff' THEN '사원'
+        ELSE e_role
+      END AS e_role_kr
     FROM EMPLOYEE
     GROUP BY E_ROLE
     ORDER BY E_ROLE
@@ -150,14 +163,14 @@
   <!-- 권한 변경 -->
   <update id="modifyRole">
     UPDATE EMPLOYEE
-    <if test="role == 'Role_Staff'">
-      SET    E_ROLE = 'Role_Manager'
+    <if test="role == 'ROLE_Staff'">
+      SET    E_ROLE = 'ROLE_Manager'
     </if>
-    <if test="role == 'Role_Manager'">
-      SET    E_ROLE = 'Role_Director'
+    <if test="role == 'ROLE_Manager'">
+      SET    E_ROLE = 'ROLE_Director'
     </if>
-    <if test="role == 'Role_Director'">
-      SET    E_ROLE = 'Role_Director'
+    <if test="role == 'ROLE_Director'">
+      SET    E_ROLE = 'ROLE_Director'
     </if>
     WHERE  E_ID = #{id}
   </update>

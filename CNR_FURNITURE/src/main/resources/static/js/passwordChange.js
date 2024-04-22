@@ -32,8 +32,9 @@
       if(regEx.test(password.value)){
         alert("비밀번호 형식이 유효합니다.");
       }else{
-        alert("비밀번호 형식이 유효 하지 않습니다. <br>" +
+        alert("비밀번호 형식이 유효 하지 않습니다. \n" +
           "영어 숫자, 특수문자(!,@,#,-,_) 6~20글자사이로 작성해주세요.");
+        return false;
       }
 
       if($('#password').val() != $('#password_ck').val()){
