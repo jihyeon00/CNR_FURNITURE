@@ -182,7 +182,7 @@
               </li>
               <li class="nav-item sideBarSub">
                 <a href="materialOB" class="nav-link">
-                  <p>제품재고조</p>
+                  <p>제품재고조회</p>
                 </a>
               </li>
             </ul>
@@ -216,7 +216,7 @@
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="workerManagement" class="nav-link">
+                <a href="workerInsert" class="nav-link">
                   <p>작업자관리</p>
                 </a>
               </li>
