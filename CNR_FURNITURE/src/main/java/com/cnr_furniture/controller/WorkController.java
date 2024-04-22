@@ -72,23 +72,6 @@ public class WorkController {
         return "work/work";
     }
 
-    /* [work.jsp 의 작업등록 모달창] ============================================================== */
-    /**
-     * Desc: 작업등록 모달창 - [로트번호] 입력에 따른 [공정번호 리스트] 조회
-     */
-    @GetMapping("/workInsertModalProIdByLotId")
-    @ResponseBody
-    public List<WorkInsertModalVO> getProIdByLotId(
-            @RequestParam("workInsertModalLotId") int workInsertModalLotId
-    ) {
-        return workService.getProIdByLotId(workInsertModalLotId);
-    }
-
-
-    /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
-
-
-
     /* [work.jsp 의 자재투입 모달창] ============================================================== */
     /**
      * Desc: 자재투입 모달창 - [로트번호] 입력에 따른 [공정번호 리스트] 조회
@@ -155,6 +138,7 @@ public class WorkController {
                     "message", "등록에 실패하였습니다. 에러: " + e.getMessage()));
         }
     }
+
     /* [work.jsp 의 자재투입내역 수정 모달창] ============================================================== */
 
     /**
@@ -205,6 +189,69 @@ public class WorkController {
                     .body(Map.of("success", false, "message", "업데이트 실패: " + e.getMessage()));
         }
     }
+
+    /* [work.jsp 의 작업등록 모달창] ============================================================== */
+    /**
+     * Desc: 작업등록 모달창 - [로트번호] 입력에 따른 [공정번호 리스트] 조회
+     * @Param workInsertModalLotId : 공정번호 리스트를 가져오기 위한 제조LOT번호
+     */
+    @GetMapping("/workInsertModalProIdByLotId")
+    @ResponseBody
+    public List<WorkInsertModalVO> getProIdByLotId(
+            @RequestParam("workInsertModalLotId") int workInsertModalLotId
+    ) {
+        return workService.getProIdByLotId(workInsertModalLotId);
+    }
+
+    /**
+     * Desc: work 의 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회
+     * @Param workInsertModalLotId : [제품번호],[제품명],[생산단위]를 가져오기 위한 제조LOT번호
+     */
+    @GetMapping("/workInsertModalAutoDataByLotId")
+    @ResponseBody
+    public WorkInsertModalVO getAutoDataByLotId(
+            @RequestParam("workInsertModalLotId") int workInsertModalLotId
+    ) {
+        return workService.getAutoDataByLotId(workInsertModalLotId);
+    }
+
+
+    /**
+     * Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회
+     * @Param workInsertModalLotId : [공정번호]를 가져오기 위한 제조LOT번호
+     * @Param workInsertModalProcessId :  [공정명], [설비번호], [설비명], [작업위치], [남은생산수량] 를 가져오기 위한 공정번호
+     */
+    @GetMapping("/workInsertModalAutoDataByProId")
+    @ResponseBody
+    public WorkInsertModalVO getAutoDataByProId(
+            @RequestParam("workInsertModalLotId") int workInsertModalLotId,
+            @RequestParam("workInsertModalProcessId") int workInsertModalProcessId
+    ) {
+        return workService.getAutoDataByProId(workInsertModalLotId, workInsertModalProcessId);
+    }
+
+    /**
+     * Desc: Work 의 작업 등록 시, DB 저장 - [작업 테이블]
+     * @param arrays 자재투입목록 클라이언트로부터 JSON 형태로 받아 WorkInsertModalVO 객체 리스트로 변환
+     */
+    @PostMapping(value = "/workInsertArr")
+    @ResponseBody
+    public ResponseEntity<?> workInsert(
+            @RequestBody List<WorkInsertModalVO> arrays
+    ) {
+        log.info(arrays);
+        try {
+            workService.workInsert(arrays);
+            return ResponseEntity.ok().body(Map.of("success", true, "message", "등록이 성공되었습니다."));
+        } catch (Exception e) {
+            log.error("등록 실패, Error: {}" + e.getMessage() + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false,
+                    "message", "등록에 실패하였습니다. 에러: " + e.getMessage()));
+        }
+    }
+
+    /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
+
 
 
     /* [todayWorkInsert.jsp] ============================================================== */

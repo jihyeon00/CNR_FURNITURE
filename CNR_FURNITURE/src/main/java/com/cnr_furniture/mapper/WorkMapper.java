@@ -121,6 +121,8 @@ public interface WorkMapper {
      */
      void workInsertMaterial(WorkInsertMaterialModalVO workInsertMaterialModalVO);
 
+
+
     /* [work.jsp 의 자재투입내역 수정 모달창] ============================================================== */
 
     /**
@@ -150,22 +152,18 @@ public interface WorkMapper {
 
     /**
      * 공정번호 입력에 따른 공정명, 설비번호, 설비명, 작업위치 조회
-     * Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회
+     * Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치], [남은생산수량] 조회
      */
-    WorkInsertModalVO workInsertModalSelectAutoDataByProId(int workInsertModalProcessId);
+    WorkInsertModalVO workInsertModalSelectAutoDataByProId(int workInsertModalLotId,int workInsertModalProcessId);
 
     /**
-     * 공정번호 입력에 따른 공정명, 설비번호, 설비명, 작업위치 조회
-     * Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회
+     * 작업등록
+     * Desc: Work 의 모달창을 이용한 작업등록
      */
+    void workInsert(WorkInsertModalVO workInsertModalVO);
 
-    /**
-     * 공정번호 입력에 따른 공정명, 설비번호, 설비명, 작업위치 조회
-     * Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회
-     */
 
     /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
-
 
 
 
