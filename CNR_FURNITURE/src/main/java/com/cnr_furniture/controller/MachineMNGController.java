@@ -106,13 +106,14 @@ public class MachineMNGController {
     }
 
     /**
-     * Desc: 설비관리체크기준관리 - 체크리스트 기록 추가
+     * Desc: 설비 체크리스트 작성 - 체크리스트 기록 추가
      * 체크리스트 답변에 따라 설비 상태와 설비 가동 현황 업데이트
      * @return: machine/machineCheck
      */
     @PostMapping("/machineCheckAdd")
     @ResponseBody
-    public ResponseEntity<MachineCheckRecordVO> machineCheckRecord(@RequestBody MachineCheckRecordVO machineCheckRecordVO, RedirectAttributes rttr) {
+    public ResponseEntity<MachineCheckRecordVO> machineCheckRecord(@RequestBody MachineCheckRecordVO machineCheckRecordVO,
+                                                                   RedirectAttributes rttr) {
         // 체크리스트 기록 추가
         int rtn = machineMNGService.insertMachineCheckRecord(machineCheckRecordVO);
         rttr.addFlashAttribute("insertSuccessCount", rtn);
