@@ -5,6 +5,7 @@ import com.cnr_furniture.domain.process.*;
 import com.cnr_furniture.service.ProcessService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,29 +87,25 @@ public class ProcessController {
     /**
      * 제조 지시 정보를 데이터베이스에 등록
      *
-     * @param processVO 입력 받은 제조 지시 데이터를 담고 있는 ProcessVO 객체
-     * @param rttr 리다이렉트 시 속성을 전달할 RedirectAttributes 객체
-     * @return "redirect:manufacturingInstruction" - 제조 지시 페이지로 리다이렉트
+     * @param
+     * @param
+     * @return
      */
     @PostMapping("/manufacturingInstructionInsert")
-    public String manufacturingInstructionInsert (
-            ProcessVO processVO,
-            RedirectAttributes rttr
+    @ResponseBody
+    public ResponseEntity<?> manufacturingInstructionInsert(
+            @RequestBody List<ProcessVO> lots
     ){
-
-        int rtn = processService.insertProInstruction(
-                processVO.getIns_lot_id()
-                , processVO.getIns_item_id()
-                , processVO.getIns_emp_id()
-                , processVO.getIns_ct_id()
-                , processVO.getIns_pi_id()
-                , processVO.getIns_lot_size()
-                , processVO.getIns_start_date()
-                , processVO.getIns_end_date()
-        );
-        rttr.addFlashAttribute("insertSuccessCount", rtn);
-        return "redirect:manufacturingInstruction";
+        log.info(lots);
+        try {
+            processService.insertProInstruction(lots);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e) {
+            log.error("Error processing instruction insertion", e);
+            return new ResponseEntity<>(e.getClass().getSimpleName() + " " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
 
 

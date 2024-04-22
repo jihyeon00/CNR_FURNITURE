@@ -143,7 +143,7 @@
                         <div class="processModal">
                           <form action="./manufacturingInstructionInsert" method="post" id="insertProForm">
                             <div class="processModalBody">
-                                <table class="processtablegubun">
+                                <table class="processtablegubun" id="inputTable">
                                     <tr>
                                         <th class ="proTh" >담당사원번호</th>
                                         <td class ="proTd"><input type="text" class="processInput" id="ins_emp_id" name="ins_emp_id"></td>
@@ -162,7 +162,7 @@
                                                 <c:forEach items="${piProList}" var="pi">
                                                     <option value="${pi.pi_id}">${pi.pi_id}    ${pi.pi_name}  ( ${pi.pi_seq} )</option>
                                                 </c:forEach>
-                                            </datalist
+                                            </datalist>
                                         </td>
                                         <th class ="proTh">계획수량</th>
                                         <td class ="proTd"><input type="text" class="processInput" id="ins_lot_size" name="ins_lot_size" readonly></td>
@@ -175,9 +175,50 @@
                                     </tr>
                                 </table>
                             </div>
+                            <div class="addJejo">
+                             <a href="#" class="btn btn-primary" onclick="addRow()">추가</a>
+                             <a href="#" class="btn btn-default" onclick="submitInstructions()">등록</a>
+                           </div>
                         </div>
+                         </form>
                     </div>
                  </form>
+            <div class="row">
+                    <div class="col-md-11 maginPro">
+                        <div class="table DOsetTable">
+                          <form id="insertProForm">
+                            <table cellpadding="0" cellspacing="0" border="0" id="instructionTable">
+                                <colgroup>
+                                    <col style="width: 12%" />
+                                    <col style="width: 10%" />
+                                    <col style="width: 13%" />
+                                    <col style="width: 10%" />
+                                    <col style="width: 10%" />
+                                    <col style="width: 10%" />
+                                    <col style="width: 13%" />
+                                    <col style="width: 10%" />
+                                </colgroup>
+                                <thead class="tbl-headerPro">
+                                        <tr>
+                                            <th>담당사원번호</th>
+                                            <th>제품번호</th>
+                                            <th>제조LOT번호</th>
+                                            <th>계약번호</th>
+                                            <th>공정번호</th>
+                                            <th>계획수량</th>
+                                            <th>계획착수일</th>
+                                            <th>계획완수일</th>
+                                        </tr>
+                                    </thead>
+                                <tbody class="tbl-content" id="instructionBody">
+                                <!-- 계약 목록 데이터 -->
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div><!-- /.row -->
+
                         <form class ="formPro" id="modalSearchForm" action="/manufacturingInstruction" method="get" onsubmit="return sendFormWithAjax();">
                             <div class="InnputBody">
                                 <div class="inputmedle">
@@ -188,7 +229,7 @@
                                     <input type="date" class="processSearchInput" id="ctEndDate" name="ctEndDate"  value='<c:out value="${processDate.ctEndDate}"/>'  />
                                 </div>
                                 <div class="inputmedle1">
-                                    <button type="submit" id="prosearchbtn" class="btn btn-primary sInput">조회</button>
+                                    <button type="button" id="prosearchbtn" class="btn btn-primary sInput" <button type="submit" id="prosearchbtn" class="btn btn-primary sInput" onclick="sendFormWithAjax(event)">조회</button>
                                 </div>
                             </div>
                         </form>
@@ -201,7 +242,7 @@
                             <div class="employee">계약목록</div>
                             <div class="processIcon6"><button class="buttonSession" id="addText" ><i class="fa fa-fw fa-plus"></i></button></div>
                         </div>
-                        <div class="table DOTable">
+                        <div class="table DOTable1">
                             <table cellpadding="0" cellspacing="0" border="0" id="contractListTable">
                                 <colgroup>
                                     <col style="width: 5%" />
@@ -235,13 +276,13 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
+                            </form>
                         </div>
                     </div>
                 </div><!-- /.row -->
             </div><!-- /.modal-body -->
             <!-- 모달 바닥글 -->
             <div class="modal-footer" style="margin-right: 3%;">
-                <button type="submit" class="btn btn-primary" onClick ="insertProBox()">등록</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
             </div>
         </div><!-- /.modal-content -->

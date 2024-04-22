@@ -1,6 +1,7 @@
 package com.cnr_furniture.service;
 import com.cnr_furniture.domain.contract.ContractVO;
 import com.cnr_furniture.domain.process.*;
+import com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO;
 import com.cnr_furniture.mapper.ProcessMapper;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Log4j
 @Service
@@ -46,31 +48,16 @@ public class ProcessServiceImpl implements ProcessService{
         return processMapper.selectProCt(processDate);
     }
 
+
     /** 제조지시 등록 **/
     @Override
-    public int insertProInstruction(
-            int ins_lot_id,
-            int ins_item_id,
-            int ins_emp_id,
-            int ins_ct_id,
-            int ins_pi_id,
-            int ins_lot_size,
-            String ins_start_date,
-            String ins_end_date
-    ) {
-        ProcessVO processVO = new ProcessVO();
-        processVO.setIns_lot_id(ins_lot_id);
-        processVO.setIns_item_id(ins_item_id);
-        processVO.setIns_emp_id(ins_emp_id);
-        processVO.setIns_ct_id(ins_ct_id);
-        processVO.setIns_pi_id(ins_pi_id);
-        processVO.setIns_lot_size(ins_lot_size);
-        processVO.setIns_start_date(ins_start_date);
-        processVO.setIns_end_date(ins_end_date);
-
-        int rtn = processMapper.insertProInstruction(processVO);
-        return rtn;
+    @Transactional
+    public void insertProInstruction(List<ProcessVO> lots){
+        for (ProcessVO lot: lots) {
+            processMapper.insertProInstruction(lot);
+        }
     }
+
 
     /**
      * 주어진 ID 목록에 해당하는 계약들을 조회하여 반환

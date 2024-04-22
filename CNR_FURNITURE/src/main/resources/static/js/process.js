@@ -59,7 +59,9 @@
         }
 
     /*제조 지시 날짜 조회시 데이터 불러오는 ajax */
+
     function sendFormWithAjax() {
+
         var startDate = document.getElementById('ctStartDate').value;
         var endDate = document.getElementById('ctEndDate').value;
 
@@ -287,6 +289,77 @@ $(document).ready(function() {
 /*===================================================================================================================**/
 
 /**
+ * 제조지시 다중 INSERT
+ */
+function addRow() {
+    var empId = document.getElementById('ins_emp_id').value;
+    var itemId = document.getElementById('ins_item_id').value;
+    var lotId = document.getElementById('ins_lot_id').value;
+    var ctId = document.getElementById('ins_ct_id').value;
+    var piId = document.getElementById('ins_pi_id').value;
+    var lotSize = document.getElementById('ins_lot_size').value;
+    var startDate = document.getElementById('ins_start_date').value;
+    var endDate = document.getElementById('ins_end_date').value;
+
+
+    if (!empId || !itemId || !lotId || !ctId || !piId || !lotSize || !startDate || !endDate) {
+        alert("모든 필드를 채워주세요.");
+        return;
+    }
+
+    var tableBody = document.getElementById('instructionBody');
+    var newRow = tableBody.insertRow();
+    newRow.innerHTML = `<td>${empId}</td><td>${itemId}</td><td>${lotId}</td><td>${ctId}</td><td>${piId}</td><td>${lotSize}</td><td>${startDate}</td><td>${endDate}</td>`;
+
+
+    document.getElementById('ins_emp_id').value = '';
+    document.getElementById('ins_item_id').value = '';
+    document.getElementById('ins_lot_id').value = '';
+    document.getElementById('ins_ct_id').value = '';
+    document.getElementById('ins_pi_id').value = '';
+    document.getElementById('ins_lot_size').value = '';
+    document.getElementById('ins_start_date').value = '';
+    document.getElementById('ins_end_date').value = '';
+}
+
+function submitInstructions() {
+    var tbody = document.getElementById('instructionBody');
+    var rows = tbody.rows;
+    var instructions = [];
+
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].cells;
+        instructions.push({
+            ins_emp_id: parseInt(cells[0].textContent, 10),
+            ins_item_id: parseInt(cells[1].textContent, 10),
+            ins_lot_id: parseInt(cells[2].textContent, 10),
+            ins_ct_id: parseInt(cells[3].textContent, 10),
+            ins_pi_id: parseInt(cells[4].textContent, 10),
+            ins_lot_size: parseInt(cells[5].textContent, 10),
+            ins_start_date: cells[6].textContent,
+            ins_end_date: cells[7].textContent
+        });
+    }
+
+    $.ajax({
+        url: '/manufacturingInstructionInsert',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(instructions),
+        success: function(response) {
+            alert("제조지시 등록에 성공하셨습니다.");
+            document.getElementById('instructionBody').innerHTML = '';
+        },
+        error: function(xhr, status, error) {
+            alert("Failed to register instructions: " + xhr.responseText);
+        }
+    });
+}
+
+
+/*===================================================================================================================**/
+
+/**
  * 계약 내역서를 PDF 형태로 생성하고 다운로드
  * jsPDF 라이브러리를 사용하여 PDF 문서를 초기화하고, 맑은 고딕 폰트를 설정한 후,
  * HTML 테이블의 데이터를 PDF로 변환하여 포맷팅
@@ -441,3 +514,6 @@ function updateDateDisplay() {
     var currentDate = new Date().toLocaleDateString('ko-KR');  // 현재 날짜를 한국어 형식으로 변환
     $('.ctP').text('날짜: ' + currentDate);  // 날짜 표시 엘리먼트에 날짜 설정
 }
+
+
+
