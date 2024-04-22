@@ -137,7 +137,8 @@ public class MachineInfoController {
      */
     @PostMapping("/mcRepairCompleted")
     @ResponseBody
-    public String mcRepairCompleted(@RequestBody MachineWorkVO machineWorkVO, MachineRepairAddVO machineRepairAddVO, RedirectAttributes rttr){
+    public String mcRepairCompleted(@RequestBody MachineWorkVO machineWorkVO, MachineRepairAddVO machineRepairAddVO,
+                                    RedirectAttributes rttr){
         int mwMiId = machineWorkVO.getMw_mi_id();
 
         // 설비 관리 수리완료 버튼 클릭 시 '수리완료'로 업데이트
