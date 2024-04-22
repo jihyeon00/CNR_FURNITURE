@@ -10,21 +10,14 @@
 <!-- jquery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- fullcalendar CDN -->
-<link
-	href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css'
-	rel='stylesheet' />
-<script
-	src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+<link	href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css'	rel='stylesheet' />
+<script	src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
 <!-- fullcalendar 언어 CDN -->
-<script
-	src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+<script	src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 <!-- jQuery 및 부트스트랩 CSS 및 JavaScript 로드 -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+<link	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
 <style>
 /* body 스타일 */
@@ -230,43 +223,51 @@ let searchWorkerForm = $("#searchWorkerForm");
 		        nowIndicator: true, // 현재 시간 마크
 		        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
 		        locale: 'ko', // 한국어 설정
-		        //데이터 가져오는 이벤트
-		        events: function(fetchInfo, successCallback, failureCallback) {
-		        	console.log("들어왔다");
-		        	
-	            // AJAX 요청
-	            $.ajax({
-	                type: "GET",
-	                url: "/schedule",
-	                contentType : "application/json; charset=utf-8",    // content-type지정
-	                success: function(response) {
-	                		console.log("success들어왔다");
-	                    var events = [];
-	                    if (response != null) {
-	                        var result = response;
-	                        // 서버에서 받은 데이터로 이벤트 배열 구성
-	                        for (var i = 0; i < result.length; i++) {
-	                            events.push({
-	                                title: result[i].name,
-	                                start: result[i].start,
-	                                end: result[i].end
-	                            });
-	                        }
-	                        // 이벤트 배열을 FullCalendar에 전달하여 캘린더에 표시
-	                        successCallback(events);
-	                    } else {
-	                        // 서버 응답 오류 처리
-	                        failureCallback('Invalid response from server');
-	                    }
-	                },
-	                error: function(xhr, status, error) {
-	                    // AJAX 오류 처리
-	                    console.error('Error:', error);
-	                    failureCallback('Failed to fetch events');
-	                }
-	            });
-	        	}	      
-
+		        googleCalendarApiKey: 'AIzaSyA6uhHbduvPwhZ5zL5ENGYywIErodOs2ks',
+		        eventSources: [
+                    {
+                      googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+                      className: 'ko_event',
+                      color: 'red',
+                      //textColor: 'black'
+                    },
+			        //데이터 가져오는 이벤트
+			        function(fetchInfo, successCallback, failureCallback) {
+			        	console.log("들어왔다");
+			        	
+		            // AJAX 요청
+		            $.ajax({
+		                type: "GET",
+		                url: "/schedule",
+		                contentType : "application/json; charset=utf-8",    // content-type지정
+		                success: function(response) {
+		                		console.log("success들어왔다");
+		                    var events = [];
+		                    if (response != null) {
+		                        var result = response;
+		                        // 서버에서 받은 데이터로 이벤트 배열 구성
+		                        for (var i = 0; i < result.length; i++) {
+		                            events.push({
+		                                title: result[i].name,
+		                                start: result[i].start,
+		                                end: result[i].end
+		                            });
+		                        }
+		                        // 이벤트 배열을 FullCalendar에 전달하여 캘린더에 표시
+		                        successCallback(events);
+		                    } else {
+		                        // 서버 응답 오류 처리
+		                        failureCallback('Invalid response from server');
+		                    }
+		                },
+		                error: function(xhr, status, error) {
+		                    // AJAX 오류 처리
+		                    console.error('Error:', error);
+		                    failureCallback('Failed to fetch events');
+		                }
+		            });
+		          }
+            ]
 
 
 	        });
