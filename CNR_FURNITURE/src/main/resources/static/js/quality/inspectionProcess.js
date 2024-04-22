@@ -176,30 +176,30 @@ $(document).ready(function() {
 	function validateFields(data) {
 		if(
 			// 1행: 작업번호, 공정번호, 공정명
-			!$('#workIDForInsertModal').val() ||
-			!$('#processIDForInsertModal').val() ||
-			!$('#processNameForInsertModal').val() ||
+			!data.workID ||
+			!data.processID ||
+			!data.processName ||
 			// 2행: 제조LOT번호, 설비번호, 단위
-			!$('#lotIDForInsertModal').val() ||
-			!$('#machineIDForInsertModal').val() ||
-			!$('#unitForInsertModal').val() ||
+			!data.lotID ||
+			!data.machineID ||
+			!data.unit ||
 			// 3행: 일일총작업수량, 검사수량, 불량수량
-			!$('#dailyWorkQuantityForInsertModal').val() ||
-			!$('#inspQuantityForInsertModal').val() ||
-			!$('#dftQuantityForInsertModal').val() ||
+			!data.dailyWorkQuantity ||
+			!data.inspectionQuantity ||
+			!data.defectQuantity ||
 			// 4행: 불량유형1
-			!$('#qsDiv1ForInsertModal').val()
+			!data.qsDiv1
 		) { // 유효성 검사 실패 시, 알림 표시
-			if(!$('#workIDForInsertModal').val()) {
+			if(!data.workID) {
 			 	alert('[작업번호]를 입력하세요. 숫자만 가능합니다.');
 				$('#workIDForInsertModal').focus();
-			} else if(!$('#inspQuantityForInsertModal').val()) {
+			} else if(!data.inspectionQuantity) {
 				alert('[검사수량]를 입력하세요. 숫자만 가능합니다.');
 				$('#inspQuantityForInsertModal').focus();
-			} else if(!$('#dftQuantityForInsertModal').val()) {
+			} else if(!data.defectQuantity) {
 				alert('[불량수량]를 입력하세요. 숫자만 가능합니다.');
 				$('#dftQuantityForInsertModal').focus();
-			} else if(!$('#qsDiv1ForInsertModal').val()) {
+			} else if(!data.qsDiv1) {
 				alert('[불량유형1]를 입력하세요.');
 				$('#qsDiv1ForInsertModal').focus();
 			}
@@ -211,22 +211,17 @@ $(document).ready(function() {
 		var inspectionQuantity = parseInt($('#inspQuantityForInsertModal').val(), 10);
 		var defectQuantity = parseInt($('#dftQuantityForInsertModal').val(), 10);
 		
-		if(isNaN(dailyWorkQuantity) || isNaN(inspectionQuantity) || isNaN(defectQuantity)) {
-			alert('일일총작업수량/검사수량/불량수량에 유효한 숫자를 입력해주세요.');
-			$('#dftQuantityForInsertModal').focus();
-			return false;
-		}
 		if(dailyWorkQuantity > inspectionQuantity) {
 			alert('[검사수량]은 [일일총작업수량]보다 많을 수 없습니다.');
 			$('#inspQuantityForInsertModal').focus();
 			return false;
 		}
-		if(inspectionQuantity > defectQuantity) {
+		if(inspectionQuantity < defectQuantity) {
 			alert('[불량수량]은 [검사수량]보다 많을 수 없습니다.');
 			$('#dftQuantityForInsertModal').focus();
 			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/** [등록] 모달창 
@@ -254,7 +249,7 @@ $(document).ready(function() {
       <td class="inspectionQuantity">${data.inspectionQuantity}</td>
       
       <td class="defectQuantity">${data.defectQuantity}</td>
-      <td class="defectRate">${data.defectRate}</td>
+      <td class="defectRate">${defectRate}</td>
       <td class="goodQuantity">${data.goodQuantity}</td>
       
       <td class="qsDiv1">${data.qsDiv1}</td>
@@ -301,7 +296,7 @@ $(document).ready(function() {
 		defectQuantity = parseFloat(defectQuantity, 10);											// '10'은 10진수를 의미
 		inspectionQuantity = parseFloat(inspectionQuantity, 10);
 		if(inspectionQuantity > 0) {
-			return ((defectQuantity / inspectionQuantity) * 100).toFixed(2);	// 소수점 2번째 자리까지
+			return ((defectQuantity / inspectionQuantity) *  100).toFixed(2);	// 소수점 2번째 자리까지
 		}
 	  return "0.00"; // 검사수량이 0일 경우 불량률도 0으로 처리
 	}
@@ -334,7 +329,7 @@ $(document).ready(function() {
 	 * [등록] 모달창
 	 * - 행 삭제 및 양품수량 업데이트
 	 */
-	window.removeRow = function(data) {
+	window.removeRow = function(button) {
 		if(confirm('삭제하시겠습니까?')) {
 			$(button).closest('tr').remove();
 			updateGoodQuantities();
@@ -414,8 +409,114 @@ $(document).ready(function() {
 	
 	
 	
+	/**
+	 * [수정]] 모달창
+	 * - Ajax로 해당 행의 내용 조회
+	 */
+	$(document).on('click', '.editBtn', function() {
+		var qiID = $(this).data('qi-id');	// 수정 버튼에서 qiID 값 가져오기
+		console.log('선택된 qiID: ', qiID);
+		
+		$.ajax({
+			url: '/inspectionProcess/edit',
+			type: 'GET',
+			data: { qiID: qiID },
+			success: function(data) {
+				$('#qiID').val(qiID);	// 모달의 hidden input 필드에 qiID 설정(수정을 위해 필요함.)
+				$('#editWorkID').val(data.workID);
+				$('#editProcessID').val(data.processID);
+				$('#editProcessName').val(data.processName);
+				$('#editLotID').val(data.lotID);
+				$('#editMachineID').val(data.machineID);
+				$('#editUnit').val(data.unit);
+				$('#editDailyWorkQuantity').val(data.dailyWorkQuantity);
+				$('#editInspectionQuantity').val(data.inspectionQuantity);
+				$('#editDftQuantity').val(data.defectQuantity);
+				$('#editQsDiv1').val(data.qsDiv1);
+				$('#editQsDiv2').val(data.qsDiv2);
+				$('#editNote').val(data.note);
+      	
+      	updateQsDiv2Options(data.qsDiv1, data.qsDiv2);	// 불량유형2 option 업데이트
+      	
+      	$('#editModal').modal('show');	// 모달창 보여주기
+			},
+			error: function() {
+				console.log("수정 모달창의 데이터 조회 실패 Error", error);
+				alert('데이터를 불러오는데 실패했습니다.');
+			}
+		});
+	});
 	
+	/* 수정 - 불량유형1 변경 시, 불량유형2 동적 로드 */
+	$('#editQsDiv1').change(function() {
+		updateQsDiv2Options();
+	});
 	
+	/* 수정 - '불량유형2' 옵션을 업데이트하는 함수 */
+	function updateQsDiv2Options() {
+		var qsDiv1 = $('#editQsDiv1').val();	// 현재 선택된 '불량유형1' 값
+		var qsDiv2Select = $('#editQsDiv2');	// '불량유형2' 셀렉트 박스
+		qsDiv2Select.empty();	// 기존 옵션 비우기
+		
+		$.ajax({
+			url: '/qsDiv2ListForProcessEdit?qsDiv1=' + qsDiv1,
+			type: 'GET',
+			dataType: 'json', 
+			success: function(data) {
+				if(data && data.length > 0) {
+					data.forEach(function(item) {
+						var option = $('<option>').val(item.qsDiv2).text(item.qsDiv2);
+						qsDiv2Select.append(option);
+					});
+				} else {
+					qsDiv2Select.qppend($('<option>', {
+						value: '',
+						text: '옵션이 없습니다'
+					}));
+				}
+			} ,
+			error: function(xhr, status, error) {
+				console.log("수정 모달창 [불량유형2] option Error: ", error);
+			}
+		});
+	}
+	
+	/* 수정 - Ajax로 DB에 업데이트 */
+	$('#updateBtn').on('click', function() {
+		if(!confirm('수정하시겠습니까?')) {
+			return;	// 사용자가 '아니오'를 선택하면 함수를 종료
+		}
+		
+		// Form에서 데이터 수집
+		var formData = {
+			qiID: $('#qiID').val(),
+			qsDiv1: $('#editQsDiv1').val(),
+			qsDiv2: $('#editQsDiv2').val() || '',
+			note: $('#editNote').val() || ''
+		};
+		
+		console.log(formData);
+		
+		// Ajax 요청을 사용하여 서버에 수정 사항 전송
+		$.ajax({
+			url: '/inspectionProcess/update',	// 수정 처리를 위한 서버 URL
+			type: 'POST',	// HTTP 요청 방식
+			contentType: 'application/json',	// 요청 컨텐츠 타입
+			data: JSON.stringify(formData),		// JSON 형식으로 데이터 전송
+			success: function(response) {
+				if(response.success) {
+					alert('수정이 완료되었습니다.');
+					window.location.href = '/inspectionProcess';	// 성공 후, '/inspectionProcess' 페이지로 리다이렉트
+				} else {
+					alert('수정 실패: ' + response.message);
+				}
+			},
+			error: function(xhr, status, error) {	// 요청 실패 시
+				alert('수정 중 에러가 발생했습니다. 에러: ' + error);
+				console.error('수정 중 에러가 발생했습니다. 에러: ' + error);
+			}
+		});
+	});
 	
 	
 	

@@ -3,6 +3,7 @@ package com.cnr_furniture.service.quality.inspectionProcess;
 import com.cnr_furniture.domain.quality.inspectionProcess.CriteriaInspProcessVO;
 import com.cnr_furniture.domain.quality.inspectionProcess.InspProcessInsertVO;
 import com.cnr_furniture.domain.quality.inspectionProcess.InspProcessListVO;
+import com.cnr_furniture.domain.quality.inspectionProcess.InspProcessUpdateVO;
 import com.cnr_furniture.mapper.quality.InspectionProcessMapper;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,5 +153,41 @@ public class InspectionProcessServiceImpl implements InspectionProcessService {
                 updatedWork.put(workKey, true);             // 업데이트된 조합을 Map에 추가
             }
         }
+    }
+
+    /* [공정불량현황] - [수정] 모달창 ====================================================================================================== */
+    /**
+     * Desc: 수정 모달창 - [불량유형1] option 조회
+     */
+    @Override
+    public List<InspProcessUpdateVO> getQsDiv1ListForUpdateModal() {
+        return inspectionProcessMapper.getQsDiv1ListForUpdateModal();
+    }
+
+    /**
+     * Desc: 수정 모달창 - [불량유형1]에 따른 [불량유형2] 조회
+     */
+    @Override
+    public List<InspProcessUpdateVO> getQsDiv2ListByQsDiv1ForUpdateModal(String qsDiv1) {
+        return inspectionProcessMapper.getQsDiv2ListByQsDiv1ForUpdateModal(qsDiv1);
+    }
+
+    /**
+     * Desc: 수정 모달창 - 특정 수입검사 항목을 가져오는 메소드
+     */
+    @Override
+    public InspProcessUpdateVO getInspProcessDetailsBySeq(Long qiID) {
+        log.info("qiID" + qiID);
+        log.info("공정관리검사 수정 모달창 조회....");
+        return inspectionProcessMapper.getInspProcessDetailsBySeq(qiID);
+    }
+
+    /**
+     * Desc: 수정 모달창 - 수입검사 항목을 UPDATE 하는 메소드
+     */
+    @Override
+    public void updateInspProcess(InspProcessUpdateVO updateVO) {
+        log.info("공정관리검사 수정....");
+        inspectionProcessMapper.updateInspProcess(updateVO);
     }
 }

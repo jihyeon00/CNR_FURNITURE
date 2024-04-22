@@ -3,7 +3,7 @@ package com.cnr_furniture.service.quality.inspectionIB;
 import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
 import com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO;
 import com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO;
-import com.cnr_furniture.domain.quality.inspectionIB.InspUpdateVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspIBUpdateVO;
 
 import java.util.List;
 
@@ -69,6 +69,6 @@ public interface InspectionIBService {
     /**
      * Desc: [수입검사관리]: 수정 - 수입검사 항목을 UPDATE 하는 메소드
      */
-    void updateInspectionRecord(InspUpdateVO updateVO);
+    void updateInspectionRecord(InspIBUpdateVO updateVO);
 
 }

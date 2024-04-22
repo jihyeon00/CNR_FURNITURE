@@ -4,7 +4,7 @@ import lombok.Data;
 
 /* 수입검사관리 - 수정 시, 필요한 객체 */
 @Data
-public class InspUpdateVO {
+public class InspIBUpdateVO {
     private Long qiID;      // 수입검사번호(from QUALITY_INSPECTION 테이블)
     private String qsDiv1;  // 불량유형1(from QUALITY_STANDARD 테이블)
     private String qsDiv2;  // 불량유형2(from QUALITY_STANDARD 테이블)

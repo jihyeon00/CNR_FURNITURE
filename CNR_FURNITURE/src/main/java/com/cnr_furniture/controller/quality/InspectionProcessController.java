@@ -3,6 +3,7 @@ package com.cnr_furniture.controller.quality;
 import com.cnr_furniture.domain.quality.inspectionProcess.CriteriaInspProcessVO;
 import com.cnr_furniture.domain.quality.inspectionProcess.InspProcessInsertVO;
 import com.cnr_furniture.domain.quality.inspectionProcess.InspProcessListVO;
+import com.cnr_furniture.domain.quality.inspectionProcess.InspProcessUpdateVO;
 import com.cnr_furniture.service.quality.inspectionProcess.InspectionProcessService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,9 @@ public class InspectionProcessController {
     public String getInspectionProcessList(CriteriaInspProcessVO cri, Model model) {
         log.info("공정검사관리 페이지");
 
-        loadSearchData(cri, model); // 검색용 데이터 로드
-
+        loadSearchData(cri, model);     // 검색용 데이터 로드
+        loadModalData(cri, model);      // 등록 모달용 데이터 로드
+        loadEditModalData(cri, model);  // 수정 모달용 데이터 로드
 
         // 공정검사현황 목록 조회
         List<InspProcessListVO> inspectionProcessList = inspectionProcessService.getInspProcessList(cri);
@@ -150,6 +152,61 @@ public class InspectionProcessController {
         } catch (Exception e) {
             log.error("등록 실패, Error: {}" + e.getMessage() + e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false, "message", "등록에 실패하였습니다. 에러: ") + e.getMessage());
+        }
+    }
+
+    /* [공정불량현황] - [수정] 모달창 ====================================================================================================== */
+    /**
+     * Desc: 수정 모달창 - 모달용 데이터를 로드하는 메소드
+     * [불량유형1] - (모달용)
+     * [불량유형1]에 따른 [불량유형2] - (모달용)
+     */
+    private void loadEditModalData(CriteriaInspProcessVO cri, Model model) {
+        model.addAttribute("qsDiv1ForEditList", inspectionProcessService.getQsDiv1ListForUpdateModal());  // [불량유형1] - (모달용)
+        model.addAttribute("qsDiv2ForEditList", loadQsDiv2List(cri.getQsDiv2()));                         // [불량유형2]에 따른 [불량유형2] - (모달용)
+    }
+
+    /**
+     * Desc: [수정] 모달창 - [불량유형1]에 따른 [불량유형2] 조회
+     */
+    @GetMapping("/qsDiv2ListForProcessEdit")
+    @ResponseBody
+    public List<InspProcessUpdateVO> getQsDiv2ListByQsDiv1ForUpdateModal(
+            @RequestParam("qsDiv1") String qsDiv1
+    ) {
+        return inspectionProcessService.getQsDiv2ListByQsDiv1ForUpdateModal(qsDiv1);
+    }
+
+    /**
+     * Desc: 수정 모달창 - 특정 수입검사 항목을 가져오는 메소드
+     * @return: /inspectionProcess/edit
+     */
+    @GetMapping("/inspectionProcess/edit")
+    @ResponseBody
+    public InspProcessUpdateVO getInspProcessForEdit(@RequestParam("qiID") Long qiID) {
+        log.info("수정을 위한 qiID: " + qiID);
+        InspProcessUpdateVO inspectionDetails = inspectionProcessService.getInspProcessDetailsBySeq(qiID);
+        if(inspectionDetails == null) {
+            log.warn("정보를 찾지 못함. qiID: " + qiID);
+        }
+        return inspectionDetails;
+    }
+
+    /**
+     * Desc: 수정 모달창 - 수정된 데이터 저장
+     * @param: updateVO - 업데이트할 데이터를 담은 VO 객체
+     * @return: ResponseEntity - 업데이트 성공 여부와 메시지를 담은 HTTP 응답
+     */
+    @PostMapping("/inspectionProcess/update")
+    public ResponseEntity<?> updateInspectionDetails(@RequestBody InspProcessUpdateVO updateVO) {
+        try {
+            log.info("수정될 내용: " + updateVO);
+            log.info("수정할 qiID: " + updateVO.getQiID());
+            return ResponseEntity.ok().body(Map.of("success", true, "message", "업데이트가 성공적으로 완료되었습니다."));
+        } catch(Exception e) {
+            log.error("수정 실패: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("success", false, "message", "업데이트 실패: " + e.getMessage()));
         }
     }
 

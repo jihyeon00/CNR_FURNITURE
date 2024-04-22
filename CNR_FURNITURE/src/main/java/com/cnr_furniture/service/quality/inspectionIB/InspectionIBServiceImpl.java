@@ -3,7 +3,7 @@ package com.cnr_furniture.service.quality.inspectionIB;
 import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
 import com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO;
 import com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO;
-import com.cnr_furniture.domain.quality.inspectionIB.InspUpdateVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspIBUpdateVO;
 import com.cnr_furniture.mapper.quality.*;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,7 +155,7 @@ public class InspectionIBServiceImpl implements InspectionIBService{
      * Desc: [수입검사관리]: 수정
      */
     @Override
-    public void updateInspectionRecord(InspUpdateVO updateVO) {
+    public void updateInspectionRecord(InspIBUpdateVO updateVO) {
         log.info("수입관리검사 수정....");
         inspectionIBMapper.updateInspectionRecord(updateVO);
     }
