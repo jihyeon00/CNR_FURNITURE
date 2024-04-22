@@ -28,7 +28,7 @@ public interface ProcessMapper {
     List<ProcessCtVO> selectProCt(ProcessDate processDate);
 
     /** 제조지시 등록 **/
-    int insertProInstruction(ProcessVO processVO);
+    void insertProInstruction(ProcessVO processVO);
 
     /** 제조지시: 계약 내역 조회 **/
     List<ContractVO> selectArrayCt(List<String> ids);

@@ -23,16 +23,7 @@ public interface ProcessService {
     List<ProcessCtVO> findAllProCt(ProcessDate processDate);
 
     /** 제조지시 등록 **/
-    int insertProInstruction(
-             int ins_lot_id,
-             int ins_item_id,
-             int ins_emp_id,
-             int ins_ct_id,
-             int ins_pi_id,
-             int ins_lot_size,
-             String ins_start_date,
-             String ins_end_date
-    );
+    void insertProInstruction(List<ProcessVO> lots);
 
     /** 제조지시: 계약 내역 조회 **/
     List<ContractVO> selectArrayCt(List<String> ids);
