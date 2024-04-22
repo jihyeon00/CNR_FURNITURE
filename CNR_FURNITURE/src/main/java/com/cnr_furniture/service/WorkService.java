@@ -50,6 +50,23 @@ public interface WorkService {
     /** Desc: work의 작업자 조회 */
     List<WorkerVO> getWorker(WorkSearchVO workSearchVO);
 
+    /* [work.jsp 의 작업등록 모달창] ============================================================== */
+    /**  Desc: work 의 작업등록 모달창 중 [로트번호] 입력에 따른 [공정번호]  */
+    List<WorkInsertModalVO> getProIdByLotId(int workInsertModalLotId);
+
+    /** Desc: work 의 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회 */
+    WorkInsertModalVO getAutoDataByLotId(int workInsertModalLotId);
+
+    /** Desc: work 의 작업등록 모달창의 [공정번호] 선택에 따른 [공정명], [설비번호], [설비명], [작업위치] 조회 */
+    WorkInsertModalVO getAutoDataByProId(int workInsertModalProcessId);
+
+
+    /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
+
+
+
+
+
     /* [work.jsp 의 자재투입 모달창] ============================================================== */
     /**
      * Desc: work 자재투입 모달창의 로트번호에 따른 공정번호 조회
