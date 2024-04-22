@@ -85,49 +85,49 @@
         <![CDATA[
         SELECT
             ROWNUM AS listSeq
-            , T."WORK_ID" as workID
-            , T."PRO_LOT_ID" as lotID
-            , T."MI_ID" as machineID
-            , T."PI_ID" as processID
-            , T."PI_NAME" as processName
-            , T."CT_UNIT" as unit
-            , T."ITEM_QUANTITY" as dailyWorkQuantity
-            , T."INSPECTION_QUANTITY" as inspectionQuantity
-            , T."DFT_QUANTITY" as defectQuantity
-            , T."DEFECT_RATE" as defectRate
-            , T."PASSED_QUANTITY" as goodQuantity
-            , T."DF_DIV1" as qsDiv1
-            , T."DF_DIV2" as qsDiv2
-            , T."INSPECTION_DATE" as inspectionDate
-            , T."NOTE" as note
+            , T."QI_ID" as qiID
+            , T.QI_WORK_ID as workID
+            , T.QI_PRO_LOT_ID as lotID
+            , T.PI_MACHINE_ID as machineID
+            , T.QI_PI_ID as processID
+            , T.PI_NAME as processName
+            , T.CT_UNIT as unit
+            , T.W_ITEM_QUANTITY as dailyWorkQuantity
+            , T.QI_INSPECTION_QUANTITY as inspectionQuantity
+            , T.QI_DFT_QUANTITY as defectQuantity
+            , T.defectRate as defectRate
+            , T.QI_PASSED_QUANTITY as goodQuantity
+            , T.QS_DF_DIV1 as qsDiv1
+            , T.QS_DF_DIV2 as qsDiv2
+            , T.inspectionDate as inspectionDate
+            , T.QI_NOTE as note
         FROM (
-            SELECT
-                qi.QI_WORK_ID AS "WORK_ID"
-                , qi.QI_PRO_LOT_ID AS "PRO_LOT_ID"
-                , mi.MI_ID AS "MI_ID"
-                , qi.QI_PI_ID AS "PI_ID"
-                , pi2.PI_NAME AS "PI_NAME"
-                , ct.CT_UNIT AS "CT_UNIT"
-                , w.W_ITEM_QUANTITY AS "ITEM_QUANTITY"
-                , qi.QI_INSPECTION_QUANTITY AS "INSPECTION_QUANTITY"
-                , qi.QI_DFT_QUANTITY AS "DFT_QUANTITY"
-                , (qi.QI_DFT_QUANTITY / NULLIF(qi.QI_INSPECTION_QUANTITY, 0) * 100) AS "DEFECT_RATE"
-                , qi.QI_PASSED_QUANTITY AS "PASSED_QUANTITY"
-                , qs.QS_DF_DIV1 AS "DF_DIV1"
-                , qs.QS_DF_DIV2 AS "DF_DIV2"
-                , TO_CHAR(qi.QI_DATE, 'yyyy-mm-dd') AS "INSPECTION_DATE"
-                , qi.QI_NOTE AS "NOTE"
-                , ROW_NUMBER() OVER (PARTITION BY qi.QI_WORK_ID ORDER BY qi.QI_DATE DESC) AS rn
-            FROM QUALITY_INSPECTION qi
-                JOIN PROCESS_INFO pi2 ON qi.QI_PI_ID = pi2.PI_ID
-                JOIN WORK w ON qi.QI_WORK_ID = w.W_ID
-                JOIN MACHINE_INFO mi ON pi2.PI_MACHINE_ID = mi.MI_ID
-                LEFT JOIN QUALITY_STANDARD qs ON qi.QI_QS_ID = qs.QS_ID
-                JOIN INSTRUCTION ins ON w.W_LOT_ID = ins.INS_LOT_ID
-                JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID AND ct.CT_DIV = '수주'
-            ORDER BY INSPECTION_DATE DESC
-        ) T
-        WHERE T.rn = 1
+                SELECT DISTINCT
+                qi.QI_ID as "QI_ID"
+                , qi.QI_WORK_ID
+                , qi.QI_PRO_LOT_ID
+                , pi2.PI_MACHINE_ID
+                , qi.QI_PI_ID
+                , pi2.PI_NAME
+                , w.W_ITEM_QUANTITY
+                , qi.QI_INSPECTION_QUANTITY
+                , qi.QI_DFT_QUANTITY
+                , (qi.QI_DFT_QUANTITY / NULLIF(qi.QI_INSPECTION_QUANTITY, 0) * 100) AS defectRate
+                , qi.QI_PASSED_QUANTITY
+                , qs.QS_DF_DIV1
+                , qs.QS_DF_DIV2
+                , TO_CHAR(qi.QI_DATE, 'YYYY-MM-DD') AS inspectionDate
+                , qi.QI_NOTE
+                , ct.CT_UNIT
+            FROM
+                QUALITY_INSPECTION qi
+            JOIN PROCESS_INFO pi2 ON pi2.PI_ID = qi.QI_PI_ID
+            JOIN WORK w ON w.W_ID = qi.QI_WORK_ID
+            JOIN QUALITY_STANDARD qs ON qs.QS_ID = qi.QI_QS_ID
+            JOIN INSTRUCTION ins ON ins.INS_LOT_ID = w.W_LOT_ID
+            JOIN CONTRACT ct ON ct.CT_ID = ins.INS_CT_ID
+            ORDER BY qi.QI_ID DESC
+            ) T
     ]]>
         <if test="lotID != null and lotID != ''">
             and PRO_LOT_ID = #{lotID}
@@ -154,7 +154,7 @@
 
     <!-- [공정불량현황] - [등록] 모달창 ====================================================================================================== -->
     <!-- 등록 모달창 - [불량유형1] option 조회 -->
-    <!-- 모든 목록이 ID 오름차순으로 중복없이 조회 -->
+    <!-- 모든 목록(불량유형1)이 ID 오름차순으로 중복없이 조회 -->
     <select id="getQsDiv1ForInsertModal" resultType="com.cnr_furniture.domain.quality.inspectionProcess.InspProcessInsertVO">
         SELECT
             qs.QS_DF_DIV1 AS qsDiv1
@@ -193,9 +193,10 @@
         FROM
             WORK w
         WHERE
-            w.W_QI_ID IS NULL
+            w.W_DFT_QUANTITY = 0
             AND w.W_STATUS = '작업종료'
-        ORDER BY w.W_ID
+        ORDER BY
+            w.W_ID
     </select>
 
     <!-- 등록 모달창 - [작업번호]에 따른 공정정보 조회 및 input 담음 -->
@@ -286,6 +287,85 @@
         WHERE
             W_ID = #{workID}
             AND W_DFT_QUANTITY IS NULL
+    </update>
+
+    <!-- [공정불량수정] - 모달창 ====================================================================================================== -->
+    <!-- 수정 모달창 - [불량유형1] 조회 -->
+    <select id="getQsDiv1ListForUpdateModal" resultType="com.cnr_furniture.domain.quality.inspectionProcess.InspProcessUpdateVO">
+        SELECT
+            qs.QS_DF_DIV1 AS qsDiv1
+        FROM
+            QUALITY_STANDARD qs
+            INNER JOIN (
+                SELECT
+                    MIN(QS_ID) AS MinQS_ID,
+                    QS_DF_DIV1
+                FROM
+                    QUALITY_STANDARD
+                GROUP BY
+                    QS_DF_DIV1
+            )
+            grouped_qs ON qs.QS_ID = grouped_qs.MinQS_ID
+        ORDER BY
+            qs.QS_ID ASC
+    </select>
+
+    <!-- 수정 모달창 - [불량유형1]에 따른 [불량유형2] 조회 -->
+    <select id="getQsDiv2ListByQsDiv1ForUpdateModal" parameterType="string"
+            resultType="com.cnr_furniture.domain.quality.inspectionProcess.InspProcessUpdateVO">
+        SELECT
+            DISTINCT qs.QS_DF_DIV2 AS qsDiv2
+        FROM
+            QUALITY_STANDARD qs
+        WHERE
+            QS_DF_DIV1 = #{qsDiv1}
+    </select>
+
+    <!-- 수정 모달창 - 모달창 내용 조회 -->
+    <select id="getInspProcessDetailsBySeq" resultType="com.cnr_furniture.domain.quality.inspectionProcess.InspProcessUpdateVO"
+            parameterType="long">
+        SELECT DISTINCT
+            qi.QI_WORK_ID as workID
+            , qi.QI_PI_ID as processID
+            , PI2.PI_NAME as processName
+            , qi.QI_PRO_LOT_ID as lotID
+            , pi2.PI_MACHINE_ID as machineID
+            , ct.CT_UNIT as unit
+            , w.W_ITEM_QUANTITY as dailyWorkQuantity
+            , qi.QI_INSPECTION_QUANTITY as inspectionQuantity
+            , qi.QI_DFT_QUANTITY as defectQuantity
+            , qs.QS_DF_DIV1 as qsDiv1
+            , qs.QS_DF_DIV2 as qsDiv2
+            , qi.QI_NOTE as note
+        FROM
+            QUALITY_INSPECTION qi
+            JOIN PROCESS_INFO pi2 ON pi2.PI_ID = qi.QI_PI_ID
+            JOIN "WORK" w ON w.W_ID = qi.QI_WORK_ID
+            JOIN QUALITY_STANDARD qs ON qs.QS_ID = qi.QI_QS_ID
+            JOIN INSTRUCTION i ON i.INS_LOT_ID = w.W_LOT_ID
+            JOIN CONTRACT ct ON ct.CT_ID = i.INS_CT_ID
+        WHERE
+            qi.QI_ID = #{qiID}
+    </select>
+
+    <!-- 수정 모달창 - 정보 업데이트 -->
+    <update id="updateInspProcess" parameterType="com.cnr_furniture.domain.quality.inspectionProcess.InspProcessUpdateVO">
+        UPDATE
+            QUALITY_INSPECTION
+        SET
+        QI_QS_ID = (
+                    SELECT qs.QS_ID
+                    FROM QUALITY_STANDARD qs
+                    WHERE qs.QS_DF_DIV1 = #{qsDiv1}
+                    <if test="qsDiv2 != null and qsDiv2 != ''">
+                        AND qs.QS_DF_DIV2 = #{qsDiv2}
+                    </if>
+                    )
+        <if test="note != null and note != ''">
+            , QI_NOTE = #{note}
+        </if>
+        WHERE
+            QI_ID = #{qiID}
     </update>
 
 </mapper>

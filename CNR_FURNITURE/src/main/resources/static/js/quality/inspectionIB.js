@@ -254,18 +254,18 @@ $(document).ready(function() {
 	
 	/* 목록(Table)에 데이터(행) 추가하는 함수 */
   function addToInspectionList(data) {
-		// 테이블
-		var table = $('.newInspList tbody');
-		// 불량률 계산
-		var defectRate = calculateDefectRate(data.poorQuantity, data.inspectionQuantity);
-		
-		// 테이블 행 추가
-		// [주의]: data.컬럼명의 '컬럼명'은 collectDataFromModal() 함수의 컬럼명과 일치시킬 것.
-		var newRow = `<tr>
-			<td class="listSeq">${table.children().length + 1}</td>						// 추가된 목록 번호
-			<td class="materialID">${data.materialID}</td>										// 자재ID
-			<td class="materialName">${data.materialName}</td>								// 자재명
-			<td class="materialUses">${data.materialUses}</td>								// 자재용도
+	// 테이블
+	var table = $('.newInspList tbody');
+	// 불량률 계산
+	var defectRate = calculateDefectRate(data.poorQuantity, data.inspectionQuantity);
+	
+	// 테이블 행 추가
+	// [주의]: data.컬럼명의 '컬럼명'은 collectDataFromModal() 함수의 컬럼명과 일치시킬 것.
+	var newRow = `<tr>
+		<td class="listSeq">${table.children().length + 1}</td>						// 추가된 목록 번호
+		<td class="materialID">${data.materialID}</td>										// 자재ID
+		<td class="materialName">${data.materialName}</td>								// 자재명
+		<td class="materialUses">${data.materialUses}</td>								// 자재용도
       <td class="contractID">${data.contractID}</td>										// 계약ID
       <td class="companyName">${data.companyName}</td>									// 거래처명
       <td class="unit">${data.unit}</td>																// 단위

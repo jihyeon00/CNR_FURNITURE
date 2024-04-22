@@ -3,6 +3,7 @@ package com.cnr_furniture.service.quality.inspectionProcess;
 import com.cnr_furniture.domain.quality.inspectionProcess.CriteriaInspProcessVO;
 import com.cnr_furniture.domain.quality.inspectionProcess.InspProcessInsertVO;
 import com.cnr_furniture.domain.quality.inspectionProcess.InspProcessListVO;
+import com.cnr_furniture.domain.quality.inspectionProcess.InspProcessUpdateVO;
 
 import java.util.List;
 
@@ -75,4 +76,24 @@ public interface InspectionProcessService {
      */
     void registerInspectionProcess(List<InspProcessInsertVO> items);
 
+    /* [공정불량현황] - [수정] 모달창 ====================================================================================================== */
+    /**
+     * Desc: 수정 모달창 - [불량유형1] option 조회
+     */
+    List<InspProcessUpdateVO> getQsDiv1ListForUpdateModal();
+
+    /**
+     * Desc: 수정 모달창 - [불량유형1]에 따른 [불량유형2] 조회
+     */
+    List<InspProcessUpdateVO> getQsDiv2ListByQsDiv1ForUpdateModal(String qsDiv1);
+
+    /**
+     * Desc: 수정 모달창 - 특정 수입검사 항목을 가져오는 메소드
+     */
+    InspProcessUpdateVO getInspProcessDetailsBySeq(Long qiID);
+
+    /**
+     * Desc: 수정 모달창 - 수입검사 항목을 UPDATE 하는 메소드
+     */
+    void updateInspProcess(InspProcessUpdateVO updateVO);
 }

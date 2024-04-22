@@ -3,7 +3,7 @@ package com.cnr_furniture.controller.quality;
 import com.cnr_furniture.domain.quality.inspectionIB.CriteriaInspIBVO;
 import com.cnr_furniture.domain.quality.inspectionIB.InspIBInsertVO;
 import com.cnr_furniture.domain.quality.inspectionIB.InspIBListVO;
-import com.cnr_furniture.domain.quality.inspectionIB.InspUpdateVO;
+import com.cnr_furniture.domain.quality.inspectionIB.InspIBUpdateVO;
 import com.cnr_furniture.service.quality.inspectionIB.InspectionIBService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,7 +183,7 @@ public class InspectionIBController {
      */
     @PostMapping("/inspectionIB/update")
     public ResponseEntity<?> updateInspectionDetails(
-            @RequestBody InspUpdateVO updateVO
+            @RequestBody InspIBUpdateVO updateVO
     ) {
         try {
             log.info("수정될 내용: " + updateVO);

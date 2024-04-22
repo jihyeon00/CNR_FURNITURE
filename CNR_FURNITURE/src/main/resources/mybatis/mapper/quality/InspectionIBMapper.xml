@@ -277,7 +277,7 @@
     </select>
 
     <!-- 수입검사 정보 업데이트 -->
-    <update id="updateInspectionRecord" parameterType="com.cnr_furniture.domain.quality.inspectionIB.InspUpdateVO">
+    <update id="updateInspectionRecord" parameterType="com.cnr_furniture.domain.quality.inspectionIB.InspIBUpdateVO">
         UPDATE
             QUALITY_INSPECTION
         SET
