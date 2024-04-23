@@ -271,7 +271,7 @@ public class WorkController {
      * Desc: Work 의 작업 수정 시 [작업 테이블, 제조수행 테이블, 설비작동 테이블] 데이터 수정
      * @param workDetailModalVO 작업목록 클라이언트로부터 파라미터를 요청받아 수정할 수 있는 객체를 담은 VO
      */
-    @RequestMapping(value = "/workDetailModalUpdate", method = RequestMethod.POST)
+    @RequestMapping(value = "/M/process/workDetailModalUpdate", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> workDetailModalUpdate(
             @RequestBody WorkDetailModalVO workDetailModalVO
@@ -292,7 +292,7 @@ public class WorkController {
      * Desc:  Work 의 작업상세 - 모달창을 이용한 작업 삭제 - [작업테이블]
      * @param workDetailModalWorkId 작업상세 클라이언트로부터 값을 받아옴
      */
-    @PostMapping("/workDetailDelete")
+    @PostMapping("/M/process/workDetailDelete")
     @ResponseBody
     public ResponseEntity<?> workDetailDelete(
             @RequestParam int workDetailModalWorkId
