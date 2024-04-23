@@ -1,12 +1,12 @@
 package com.cnr_furniture.config;
 
 import com.cnr_furniture.config.auth.CustomAuthFailureHandler;
+import com.cnr_furniture.config.auth.CustomAuthSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -21,14 +21,18 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
   @Bean
-  public static CustomAuthFailureHandler customAuthFailureHandler() {
+  public static CustomAuthFailureHandler FailureHandler() {
     return new CustomAuthFailureHandler();
+  }
+  @Bean
+  public CustomAuthSuccessHandler SuccessHandler() {
+    return new CustomAuthSuccessHandler("/");
   }
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-      .csrf(AbstractHttpConfigurer::disable)
+      .csrf(csrf -> csrf.disable())
       .authorizeHttpRequests(requests -> requests
         // 모두 접근
         .requestMatchers("/login", "/PasswordChange").permitAll()
@@ -60,15 +64,15 @@ public class SecurityConfig {
         .loginProcessingUrl("/login")
         .usernameParameter("email")	          // login 에 필요한 id 값을 email 로 설정 (default 는 username)
         .passwordParameter("password")	      // login 에 필요한 password 값을 password(default)로 설정
-        .failureHandler(customAuthFailureHandler()) /* 로그인 실패 핸들러 */
-        .defaultSuccessUrl("/", true)
+        .failureHandler(FailureHandler())     /* 로그인 실패 핸들러 */
+        .successHandler(SuccessHandler())     /* 로그인 성공 핸들러 */
+//         .defaultSuccessUrl("/", true)
         .permitAll()
       )
       .logout(logout -> logout
         .logoutSuccessUrl("/login")
         .permitAll()
-      )
-      .exceptionHandling().accessDeniedPage("/error.jsp");
+      );
     return http.build();
   }
 }

@@ -4,6 +4,7 @@ import com.cnr_furniture.domain.member.MemberVO;
 import com.cnr_furniture.domain.member.MemberSearch;
 import com.cnr_furniture.domain.member.PassWordVO;
 import com.cnr_furniture.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -27,13 +28,16 @@ public class MemberController {
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   /**
-   * Desc: 로그인 페이지
+   * Desc: 로그인 실행 페이지
    * @return 로그인 view page
    */
-  @GetMapping("/login")
+  @GetMapping(path = {"/login"})
   public String login(@RequestParam(value = "error", required = false) String error,
                       @RequestParam(value = "exception", required = false) String exception,
-                      Model model) {
+                      Model model,HttpServletRequest request) {
+    // 이전페이지 URL 추출
+    String referrer = request.getHeader("Referer");
+    request.getSession().setAttribute("prevPage", referrer);
     model.addAttribute("error", error);
     model.addAttribute("exception", exception);
     return "member/login";
@@ -89,8 +93,6 @@ public class MemberController {
    */
   @GetMapping("/M/member/memberRole")
   public String memberRole(MemberSearch search, Model model) {
-//    String Role = memberVO.getRole();
-//    if (Role == 'Role_Staff')
     // 검색창
     model.addAttribute("search", search);
     // 직원 목록
