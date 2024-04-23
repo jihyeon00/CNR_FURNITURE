@@ -22,7 +22,13 @@
             E_PH,
             E_PWD,
             E_DP_NAME,
-            E_ROLE
+            E_ROLE,
+        CASE
+            WHEN e_role = 'ROLE_Director' THEN '디렉터'
+            WHEN e_role = 'ROLE_Manager' THEN '매니저'
+            WHEN e_role = 'ROLE_Staff' THEN '사원'
+            ELSE e_role
+        END AS e_role_kr
     FROM    EMPLOYEE
     WHERE   E_EMAIL = #{email}
   </select>

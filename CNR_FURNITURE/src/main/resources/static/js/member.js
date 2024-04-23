@@ -1,13 +1,44 @@
   // 권한선택 value 값 '' 주기
   $(document).ready(function() {
     $('#find_Role:option[value="권한선택"]').val('');
-//      $("#find_Role:[value='권한선택']").val('');
   });
+  // 권한 조회 함수
+  function getUserRole() {
+    var userRole = store.getState().userRole;
+    return userRole;
+  }
+
+  // 권한에 따라 버튼
+  $(document).ready(function() {
+    // 사원의 역할을 가져옵니다. (예: "매니저" 또는 "디렉터")
+    var role = getUserRole(); // 사용자 권한을 가져오는 함수 (추가적으로 구현 필요)
+    // 버튼을 선택합니다.
+    var button = $("#roleUp");
+
+    // 역할에 따라 버튼을 제어합니다.
+    if (role === "ROLE_Manager") {
+      // 매니저 역할인 경우 버튼을 비활성화합니다.
+      // button.prop("disabled", true);
+      // 또는 버튼을 숨길 수도 있습니다.
+       button.hide();
+    } else if (role === "ROLE_Director") {
+      // 디렉터 역할인 경우 버튼을 활성화합니다.
+      // button.prop("disabled", false);
+      // 또는 버튼을 보여줍니다.
+       button.show();
+    }
+  });
+
+
 
   /** 권한변경 **/
   function checkboxArr() {
     // 배열 선언
     var checkArr = [];
+    var role = getUserRole();
+    console.log(role);
+//    if (role = )
+
     if($('.list-checkBox:checked').length<1) {
       alert('권한 변경할 사원을 체크해주세요');
     } else {

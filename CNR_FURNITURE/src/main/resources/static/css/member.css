@@ -204,4 +204,14 @@
   height: 40px;
 }
 
-
+/* 403 에러페이지 */
+.headline.text-yellow.text-alert{
+  margin-top: -30px;
+}
+.error-content.text-area {
+  width: 500px;
+}
+.error-content.text-area .text-alert {
+  width: 500px;
+  margin-top: 100px;
+}
