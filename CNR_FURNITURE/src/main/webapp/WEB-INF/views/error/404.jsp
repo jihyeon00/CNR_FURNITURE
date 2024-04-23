@@ -4,7 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
 <!DOCTYPE html>
 <html>
  <head>
@@ -46,7 +45,6 @@
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication property="principal.memberVO.name" var="e_name" />
-    <sec:authentication property="principal.memberVO.dp_name" var="dp_name" />
     <sec:authentication property="principal.memberVO.role" var="e_role"/>
 </sec:authorize>
 
@@ -71,27 +69,27 @@
     <ul class="navbar-nav ml-auto">
       <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600">
-                  <sec:authentication property="principal.memberVO.dp_name" />
-                  <c:out value="${e_name}"/> 님
-                </span>
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="mr-2 d-none d-lg-inline text-gray-600">
+              <sec:authentication property="principal.memberVO.dp_name" />
+              <c:out value="${e_name}"/> 님
+            </span>
+          </a>
+          <!-- Dropdown - User Information -->
+          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+              aria-labelledby="userDropdown">
+            <!--
+            <a class="dropdown-item" href="/member">
+              <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+              Profile
             </a>
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="userDropdown">
-                <!--
-                <a class="dropdown-item" href="/member">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
-                </a>
-                -->
-                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </a>
-            </div>
+            -->
+            <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
+                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                Logout
+            </a>
+          </div>
         </li>
     </ul>
   </nav>
@@ -123,17 +121,17 @@
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="bom" class="nav-link">
+                <a href="http://localhost:8085/M/standardInfo/bom" class="nav-link">
                   <p>BOM관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="itemInfo" class="nav-link">
+                <a href="http://localhost:8085/standardInfo/itemInfo" class="nav-link">
                   <p>제품정보관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="materialInfo" class="nav-link">
+                <a href="http://localhost:8085/standardInfo/materialInfo" class="nav-link">
                   <p>자재정보관리</p>
                 </a>
               </li>
@@ -143,7 +141,7 @@
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="http://localhost:8085/standardInfo/contractInfo" class="nav-link">
+                <a href="http://localhost:8085/M/standardInfo/contractInfo" class="nav-link">
                   <p>계약관리</p>
                 </a>
               </li>
@@ -158,12 +156,12 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item sideBarSub">
-                <a href="productionStatus" class="nav-link">
+                <a href="http://localhost:8085/production/productionStatus" class="nav-link">
                   <p>생산현황</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="machineOperationStatusByProcess" class="nav-link">
+                <a href="http://localhost:8085/M/production/machineOperationStatusByProcess" class="nav-link">
                   <p>공정별 설비가동현황</p>
                 </a>
               </li>
@@ -178,13 +176,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item sideBarSub">
-                <a href="materialIB" class="nav-link">
+                <a href="http://localhost:8085/inventory/materialIB" class="nav-link">
                   <p>자재재고조회</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="materialOB" class="nav-link">
-                  <p>제품재고조</p>
+                <a href="http://localhost:8085/inventory/materialOB" class="nav-link">
+                  <p>제품재고조회</p>
                 </a>
               </li>
             </ul>
@@ -198,37 +196,37 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item sideBarSub">
-                <a href="manufacturingInstruction" class="nav-link">
+                <a href="http://localhost:8085/D/process/manufacturingInstruction" class="nav-link">
                   <p>제조지시</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="manufacturingPerform" class="nav-link">
+                <a href="http://localhost:8085/M/process/manufacturingPerform" class="nav-link">
                   <p>제조수행지시</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="processInfo" class="nav-link">
+                <a href="http://localhost:8085/D/process/processInfo" class="nav-link">
                   <p>공정정보관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="workerManagement" class="nav-link">
+                <a href="http://localhost:8085/D/process/workerManagement" class="nav-link">
                   <p>작업자스케줄조회</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="workerManagement" class="nav-link">
+                <a href="http://localhost:8085/M/process/workerInsert" class="nav-link">
                   <p>작업자관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="work" class="nav-link">
+                <a href="http://localhost:8085/M/process/work" class="nav-link">
                   <p>작업관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="todayWorkInsert" class="nav-link">
+                <a href="http://localhost:8085/process/todayWorkInsert" class="nav-link">
                   <p>당일작업조회</p>
                 </a>
               </li>
@@ -243,27 +241,27 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item sideBarSub">
-                <a href="inspectionIB" class="nav-link">
+                <a href="http://localhost:8085/M/quality/inspectionIB" class="nav-link">
                   <p>수입검사관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="inspectionProcess" class="nav-link">
+                <a href="http://localhost:8085/M/quality/inspectionProcess" class="nav-link">
                   <p>공정검사관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="inspectionOB" class="nav-link">
+                <a href="http://localhost:8085/M/quality/inspectionOB" class="nav-link">
                   <p>출하검사관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="defectiveProcess" class="nav-link">
+                <a href="http://localhost:8085/quality/defectiveProcess" class="nav-link">
                   <p>공정불량실적</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="defectiveItem" class="nav-link">
+                <a href="http://localhost:8085/quality/defectiveItem" class="nav-link">
                   <p>제품불량실적</p>
                 </a>
               </li>
@@ -278,32 +276,32 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item sideBarSub">
-                <a href="machineInfo" class="nav-link">
+                <a href="http://localhost:8085/machine/machineInfo" class="nav-link">
                   <p>설비정보관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="machineCheckInfo" class="nav-link">
+                <a href="http://localhost:8085/M/machine/machineCheckInfo" class="nav-link">
                   <p>설비체크기준관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="machineCheck" class="nav-link">
+                <a href="http://localhost:8085/machine/machineCheck" class="nav-link">
                   <p>설비 체크리스트 작성</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="machineManagement" class="nav-link">
+                <a href="http://localhost:8085/Mmachine/machineManagement" class="nav-link">
                   <p>설비관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="machineRepair" class="nav-link">
+                <a href="http://localhost:8085/Mmachine/machineRepair" class="nav-link">
                   <p>설비수리이력관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="machineOperationStatus" class="nav-link">
+                <a href="http://localhost:8085/Mmachine/machineOperationStatus" class="nav-link">
                   <p>설비가동현황</p>
                 </a>
               </li>
