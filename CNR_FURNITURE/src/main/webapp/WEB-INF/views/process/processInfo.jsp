@@ -241,7 +241,7 @@
                 <!-- 모달 바닥글 -->
                 <div class="modal-footer" style="margin-right: 3%;">
                     <button type="submit" class="btn btn-primary" onClick="insertProjectBox()">공정등록</button>
-                    <button type="button" id="prosearchbtn" class="btn btn-info"> <a href="./machine/machineInfo" style="color: fff;">설비수정</a></button>
+                    <button type="button" id="prosearchbtn" class="btn btn-info"> <a href="http://localhost:8085/machine/machineInfo" style="color: fff;">설비수정</a></button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
                 </div>
             </div><!-- /.modal-content -->
