@@ -29,7 +29,7 @@ public class ScheduleController {
      * Desc:  작업자관리 목록
      * @return "process/workerManagement"
      */
-    @GetMapping("/workerManagement")
+    @GetMapping("/D/process/workerManagement")
     public String workerManagement(ScheduleSearch scheduleSearch, Model model
     ) {
         List<ScheduleVO> workerList = scheduleService.getWorkerList(scheduleSearch);
