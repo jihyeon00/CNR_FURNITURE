@@ -29,7 +29,7 @@ public class MachineMNGController {
      * Desc: 설비관리체크기준관리 - 체크리스트 리스트 가져오기 & 검색
      * @return: machine/machineCheckInfo
      */
-    @GetMapping("/machineCheckInfo")
+    @GetMapping("/M/machine/machineCheckInfo")
     public String machineCheckInfo(SearchMachineCheckVO searchMachineCheckVO, Model model) {
         // 체크리스트 가져오기
         List<MachineCheckVO> machineCheckVOList = machineMNGService.getMachineCheckList(searchMachineCheckVO);
@@ -53,7 +53,7 @@ public class MachineMNGController {
      * Desc: 설비관리체크기준관리 - 모달에서 체크리스트 등록
      * @return: machine/machineCheckInfo
      */
-    @PostMapping("/machineCheckInfo")
+    @PostMapping("/M/machine//machineCheckInfo")
     @ResponseBody
     public MachineCheckVO insertMachineCheck(
             @RequestBody MachineCheckVO machineCheckVO,
@@ -81,7 +81,7 @@ public class MachineMNGController {
      * Desc: 설비 체크리스트 작성 - 선택한 설비명의 설비 ID에 맞는 체크리스트 보여주기
      * @return: machine/machineCheck
      */
-    @GetMapping("/machineCheck")
+    @GetMapping("/machine/machineCheck")
     public String machineCheck(SearchMachineVO searchMachineVO, Model model) {
 
         // 설비 ID와 이름 가져오기
@@ -110,7 +110,7 @@ public class MachineMNGController {
      * 체크리스트 답변에 따라 설비 상태와 설비 가동 현황 업데이트
      * @return: machine/machineCheck
      */
-    @PostMapping("/machineCheckAdd")
+    @PostMapping("/machine/machineCheckAdd")
     @ResponseBody
     public ResponseEntity<MachineCheckRecordVO> machineCheckRecord(@RequestBody MachineCheckRecordVO machineCheckRecordVO,
                                                                    RedirectAttributes rttr) {
@@ -140,7 +140,7 @@ public class MachineMNGController {
      * Desc: 설비수리 이력 관리 - 설비수리 이력 관리 리스트 & 검색
      * @return: machine/machineRepair
      */
-    @GetMapping("/machineRepair")
+    @GetMapping("/M/machine/machineRepair")
     public String machineRepair(SearchMachineVO searchMachineVO, Model model){
         List<MachineRepairVO> machineRepairVOList = machineMNGService.McRepairList(searchMachineVO);
         model.addAttribute("machineRepairVOList", machineRepairVOList);

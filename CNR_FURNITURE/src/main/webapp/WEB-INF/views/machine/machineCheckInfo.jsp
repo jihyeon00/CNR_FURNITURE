@@ -26,7 +26,7 @@
     </div>
 
     <!-- 검색창 -->
-    <form action="/machineCheckInfo" id="searchForm" name="searchForm" method="get">
+    <form action="/M/machine/machineCheckInfo" id="searchForm" name="searchForm" method="get">
         <div class="headerBar">
             <div class="machineSearch">
                 <div class="machineName">
@@ -157,7 +157,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/machineCheckInfo', // 서버의 컨트롤러 매핑 주소
+                url: '/M/machine//machineCheckInfo', // 서버의 컨트롤러 매핑 주소
                 data : JSON.stringify(data),
                 contentType : "application/json; charset=utf-8",
                 success: function(response) {

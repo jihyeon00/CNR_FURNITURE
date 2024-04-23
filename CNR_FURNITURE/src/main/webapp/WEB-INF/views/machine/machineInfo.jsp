@@ -124,7 +124,7 @@
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel">설비수정</h4>
           </div>
-          <form id="updateForm" action="/machineInfoUpdate" method="post" onSubmit="return false" enctype="multipart/form-data">
+          <form id="updateForm" action="/M/machine/machineInfoUpdate" method="post" onSubmit="return false" enctype="multipart/form-data">
               <div class="modal-body">
                   <div class="modalUpdate">
                     <div class="numberupdatemodal">
@@ -175,7 +175,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/machineInfoAdd', // 서버의 컨트롤러 매핑 주소
+                url: '/M/machine/machineInfoAdd', // 서버의 컨트롤러 매핑 주소
                 data : JSON.stringify(data),
                 contentType : "application/json; charset=utf-8",
                 success: function(response) {

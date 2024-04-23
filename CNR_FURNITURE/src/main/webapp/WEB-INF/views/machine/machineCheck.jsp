@@ -169,7 +169,7 @@
         // ajax 로 데이터 전송
         $.ajax({
             type: "POST",
-            url: "./machineCheckAdd",
+            url: "/machine/machineCheckAdd",
             data: data,
             contentType : "application/json; charset=utf-8",
             success: function(result, status, xhr) {
