@@ -53,7 +53,7 @@ public class MachineMNGController {
      * Desc: 설비관리체크기준관리 - 모달에서 체크리스트 등록
      * @return: machine/machineCheckInfo
      */
-    @PostMapping("/M/machine//machineCheckInfo")
+    @PostMapping("/M/machine/machineCheckInfo")
     @ResponseBody
     public MachineCheckVO insertMachineCheck(
             @RequestBody MachineCheckVO machineCheckVO,

@@ -157,7 +157,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/M/machine//machineCheckInfo', // 서버의 컨트롤러 매핑 주소
+                url: '/M/machine/machineCheckInfo', // 서버의 컨트롤러 매핑 주소
                 data : JSON.stringify(data),
                 contentType : "application/json; charset=utf-8",
                 success: function(response) {
