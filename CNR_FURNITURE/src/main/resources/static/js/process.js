@@ -292,6 +292,7 @@ $(document).ready(function() {
  * 제조지시 다중 INSERT
  */
 function addRow() {
+    // 입력 필드에서 값 가져오기
     var empId = document.getElementById('ins_emp_id').value;
     var itemId = document.getElementById('ins_item_id').value;
     var lotId = document.getElementById('ins_lot_id').value;
@@ -301,17 +302,26 @@ function addRow() {
     var startDate = document.getElementById('ins_start_date').value;
     var endDate = document.getElementById('ins_end_date').value;
 
-
+    // 모든 필드가 채워져 있는지 확인
     if (!empId || !itemId || !lotId || !ctId || !piId || !lotSize || !startDate || !endDate) {
-        alert("모든 필드를 채워주세요.");
-        return;
+        alert("모든 필드를 채워주세요.");  // 필드가 하나라도 비어있으면 경고창 표시
+        return; // 함수 실행 종료
     }
 
+    // 테이블 body에 새로운 행 추가
     var tableBody = document.getElementById('instructionBody');
     var newRow = tableBody.insertRow();
-    newRow.innerHTML = `<td>${empId}</td><td>${itemId}</td><td>${lotId}</td><td>${ctId}</td><td>${piId}</td><td>${lotSize}</td><td>${startDate}</td><td>${endDate}</td>`;
+     newRow.innerHTML = `<td>${empId}</td>
+                        <td>${itemId}</td>
+                        <td>${lotId}</td>
+                        <td>${ctId}</td>
+                        <td>${piId}</td>
+                        <td>${lotSize}</td>
+                        <td>${startDate}</td>
+                        <td>${endDate}</td>
+                        <td><button onclick="removeRow(this)">삭제</button></td>`;
 
-
+     // 입력 필드 초기화
     document.getElementById('ins_emp_id').value = '';
     document.getElementById('ins_item_id').value = '';
     document.getElementById('ins_lot_id').value = '';
@@ -322,11 +332,16 @@ function addRow() {
     document.getElementById('ins_end_date').value = '';
 }
 
+
+/**
+ * 모든 추가된 제조 지시를 서버로 전송하는 함수
+ */
 function submitInstructions() {
     var tbody = document.getElementById('instructionBody');
     var rows = tbody.rows;
     var instructions = [];
 
+    // 테이블의 모든 행을 순회하면서 각 셀의 내용을 객체에 저장
     for (var i = 0; i < rows.length; i++) {
         var cells = rows[i].cells;
         instructions.push({
@@ -341,6 +356,7 @@ function submitInstructions() {
         });
     }
 
+    // AJAX를 사용하여 서버에 데이터 전송
     $.ajax({
         url: '/manufacturingInstructionInsert',
         type: 'POST',
@@ -354,6 +370,17 @@ function submitInstructions() {
             alert("Failed to register instructions: " + xhr.responseText);
         }
     });
+}
+
+
+/**
+ * 테이블에서 특정 행을 삭제하는 함수
+ * @param {HTMLElement} button - 삭제 버튼
+ */
+
+function removeRow(button) {
+    var row = button.parentNode.parentNode;
+    document.getElementById('instructionBody').deleteRow(row.rowIndex - 1);
 }
 
 
@@ -522,9 +549,10 @@ function updateDateDisplay() {
 
 /*===================================================================================================================**/
 /**
- * 제조수행지시 추가
+ * 제조 수행 지시를 데이터 테이블에 다중으로 삽입하는 함수
  */
 function addManufacturingRow() {
+    // 각 입력 필드에서 값을 가져오기
     var proLot = $('#proLot').val();
     var proItem = $('#proItem').val();
     var proPi = $('#proPi').val();
@@ -532,20 +560,23 @@ function addManufacturingRow() {
     var pNote = $('#p_note').val();
 
     if (!proLot || !proItem || !proPi || !pPlanQuantity) {
-        Swal.fire('오류', '모든 필드를 채워주세요', 'error');
+        Swal.fire('오류', '모든 필드를 채워주세요', 'error');   // 입력 필드 누락 시 경고 창
         return;
     }
 
+    // 새로운 행을 구성
     var newRow = `<tr>
-        <td>${proLot}</td>
-        <td>${proItem}</td>
-        <td>${proPi}</td>
-        <td>${pPlanQuantity}</td>
-        <td>${pNote}</td>
-    </tr>`;
+                  <td>${proLot}</td>
+                  <td>${proItem}</td>
+                  <td>${proPi}</td>
+                  <td>${pPlanQuantity}</td>
+                  <td>${pNote}</td>
+                  <td><button onclick="removeRowOne(this)">삭제</button></td>
+                 </tr>`;
 
     $('#manufacturingDataEntryTable tbody').append(newRow);
 
+    // 테이블에 새로운 행 추가
     $('#proLot').val('');
     $('#proItem').val('');
     $('#proPi').val('');
@@ -553,8 +584,12 @@ function addManufacturingRow() {
     $('#p_note').val('');
 }
 
+/**
+ * 서버에 제조 수행 지시 데이터를 전송하는 함수
+ */
 function submitManufacturingInstructions() {
     var instructions = [];
+     // 테이블의 모든 행을 순회하면서 데이터 객체 생성
     $('#manufacturingDataEntryTable tbody tr').each(function() {
         var row = $(this);
         instructions.push({
@@ -568,6 +603,8 @@ function submitManufacturingInstructions() {
 
     console.log("Submitting Instructions:", JSON.stringify(instructions));
 
+
+    // AJAX를 통해 서버에 제조 지시 데이터 전송
     $.ajax({
         url: '/manufacturingPerformInsert',
         type: 'POST',
@@ -581,4 +618,13 @@ function submitManufacturingInstructions() {
             Swal.fire('Error', 'Failed to register instructions: ' + xhr.responseText, 'error');
         }
     });
+}
+
+/**
+ * 테이블에서 선택된 행을 삭제하는 함수
+ * @param {HTMLElement} button - 클릭된 삭제 버튼
+ */
+function removeRowOne(button) {
+    var row = button.parentNode.parentNode;
+    document.getElementById('instructionBodyOne').deleteRow(row.rowIndex - 1);
 }

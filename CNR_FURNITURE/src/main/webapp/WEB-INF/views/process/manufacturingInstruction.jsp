@@ -191,12 +191,13 @@
                                 <colgroup>
                                     <col style="width: 12%" />
                                     <col style="width: 10%" />
-                                    <col style="width: 13%" />
+                                    <col style="width: 12%" />
+                                    <col style="width: 9%" />
+                                    <col style="width: 9%" />
                                     <col style="width: 10%" />
-                                    <col style="width: 10%" />
-                                    <col style="width: 10%" />
-                                    <col style="width: 13%" />
-                                    <col style="width: 10%" />
+                                    <col style="width: 12%" />
+                                    <col style="width: 11%" />
+                                    <col style="width: 8%" />
                                 </colgroup>
                                 <thead class="tbl-headerPro">
                                         <tr>
@@ -208,10 +209,11 @@
                                             <th>계획수량</th>
                                             <th>계획착수일</th>
                                             <th>계획완수일</th>
+                                            <th>삭제</th>
                                         </tr>
                                     </thead>
                                 <tbody class="tbl-content" id="instructionBody">
-                                <!-- 계약 목록 데이터 -->
+                                <!-- 다중 insert -->
 
                                 </tbody>
                             </table>
