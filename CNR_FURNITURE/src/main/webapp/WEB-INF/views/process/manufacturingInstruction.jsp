@@ -29,7 +29,7 @@
                 <div class="col-md-6">
                     <h1 class="m-0"><i class="far fa-clipboard"></i> 제조지시</h1>
                 </div><!-- /.col -->
-                    <form action="/manufacturingInstruction" method="get" class ="formPro">
+                    <form action="/D/process/manufacturingInstruction" method="get" class ="formPro">
 
                         <div class="pro-btn">
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
@@ -65,13 +65,13 @@
                         <div class="col-md-1 ">
                             <div class="sb-buttons">
                              <button type="submit" class="btn btn-primary asb">조회</button>
-                                <button type="button" class="btn btn-reset" id="" onClick="location.href='/manufacturingInstruction'">
+                                <button type="button" class="btn btn-reset" id="" onClick="location.href='/D/process/manufacturingInstruction'">
                                     <img class="resetPng" alt="reset" id="btn-reset" src="/resources/img/reset.png">
                                   </button>
                             </div>
                              <!-- <div class="col-sm-12 proimage" >
                                   <div class="reset" onclick="resetFields()">
-                                      <a href="./manufacturingInstruction"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
+                                      <a href="./D/process/manufacturingInstruction"><img class="resetPng" alt="reset" src="/resources/img/reset.png" ></a>
                              </div> --><!-- /.col -->
                              <br>
                         </div>
@@ -97,7 +97,7 @@
                                 <th>제품번호</th>
                                 <th>계획수량</th>
                                 </thead>
-                                <form action="/manufacturingInstructionForm" id="searchContractInfo" method="get"  onSubmit="return false">
+                                <form action="/D/process/manufacturingInstructionForm" id="searchContractInfo" method="get"  onSubmit="return false">
                                     <tbody class="tbl-content ProTable" id="proList">
                                     <c:forEach var="ProSearch" items="${proList}">
                                         <tr>
@@ -221,7 +221,7 @@
                     </div>
                 </div><!-- /.row -->
 
-                        <form class ="formPro" id="modalSearchForm" action="/manufacturingInstruction" method="get" onsubmit="return sendFormWithAjax();">
+                        <form class ="formPro" id="modalSearchForm" action="/D/process/manufacturingInstruction" method="get" onsubmit="return sendFormWithAjax();">
                             <div class="InnputBody">
                                 <div class="inputmedle">
                                     <input type="date" class="processSearchInput" id="ctStartDate" name="ctStartDate" value='<c:out value="${processDate.ctStartDate}"/>' />

@@ -19,7 +19,7 @@
             <h1 class="m-0"><i class="far fa-clipboard"></i> 제조수행지시</h1>
           </div><!-- /.col -->
           <div class="col-md-6 ml-auto">
-           <form action="/manufacturingPerform" method="get">
+           <form action="/M/process/manufacturingPerform" method="get">
             <div class="pro-btn">
               <button type="submit" id="prosearchbtn" class="btn btn-primary">조회</button>
 	            <button type="button" id= proaddBtn class="btn btn-default" data-toggle="modal" data-target="#register-Process-Btn">등록</button>
@@ -115,7 +115,6 @@
   <!-- /.content-wrapper -->
 
 
-<!-- 등록 모달 -->
 <!-- 등록 모달 -->
 <div class="modal fade" id="register-Process-Btn" tabindex="-1" role="dialog" aria-labelledby="registerProcessGridSystemModalLabel">
   <div class="modal-dialog register-Process-Modal-Dialog" role="document">
