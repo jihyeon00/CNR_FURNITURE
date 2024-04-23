@@ -202,33 +202,25 @@ public class ProcessController {
      * 제조 수행 지시를 새로 등록하는 컨트롤러 메소드.
      * 입력한 제조 수행 지시 데이터를 데이터베이스에 저장
      *
-     * @param processRunVO  입력받은 제조 수행 지시 데이터를 담고 있는 VO 객체
-     * @param rttr 리다이렉트 시 전달할 데이터를 관리하는 RedirectAttributes 객체
-     * @return "redirect:manufacturingPerform" - 저장 작업 후 제조 수행 지시 조회 페이지로 리다이렉트
+     * @param
+     * @param
+     * @return
      */
+
     @PostMapping("/manufacturingPerformInsert")
-    public String manufacturingPerformInsert (
-            ProcessRunVO processRunVO,
-            RedirectAttributes rttr     // 리다이렉트 시 데이터를 전달할 수 있는 객체
+    @ResponseBody
+    public ResponseEntity<?> manufacturingPerformInsert(
+            @RequestBody List<ProcessRunVO> runs
     ){
-        // processService를 통해 데이터베이스에 데이터를 저장하는 메소드 호출
-        int rtn = processService.insertProcessDa(
-                processRunVO.getP_lot_id()
-                , processRunVO.getP_pi_id()
-                , processRunVO.getP_b_item_id()
-                , processRunVO.getP_plan_quantity()
-                , processRunVO.getP_note()
-        );
-
-        // 리다이렉트 시 성공한 데이터의 수를 전달
-        rttr.addFlashAttribute("insertSuccessCount", rtn);
-        return "redirect:manufacturingPerform";
-     }
-
-
-
-
-
+        log.info(runs);
+        try {
+            processService.insertProcessDa(runs);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e) {
+            log.error("Error processing instruction insertion", e);
+            return new ResponseEntity<>(e.getClass().getSimpleName() + " " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 /** ***********************************공정 관리*********************************************** **/

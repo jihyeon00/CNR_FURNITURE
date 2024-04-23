@@ -517,3 +517,68 @@ function updateDateDisplay() {
 
 
 
+
+
+
+/*===================================================================================================================**/
+/**
+ * 제조수행지시 추가
+ */
+function addManufacturingRow() {
+    var proLot = $('#proLot').val();
+    var proItem = $('#proItem').val();
+    var proPi = $('#proPi').val();
+    var pPlanQuantity = $('#p_plan_quantity').val();
+    var pNote = $('#p_note').val();
+
+    if (!proLot || !proItem || !proPi || !pPlanQuantity) {
+        Swal.fire('오류', '모든 필드를 채워주세요', 'error');
+        return;
+    }
+
+    var newRow = `<tr>
+        <td>${proLot}</td>
+        <td>${proItem}</td>
+        <td>${proPi}</td>
+        <td>${pPlanQuantity}</td>
+        <td>${pNote}</td>
+    </tr>`;
+
+    $('#manufacturingDataEntryTable tbody').append(newRow);
+
+    $('#proLot').val('');
+    $('#proItem').val('');
+    $('#proPi').val('');
+    $('#p_plan_quantity').val('');
+    $('#p_note').val('');
+}
+
+function submitManufacturingInstructions() {
+    var instructions = [];
+    $('#manufacturingDataEntryTable tbody tr').each(function() {
+        var row = $(this);
+        instructions.push({
+            p_lot_id: parseInt(row.find('td:eq(0)').text()),
+            p_b_item_id: parseInt(row.find('td:eq(1)').text()),
+            p_pi_id: parseInt(row.find('td:eq(2)').text()),
+            p_plan_quantity: parseInt(row.find('td:eq(3)').text()),
+            p_note: row.find('td:eq(4)').text()
+        });
+    });
+
+    console.log("Submitting Instructions:", JSON.stringify(instructions));
+
+    $.ajax({
+        url: '/manufacturingPerformInsert',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(instructions),
+        success: function(response) {
+            Swal.fire('게시가 완료되었습니다.', '', 'success');
+            $('#manufacturingDataEntryTable tbody').empty();
+        },
+        error: function(xhr, status, error) {
+            Swal.fire('Error', 'Failed to register instructions: ' + xhr.responseText, 'error');
+        }
+    });
+}
