@@ -179,14 +179,13 @@ let searchBomForm = $("#searchBomForm");
 	        for (var i = 0; i < result.length; i++) {
 	            str += "<tr>";
 	            str += "    <td>" + result[i].rn + "</td>";
-	            /* str += "		<td id='itemId-" + result[i].b_item_id + "' style='display: none;' data-itemid='" + result[i].b_item_id + "'>" + result[i].b_item_id + "</td>"; */
 	            str += "    <td>" + result[i].b_material_id + "</td>";
 	            str += "    <td>" + result[i].m_name + "</td>";
 	            str += "    <td>" + result[i].b_unit + "</td>";
 	            str += "    <td id='mQuantity-" + result[i].b_material_id + "'>" + result[i].b_material_quantity + "</td>";
 	            str += "    <td id='mQuantity-backup-" + result[i].b_material_id + "' style='display: none;'>" + result[i].b_material_quantity + "</td>";
 	            str += "    <td>";
-	            str += "        <div class='modifyBom' id='modifyBom-" + result[i].b_material_id + "' data-bmid='" + result[i].b_material_id + "' data-itemid='" + result[i].b_item_id + "'>수정</div>";
+	            str += "        <div class='modifyBom' id='modifyBom-" + result[i].b_material_id + "' data-bmid='" + result[i].b_material_id + "'data-itemid='" + result[i].b_item_id + "'>수정</div>";
 	            str += "    </td>";
 	            str += "</tr>";
 	        }
@@ -202,14 +201,13 @@ let searchBomForm = $("#searchBomForm");
 	            console.log('modfiyBom', mQuantity);
 	            tempQuantity = mQuantity;
 	            
-	            $('#mQuantity-' + bmid).replaceWith("<input type='text' id='mQuantity-" + bmid + "' value='" + (mQuantity || $('#mQuantity-' + bmid).val()) + "' />"); 
-	            /* $('#mQuantity-' + bmid).replaceWith("<td id='mQuantity-" + bmid + "' value='" + (mQuantity || $('#mQuantity-' + bmid).val()) + "'></td>"); */
+	            $('#mQuantity-' + bmid).replaceWith("<input type='text' id='mQuantity-" + bmid + "' value='" + (mQuantity || $('#mQuantity-' + bmid).val()) + "' />");
 							
 	            //CSS 적용
 							$('#mQuantity-' + bmid).css({
 							    'width': '32px',
 							    'position': 'relative',
-							    'bottom': '-47px',
+							    'bottom': '-36px',
 							    'left': '35px'
 							});
 	            

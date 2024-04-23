@@ -23,7 +23,9 @@
 	
   /*제품 등록시 사용  */
 	function checkAllFields() {
-	    return ($('#i_name').val() && $('#i_color').val() && $('#i_standard').val() && $('#i_type').val() && $('#i_uses').val());
+	    return ($('#i_name').val() && $('#i_color').val()
+	            && $('#i_standard').val() && $('#i_type').val()
+	            && $('#i_uses').val());
 	}
 	
 	
