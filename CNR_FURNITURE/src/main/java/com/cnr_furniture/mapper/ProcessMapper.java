@@ -49,7 +49,7 @@ public interface ProcessMapper {
     List<ProcessVO> selectProcessIdsByItemAndLotId(int ins_lot_id, int ins_item_id);
 
     /** 제조수행지시 등록 **/
-    int insertProcessDa(ProcessRunVO processRunVO);
+    void insertProcessDa(ProcessRunVO processRunVO);
 
     /** 제조수행지시 검색: 제조 로트번호 입력창 **/
     List<ProcessRunVO>selectProcessRun(ProcessDate processDate);

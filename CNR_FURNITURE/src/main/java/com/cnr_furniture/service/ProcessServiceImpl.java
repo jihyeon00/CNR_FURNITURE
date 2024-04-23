@@ -101,24 +101,13 @@ public class ProcessServiceImpl implements ProcessService{
 
     /** 제조수행지시 등록 **/
     @Override
-    public int insertProcessDa(
-            int p_lot_id,
-            int p_pi_id,
-            int p_b_item_id,
-            int p_plan_quantity,
-            String p_note
-    ) {
-        ProcessRunVO processRunVO = new ProcessRunVO();
-        processRunVO.setP_lot_id(p_lot_id);
-        processRunVO.setP_pi_id(p_pi_id);
-        processRunVO.setP_b_item_id(p_b_item_id);
-        processRunVO.setP_plan_quantity(p_plan_quantity);
-        processRunVO.setP_note(p_note);
-
-
-        int rtn = processMapper.insertProcessDa(processRunVO);
-        return rtn;
+    @Transactional
+    public void insertProcessDa(List<ProcessRunVO> runs){
+        for (ProcessRunVO run: runs) {
+            processMapper.insertProcessDa(run);
+        }
     }
+
 
     /** 제조수행지시 검색: 제조 로트번호 입력창 **/
     @Override

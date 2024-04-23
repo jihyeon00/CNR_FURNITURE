@@ -116,65 +116,99 @@
 
 
 <!-- 등록 모달 -->
+<!-- 등록 모달 -->
 <div class="modal fade" id="register-Process-Btn" tabindex="-1" role="dialog" aria-labelledby="registerProcessGridSystemModalLabel">
   <div class="modal-dialog register-Process-Modal-Dialog" role="document">
     <div class="modal-content" style="width:75%; margin-left: 13%">
         <div class="modal-header">
             <div class="processModalTitle" id="registerProcessGridSystemModalLabel" style="font-size: 150%; font-weight:800;">제조수행지시등록</div>
         </div>
-         <form action="./manufacturingPerformInsert" method="post" id="insertProDaForm">
-            <div class="modal-body" style="width:100%;" >
-					<table class="processtable">
-					  <tr>
-					    <th scope="col" class="process-highlight">제조LOT번호</th>
-                            <th scope="col" class="process-highlight2">
-                                <select class="process-select" id="proLot" name="p_lot_id">
-                                    <option value="">--선택--</option>
+        <form action="./manufacturingPerformInsert" method="post" id="manufacturingInstructionForm">
+            <div class="modal-body" style="width:100%;">
+                <table class="processtable">
+                    <tr>
+                        <th scope="col" class="process-highlight">제조LOT번호</th>
+                        <td scope="col" class="process-highlight2">
+                            <select class="process-select" id="proLot" name="p_lot_id">
+                                <option value="">--선택--</option>
                                 <c:forEach items="${insLotList}" var="proLot">
                                     <option value="${proLot.ins_lot_id}" ${proLot.ins_lot_id == processDate.ins_lot_id ? 'selected' : ''}>${proLot.ins_lot_id}</option>
                                 </c:forEach>
-                                </select>
-                            </th>
-                        <th scope="col" class="process-highlight" >제품번호</th>
-                        <th scope="col" class="process-highlight2">
-                          <select class="process-select" id="proItem" name="p_b_item_id">
-                                    <option value="">--선택--</option>
+                            </select>
+                        </td>
+                        <th scope="col" class="process-highlight">제품번호</th>
+                        <td scope="col" class="process-highlight2">
+                            <select class="process-select" id="proItem" name="p_b_item_id">
+                                <option value="">--선택--</option>
                                 <c:forEach items="${insItemList}" var="proItem">
                                     <option value="${proItem.ins_item_id}" ${proItem.ins_item_id == processDate.ins_item_id ? 'selected' : ''}>${proItem.ins_item_id}</option>
                                 </c:forEach>
-                          </select>
-                        </th>
-					  </tr>
-					  <tr>
-					  <th scope="col" class="process-highlight">공정번호</th>
-					    <td class="process-highlight2">
-                             <select class="process-select" id="proPi" name="p_pi_id">
-                                 <option value="">--선택--</option>
-                             <c:forEach items="${insPiList}" var="proLot">
-                                 <option value="${proLot.ins_pi_id}" ${proLot.ins_pi_id == processDate.ins_pi_id ? 'selected' : ''}>${proLot.ins_pi_id}</option>
-                             </c:forEach>
-                             </select>
-					    </td>
-					    <th scope="col" class="process-highlight">계획수량</th>
-					    <td class="process-highlight2">
-					        <input  type="text"  name="p_plan_quantity" id="p_plan_quantity" class="process-select" autocomplete="off">
-					    </td>
-					  <tr class="proArea">
-					    <th scope="col" class="process-highlight" >비고</th>
-					    <td colspan="5" class="process-highlight2">>
-					        <textarea rows="1" cols="1" class="process-textarea" name="p_note"  id="p_note"></textarea>
-					    </td>
-					  </tr>
-					</table>
-                </div>
-               </form>
-             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onClick ="insertProDaBox()">등록</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col" class="process-highlight">공정번호</th>
+                        <td class="process-highlight2">
+                            <select class="process-select" id="proPi" name="p_pi_id">
+                                <option value="">--선택--</option>
+                                <c:forEach items="${insPiList}" var="proLot">
+                                    <option value="${proLot.ins_pi_id}" ${proLot.ins_pi_id == processDate.ins_pi_id ? 'selected' : ''}>${proLot.ins_pi_id}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
+                        <th scope="col" class="process-highlight">계획수량</th>
+                        <td class="process-highlight2">
+                            <input type="text" name="p_plan_quantity" id="p_plan_quantity" class="process-select" autocomplete="off">
+                        </td>
+                    </tr>
+                     <tr class="proArea">
+                         <th scope="col" class="process-highlight" >비고</th>
+                         <td colspan="5" class="process-highlight2">
+                             <textarea rows="1" cols="1" class="process-textarea" name="p_note"  id="p_note"></textarea>
+                        </td>
+                    </tr>
+                </table>
             </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+            <div class="addJejo1">
+                <a href="#" class="btn btn-primary" onclick="addManufacturingRow(); return false;">추가</a>
+            </div>
+            <div class ="addSu"></div>
+        <div class="row">
+            <div class="col-md-10 maginProSu">
+                <div class="table DOsetTable">
+                    <table cellpadding="0" cellspacing="0" border="0" id="manufacturingDataEntryTable">
+                        <colgroup>
+                            <col style="width: 12%" />
+                            <col style="width: 10%" />
+                            <col style="width: 13%" />
+                            <col style="width: 10%" />
+                            <col style="width: 10%" />
+                        </colgroup>
+                        <thead class="tbl-headerPro">
+                            <tr>
+                                <th>제조LOT번호</th>
+                                <th>제품번호</th>
+                                <th>공정번호</th>
+                                <th>계획수량</th>
+                                <th>비고</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbl-content">
+                            <!-- 제조수행 추가 목록 데이터 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- /.row -->
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" onclick="submitManufacturingInstructions(); return false;">등록</a>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 
   <!-- Control Sidebar -->

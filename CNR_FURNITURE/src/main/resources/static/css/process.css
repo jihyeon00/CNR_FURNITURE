@@ -215,7 +215,7 @@
 .process-textarea {
     resize: none; 
     height: 50px; 
-    margin-top: -19px;
+    margin-top: 3px;
 }
 
 .process-highlight2 {
@@ -505,5 +505,17 @@ margin-right:auto;
 .addJejo{
 	float: right;
 } 
- 
-    
+
+
+.addSu{
+    margin-top: 8%;
+}
+
+.addJejo1{
+    float: right;
+    margin-right: 2%;
+}
+
+.maginProSu{
+    margin-left:2%;
+}

@@ -45,13 +45,8 @@ public interface ProcessService {
     List<ProcessVO> selectProcessIdsByItemAndLotId(int ins_lot_id, int ins_item_id);
 
     /** 제조수행지시 등록 **/
-    int insertProcessDa(
-            int p_lot_id,
-            int p_pi_id,
-            int p_b_item_id,
-            int p_plan_quantity,
-            String p_note
-    );
+    void insertProcessDa(List<ProcessRunVO> runs);
+
 
     /** 제조수행지시 검색: 제조 로트번호 입력창 **/
     List<ProcessRunVO>selectProcessRun(ProcessDate processDate);
