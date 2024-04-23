@@ -164,7 +164,46 @@ public interface WorkMapper {
 
 
     /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
+    /**
+     * 작업번호에 따리 작업상세 조회
+     * Desc: work 의 작업상세 모달창의 작업상세 조회
+     */
+    WorkDetailModalVO workDetailModalSelectAutoDataByWorkId(Map<String, Object> map);
 
+    /**
+     * Desc: Work 의 작업상세 - 모달창을 이용한 작업 수정
+     */
+    void workDetailModalUpdate(WorkDetailModalVO workDetailModalVO);
+
+    /**
+     * Desc: Work 의 작업상세 - 모달창을 이용한 제조수행 수정
+     * work 테이블의  W_PLAN_QUANTITY가 수정됐을 때 이전값을 빼주고 현재값을 더해준다.
+     * -> P_ITEM_QUANTITY = P_ITEM_QUANTITY + #{생산수량}
+     */
+    void workDetailModalUpdateProQuantity(WorkDetailModalVO workDetailModalVO);
+
+    /**
+     * Desc: Work 의 작업상세 - 모달창을 이용한 설비 작동상태 수정 (work의 w_status가 작업중일 때
+     * -> MW_STATUS = '가동'
+     */
+    void workDetailModalUpdateMiWorkByStatusWork(WorkDetailModalVO workDetailModalVO);
+
+    /**
+     * Desc: Work 의 작업상세 - 모달창을 이용한 설비 작동상태 수정 (work의 w_status가 작업중단일 때
+     * -> MW_STATUS = '수리중' , MW_CONDITION = '수리요청'
+     */
+    void workDetailModalUpdateMiWorkByStatusRepair(WorkDetailModalVO workDetailModalVO);
+
+    /**
+     * Desc: Work 의 작업상세 - 모달창을 이용한 설비 작동상태 수정 (work의 w_status가 작업정지 또는 작업완료일 때
+     * -> MW_STATUS = '비가동'
+     */
+    void workDetailModalUpdateMiWorkByStatusRestFin(WorkDetailModalVO workDetailModalVO);
+
+    /**
+     * Desc: Work 의 작업상세 - 모달창을 이용한 작업 삭제
+     */
+    void workDetailModalDelete(int workDetailModalWorkId);
 
 
 

@@ -7,6 +7,7 @@ import com.cnr_furniture.domain.work.workMNG.*;
 import com.cnr_furniture.domain.work.workerInsert.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface WorkService {
     /* [검색을 위한 정보] ============================================================== */
@@ -109,6 +110,25 @@ public interface WorkService {
 
 
     /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
+
+    /**
+     * 작업번호에 따리 작업상세 조회
+     * Desc: work 의 작업상세 모달창의 작업상세 조회
+     */
+    WorkDetailModalVO getWorkDetailAutoDataByWorkId(int workDetailModalWorkId,
+                                                  int workDetailModalLotId,
+                                                  int workDetailModalProcessId);
+
+    /**
+     * Desc: Work 의 작업상세 - 모달창을 이용한 작업 수정 및 설비 작동상태, 제조수행 테이블 수정
+     */
+    void workDetailModalUpdate(WorkDetailModalVO workDetailModalVO);
+
+    /**
+     * Desc: Work 의 작업상세 - 모달창을 이용한 작업 삭제
+     */
+    void workDetailModalDelete(int workDetailModalWorkId);
+
 
     /* [todayWorkInsert.jsp] ============================================================== */
     /** Desc: todayWorkInsert 의 공정조회 */

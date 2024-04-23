@@ -309,5 +309,6 @@ function search() {
 }
 	
 </script>
-<script defer src="/resources/js/work.js"></script>
+<script defer src="/resources/js/work/work.js"></script>
+<script defer src="/resources/js/work/worker.js"></script>
 <%@ include file="../includes/footer.jsp" %>

@@ -189,6 +189,77 @@ public class WorkServiceImpl implements WorkService{
     }
 
     /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
+    /** Desc: work 의 작업상세 모달창의 작업상세 조회 */
+    @Override
+    public WorkDetailModalVO getWorkDetailAutoDataByWorkId(int workDetailModalWorkId, int workDetailModalLotId, int workDetailModalProcessId) {
+        Map<String, Object> paramWorkDetail = new HashMap<>();
+        paramWorkDetail.put("workDetailModalWorkId",workDetailModalWorkId);
+        paramWorkDetail.put("workDetailModalLotId",workDetailModalLotId);
+        paramWorkDetail.put("workDetailModalProcessId",workDetailModalProcessId);
+        log.info("paramWorkDetail: "+paramWorkDetail); // 디버깅
+        return workMapper.workDetailModalSelectAutoDataByWorkId(paramWorkDetail);
+    }
+
+    /**
+     * Desc: Work 의 작업 상세 모달창을 이용한 작업 수정 및 설비 작동상태, 제조수행 테이블 수정.
+     */
+    @Override
+    @Transactional
+    public void workDetailModalUpdate(WorkDetailModalVO workDetailModalVO) {
+        try {
+            // 기존 생산 수량 정보 가져오기 (예를 들어 데이터베이스 쿼리)
+            int oldProQuantity = fetchOldProductionQuantity(workDetailModalVO.getWorkDetailModalWorkId());
+
+            // 작업 테이블 업데이트
+            workMapper.workDetailModalUpdate(workDetailModalVO);
+
+            // 생산수량이 변경되었는지 검사
+            if (workDetailModalVO.getWorkDetailModalProQuantity() != oldProQuantity) {
+                workDetailModalVO.setWorkDetailModalProQuantity(
+                        workDetailModalVO.getWorkDetailModalProQuantity() - oldProQuantity
+                );
+                workMapper.workDetailModalUpdateProQuantity(workDetailModalVO);
+            }
+
+            // 작업 상태에 따른 설비 상태 업데이트
+            switch (workDetailModalVO.getWorkDetailModalWorkStatus()) {
+                case "작업중":
+                    workMapper.workDetailModalUpdateMiWorkByStatusWork(workDetailModalVO);
+                    break;
+                case "작업중단":
+                    workMapper.workDetailModalUpdateMiWorkByStatusRepair(workDetailModalVO);
+                    break;
+                case "작업정지":
+                case "작업종료":
+                    workMapper.workDetailModalUpdateMiWorkByStatusRestFin(workDetailModalVO);
+                    break;
+                default:
+                    // 예외 처리 또는 기타 상태 처리
+                    log.error("알 수 없는 작업 상태입니다: " + workDetailModalVO.getWorkDetailModalWorkStatus());
+            }
+        } catch (Exception e) {
+            log.error("작업 상세 업데이트 중 에러 발생", e);
+            // 트랜잭션 롤백이 자동으로 발생합니다.
+            throw e;
+        }
+    }
+
+    /**
+     * DB에서 해당 작업 ID에 대한 이전 생산 수량을 가져오는 메소드
+     */
+    private int fetchOldProductionQuantity(int workId) {
+        // 데이터베이스에서 기존 생산수량 조회 로직 구현
+        return 0; // 임시 반환값
+    }
+
+    /**
+     * Desc: Work 의 작업상세 - 모달창을 이용한 작업 삭제
+     */
+    @Override
+    public void workDetailModalDelete(int workDetailModalWorkId) {
+        workMapper.workDetailModalDelete(workDetailModalWorkId);
+    }
+
 
     /* [todayWorkInsert.jsp] ============================================================== */
 
