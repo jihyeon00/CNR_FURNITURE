@@ -291,17 +291,17 @@
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="http://localhost:8085/Mmachine/machineManagement" class="nav-link">
+                <a href="http://localhost:8085/M/machine/machineManagement" class="nav-link">
                   <p>설비관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="http://localhost:8085/Mmachine/machineRepair" class="nav-link">
+                <a href="http://localhost:8085/M/machine/machineRepair" class="nav-link">
                   <p>설비수리이력관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="http://localhost:8085/Mmachine/machineOperationStatus" class="nav-link">
+                <a href="http://localhost:8085/M/machine/machineOperationStatus" class="nav-link">
                   <p>설비가동현황</p>
                 </a>
               </li>
