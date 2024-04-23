@@ -35,7 +35,7 @@ public class ProcessController {
      * @param id 선택적으로 제공된 계약 ID, 쉼표로 구분된 문자열 (예: "1, 2, 3")
      * @return "process/manufacturingInstruction"
      */
-    @GetMapping("/manufacturingInstruction")
+    @GetMapping("/D/process/manufacturingInstruction")
     public String manufacturingInstruction(ProcessDate processDate, Model model, @RequestParam(required = false) String id) {
         List<ProcessVO> processVOList = processService.selectProcess(processDate);
         List<ProcessItemVO> itemProList = processService.findAllItems();
@@ -75,7 +75,7 @@ public class ProcessController {
      * @param formattedIds 쉼표로 구분된 계약 ID 목록 (예: "1,2,3")
      * @return 계약 정보 목록, 각 계약은 {@link ContractVO} 객체로 표현
      */
-    @GetMapping("/manufacturingInstructionForm")
+    @GetMapping("/D/process/manufacturingInstructionForm")
     @ResponseBody
     public List<ContractVO> manufacturingInstructionForm(@RequestParam("formattedIds") String formattedIds) {
         List<String> idList = Arrays.asList(formattedIds.split(","));
@@ -105,10 +105,6 @@ public class ProcessController {
             return new ResponseEntity<>(e.getClass().getSimpleName() + " " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
-
 
 
 
@@ -158,7 +154,7 @@ public class ProcessController {
      * @param model 뷰에 데이터를 전달하기 위한 Model 객체
      * @return "manufacturingPerform" 뷰의 이름을 문자열로 반환
      */
-    @GetMapping("/manufacturingPerform")
+    @GetMapping("/M/process/manufacturingPerform")
         public String manufacturingPerform(ProcessDate processDate, Model model) {
         // 제조 LOT 번호에 따라 고유한 LOT 목록을 조회
         List<ProcessRunVO> proRunList = processService.selectProcessRun(processDate);
@@ -230,7 +226,7 @@ public class ProcessController {
      * @param processDate 사용자가 입력한 날짜 조건, 공정 정보 검색
      * @return "process/processInfo"
      */
-    @GetMapping("/processInfo")
+    @GetMapping("/D/process/processInfo")
     public String processInfo(ProcessDate processDate, Model model) {
         List<ManagementVO> managementVOList = processService.selectM();
         List<ProcessInfoVO> findPromotion = processService.selectByList(processDate);
@@ -289,7 +285,7 @@ public class ProcessController {
 
         );
         rttr.addFlashAttribute("insertSuccessCount", rtn);
-        return "redirect:processInfo";
+        return "redirect:/D/process/processInfo";
     }
 }
 

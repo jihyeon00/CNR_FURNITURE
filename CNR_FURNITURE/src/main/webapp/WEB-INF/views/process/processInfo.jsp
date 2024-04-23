@@ -18,7 +18,7 @@
                     <h1 class="m-0"><i class="far fa-clipboard"></i> 공정정보</h1>
                 </div><!-- /.col -->
                 <div class="col-md-6 ml-auto">
-                <form action="/processInfo" method="get">
+                <form action="/D/process/processInfo" method="get">
 
                 <div class="pro-btn">
                     <button type="submit" id="prosearchbtn" class="btn btn-primary">조희</button>
@@ -241,7 +241,7 @@
                 <!-- 모달 바닥글 -->
                 <div class="modal-footer" style="margin-right: 3%;">
                     <button type="submit" class="btn btn-primary" onClick="insertProjectBox()">공정등록</button>
-                    <button type="button" id="prosearchbtn" class="btn btn-info"> <a href="./machineInfo" style="color: fff;">설비수정</a></button>
+                    <button type="button" id="prosearchbtn" class="btn btn-info"> <a href="./machine/machineInfo" style="color: fff;">설비수정</a></button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
                 </div>
             </div><!-- /.modal-content -->

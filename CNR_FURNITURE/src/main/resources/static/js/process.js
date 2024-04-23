@@ -65,7 +65,7 @@
         var startDate = document.getElementById('ctStartDate').value;
         var endDate = document.getElementById('ctEndDate').value;
 
-        var url = '/manufacturingInstruction?ctStartDate=' + encodeURIComponent(startDate) + '&ctEndDate=' + encodeURIComponent(endDate);
+        var url = '/D/process/manufacturingInstruction?ctStartDate=' + encodeURIComponent(startDate) + '&ctEndDate=' + encodeURIComponent(endDate);
 
         fetch(url)
         .then(function(response) {
