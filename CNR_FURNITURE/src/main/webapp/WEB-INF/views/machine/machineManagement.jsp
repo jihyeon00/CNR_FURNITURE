@@ -120,7 +120,7 @@
             // 서버로 데이터를 전송하여 상태를 업데이트하는 코드
             $.ajax({
                 type: "POST",
-                url: "/updateRepairStatus", // 서버의 업데이트 처리를 담당하는 URL
+                url: "/M/machine/updateRepairStatus", // 서버의 업데이트 처리를 담당하는 URL
                 data: JSON.stringify({ mw_mi_id: mwMiId }),
                 contentType : "application/json; charset=utf-8",
                 success: function(response) {
@@ -151,7 +151,7 @@
             // 서버로 데이터를 전송하여 상태를 업데이트하는 코드
             $.ajax({
                 type: "POST",
-                url: "/mcRepairCompleted", // 서버의 업데이트 처리를 담당하는 URL
+                url: "/M/machine/mcRepairCompleted", // 서버의 업데이트 처리를 담당하는 URL
                 data: JSON.stringify({ mw_mi_id: mwMiId }),
                 contentType : "application/json; charset=utf-8",
                 success: function(response) {

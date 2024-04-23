@@ -134,10 +134,10 @@
             ) MC
         WHERE 1=1
         <if test="find_machine_name != null and find_machine_name != ''">
-            AND MI.MI_NAME LIKE '%' || #{find_machine_name} || '%'
+            AND MC.MI_NAME LIKE '%' || #{find_machine_name} || '%'
         </if>
         <if test="find_machine_type != null and find_machine_type != ''">
-            AND MI.MI_TYPE LIKE '%' || #{find_machine_type} || '%'
+            AND MC.MI_TYPE LIKE '%' || #{find_machine_type} || '%'
         </if>
         <if test="find_machine_condition != null and find_machine_condition != ''">
             AND MC.MW_CONDITION LIKE '%' || #{find_machine_condition} || '%'
