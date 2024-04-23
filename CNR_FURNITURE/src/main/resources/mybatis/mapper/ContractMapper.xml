@@ -41,7 +41,6 @@
     WHERE 	c.CT_COMPANY_ID = cp.C_ID
       AND   c.CT_ITEM_ID = i.I_ID(+)
       AND   c.CT_MATERIAL_ID = m.M_ID(+)
-
     <!-- 제품명/번호 검색 -->
     <if test="find_item != null and find_item != '' ">
       AND (c.CT_ITEM_ID LIKE '%' || #{find_item} || '%' OR i.I_NAME like '%' || #{find_item} || '%')

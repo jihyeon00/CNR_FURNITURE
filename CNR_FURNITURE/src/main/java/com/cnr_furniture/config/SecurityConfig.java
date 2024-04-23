@@ -27,24 +27,24 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
     http
       .csrf(AbstractHttpConfigurer::disable)
       .authorizeHttpRequests(requests -> requests
         // 모두 접근
         .requestMatchers("/login", "/PasswordChange").permitAll()
         // 사원 권한 페이지 설정
-//        .requestMatchers(
-//          new AntPathRequestMatcher("/"),                   // 메인페이지
-//          new AntPathRequestMatcher("/standardInfo/**"),    // 기준정보
-//          new AntPathRequestMatcher("/production/**"),      // 생산관리
-//          new AntPathRequestMatcher("/inventory/**"),       // 재고관리
-//          new AntPathRequestMatcher("/process/**"),         // 공정관리
-//          new AntPathRequestMatcher("/quality/**"),         // 품질관리
-//          new AntPathRequestMatcher("/machine/**"),         // 설비관리
-//          new AntPathRequestMatcher("/member/**")           // 시스템관리 - 사원권힌관리
-//        )
-//        .authenticated()
+        .requestMatchers(
+          new AntPathRequestMatcher("/"),                   // 메인페이지
+          new AntPathRequestMatcher("/main"),               // 메인페이지
+          new AntPathRequestMatcher("/standardInfo/**"),    // 기준정보
+          new AntPathRequestMatcher("/production/**"),      // 생산관리
+          new AntPathRequestMatcher("/inventory/**"),       // 재고관리
+          new AntPathRequestMatcher("/process/**"),         // 공정관리
+          new AntPathRequestMatcher("/quality/**"),         // 품질관리
+          new AntPathRequestMatcher("/machine/**"),         // 설비관리
+          new AntPathRequestMatcher("/member/**")           // 시스템관리 - 사원권힌관리
+        )
+        .authenticated()
         // 매니저 권한 페이지 설정
         .requestMatchers(
           new AntPathRequestMatcher("/M/**"))
@@ -67,9 +67,8 @@ public class SecurityConfig {
       .logout(logout -> logout
         .logoutSuccessUrl("/login")
         .permitAll()
-      );
-
-
+      )
+      .exceptionHandling().accessDeniedPage("/error.jsp");
     return http.build();
   }
 }

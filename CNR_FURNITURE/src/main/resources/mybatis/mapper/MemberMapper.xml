@@ -163,13 +163,13 @@
   <!-- 권한 변경 -->
   <update id="modifyRole">
     UPDATE EMPLOYEE
-    <if test="role == 'ROLE_Staff'">
+    <if test="role == '사원'">
       SET    E_ROLE = 'ROLE_Manager'
     </if>
-    <if test="role == 'ROLE_Manager'">
+    <if test="role == '매니저'">
       SET    E_ROLE = 'ROLE_Director'
     </if>
-    <if test="role == 'ROLE_Director'">
+    <if test="role == '디렉터'">
       SET    E_ROLE = 'ROLE_Director'
     </if>
     WHERE  E_ID = #{id}
