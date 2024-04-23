@@ -26,9 +26,9 @@ public class MaterialInfoController {
 
     /**
      * Desc: 자재 조회 및 검색
-     * @return: /materialInfo
+     * @return: /standardInfo/materialInfo
      */
-    @GetMapping("/materialInfo")
+    @GetMapping("/standardInfo/materialInfo")
     public String materialInfo(MaterialInfoSearch MTInfoSearch, Model model) {
 
         List<MaterialInfoVO> mtInfoVOList = mtInfoService.getMaterialInfo(MTInfoSearch);
@@ -42,7 +42,7 @@ public class MaterialInfoController {
      * Desc: 자재 등록
      * @return: /materialInsert
      */
-    @PostMapping("/materialInsert")
+    @PostMapping("/standardInfo/materialInsert")
     public String materialInsert(
             @RequestParam("m_name") String m_name,
             @RequestParam("m_uses") String m_uses,
@@ -68,7 +68,7 @@ public class MaterialInfoController {
      * Desc: 제품 수정
      * @return: /materialUpdate
      */
-    @PostMapping("/materialUpdate")
+    @PostMapping("/standardInfo/materialUpdate")
     public String materialUpdate(
             @RequestParam("m_name2") String m_name,
             @RequestParam("m_uses2") String m_uses,

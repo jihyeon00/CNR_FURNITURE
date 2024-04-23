@@ -25,9 +25,9 @@ public class ItemInfoController {
 
     /**
      * Desc: 제품 조회
-     * @return: /itemInfo
+     * @return: /standardInfo/itemInfo
      */
-    @GetMapping("/itemInfo")
+    @GetMapping("/standardInfo/itemInfo")
     public String itemInfo(ItemInfoSearch itemInfoSearch, Model model) {
 
         List<ItemInfoVO> itemInfoVOList = itemInfoService.getItemInfoList(itemInfoSearch);
@@ -41,7 +41,7 @@ public class ItemInfoController {
      * Desc: 제품 등록
      * @return: /itemInsert
      */
-    @PostMapping("/itemInsert")
+    @PostMapping("/standardInfo/itemInsert")
     public String itemInsert(
             @RequestParam("i_name") String i_name,
             @RequestParam("i_color") String i_color,
@@ -69,7 +69,7 @@ public class ItemInfoController {
      * Desc: 제품 수정
      * @return: /itemUpdate
      */
-    @PostMapping("/itemUpdate")
+    @PostMapping("/standardInfo/itemUpdate")
     public String itemUpdate(
             @RequestParam("i_name2") String i_name,
             @RequestParam("i_color2") String i_color,

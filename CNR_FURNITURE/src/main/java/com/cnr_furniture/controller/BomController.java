@@ -28,7 +28,7 @@ public class BomController {
      * Desc: bom목록 - 제품조회 및 검색
      * @return: standardInfo/bom
      */
-    @GetMapping("/bom")
+    @GetMapping("/M/standardInfo/bom")
     public String bomInfo(BomSearch bomSearch, Model model) {
         List<ItemInfoVO> itemInfoVOList = bomService.getBomInfoList(bomSearch);
         model.addAttribute("itemList", itemInfoVOList);
@@ -56,7 +56,7 @@ public class BomController {
      * Desc: bom 등록 - 제품 자재목록 조회 및 검색
      * @return: standardInfo/bomInsert
      */
-    @GetMapping("/bom/insert")
+    @GetMapping("/M/standardInfo/bom/insert")
     public String bomInsert(BomSearch bomSearch, MaterialInfoSearch mtSearch, Model model) {
         List<ItemInfoVO> itemInfoVOList = bomService.getBomInfoList(bomSearch);
         model.addAttribute("itemList", itemInfoVOList);

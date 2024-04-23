@@ -121,17 +121,17 @@
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="bom" class="nav-link">
+                <a href="http://localhost:8085/M/standardInfo/bom" class="nav-link">
                   <p>BOM관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="itemInfo" class="nav-link">
+                <a href="http://localhost:8085/standardInfo/itemInfo" class="nav-link">
                   <p>제품정보관리</p>
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="materialInfo" class="nav-link">
+                <a href="http://localhost:8085/standardInfo/materialInfo" class="nav-link">
                   <p>자재정보관리</p>
                 </a>
               </li>
@@ -211,7 +211,7 @@
                 </a>
               </li>
               <li class="nav-item sideBarSub">
-                <a href="workerManagement" class="nav-link">
+                <a href="http://localhost:8085/D/process/workerManagement" class="nav-link">
                   <p>작업자스케줄조회</p>
                 </a>
               </li>

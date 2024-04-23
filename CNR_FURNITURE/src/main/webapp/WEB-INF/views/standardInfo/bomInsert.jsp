@@ -30,7 +30,7 @@
 					</div>
 					<div class="BomInfo-btn">
 						<button type="button" class="btn btn-Default">
-							<a href="/bom" style="color: #000;"> BOM 관리 </a>
+							<a href="/M/standardInfo/bom" style="color: #000;"> BOM 관리 </a>
 						</button>
 					</div>
 				</div>
@@ -366,7 +366,6 @@
 				        		// 새로운 행(tr)을 생성하여 HTML 문자열로 저장
 				            var newRow = 
 				            		"<tr>" +
-				    					/*  "<td><input class='form-check-input chk' type='checkbox' /></td>" + */
 				        	        "<td class='itemId'>" + itemId + "</td>" +
 				        	        "<td class='mtId'>" + mtId + "</td>" +
 				        	        "<td class='mtUnit'>" + mtUnit + "</td>" +
