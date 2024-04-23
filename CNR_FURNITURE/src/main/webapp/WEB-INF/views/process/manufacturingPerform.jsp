@@ -183,6 +183,7 @@
                             <col style="width: 13%" />
                             <col style="width: 10%" />
                             <col style="width: 10%" />
+                            <col style="width: 10%" />
                         </colgroup>
                         <thead class="tbl-headerPro">
                             <tr>
@@ -191,9 +192,10 @@
                                 <th>공정번호</th>
                                 <th>계획수량</th>
                                 <th>비고</th>
+                                <th>삭제</th>
                             </tr>
                         </thead>
-                        <tbody class="tbl-content">
+                        <tbody class="tbl-content" id ="instructionBodyOne">
                             <!-- 제조수행 추가 목록 데이터 -->
                         </tbody>
                     </table>
