@@ -114,12 +114,11 @@
   color: white;
 }
 /* 생산실적 버튼 처음부터 색상 지정 */
-#selectProductionBtn{
+#selectMaterialInputBtn{
 	background: #374056;
   color: white;
 }
 /* select 버튼 간의 여백 설정 */
-#selectMaterialInputBtn,
 #selectWorkerBtn{
 	margin-left: -6px;
 }
@@ -373,7 +372,6 @@
 .workerInsert-modal-table{
 	margin-top: 20px;
 }
-
 
 /* work 모달 : 자재투입 */
 

@@ -14,6 +14,7 @@ public class WorkerVO {
     private String e_name;
     private String e_role;
     private int wr_emp_id;
+    private int w_id;
     private int w_lot_id;
     private int w_pi_id;
     private String position;

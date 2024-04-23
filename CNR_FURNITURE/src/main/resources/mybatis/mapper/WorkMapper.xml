@@ -199,11 +199,11 @@
                 DISTINCT w.W_ID AS W_ID,
                 w.W_LOT_ID AS W_LOT_ID,
                 TO_CHAR(w.W_START_TIME, 'YYYY-MM-DD') AS W_DATE,
-                e.E_DP_NAME,
+                dpName.E_DP_NAMES AS E_DP_NAME,
                 w.W_PI_ID,
                 pi.PI_NAME,
                 mi.MI_NAME,
-                pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS POSITION,
+                pi.PI_SEQ || '-' || COALESCE(mi.MI_POSITION, 'X') AS POSITION,
                 ins.INS_ITEM_ID,
                 it.I_NAME,
                 w.W_STATUS,
@@ -214,15 +214,31 @@
                 w.W_ITEM_QUANTITY
             FROM
                 WORK w
-                JOIN WORKER wr ON w.W_ID = wr.WR_WORK_ID
-                JOIN PROCESS pr ON w.W_LOT_ID = pr.P_LOT_ID
-                JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
-                JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
-                JOIN INSTRUCTION ins ON w.W_LOT_ID = ins.INS_LOT_ID
-                JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
-                JOIN ITEM it ON pr.P_B_ITEM_ID = it.I_ID
-                JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
-            ORDER BY W_DATE) WORK
+                LEFT JOIN PROCESS pr ON w.W_LOT_ID = pr.P_LOT_ID
+                LEFT JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
+                LEFT JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.MI_ID
+                LEFT JOIN INSTRUCTION ins ON w.W_LOT_ID = ins.INS_LOT_ID
+                LEFT JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+                LEFT JOIN ITEM it ON pr.P_B_ITEM_ID = it.I_ID
+                LEFT JOIN (
+                            SELECT
+                                WR_WORK_ID,
+                                LISTAGG(E_DP_NAME, ', ') WITHIN GROUP (ORDER BY E_DP_NAME) AS E_DP_NAMES
+                            FROM (
+                                SELECT
+                                    WR_WORK_ID,
+                                    E_DP_NAME,
+                                    ROW_NUMBER() OVER (PARTITION BY WR_WORK_ID, E_DP_NAME ORDER BY E_DP_NAME) AS rn
+                                FROM
+                                    WORKER wr
+                                    JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
+                                )
+                            WHERE
+                                rn = 1
+                            GROUP BY
+                                WR_WORK_ID
+                            ) dpName ON w.W_ID = dpName.WR_WORK_ID
+        ORDER BY w.W_ID DESC) WORK
         <trim prefix="where " prefixOverrides="and">
             <if test="find_work_item != null or
                      workStartDate != null or workEndDate != null or
@@ -491,12 +507,13 @@
             wr.e_dp_name,
             wr.e_name,
             CASE
-                WHEN wr.e_role = 'ROLE_Director' THEN '디렉터'
-                WHEN wr.e_role = 'ROLE_Manager' THEN '매니저'
-                WHEN wr.e_role = 'ROLE_Staff' THEN '사원'
-                ELSE wr.e_role
+            WHEN wr.e_role = 'ROLE_Director' THEN '디렉터'
+            WHEN wr.e_role = 'ROLE_Manager' THEN '매니저'
+            WHEN wr.e_role = 'ROLE_Staff' THEN '사원'
+            ELSE wr.e_role
             END AS e_role,
             wr.wr_emp_id,
+            wr.w_id,
             wr.w_lot_id,
             wr.w_pi_id,
             wr.position,
@@ -505,102 +522,42 @@
         FROM
             (SELECT
                 e.E_DP_NAME,
-                e.E_NAME ,
+                e.E_NAME,
                 e.E_ROLE,
                 wr.WR_EMP_ID,
+                w.w_id,
                 w.W_LOT_ID,
                 w.W_PI_ID,
-                pi.PI_SEQ || '-' || nvl(mi.MI_POSITION,'X') AS POSITION,
-                to_char(wr.WR_START_TIME,'yyyy-mm-dd HH24:mi:ss') AS WR_START_TIME,
-                to_char(wr.WR_END_TIME,'yyyy-mm-dd HH24:mi:ss') AS WR_END_TIME
+                pi.PI_SEQ || '-' || NVL(mi.MI_POSITION, 'X') AS POSITION,
+                TO_CHAR(wr.WR_START_TIME, 'yyyy-mm-dd HH24:mi:ss') AS WR_START_TIME,
+                TO_CHAR(wr.WR_END_TIME, 'yyyy-mm-dd HH24:mi:ss') AS WR_END_TIME
             FROM
                 WORK w
                 JOIN WORKER wr ON w.W_ID = wr.WR_WORK_ID
                 JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
                 JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
-                JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
-                ORDER BY e.E_DP_NAME,WR_START_TIME, wr.WR_EMP_ID, w.W_PI_ID) wr
-        <trim prefix="where " prefixOverrides="and">
-            <if test="workStartDate != null or workEndDate != null or
-                     find_work_instruction != null or find_work_processInfo != null">
-                <if test="workStartDate != ''">
-                    AND wr_start_time >= #{workStartDate}
+                JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.MI_ID
+            <trim prefix="where " prefixOverrides="and">
+                <if test="workStartDate != null and workStartDate != ''">
+                    <![CDATA[AND wr.WR_START_TIME >= #{workStartDate}]]>
                 </if>
-                <if test="workEndDate != ''">
-                    AND #{workEndDate} >= wr_end_time
+                <if test="workEndDate != null and workEndDate != ''">
+                    <![CDATA[AND wr.WR_END_TIME <= #{workEndDate}]]>
                 </if>
-                <if test="find_work_instruction != ''">
-                    AND W_LOT_ID = #{find_work_instruction}
+                <if test="find_work_instruction != null and find_work_instruction != ''">
+                    AND w.W_LOT_ID = #{find_work_instruction}
                 </if>
-                <if test="find_work_processInfo != ''">
-                    AND W_PI_ID = #{find_work_processInfo}
+                <if test="find_work_processInfo != null and find_work_processInfo != ''">
+                    AND w.W_PI_ID = #{find_work_processInfo}
                 </if>
-                <if test="workStartDate == '' and workEndDate == '' and
-                     find_work_instruction == '' and find_work_processInfo == '' ">
-                    AND 1=0
+                <if test="find_work_id != null and find_work_id != ''">
+                    AND w.W_ID = #{find_work_id}
                 </if>
-            </if>
-        </trim>
+            </trim>
+            ORDER BY
+                w.W_ID DESC, e.E_DP_NAME, wr.WR_EMP_ID
+            ) wr
     </select>
-
-    <!-- work.jsp 의 작업등록 모달창 =========================================================== -->
-
-    <!-- work 작업등록 모달창의 [로트번호] 입력에 따른 [공정번호] 조회-->
-    <select id="workInsertModalSelectProIdByLotId"
-            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
-        SELECT
-        ins.ins_lot_id as workInsertModalLotId,
-        ins.ins_pi_id as workInsertModalProcessId
-        FROM
-        INSTRUCTION ins
-        WHERE
-        ins.ins_lot_id = #{workInsertModalLotId}
-        ORDER BY
-        workInsertModalLotId, workInsertModalProcessId*1
-    </select>
-
-    <!-- work 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회-->
-    <select id="workInsertModalSelectAutoDataByLotId"
-            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
-        SELECT
-        DISTINCT INS_LOT_ID AS workInsertModalLotId,
-        ins.INS_ITEM_ID AS workInsertModalItemId,
-        it.I_NAME AS workInsertModalItemName,
-        upper(ct.CT_UNIT) AS workInsertModalUnit
-        FROM
-        INSTRUCTION ins
-        JOIN BOM b ON ins.ins_ITEM_ID = b.B_ITEM_ID
-        JOIN ITEM it ON ins.INS_ITEM_ID = it.I_ID
-        JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
-        WHERE
-        ins.INS_LOT_ID = #{workInsertModalLotId}
-    </select>
-
-    <!-- work 작업등록 모달창의 [공정번호] 입력에 따른 [공정명], [설비번호], [설비명], [작업위치], [남은생산수량] 조회-->
-    <select id="workInsertModalSelectAutoDataByProId"
-            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
-        SELECT
-            pi.PI_ID AS workInsertModalProcessId,
-            pi.PI_NAME AS workInsertModalProcessName,
-            pi.PI_MACHINE_ID AS workInsertModalMachineId,
-            mi.MI_NAME AS workInsertModalMachineName,
-            pi.PI_SEQ || '-' || mi.MI_POSITION AS workInsertModalWorkPosition,
-            p.P_PLAN_QUANTITY - p.P_ITEM_QUANTITY AS workInsertModalLeftoverQuantity
-        FROM
-            PROCESS_INFO pi
-            JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
-            JOIN PROCESS p ON p.P_PI_ID = pi.PI_ID
-        WHERE
-            p.P_LOT_ID = #{workInsertModalLotId}
-            AND pi.PI_ID = #{workInsertModalProcessId}
-    </select>
-
-    <!-- [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== -->
-
-
-
-
-
 
     <!-- work.jsp 의 자재투입 모달창 =========================================================== -->
 
@@ -690,6 +647,57 @@
             #{unitMaterialModal}
             )
     </insert>
+    <!-- work.jsp 의 작업등록 모달창 =========================================================== -->
+
+    <!-- work 작업등록 모달창의 [로트번호] 입력에 따른 [공정번호] 조회-->
+    <select id="workInsertModalSelectProIdByLotId"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
+        SELECT
+        ins.ins_lot_id as workInsertModalLotId,
+        ins.ins_pi_id as workInsertModalProcessId
+        FROM
+        INSTRUCTION ins
+        WHERE
+        ins.ins_lot_id = #{workInsertModalLotId}
+        ORDER BY
+        workInsertModalLotId, workInsertModalProcessId*1
+    </select>
+
+    <!-- work 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회-->
+    <select id="workInsertModalSelectAutoDataByLotId"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
+        SELECT
+            DISTINCT INS_LOT_ID AS workInsertModalLotId,
+            ins.INS_ITEM_ID AS workInsertModalItemId,
+            it.I_NAME AS workInsertModalItemName,
+            upper(ct.CT_UNIT) AS workInsertModalUnit
+        FROM
+            INSTRUCTION ins
+            JOIN BOM b ON ins.ins_ITEM_ID = b.B_ITEM_ID
+            JOIN ITEM it ON ins.INS_ITEM_ID = it.I_ID
+            JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+        WHERE
+            ins.INS_LOT_ID = #{workInsertModalLotId}
+    </select>
+
+    <!-- work 작업등록 모달창의 [공정번호] 입력에 따른 [공정명], [설비번호], [설비명], [작업위치], [남은생산수량] 조회-->
+    <select id="workInsertModalSelectAutoDataByProId"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
+        SELECT
+            pi.PI_ID AS workInsertModalProcessId,
+            pi.PI_NAME AS workInsertModalProcessName,
+            pi.PI_MACHINE_ID AS workInsertModalMachineId,
+            mi.MI_NAME AS workInsertModalMachineName,
+            pi.PI_SEQ || '-' || mi.MI_POSITION AS workInsertModalWorkPosition,
+            p.P_PLAN_QUANTITY - p.P_ITEM_QUANTITY AS workInsertModalLeftoverQuantity
+        FROM
+            PROCESS_INFO pi
+            JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.mi_id
+            JOIN PROCESS p ON p.P_PI_ID = pi.PI_ID
+        WHERE
+            p.P_LOT_ID = #{workInsertModalLotId}
+            AND pi.PI_ID = #{workInsertModalProcessId}
+    </select>
 
     <!-- work 작업등록 모달창의 [작업] 등록 -->
     <insert id="workInsert" parameterType="com.cnr_furniture.domain.work.workMNG.WorkInsertModalVO">
@@ -715,6 +723,104 @@
             )
 
     </insert>
+
+    <!-- [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== -->
+
+    <!-- work 작업상세 모달창의 작업상세 조회-->
+    <select id="workDetailModalSelectAutoDataByWorkId" parameterType="hashmap"
+            resultType="com.cnr_furniture.domain.work.workMNG.WorkDetailModalVO">
+        SELECT
+            DISTINCT w.W_ID AS workDetailModalWorkId,
+            w.W_LOT_ID AS workDetailModalLotId,
+            w.W_PI_ID AS workDetailModalProcessId,
+            pi.PI_NAME AS workDetailModalProcessName,
+            pi.PI_SEQ || '-' || NVL(mi.MI_POSITION, 'X') AS workDetailModalWorkPosition,
+            pi.PI_MACHINE_ID AS workDetailModalMachineId,
+            mi.MI_NAME AS workDetailModalMachineName,
+            UPPER(ct.CT_UNIT) AS workDetailModalUnit,
+            ins.INS_ITEM_ID as workDetailModalItemId,
+            it.I_NAME AS workDetailModalItemName,
+            it.I_STANDARD AS workDetailModalItemStandard,
+            w.W_PLAN_QUANTITY AS workDetailModalPlanQuantity,
+            w.W_ITEM_QUANTITY AS workDetailModalProQuantity,
+            TO_CHAR(w.W_START_TIME, 'YYYY-MM-DD HH24:MI:SS') AS workDetailModalWorkStartTime,
+            TO_CHAR(w.W_END_TIME, 'YYYY-MM-DD HH24:MI:SS') AS workDetailModalWorkEndTime,
+            w.W_TIME AS workDetailModalWorkTime,
+            w.W_STATUS AS workDetailModalWorkStatus,
+            w.W_NOTE AS workDetailModalNote
+        FROM
+            WORK w
+            LEFT JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
+            LEFT JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.MI_ID
+            LEFT JOIN PROCESS p ON w.W_pi_ID = p.P_PI_ID
+            LEFT JOIN INSTRUCTION ins ON w.W_LOT_ID = ins.INS_LOT_ID
+            LEFT JOIN CONTRACT ct ON ins.INS_CT_ID = ct.CT_ID
+            LEFT JOIN ITEM it ON ins.INS_ITEM_ID  = it.I_ID
+        WHERE
+            w.w_id = #{workDetailModalWorkId}
+            AND w.W_LOT_ID = #{workDetailModalLotId}
+            AND w.W_PI_ID = #{workDetailModalProcessId}
+    </select>
+
+    <!-- Work 의 작업상세 - 모달창을 이용한 작업 수정 -->
+    <update id="workDetailModalUpdate" parameterType="com.cnr_furniture.domain.work.workMNG.WorkDetailModalVO">
+        UPDATE
+            work
+        SET
+            W_START_TIME = #{workDetailModalWorkStartTime},
+            W_END_TIME = #{workDetailModalWorkEndTime},
+            W_TIME = #{workDetailModalWorkTime},
+            W_STATUS = #{workDetailModalWorkStatus},
+            W_PLAN_QUANTITY = #{workDetailModalPlanQuantity},
+            W_ITEM_QUANTITY = #{workDetailModalProQuantity},
+            W_NOTE = #{workDetailModalNote, jdbcType=VARCHAR}
+        WHERE
+            w_id = #{workDetailModalWorkId}
+            and w_lot_id = #{workDetailModalLotId}
+            and w_pi_id = #{workDetailModalProcessId}
+    </update>
+
+    <!-- Work 의 작업상세 - 모달창을 이용한 제조수행 수정 : work 테이블의  W_PLAN_QUANTITY가 수정됐을 때 이전값을 빼주고 현재값을 더함 -->
+    <update id="workDetailModalUpdateProQuantity" parameterType="com.cnr_furniture.domain.work.workMNG.WorkDetailModalVO">
+        UPDATE PROCESS
+        SET
+            P_ITEM_QUANTITY = P_ITEM_QUANTITY + #{workDetailModalProQuantity}
+        WHERE
+            P_LOT_ID = #{workDetailModalLotId}
+            and P_PI_ID = #{workDetailModalProcessId}
+    </update>
+
+    <!-- Work 의 작업상세 - 모달창을 이용한 설비 작동상태 수정 : work 테이블의 w_status가 작업중일 때 MW_STATUS = '가동' -->
+    <update id="workDetailModalUpdateMiWorkByStatusWork" parameterType="int">
+        UPDATE MACHINE_WORK
+        SET
+            MW_STATUS = '가동'
+        WHERE
+            MW_MI_ID = #{workDetailModalMachineId}
+    </update>
+
+    <!-- Work 의 작업상세 - 모달창을 이용한 설비 작동상태 수정 : work 테이블의 w_status가 작업중단일 때 MW_STATUS = '수리중', MW_CONDITION = '수리요청' -->
+    <update id="workDetailModalUpdateMiWorkByStatusRepair" parameterType="int">
+        UPDATE MACHINE_WORK
+        SET
+            MW_STATUS = '수리중',
+            MW_CONDITION = '수리요청'
+        WHERE
+            MW_MI_ID = #{workDetailModalMachineId}
+    </update>
+
+    <!-- Work 의 작업상세 - 모달창을 이용한 설비 작동상태 수정 : work 테이블의 w_status가 작업정지 또는 작업완료일 때 MW_STATUS = '비가동' -->
+    <update id="workDetailModalUpdateMiWorkByStatusRestFin" parameterType="int">
+        UPDATE MACHINE_WORK
+        SET
+            MW_STATUS = '비가동'
+        WHERE
+            MW_MI_ID = #{workDetailModalMachineId}
+    </update>
+    <!-- Work 의 작업상세 - 모달창을 이용한 작업 삭제-->
+    <delete id="workDetailModalDelete" parameterType="int">
+        delete from work where w_id = #{workDetailModalWorkId}
+    </delete>
 
     <!-- todayWorkInsert.jsp ============================================================================ -->
 
@@ -824,67 +930,75 @@
     <!-- workerInsert 의 작업자배치 조회 -->
     <select id="selectWorkerInsertList" resultType="com.cnr_furniture.domain.work.workerInsert.WorkSelectWorkerVO">
         SELECT
-            Rownum AS rn,
-            q.w_id,
-            q.w_start_time,
-            q.w_end_time,
-            q.w_lot_id,
-            q.w_pi_id,
-            q.pi_name,
-            q.pi_machine_id,
-            q.mi_name,
-            q.POSITION,
-            CASE WHEN TRIM(q.substrAllEmp) IS NULL OR TRIM(q.substrAllEmp) = '()...' THEN '' ELSE q.substrAllEmp END AS substrAllEmp,
-            CASE WHEN TRIM(q.allEmpList) IS NULL OR TRIM(q.allEmpList) = '()' THEN '' ELSE q.allEmpList END AS allEmpList
-        FROM
-            (SELECT
-                DISTINCT w.W_ID,
-                to_char(w.w_start_time, 'yyyy-mm-dd HH24:mi:ss') AS w_start_time,
-                to_char(w.w_end_time, 'yyyy-mm-dd HH24:mi:ss') AS w_end_time,
+            ROWNUM AS rn,
+            sub.W_ID,
+            sub.W_START_TIME,
+            sub.W_END_TIME,
+            sub.W_LOT_ID,
+            sub.W_PI_ID,
+            sub.PI_NAME,
+            sub.POSITION,
+            sub.PI_MACHINE_ID,
+            sub.MI_NAME,
+            sub.substrAllEmp,
+            sub.allEmpList
+        FROM (
+            SELECT
+                w.W_ID,
+                TO_CHAR(w.W_START_TIME, 'YYYY-MM-DD HH24:MI:SS') AS W_START_TIME,
+                TO_CHAR(w.W_END_TIME, 'YYYY-MM-DD HH24:MI:SS') AS W_END_TIME,
                 w.W_LOT_ID,
                 w.W_PI_ID,
-                pi.pi_name,
-                pi.PI_SEQ || '-' || nvl(mi.MI_POSITION, 'X') AS POSITION,
+                pi.PI_NAME,
+                pi.PI_SEQ || '-' || NVL(mi.MI_POSITION, 'X') AS POSITION,
                 pi.PI_MACHINE_ID,
                 mi.MI_NAME,
-                Substr(LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME || ')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP (ORDER BY e.e_role, wr.WR_EMP_ID) OVER (PARTITION BY e.E_DP_NAME, w.W_ID), 1, 40) || '...' AS substrAllEmp,
-                LISTAGG(DISTINCT wr.WR_EMP_ID || '(' || e.E_NAME || ')', ', ' ON OVERFLOW TRUNCATE '...') WITHIN GROUP (ORDER BY e.e_role, wr.WR_EMP_ID) OVER (PARTITION BY e.E_DP_NAME, w.W_ID) AS allEmpList
+                emp_sub.E_DP_NAMES_SUBSTR AS substrAllEmp,
+                emp_sub.E_DP_NAMES_LIST AS allEmpList
             FROM
                 WORK w
-                LEFT JOIN WORKER wr ON w.W_ID = wr.WR_WORK_ID
                 LEFT JOIN PROCESS_INFO pi ON w.W_PI_ID = pi.PI_ID
                 LEFT JOIN MACHINE_INFO mi ON pi.PI_MACHINE_ID = mi.MI_ID
-                LEFT JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
-            <trim prefix="where " prefixOverrides="and">
-                <if test="workStartDate != null or workEndDate != null or
-                         find_work_instruction != null or find_work_processInfo != null or
-                         find_work_id != null or find_work_machine != null">
-                    <if test="workStartDate != ''">
-                        <![CDATA[AND to_char(w.w_start_time,'yyyy-mm-dd') >= #{workStartDate}]]>
-                    </if>
-                    <if test="workEndDate != ''">
-                        <![CDATA[AND TO_char(w.w_end_time, 'yyyy-mm-dd') <= #{workEndDate}]]>
-                    </if>
-                    <if test="find_work_instruction != ''">
-                        AND w.w_lot_id = #{find_work_instruction}
-                    </if>
-                    <if test="find_work_processInfo != ''">
-                        AND w.w_pi_id = #{find_work_processInfo}
-                    </if>
-                    <if test="find_work_id != ''">
-                        AND w.w_id = #{find_work_id}
-                    </if>
-                    <if test="find_work_machine != ''">
-                        AND pi.pi_machine_id = #{find_work_machine}
-                    </if>
-                    <if test="workStartDate == '' and workEndDate == '' and
-                         find_work_instruction == '' and find_work_processInfo == '' and
-                         find_work_id == '' and find_work_machine != '' ">
-                        AND 1=0
-                    </if>
+                LEFT JOIN (
+                            SELECT
+                                wr.WR_WORK_ID,
+                                Substr(LISTAGG(DISTINCT wr_emp_id_with_name, ', ') WITHIN GROUP (ORDER BY e.e_role, wr.WR_EMP_ID), 1, 40) || '...' AS E_DP_NAMES_SUBSTR,
+                                LISTAGG(DISTINCT wr_emp_id_with_name, ', ') WITHIN GROUP (ORDER BY e.e_role, wr.WR_EMP_ID) AS E_DP_NAMES_LIST
+                            FROM (
+                                    SELECT
+                                        wr.WR_EMP_ID,
+                                        wr.WR_WORK_ID,
+                                        wr.WR_EMP_ID || '(' || e.E_NAME || ')' AS wr_emp_id_with_name,
+                                        e.E_DP_NAME
+                                    FROM
+                                        WORKER wr
+                                        JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
+                                    ) wr JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
+                                    GROUP BY wr.WR_WORK_ID
+                                ) emp_sub ON w.W_ID = emp_sub.WR_WORK_ID
+            <trim prefix="WHERE" prefixOverrides="AND">
+                <if test="workStartDate != null and workStartDate != ''">
+                    <![CDATA[AND TO_CHAR(w.W_START_TIME, 'YYYY-MM-DD') >= #{workStartDate}]]>
+                </if>
+                <if test="workEndDate != null and workEndDate != ''">
+                    <![CDATA[AND TO_CHAR(w.W_END_TIME, 'YYYY-MM-DD') <= #{workEndDate}]]>
+                </if>
+                <if test="find_work_instruction != null and find_work_instruction != ''">
+                    AND w.W_LOT_ID = #{find_work_instruction}
+                </if>
+                <if test="find_work_processInfo != null and find_work_processInfo != ''">
+                    AND w.W_PI_ID = #{find_work_processInfo}
+                </if>
+                <if test="find_work_id != null and find_work_id != ''">
+                    AND w.W_ID = #{find_work_id}
+                </if>
+                <if test="find_work_machine != null and find_work_machine != ''">
+                    AND pi.PI_MACHINE_ID = #{find_work_machine}
                 </if>
             </trim>
-            ORDER BY w.W_ID desc, w.W_LOT_ID, w.W_PI_ID, POSITION ) q
+            ORDER BY w.W_ID DESC
+        ) sub
+
     </select>
     <!-- workerInsert.jsp 의 작업자 관리 모달창 ============================================================================ -->
 
@@ -941,6 +1055,15 @@
             JOIN EMPLOYEE e ON wr.WR_EMP_ID = e.E_ID
         WHERE
             wr.WR_WORK_ID = #{edit_w_id}
+        ORDER BY
+            CASE
+                WHEN e.E_ROLE = 'ROLE_Director' THEN 1
+                WHEN e.E_ROLE = 'ROLE_Manager' THEN 2
+                WHEN e.E_ROLE = 'ROLE_Staff' THEN 3
+                ELSE 4
+            END,
+            workerInfoDpName,
+            workerInfoEmpId
     </select>
 
     <!-- 작업자 등록 -->
@@ -971,5 +1094,6 @@
             AND wr_work_id = #{work_id}
 
     </delete>
+
 
 </mapper>

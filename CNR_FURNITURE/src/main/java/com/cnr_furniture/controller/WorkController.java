@@ -44,7 +44,7 @@ public class WorkController {
      * @return: work/work
      */
 
-    @GetMapping("/work")
+    @GetMapping("/M/process/work")
     public String work(WorkSearchVO workSearchVO,
                        Model model){
 
@@ -195,7 +195,7 @@ public class WorkController {
      * Desc: 작업등록 모달창 - [로트번호] 입력에 따른 [공정번호 리스트] 조회
      * @Param workInsertModalLotId : 공정번호 리스트를 가져오기 위한 제조LOT번호
      */
-    @GetMapping("/workInsertModalProIdByLotId")
+    @GetMapping("/M/process/workInsertModalProIdByLotId")
     @ResponseBody
     public List<WorkInsertModalVO> getProIdByLotId(
             @RequestParam("workInsertModalLotId") int workInsertModalLotId
@@ -207,7 +207,7 @@ public class WorkController {
      * Desc: work 의 작업등록 모달창의 [로트번호] 입력에 따른 [제품번호],[제품명],[생산단위] 조회
      * @Param workInsertModalLotId : [제품번호],[제품명],[생산단위]를 가져오기 위한 제조LOT번호
      */
-    @GetMapping("/workInsertModalAutoDataByLotId")
+    @GetMapping("/M/process/workInsertModalAutoDataByLotId")
     @ResponseBody
     public WorkInsertModalVO getAutoDataByLotId(
             @RequestParam("workInsertModalLotId") int workInsertModalLotId
@@ -221,7 +221,7 @@ public class WorkController {
      * @Param workInsertModalLotId : [공정번호]를 가져오기 위한 제조LOT번호
      * @Param workInsertModalProcessId :  [공정명], [설비번호], [설비명], [작업위치], [남은생산수량] 를 가져오기 위한 공정번호
      */
-    @GetMapping("/workInsertModalAutoDataByProId")
+    @GetMapping("/M/process/workInsertModalAutoDataByProId")
     @ResponseBody
     public WorkInsertModalVO getAutoDataByProId(
             @RequestParam("workInsertModalLotId") int workInsertModalLotId,
@@ -234,7 +234,7 @@ public class WorkController {
      * Desc: Work 의 작업 등록 시, DB 저장 - [작업 테이블]
      * @param arrays 자재투입목록 클라이언트로부터 JSON 형태로 받아 WorkInsertModalVO 객체 리스트로 변환
      */
-    @PostMapping(value = "/workInsertArr")
+    @PostMapping(value = "/M/process/workInsertArr")
     @ResponseBody
     public ResponseEntity<?> workInsert(
             @RequestBody List<WorkInsertModalVO> arrays
@@ -251,8 +251,63 @@ public class WorkController {
     }
 
     /* [work.jsp 의 작업상세 및 수정, 삭제 모달창] ============================================================== */
+    /**
+     * Desc: work 의 작업상세 모달창의 작업상세 조회
+     * @Param workDetailModalWorkId : 작업상세 조회를 위한 파라미터
+     * @Param workDetailModalLotId : 작업상세 조회를 위한 파라미터
+     * @Param workDetailModalProcessId : 작업상세 조회를 위한 파라미터
+     */
+    @GetMapping("/workDetailModalAutoDataByWorkId")
+    @ResponseBody
+    public WorkDetailModalVO getWorkDetailAutoDataByWorkId(
+            @RequestParam("workDetailModalWorkId") int workDetailModalWorkId,
+            @RequestParam("workDetailModalLotId") int workDetailModalLotId,
+            @RequestParam("workDetailModalProcessId") int workDetailModalProcessId
+    ) {
+        return workService.getWorkDetailAutoDataByWorkId(workDetailModalWorkId, workDetailModalLotId, workDetailModalProcessId);
+    }
 
+    /**
+     * Desc: Work 의 작업 수정 시 [작업 테이블, 제조수행 테이블, 설비작동 테이블] 데이터 수정
+     * @param workDetailModalVO 작업목록 클라이언트로부터 파라미터를 요청받아 수정할 수 있는 객체를 담은 VO
+     */
+    @RequestMapping(value = "/workDetailModalUpdate", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> workDetailModalUpdate(
+            @RequestBody WorkDetailModalVO workDetailModalVO
+    ) {
+        log.info(workDetailModalVO);
+        try {
+            workService.workDetailModalUpdate(workDetailModalVO);
+            return ResponseEntity.ok().body(Map.of("success", true, "message", "수정되었습니다."));
+        } catch (Exception e) {
+            log.error("등록 실패, Error: {}" + e.getMessage() + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("success", false,
+                            "message", "수정 실패: " + e.getMessage()));
+        }
+    }
 
+    /**
+     * Desc:  Work 의 작업상세 - 모달창을 이용한 작업 삭제 - [작업테이블]
+     * @param workDetailModalWorkId 작업상세 클라이언트로부터 값을 받아옴
+     */
+    @PostMapping("/workDetailDelete")
+    @ResponseBody
+    public ResponseEntity<?> workDetailDelete(
+            @RequestParam int workDetailModalWorkId
+            ) {
+        try {
+            // 작업 삭제 로직 실행
+            workService.workDetailModalDelete(workDetailModalWorkId);
+            return ResponseEntity.ok(Map.of("success", true,
+                    "message", "작업자가 성공적으로 삭제되었습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("success", false,
+                            "message", "삭제 실패: " + e.getMessage()));
+        }
+    }
 
     /* [todayWorkInsert.jsp] ============================================================== */
     /**
@@ -260,7 +315,7 @@ public class WorkController {
      * @return: work/todayWorkInsert
      */
 
-    @GetMapping("/todayWorkInsert")
+    @GetMapping("/process/todayWorkInsert")
     public String todayWorkInsert(WorkSearchVO workSearchVO, Model model){
 
         workSearch(workSearchVO, model); // 검색을 위한 메소드 사용
@@ -359,6 +414,11 @@ public class WorkController {
         }
     }
 
+    /**
+     * Desc: workInsert 의 작업자 관리 모달창의 등록된 작업자 목록에서 작업자 삭제 - [worker 테이블]
+     * @param emp_id 작업자 관리 클라이언트로부터 값을 받아옴
+     * @param work_id 작업자 관리 클라이언트로부터 값을 받아옴
+     */
     @PostMapping("/deleteWorker")
     @ResponseBody
     public ResponseEntity<?> deleteWorker(@RequestParam int emp_id, @RequestParam int work_id) {
