@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnr_furniture.mapper.ItemInventoryMapper">
+    <!-- 제품재고조회 ============================================================= -->
+    <!-- 검색창 - 제품번호 -->
+    <select id="getItemIDList" resultType="com.cnr_furniture.domain.inventory.ItemInventoryListVO">
+        SELECT
+            i.INV_ITEM_ID as itemID
+        FROM INVENTORY i
+        WHERE
+            i.INV_ITEM_ID IS NOT NULL
+    </select>
+
+    <!-- 검색창 - 제품명 -->
+    <select id="getItemNameList" resultType="com.cnr_furniture.domain.inventory.ItemInventoryListVO">
+        SELECT
+            i2.I_NAME as itemName
+        FROM
+            INVENTORY i
+            JOIN ITEM i2 ON i2.I_ID = i.INV_ITEM_ID
+    </select>
+
+    <!-- 검색창 - 제품용도 -->
+    <select id="getItemUsesList" resultType="com.cnr_furniture.domain.inventory.ItemInventoryListVO">
+        SELECT DISTINCT
+            i2.I_USES as itemUses
+        FROM
+            INVENTORY i
+            JOIN ITEM i2 ON i2.I_ID = i.INV_ITEM_ID
+    </select>
+
+    <!-- 재고 조회(with 검색) -->
+    <select id="getItemInventoryList" resultType="com.cnr_furniture.domain.inventory.ItemInventoryListVO"
+            parameterType="com.cnr_furniture.domain.inventory.CriteriaItemInventoryVO">
+        <![CDATA[
+            SELECT
+                rownum AS listSeq
+                , T.INV_ITEM_ID AS itemID
+                , T.I_USES AS itemUses
+                , T.I_STANDARD AS itemStandard
+                , T.I_NAME AS itemName
+                , T.INV_UNIT AS unit
+                , T.quantity AS quantity
+            FROM
+                (
+                    SELECT
+                        i.INV_ITEM_ID
+                        , i2.I_USES
+                        , i2.I_STANDARD
+                        , i2.I_NAME
+                        , i.INV_UNIT
+                        , SUM(i.INV_QUANTITY) AS quantity
+                    FROM
+                        INVENTORY i
+                        JOIN ITEM i2 ON i2.I_ID = i.INV_ITEM_ID
+                    WHERE
+                        1=1
+                    GROUP BY
+                        i.INV_ITEM_ID
+                        , i2.I_USES
+                        , i2.I_STANDARD
+                        , i2.I_NAME
+                        , i.INV_UNIT
+                    ORDER BY
+                        I_USES DESC, INV_ITEM_ID
+                ) T
+        ]]>
+            where
+                1=1
+            <if test="itemID != null and itemID != ''">
+                and INV_ITEM_ID = #{itemID}
+            </if>
+            <if test="itemName != null and itemName != ''">
+                and I_NAME = #{itemName}
+            </if>
+            <if test="itemUses != null and itemUses != ''">
+                and I_USES = #{itemUses}
+            </if>
+    </select>
+</mapper>

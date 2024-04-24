@@ -107,7 +107,6 @@ public class InspectionIBServiceImpl implements InspectionIBService{
      * Desc: 자재불량 등록 시, DB 저장 - [품질검사 테이블], [재고 테이블]
      * @return: inspectionIB.js 코드에 '/inspectionIB'로 리다이렉트하는 코드가 있음.
      * [계약(CONTRACT) 테이블]의 업데이트는 같은 계약번호에 대해서는 단 한 번만 업데이트 수행
-     * [Set]:
      */
     @Override
     @Transactional

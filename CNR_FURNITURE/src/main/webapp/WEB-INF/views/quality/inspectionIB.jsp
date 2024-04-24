@@ -13,7 +13,7 @@
 
 <div class="content-wrapper">
 	<!-- 검색 Form -->
-	<form action="/inspectionIB" id="searchInspIB" name="searchInspIB" class="col-md-12" method="get">
+	<form action="/quality/inspectionIB" id="searchInspIB" name="searchInspIB" class="col-md-12" method="get">
 	  <div class="content-header">
 	    <div class="container-fluid">
 	      <div class="row mb-2">
@@ -93,7 +93,7 @@
 	         <div class="col-sm-3 inspection-text">
 	         	<input type="date" class="col-sm-6" id="inspectionDate1" name="inspectionDate1" value='${cri.inspectionDate1}' />
 	         	&nbsp;
-	         	<input type="date" class="col-sm-6" id="inspectionDate2" name="inspectionDate2" value='${cri.inspectionDate1}' />
+	         	<input type="date" class="col-sm-6" id="inspectionDate2" name="inspectionDate2" value='${cri.inspectionDate2}' />
 	         </div><!-- /.검사일자 -->
 	       </div><!-- /.검색행2 -->
 	     

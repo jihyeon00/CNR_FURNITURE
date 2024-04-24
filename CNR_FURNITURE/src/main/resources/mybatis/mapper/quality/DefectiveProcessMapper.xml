@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnr_furniture.mapper.quality.DefectiveProcessMapper">
+    <!-- 검색창 - 제조LOT번호 -->
+    <select id="getLotIDList" resultType="com.cnr_furniture.domain.quality.defectiveProcess.DftProcessListVO">
+        SELECT
+            DISTINCT qi.QI_PRO_LOT_ID as lotID
+        FROM
+            QUALITY_INSPECTION qi
+        WHERE
+            qi.QI_PRO_LOT_ID IS NOT NULL
+        ORDER BY
+            qi.QI_PRO_LOT_ID
+    </select>
+
+    <!-- 검색창 - 공정번호 -->
+    <select id="getProcessIDList" resultType="com.cnr_furniture.domain.quality.defectiveProcess.DftProcessListVO">
+        SELECT
+            DISTINCT qi.QI_PI_ID as processID
+        FROM
+            QUALITY_INSPECTION qi
+        WHERE
+            qi.QI_PI_ID IS NOT NULL
+        ORDER BY
+            qi.QI_PI_ID
+    </select>
+
+    <!-- 검색창 - 불량유형1 -->
+    <select id="getQsDiv1List" resultType="com.cnr_furniture.domain.quality.defectiveProcess.DftProcessListVO">
+        SELECT
+            DISTINCT qs.QS_DF_DIV1 as qsDiv1
+        FROM
+            QUALITY_STANDARD qs
+            JOIN QUALITY_INSPECTION qi ON qi.QI_QS_ID = qs.QS_ID
+        WHERE
+            qi.QI_PI_ID IS NOT NULL
+    </select>
+
+    <!-- 검색창 - 불량유형1에 따른 불량유형2 -->
+    <select id="getQsDiv2ListByQsDiv1" resultType="com.cnr_furniture.domain.quality.defectiveProcess.DftProcessListVO"
+            parameterType="string">
+        SELECT
+            DISTINCT qs.QS_DF_DIV2 AS qsDiv2
+        FROM
+            QUALITY_STANDARD qs
+        WHERE
+            QS_DF_DIV1 = #{qsDiv1}
+    </select>
+
+    <!-- 조회(with 검색) -->
+    <select id="getDftProcessList" resultType="com.cnr_furniture.domain.quality.defectiveProcess.DftProcessListVO"
+            parameterType="com.cnr_furniture.domain.quality.defectiveProcess.CriteriaDftProcessVO">
+        <![CDATA[
+            SELECT
+                rownum AS listSeq
+                , T.lotID AS lotID
+                , T.processID AS processID
+                , T.qsDiv1 AS qsDiv1
+                , T.qsDiv2 AS qsDiv2
+                , T.productName AS productName
+                , T.unit AS unit
+                , T.totalWorkQuantity AS totalWorkQuantity
+                , T.totalGoodQuantity AS totalGoodQuantity
+                , T.totalDefectQuantity AS totalDefectQuantity
+                , T.defectRate AS defectRate
+            FROM
+                (
+                    SELECT
+                        qi.QI_PRO_LOT_ID AS lotID
+                        , qi.QI_PI_ID AS processID
+                        , qs.QS_DF_DIV1 AS qsDiv1
+                        , qs.QS_DF_DIV2 AS qsDiv2
+                        , i.I_NAME AS productName
+                        , c.CT_UNIT AS unit
+                        , SUM(w.W_ITEM_QUANTITY) AS totalWorkQuantity
+                        , SUM(qi.QI_PASSED_QUANTITY) AS totalGoodQuantity
+                        , SUM(qi.QI_DFT_QUANTITY) AS totalDefectQuantity
+                        , ROUND(SUM(qi.QI_DFT_QUANTITY) / SUM(w.W_ITEM_QUANTITY) * 100, 2) AS defectRate
+                    FROM
+                        QUALITY_INSPECTION qi
+                        JOIN WORK w ON w.W_ID = qi.QI_WORK_ID
+                        JOIN QUALITY_STANDARD qs ON qs.QS_ID = qi.QI_QS_ID
+                        JOIN INSTRUCTION ins ON ins.INS_LOT_ID = qi.QI_PRO_LOT_ID AND ins.INS_PI_ID = qi.QI_PI_ID
+                        JOIN ITEM i ON i.I_ID = ins.INS_ITEM_ID
+                        JOIN CONTRACT c ON c.CT_ITEM_ID = i.I_ID
+                    GROUP BY
+                        qi.QI_PRO_LOT_ID,
+                        qi.QI_PI_ID,
+                        qs.QS_DF_DIV1,
+                        qs.QS_DF_DIV2,
+                        i.I_NAME,
+                        c.CT_UNIT
+                    ORDER BY
+                        qi.QI_PRO_LOT_ID,
+                        qi.QI_PI_ID,
+                        qs.QS_DF_DIV1,
+                        qs.QS_DF_DIV2
+                ) T
+        ]]>
+            where 1=1
+            <if test="lotID != null and lotID != ''">
+                and QI_PRO_LOT_ID = #{lotID}
+            </if>
+            <if test="processID != null and processID != ''">
+                and QI_PI_ID = #{processID}
+            </if>
+            <if test="qsDiv1 != null and qsDiv1 != ''">
+                and QS_DF_DIV1 = #{qsDiv1}
+            </if>
+            <if test="qsDiv2 != null and qsDiv2 != ''">
+                and QS_DF_DIV2 = #{qsDiv2}
+            </if>
+            <if test="inspectionDate1 != null and inspectionDate1 != ''">
+                and qi.QI_DATE >= #{inspectionDate1}
+            </if>
+            <if test="inspectionDate2 != null and inspectionDate2 != ''">
+                and #{inspectionDate2} >= qi.QI_DATE
+            </if>
+    </select>
+</mapper>

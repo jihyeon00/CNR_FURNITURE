@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cnr_furniture.mapper.quality.InspectionOBMapper">
+    <!-- [출하불량현황] - 검색 및 현황 조회 ====================================================================================================== -->
+    <!-- 검색창의 option: ★출하불량등록이 완료된 것들을 조회★ -->
+    <!-- 검색창 - 제조LOT번호 -->
+    <select id="getLotIDList" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBListVO">
+        SELECT
+            DISTINCT qi.QI_PRO_LOT_ID as lotID
+        FROM
+            QUALITY_INSPECTION qi
+        WHERE
+            qi.QI_ITEM_ID IS NOT NULL
+        ORDER BY
+            qi.QI_PRO_LOT_ID
+    </select>
+
+    <!-- 검색창 - 제품번호 -->
+    <select id="getProductIDList" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBListVO">
+        SELECT
+            qi.QI_ITEM_ID as productID
+        FROM
+            QUALITY_INSPECTION qi
+        WHERE
+            qi.QI_ITEM_ID IS NOT NULL
+    </select>
+
+    <!-- 검색창 - 제품명 -->
+    <select id="getProductNameList" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBListVO">
+        SELECT
+            i.I_NAME as productName
+        FROM
+            ITEM i
+            JOIN QUALITY_INSPECTION qi ON qi.QI_ITEM_ID = i.I_ID
+    </select>
+
+    <!-- 검색창 - 불량유형1 -->
+    <select id="getQsDiv1List" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBListVO">
+        SELECT
+            DISTINCT qs.QS_DF_DIV1 as qsDiv1
+        FROM
+            QUALITY_STANDARD qs
+            JOIN QUALITY_INSPECTION qi ON qi.QI_QS_ID = qs.QS_ID
+        WHERE
+            qi.QI_ITEM_ID IS NOT NULL
+    </select>
+
+    <!-- 검색창 - 불량유형2 -->
+    <select id="getQsDiv2ListByQsDiv1" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBListVO"
+            parameterType="string">
+        <!-- [불량유형2]의 option 값은 [불량유형1]의 option 값에 따라 다르다. -->
+        SELECT
+            DISTINCT qs.QS_DF_DIV2 AS qsDiv2
+        FROM
+            QUALITY_STANDARD qs
+        WHERE
+            QS_DF_DIV1 = #{qsDiv1}
+    </select>
+
+    <!-- 검색창 - 작업번호 -->
+    <select id="getWorkIDList" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBListVO">
+        SELECT
+            qi.QI_WORK_ID as workID
+        FROM
+            QUALITY_INSPECTION qi
+        WHERE
+            qi.QI_ITEM_ID IS NOT NULL
+    </select>
+
+    <!-- 검색창 - 공정번호 -->
+    <select id="getProcessIDList" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBListVO">
+        SELECT
+            DISTINCT qi.QI_PI_ID as processID
+        FROM
+            QUALITY_INSPECTION qi
+        WHERE
+            qi.QI_ITEM_ID IS NOT NULL
+        ORDER BY
+            qi.QI_PI_ID
+    </select>
+
+    <!-- 출하검사현황(제품 불량) 조회 및 검색 -->
+    <select id="getInspOBList" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBListVO"
+            parameterType="com.cnr_furniture.domain.quality.inspectionOB.CriteriaInspOBVO">
+        <![CDATA[
+        SELECT
+            rownum AS listSeq
+            , T.QI_ID AS qiID
+            , T.INS_ITEM_ID AS productID
+            , T.W_LOT_ID  AS lotID
+            , T.W_PI_ID AS processID
+            , T.W_ID AS workID
+            , T.I_NAME AS productName
+            , T.I_COLOR AS productColor
+            , T.I_STANDARD AS productStandard
+            , T.CT_UNIT AS unit
+            , T.W_ITEM_QUANTITY AS dailyWorkQuantity
+            , T.QI_INSPECTION_QUANTITY AS inspectionQuantity
+            , T.QI_DFT_QUANTITY AS defectQuantity
+            , T.defectRate AS defectRate
+            , T.QI_PASSED_QUANTITY AS goodQuantity
+            , T.QS_DF_DIV1 AS qsDiv1
+            , T.QS_DF_DIV2 AS qsDiv2
+            , T.inspectionDate AS inspectionDate
+            , T.QI_NOTE AS note
+        FROM
+            (
+            SELECT
+                qi.QI_ID
+                , ins.INS_ITEM_ID
+                , w.W_LOT_ID
+                , w.W_PI_ID
+                , w.W_ID
+                , i.I_NAME
+                , i.I_COLOR
+                , i.I_STANDARD
+                , ct.CT_UNIT
+                , w.W_ITEM_QUANTITY
+                , qi.QI_INSPECTION_QUANTITY
+                , qi.QI_DFT_QUANTITY
+                , (qi.QI_DFT_QUANTITY / NULLIF(qi.QI_INSPECTION_QUANTITY, 0) * 100) AS defectRate
+                , qi.QI_PASSED_QUANTITY
+                , qs.QS_DF_DIV1
+                , qs.QS_DF_DIV2
+                , TO_CHAR(qi.QI_DATE, 'YYYY-MM-DD') AS inspectionDate
+                , qi.QI_NOTE
+            FROM
+                QUALITY_INSPECTION qi
+                JOIN QUALITY_STANDARD qs ON qs.QS_ID = qi.QI_QS_ID
+                JOIN "WORK" w ON w.W_ID = qi.QI_WORK_ID
+                JOIN INSTRUCTION ins ON ins.INS_LOT_ID = w.W_LOT_ID
+                JOIN CONTRACT ct ON ct.CT_ID = ins.INS_CT_ID
+                JOIN ITEM i ON i.I_ID = ins.INS_ITEM_ID
+            WHERE
+                qi.QI_ITEM_ID IS NOT NULL
+            GROUP BY
+                qi.QI_ID
+                , ins.INS_ITEM_ID
+                , w.W_LOT_ID
+                , w.W_PI_ID
+                , w.W_ID
+                , ins.INS_ITEM_ID
+                , i.I_NAME
+                , i.I_COLOR
+                , i.I_STANDARD
+                , ct.CT_UNIT
+                , w.W_ITEM_QUANTITY
+                , qi.QI_INSPECTION_QUANTITY
+                , qi.QI_DFT_QUANTITY
+                , qi.QI_PASSED_QUANTITY
+                , qs.QS_DF_DIV1
+                , qs.QS_DF_DIV2
+                , qi.QI_DATE
+                , qi.QI_NOTE
+            ORDER BY
+                qi.QI_ID DESC
+            ) T
+    ]]>
+        where
+            1=1
+        <if test="lotID != null and lotID != ''">
+            and PRO_LOT_ID = #{lotID}
+        </if>
+        <if test="productID != null and productID != ''">
+            and INS_ITEM_ID = #{productID}
+        </if>
+        <if test="productName != null and productName != ''">
+            and I_NAME = #{productName}
+        </if>
+        <if test="qsDiv1 != null and qsDiv1 != ''">
+            and QS_DF_DIV1 = #{qsDiv1}
+        </if>
+        <if test="qsDiv2 != null and qsDiv2 != ''">
+            and QS_DF_DIV2 = #{qsDiv2}
+        </if>
+        <if test="workID != null and workID != ''">
+            and W_ID = #{workID}
+        </if>
+        <if test="processID != null and processID != ''">
+            and W_PI_ID = #{processID}
+        </if>
+    </select>
+
+    <!-- [출하불량현황] - [등록] 모달창 ====================================================================================================== -->
+    <!-- 등록 모달창 - [불량유형1] option 조회 -->
+    <!-- 모든 목록(불량유형1)이 ID 오름차순으로 중복없이 조회 -->
+    <select id="getQsDiv1ForInsertModal" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBInsertVO">
+        SELECT
+            qs.QS_DF_DIV1 AS qsDiv1
+        FROM
+            QUALITY_STANDARD qs
+            INNER JOIN (
+                SELECT
+                    MIN(QS_ID) AS MinQS_ID,
+                    QS_DF_DIV1
+                FROM
+                    QUALITY_STANDARD
+                GROUP BY
+                    QS_DF_DIV1
+            )
+            grouped_qs ON qs.QS_ID = grouped_qs.MinQS_ID
+        ORDER BY
+            qs.QS_ID ASC
+    </select>
+
+    <!-- 등록 모달창 - [불량유형1]에 따른 [불량유형2] 조회 -->
+    <select id="getQsDiv2ListByQsDiv1ForInsertModal" parameterType="string"
+            resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBInsertVO">
+        <!-- [불량유형2]의 option 값은 [불량유형1]의 option 값에 따라 다르다. -->
+        SELECT
+            DISTINCT qs.QS_DF_DIV2 AS qsDiv2
+        FROM
+            QUALITY_STANDARD qs
+        WHERE
+            QS_DF_DIV1 = #{qsDiv1}
+    </select>
+
+    <!-- 등록 모달창 - [작업번호] 조회 -->
+    <select id="getWorkIDListForInsertModal" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBInsertVO">
+        SELECT
+            W.W_ID AS workID
+        FROM
+            WORK W
+            INNER JOIN
+                PROCESS_INFO PI ON W.W_PI_ID = PI.PI_ID
+            INNER JOIN
+                MACHINE_INFO MI ON PI.PI_MACHINE_ID = MI.MI_ID
+            INNER JOIN
+                (SELECT
+                    W_LOT_ID,
+                    MAX(PI_SEQ) AS MAX_PI_SEQ
+                FROM
+                    PROCESS_INFO
+                    INNER JOIN
+                        WORK ON PROCESS_INFO.PI_ID = WORK.W_PI_ID
+                WHERE
+                    WORK.W_STATUS = '작업종료'
+                GROUP BY
+                    W_LOT_ID
+                ) PROC_MAX ON W.W_LOT_ID = PROC_MAX.W_LOT_ID AND PI.PI_SEQ = PROC_MAX.MAX_PI_SEQ
+            INNER JOIN
+                (SELECT
+                    PI_ID,
+                    MAX(MI_POSITION) AS MAX_MI_POSITION
+                FROM
+                    MACHINE_INFO
+                    INNER JOIN
+                        PROCESS_INFO ON MACHINE_INFO.MI_ID = PROCESS_INFO.PI_MACHINE_ID
+                GROUP BY
+                    PI_ID
+                ) MACH_MAX ON PI.PI_ID = MACH_MAX.PI_ID AND MI.MI_POSITION = MACH_MAX.MAX_MI_POSITION
+        WHERE
+            W.W_STATUS = '작업종료'
+        ORDER BY
+            W.W_LOT_ID, W.W_ID
+    </select>
+
+    <!-- 등록 모달창 - [작업번호]에 따른 [제조LOT번호], [공정번호], [제품번호], [제품명], [제품규격], [단위], [일일총작업수량]을 input에 담음(조회) -->
+    <select id="getWorkDetailsByWorkID" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBInsertVO">
+        SELECT
+            w.W_LOT_ID AS lotID
+            , w.W_PI_ID AS processID
+            , ins.INS_ITEM_ID AS productID
+            , i.I_NAME AS productName
+            , i.I_COLOR AS productColor
+            , i.I_STANDARD AS productStandard
+            , ct.CT_UNIT AS unit
+            , w.W_ITEM_QUANTITY AS dailyWorkQuantity
+        FROM
+            "WORK" w
+            JOIN INSTRUCTION ins ON ins.INS_LOT_ID = w.W_LOT_ID
+            JOIN CONTRACT ct ON ct.CT_ID = ins.INS_CT_ID
+            JOIN ITEM i ON i.I_ID = ins.INS_ITEM_ID
+        WHERE
+            w.W_ID = #{workID}
+        GROUP BY
+            w.W_LOT_ID
+            , w.W_PI_ID
+            , ins.INS_ITEM_ID
+            , i.I_NAME
+            , i.I_COLOR
+            , i.I_STANDARD
+            , ct.CT_UNIT
+            , w.W_ITEM_QUANTITY
+    </select>
+
+    <!-- 등록 모달창 - [불량검사 테이블] - [제품불량등록] 데이터 INSERT -->
+    <insert id="insertQualityInspection" parameterType="com.cnr_furniture.domain.quality.inspectionOB.InspOBInsertVO">
+        INSERT INTO QUALITY_INSPECTION
+            (
+                QI_PRO_LOT_ID
+                , QI_PI_ID
+                , QI_WORK_ID
+                , QI_ITEM_ID
+                , QI_QS_ID
+                , QI_INSPECTION_QUANTITY
+                , QI_PASSED_QUANTITY
+                , QI_DFT_QUANTITY
+                , QI_DATE
+                , QI_NOTE
+            )
+        VALUES
+            (
+                #{lotID}
+                , #{processID}
+                , #{workID}
+                , #{itemID}
+                ,
+                <![CDATA[
+                (
+                    SELECT qs.QS_ID
+                    FROM QUALITY_STANDARD qs
+                    WHERE qs.QS_DF_DIV1 = #{qsDiv1}
+                ]]>
+                    <if test="qsDiv2 != ''">
+                        AND qs.QS_DF_DIV2 = #{qsDiv2}
+                    </if>
+                <![CDATA[
+                )
+                ]]>
+                , #{inspectionQuantity}
+                , #{goodQuantity}
+                , #{defectQuantity}
+                , #{inspectionDate}
+                , <if test="note != ''"> #{note} </if>
+            )
+    </insert>
+
+
+
+    <!-- 등록 모달창 - [작업 테이블] - [제품불량등록] 데이터 UPDATE -->
+    <update id="updateWork" parameterType="com.cnr_furniture.domain.quality.inspectionOB.InspOBInsertVO">
+        UPDATE
+            "WORK"
+        SET
+            W_DFT_QUANTITY
+            = (
+                #{inspectionQuantity} - #{goodQuantity}
+            )
+        WHERE
+            W_ID = #{workID}
+            AND W_DFT_QUANTITY = '0'
+    </update>
+
+    <!-- 등록 모달창 - [재고 테이블] - [제품불량등록] 데이터 UPDATE 또는 INSERT -->
+    <insert id="insertOrUpdateInventory" parameterType="com.cnr_furniture.domain.quality.inspectionOB.InspOBInsertVO">
+        MERGE INTO
+            INVENTORY
+        USING
+            DUAL
+        ON (INV_ITEM_ID = #{productID})
+        WHEN MATCHED THEN
+            UPDATE SET INV_QUANTITY = INV_QUANTITY + #{goodQuantity}
+        WHEN NOT MATCHED THEN
+            INSERT (INV_ITEM_ID, INV_QUANTITY)
+        VALUES (#{productID}, #{goodQuantity})
+    </insert>
+
+    <!-- [제품불량수정] - 모달창 ====================================================================================================== -->
+    <!-- 수정 모달창 - [불량유형1] 조회 -->
+    <select id="getQsDiv1ListForUpdateModal" resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBUpdateVO">
+        SELECT
+            qs.QS_DF_DIV1 AS qsDiv1
+        FROM
+            QUALITY_STANDARD qs
+            INNER JOIN (
+                SELECT
+                    MIN(QS_ID) AS MinQS_ID,
+                    QS_DF_DIV1
+                FROM
+                    QUALITY_STANDARD
+                GROUP BY
+                    QS_DF_DIV1
+            )
+        grouped_qs ON qs.QS_ID = grouped_qs.MinQS_ID
+        ORDER BY
+            qs.QS_ID ASC
+    </select>
+
+    <!-- 수정 모달창 - [불량유형1]에 따른 [불량유형2] 조회 -->
+    <select id="getQsDiv2ListByQsDiv1ForUpdateModal" parameterType="string"
+            resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBUpdateVO">
+        SELECT
+            DISTINCT qs.QS_DF_DIV2 AS qsDiv2
+        FROM
+            QUALITY_STANDARD qs
+        WHERE
+            QS_DF_DIV1 = #{qsDiv1}
+    </select>
+
+    <!-- 수정 모달창 - 모달창 내용 조회 -->
+    <select id="getInspOBDetailsBySeq" parameterType="long"
+            resultType="com.cnr_furniture.domain.quality.inspectionOB.InspOBUpdateVO">
+        SELECT DISTINCT
+            qi.QI_WORK_ID AS workID
+            , qi.QI_PRO_LOT_ID AS lotID
+            , qi.QI_PI_ID AS processID
+            , qi.QI_ITEM_ID AS productID
+            , i.I_NAME AS productName
+            , i.I_COLOR AS productColor
+            , i.I_STANDARD AS productStandard
+            , ct.CT_UNIT AS unit
+            , w.W_ITEM_QUANTITY AS dailyWorkQuantity
+            , qi.QI_INSPECTION_QUANTITY AS inspectionQuantity
+            , qs.QS_DF_DIV1 AS qsDiv1
+            , qs.QS_DF_DIV2 AS qsDiv2
+            , qi.QI_DFT_QUANTITY AS defectQuantity
+            , qi.QI_NOTE AS note
+        FROM
+            QUALITY_INSPECTION qi
+            JOIN ITEM i ON i.I_ID = qi.QI_ITEM_ID
+            JOIN "WORK" w ON w.W_ID = qi.QI_WORK_ID
+            JOIN INSTRUCTION ins ON ins.INS_LOT_ID = w.W_LOT_ID
+            JOIN CONTRACT ct ON ct.CT_ID = ins.INS_CT_ID
+            JOIN QUALITY_STANDARD qs ON qs.QS_ID = qi.QI_QS_ID
+        WHERE
+            qi.QI_ID = #{qiID}
+    </select>
+
+    <!-- 수정 모달창 - 정보 업데이트 -->
+    <update id="updateInspOB" parameterType="com.cnr_furniture.domain.quality.inspectionOB.InspOBUpdateVO">
+        UPDATE
+            QUALITY_INSPECTION
+        SET
+            QI_QS_ID = (
+                            SELECT qs.QS_ID
+                            FROM QUALITY_STANDARD qs
+                            WHERE qs.QS_DF_DIV1 = #{qsDiv1}
+                            <if test="qsDiv2 != null and qsDiv2 != ''">
+                                AND qs.QS_DF_DIV2 = #{qsDiv2}
+                            </if>
+                        )
+            <if test="note != null and note != ''">
+                , QI_NOTE = #{note}
+            </if>
+        WHERE
+            QI_ID = #{qiID}
+    </update>
+</mapper>

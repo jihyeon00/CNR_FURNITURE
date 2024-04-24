@@ -13,9 +13,9 @@ public class DefectiveItemController {
     /**
      * Decs: 품질관리-제품불량실적 조회, with 검색
      */
-    @GetMapping("/defectiveItem")
+    @GetMapping("quality/defectiveItem")
     public String getDefectiveItemList() {
         log.info("defectiveItem");
-        return "qualityInspection/defectiveItem";   // 해당하는 View의 이름을 반환
+        return "quality/defectiveItem";   // 해당하는 View의 이름을 반환
     }
 }
