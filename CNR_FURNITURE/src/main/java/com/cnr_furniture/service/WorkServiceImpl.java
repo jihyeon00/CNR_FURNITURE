@@ -209,10 +209,8 @@ public class WorkServiceImpl implements WorkService{
         try {
             // 기존 생산 수량 정보 가져오기 (예를 들어 데이터베이스 쿼리)
             int oldProQuantity = fetchOldProductionQuantity(workDetailModalVO.getWorkDetailModalWorkId());
-
             // 작업 테이블 업데이트
             workMapper.workDetailModalUpdate(workDetailModalVO);
-
             // 생산수량이 변경되었는지 검사
             if (workDetailModalVO.getWorkDetailModalProQuantity() != oldProQuantity) {
                 workDetailModalVO.setWorkDetailModalProQuantity(
@@ -220,7 +218,6 @@ public class WorkServiceImpl implements WorkService{
                 );
                 workMapper.workDetailModalUpdateProQuantity(workDetailModalVO);
             }
-
             // 작업 상태에 따른 설비 상태 업데이트
             switch (workDetailModalVO.getWorkDetailModalWorkStatus()) {
                 case "작업중":

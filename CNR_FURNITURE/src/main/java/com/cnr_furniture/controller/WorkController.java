@@ -242,10 +242,12 @@ public class WorkController {
         log.info(arrays);
         try {
             workService.workInsert(arrays);
-            return ResponseEntity.ok().body(Map.of("success", true, "message", "등록이 성공되었습니다."));
+            return ResponseEntity.ok().body(Map.of("success", true,
+                    "message", "등록이 성공되었습니다."));
         } catch (Exception e) {
             log.error("등록 실패, Error: {}" + e.getMessage() + e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false,
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "success", false,
                     "message", "등록에 실패하였습니다. 에러: " + e.getMessage()));
         }
     }

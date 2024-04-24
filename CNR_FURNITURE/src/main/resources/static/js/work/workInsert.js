@@ -69,7 +69,8 @@ $(document).ready(function() {
         $('#workInsertModalProcessId').empty();
 				let str = '<option value="">공정번호</option>';
         $.each(data , function(i){
-            str += '<option value="' + data[i].workInsertModalProcessId + '">' + data[i].workInsertModalProcessId+'</option>'
+            str += '<option value="' + data[i].workInsertModalProcessId + '">' 
+            + data[i].workInsertModalProcessId+'</option>'
         });
         $('#workInsertModalProcessId').append(str);
 			},

@@ -195,7 +195,7 @@ public interface WorkMapper {
     void workDetailModalUpdateMiWorkByStatusRepair(WorkDetailModalVO workDetailModalVO);
 
     /**
-     * Desc: Work 의 작업상세 - 모달창을 이용한 설비 작동상태 수정 (work의 w_status가 작업정지 또는 작업완료일 때
+     * Desc: Work 의 작업상세 - 모달창을 이용한 설비 작동상태 수정 (work의 w_status가 작업정지 또는 작업종료일 때
      * -> MW_STATUS = '비가동'
      */
     void workDetailModalUpdateMiWorkByStatusRestFin(WorkDetailModalVO workDetailModalVO);
