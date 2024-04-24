@@ -60,7 +60,7 @@ public class InspectionIBController {
      * @param model: 뷰에 데이터를 전달하기 위한 모델
      * @return: qualityInspection/inspectionIB
      */
-    @GetMapping("/inspectionIB")
+    @GetMapping("M/quality/inspectionIB")
     public String getInspectionIBList(CriteriaInspIBVO cri, Model model) {
         log.info("수입검사관리 페이지");
 
@@ -77,7 +77,7 @@ public class InspectionIBController {
             model.addAttribute("cri", cri);
         }
 
-        return "qualityInspection/inspectionIB";    // View 반환
+        return "quality/inspectionIB";    // View 반환
     }
 
     /**

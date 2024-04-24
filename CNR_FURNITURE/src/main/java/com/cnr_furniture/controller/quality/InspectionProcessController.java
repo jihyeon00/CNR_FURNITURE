@@ -52,14 +52,16 @@ public class InspectionProcessController {
     ) {
         return inspectionProcessService.getQsDiv2ListByQsDiv1(qsDiv1);
     }
+
     /**
-     * Decs: 품질관리-출하검사관리(제품OB), with 검색
+     * Decs: 품질관리-공정검사관리(제품OB), with 검색
      * 검색조건에 따라 다른 결과를 모델에 추가하고, 결과 페이지를 렌더링한다.
      * @param cri: 검색 조건을 담은 VO 객체
      * @param model: 뷰에 데이터를 전달하기 위한 모델
-     * @return: qualityInspection/inspectionProcess
+     * @return: M/qualityInspection/inspectionProcess
      */
-    @GetMapping("/inspectionProcess")
+    /*@GetMapping("/inspectionProcess")*/
+    @GetMapping("M/quality/inspectionProcess")
     public String getInspectionProcessList(CriteriaInspProcessVO cri, Model model) {
         log.info("공정검사관리 페이지");
 
@@ -76,7 +78,7 @@ public class InspectionProcessController {
             model.addAttribute("cri", cri);
         }
 
-        return "qualityInspection/inspectionProcess";   // 해당하는 View의 이름을 반환
+        return "quality/inspectionProcess";   // 해당하는 View의 이름을 반환
     }
 
     /**
@@ -131,7 +133,7 @@ public class InspectionProcessController {
 
     /**
      * Desc: [공정불량등록] 시, DB 저장 - [품질검사 테이블], [작업 테이블]
-     * @param items 수입검사 항목 목록, 클라이언트로부터 JSON 형태로 받아 InspProcessInsertVO 객체 리스트로 변환
+     * @param items 공정검사 항목 목록, 클라이언트로부터 JSON 형태로 받아 InspProcessInsertVO 객체 리스트로 변환
      * @return 성공 시 HTTP 200 상태와 성공메시지를 반환, 실패 시 HTTP 500 상태와 함께 실패 메시지를 반환
      * ResponseEntity<?>는 Spring Framework에서 HTTP 요청에 대한 응답을 표현하는 클래스다.
      * 이 클래스를 사용하면 HTTP 상태 코드, 응답 본문, 헤더 등을 포함하는 전체 HTTP 응답을 구성하고 관리할 수 있다.
@@ -202,6 +204,7 @@ public class InspectionProcessController {
         try {
             log.info("수정될 내용: " + updateVO);
             log.info("수정할 qiID: " + updateVO.getQiID());
+            inspectionProcessService.updateInspProcess(updateVO);
             return ResponseEntity.ok().body(Map.of("success", true, "message", "업데이트가 성공적으로 완료되었습니다."));
         } catch(Exception e) {
             log.error("수정 실패: ", e);

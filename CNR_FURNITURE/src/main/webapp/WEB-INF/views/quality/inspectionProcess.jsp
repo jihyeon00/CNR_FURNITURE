@@ -25,7 +25,7 @@
              </ol>
              <ol class="breadcrumb float-sm-right">
                <div class="reset">
-                  <a href="/inspectionProcess">
+                  <a href="/quality/inspectionProcess">
                     <img class="resetPng" alt="reset" src="/resources/img/reset.png" >
                  </a>
                </div>
@@ -351,7 +351,7 @@
                  <div class="inspection-table inspection-modal-table">
                     <table cellpadding="0" cellspacing="0" border="0">
                      <thead class="inspection-table-header">
-                        <tr>
+                       <tr>
                       		<th>NO</th>
 		                    <th>작업번호</th>
 		                    <th>제조LOT번호</th>
@@ -400,7 +400,7 @@
   <div class="modal-dialog" role="document" style="min-width: 60%;">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="inspProcessModalTitle" id="update-ProcessInspection-ModalLabel" style="font-size: 150%; font-weight:800;">공정검사 - 공정불량등록</div>
+        <div class="inspProcessModalTitle" id="update-ProcessInspection-ModalLabel" style="font-size: 150%; font-weight:800;">공정검사 - 공정불량수정</div>
       </div>
       <!-- modal-body -->
       <div class="modal-body inspection-modal-body">

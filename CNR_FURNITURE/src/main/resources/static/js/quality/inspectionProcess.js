@@ -131,7 +131,7 @@ $(document).ready(function() {
 		// 데이터 목록에 추가
 		addToInspectionList(data);
 		
-		// [자재불량목록]을 보이게 한다.
+		// [공정불량목록]을 보이게 한다.
 		$('.newInspList').css('display', 'block');
 		console.log('display = block');
 		
@@ -254,8 +254,8 @@ $(document).ready(function() {
       
       <td class="qsDiv1">${data.qsDiv1}</td>
       <td class="qsDiv2">${data.qsDiv2 || ''}</td>
-      <td class="inspectionDate">${data.inspectionDate}</td>						// 검사일자(입고일자)
       
+      <td class="inspectionDate">${data.inspectionDate}</td>						// 검사일자(입고일자)
       <td class="note">${data.note || ''}</td>
       
       <td onclick="removeRow(this);" 
@@ -379,7 +379,7 @@ $(document).ready(function() {
 				qsDiv2: row.find('.qsDiv2').text() || '',
 				inspectionDate: row.find('.inspectionDate').text(),
 				
-				note: row.find('.note').text() || '',
+				note: row.find('.note').text() || ''
 				
 			});
 		});
@@ -399,7 +399,7 @@ $(document).ready(function() {
 			success: function(response) {
 				alert('등록이 완료되었습니다.');
 				/*window.location.reload();					// 저장 후, 페이지 새로고침*/
-				window.location.href = '/inspectionProcess';	// 저장 후, '/inspectionProcess'로 리다이렉트
+				window.location.href = '/M/quality/inspectionProcess';	// 저장 후, '/inspectionProcess'로 리다이렉트
 			},
 			error: function(xhr, status, error) {
 				console.error('공정불량등록 Error', error);
@@ -506,7 +506,7 @@ $(document).ready(function() {
 			success: function(response) {
 				if(response.success) {
 					alert('수정이 완료되었습니다.');
-					window.location.href = '/inspectionProcess';	// 성공 후, '/inspectionProcess' 페이지로 리다이렉트
+					window.location.href = '/M/quality/inspectionProcess';	// 성공 후, '/inspectionProcess' 페이지로 리다이렉트
 				} else {
 					alert('수정 실패: ' + response.message);
 				}
