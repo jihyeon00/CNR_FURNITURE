@@ -415,7 +415,7 @@ $(document).ready(function() {
 				window.location.href = '/M/quality/inspectionOB';	// 저장 후, '/inspectionOB'로 리다이렉트
 			},
 			error: function(xhr, status, error) {
-				console.error('공정불량등록 Error', error);
+				console.error('출하불량등록 Error', error);
 			}
 		});
 	}

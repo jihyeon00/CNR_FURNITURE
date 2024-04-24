@@ -305,7 +305,7 @@
                 #{lotID}
                 , #{processID}
                 , #{workID}
-                , #{itemID}
+                , #{productID}
                 ,
                 <![CDATA[
                 (
@@ -323,7 +323,7 @@
                 , #{goodQuantity}
                 , #{defectQuantity}
                 , #{inspectionDate}
-                , <if test="note != ''"> #{note} </if>
+                , <choose><when test="note != ''">#{note}</when><otherwise>''</otherwise></choose>
             )
     </insert>
 
