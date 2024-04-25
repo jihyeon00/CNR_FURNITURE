@@ -15,7 +15,7 @@
 
 
 	<!-- 검색 Form -->
-	<form action="/inspectionOB" id="searchInspOB" name="searchInspOB" class="col-md-12" method="get">
+	<form action="/M/quality/inspectionOB" id="searchInspOB" name="searchInspOB" class="col-md-12" method="get">
 	  <div class="content-header">
 	    <div class="container-fluid">
 	      <div class="row mb-2">
@@ -25,7 +25,7 @@
 	          </ol>
 	          <ol class="breadcrumb float-sm-right">
 	            <div class="reset">
-	            	<a href="/quality/inspectionOB">
+	            	<a href="/M/quality/inspectionOB">
 	              	<img class="resetPng" alt="reset" src="/resources/img/reset.png" >
 	              </a>
 	            </div>

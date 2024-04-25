@@ -160,7 +160,7 @@
         where
             1=1
         <if test="lotID != null and lotID != ''">
-            and PRO_LOT_ID = #{lotID}
+            and W_LOT_ID = #{lotID}
         </if>
         <if test="productID != null and productID != ''">
             and INS_ITEM_ID = #{productID}

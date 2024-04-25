@@ -15,7 +15,7 @@
 
 <div class="content-wrapper">
    <!-- 검색 Form -->
-   <form action="/inspectionProcess" id="searchInspProcess" name="searchInspProcess" class="col-md-12" method="get">
+   <form action="/M/quality/inspectionProcess" id="searchInspProcess" name="searchInspProcess" class="col-md-12" method="get">
      <div class="content-header">
        <div class="container-fluid">
          <div class="row mb-2">
