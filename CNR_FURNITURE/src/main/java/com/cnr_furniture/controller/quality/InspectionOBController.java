@@ -60,7 +60,7 @@ public class InspectionOBController {
      * 검색조건에 따라 다른 결과를 모델에 추가하고, 결과 페이지를 렌더링한다.
      * @param cri: 검색 조건을 담은 VO 객체
      * @param model: 뷰에 데이터를 전달하기 위한 모델
-     * @return: qualityInspection/inspectionOB
+     * @return: quality/inspectionOB
      */
     @GetMapping("M/quality/inspectionOB")
     public String getInspectionOBList(CriteriaInspOBVO cri, Model model) {
