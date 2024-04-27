@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://github.com/jihyeon00/CNR_FURNITURE/assets/120089047/092a2a42-83c0-405b-9e5d-76f22bba5460" alt="Cozy&Rest Furniture" width="400">
+  <img src="https://github.com/jihyeon00/CNR_FURNITURE/assets/120089047/786630b6-c0a3-4b34-8567-39b5fc4a58e0" alt="Cozy&Rest Furniture" width="400">
   <br>
   Cozy&Rest Furniture 가구 MES 프로그램
   <br>
