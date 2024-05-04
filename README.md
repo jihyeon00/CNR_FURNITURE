@@ -34,9 +34,14 @@
   - **DevOps**: Maven, Git, GitHub
   - **Tools**: Discord, GoogleDrive, StarUML
 ### 🧑‍🤝‍🧑 멤버 구성
-|[배지현(팀장)](https://github.com/jihyeon00)|[김다은(팀원)]()|[이시연(팀원)]()|[이현주(팀원)](https://github.com/icanbewhatever)|[정수하(팀원)](https://github.com/heyJSH)|[조다혜(팀원)](https://github.com/ChoDaHye)|
-|---|---|---|---|---|---|
-|지현내용|다은내용|시연내용|현주내용|수하내용|다혜내용|
+|팀원명|담당업무|
+|---|---|
+|[배지현(팀장)](https://github.com/jihyeon00)|ㅁㅁㅁ|
+|[김다은(팀원)](https://github.com/dan3319)|ㅁㅁㅁ|
+|[이시연(팀원)](https://github.com/sieoh)|ㅁㅁㅁ|
+|[이현주(팀원)](https://github.com/icanbewhatever)|ㅁㅁㅁ|
+|[정수하(팀원)](https://github.com/heyJSH)|ㅁㅁㅁ|
+|[조다혜(팀원)](https://github.com/ChoDaHye)|ㅁㅁㅁ|
 
 <br><br>
 
