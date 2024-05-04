@@ -91,7 +91,7 @@
 ## 🔧 아키텍처
 #### 수정필요!!!!!!!!!!!!!!
 그림 첨부 필요. 예시는 아래와 같다.<br>
-![image](https://github.com/heyJSH/Project-Meal_Kit_SpringBoot/assets/150403977/41d35377-005b-49ff-8df4-5669487e3ba3)
+![C R FURNITURE 아키텍처](https://github.com/jihyeon00/CNR_FURNITURE/assets/120089047/4d2fa8c6-6ea7-46d3-be1e-160689189962)
 <br><br>
 
 ## 🏗️ ERD
