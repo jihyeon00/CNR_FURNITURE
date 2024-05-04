@@ -39,6 +39,7 @@
   - **Tools**: Discord, GoogleDrive, StarUML
 ### 🧑‍🤝‍🧑 멤버 구성
 |[배지현(팀장)](https://github.com/jihyeon00)|[김다은(팀원)]()|[이시연(팀원)]()|[이현주(팀원)](https://github.com/icanbewhatever)|[정수하(팀원)](https://github.com/heyJSH)|[조다혜(팀원)](https://github.com/ChoDaHye)|
+|---|---|---|---|---|---|
 |지현내용|다은내용|시연내용|현주내용|수하내용|다혜내용|
 
 <br><br>
