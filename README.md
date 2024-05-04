@@ -89,9 +89,8 @@
 <br><br>
 
 ## 🔧 아키텍처
-#### 수정필요!!!!!!!!!!!!!!
-그림 첨부 필요. 예시는 아래와 같다.<br>
-![C R FURNITURE 아키텍처](https://github.com/jihyeon00/CNR_FURNITURE/assets/120089047/4d2fa8c6-6ea7-46d3-be1e-160689189962)
+####  * 서버 배포를 진행하지 않았음
+![C R FURNITURE 아키텍처](https://github.com/jihyeon00/CNR_FURNITURE/assets/120089047/85718228-5e1a-4120-90c1-70064446bc1b)
 <br><br>
 
 ## 🏗️ ERD
