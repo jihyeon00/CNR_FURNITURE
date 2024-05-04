@@ -34,14 +34,15 @@
   - **DevOps**: Maven, Git, GitHub
   - **Tools**: Discord, GoogleDrive, StarUML
 ### 🧑‍🤝‍🧑 멤버 구성
-|팀원명|담당업무|
-|---|---|
-|[배지현(팀장)](https://github.com/jihyeon00)|ㅁㅁㅁ|
-|[김다은(팀원)](https://github.com/dan3319)|ㅁㅁㅁ|
-|[이시연(팀원)](https://github.com/sieoh)|ㅁㅁㅁ|
-|[이현주(팀원)](https://github.com/icanbewhatever)|ㅁㅁㅁ|
-|[정수하(팀원)](https://github.com/heyJSH)|ㅁㅁㅁ|
-|[조다혜(팀원)](https://github.com/ChoDaHye)|ㅁㅁㅁ|
+||팀원명|담당업무|
+|---|---|---|
+
+|![image](https://avatars.githubusercontent.com/u/120089047?v=4)|[배지현(팀장)](https://github.com/jihyeon00)|생산관리, 작업관리, 작업자관리|
+|![image](https://avatars.githubusercontent.com/u/156730588?v=4)|[김다은(팀원)](https://github.com/dan3319)|설비관리, 설비점검|
+|![image](https://avatars.githubusercontent.com/u/151722461?v=4)|[이시연(팀원)](https://github.com/sieoh)|로그인, 권한관리|
+|![image](https://avatars.githubusercontent.com/u/139785614?v=4)|[이현주(팀원)](https://github.com/icanbewhatever)|제품/자재 정보관리, BOM 관리|
+|![image](https://avatars.githubusercontent.com/u/150403977?v=4)|[정수하(팀원)](https://github.com/heyJSH)|자재/제품 재고 조회, 품질관리|
+|![image](https://avatars.githubusercontent.com/u/151722511?v=4)|[조다혜(팀원)](https://github.com/ChoDaHye)|제조지시, 제조수행지시, 공정정보관리|
 
 <br><br>
 
