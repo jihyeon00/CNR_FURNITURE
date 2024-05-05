@@ -474,5 +474,5 @@ DB와 ERD <br>
 <br><br>
 
 ## 📃 화면설계
-[[Figma 확인하기]](https://www.figma.com/file/TJCIsPWBYpiGFq3VZo7aAL/Cozy%26Rest-FURNTIURE?type=design&node-id=12%3A29&mode=design&t=lBsTPDw3kZcSzh4i-1)
+[[📑 Figma 확인하기]](https://www.figma.com/file/TJCIsPWBYpiGFq3VZo7aAL/Cozy%26Rest-FURNTIURE?type=design&node-id=12%3A29&mode=design&t=lBsTPDw3kZcSzh4i-1)
 <br><br>
