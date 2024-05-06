@@ -179,17 +179,7 @@
 </details>
 
 <details>
-  <summary><b>6. 작업자 스케쥴 조회: 월별 스케줄러 [이현주]</b> (👈 Click)</summary>
-  <br>
-  <h3>작업자 스케쥴 조회</h3>
-  <ul>
-    <li>구글 캘린더 API를 적용하여 작업자의 스케쥴을 조회할 수 있도록 했다.</li>
-    <img src="https://github.com/heyJSH/CNR_FURNITURE/assets/150403977/f89201c2-f113-4e08-91e1-25d5cc13d0ed" alt="작업자 스케쥴 조회">
-  </ul>
-</details>
-
-<details>
-  <summary><b>7. 제조지시/제조수행지시/공정정보관리 [조다혜]</b> (👈 Click)</summary>
+  <summary><b>6. 공정관리 - 제조지시/제조수행지시/공정정보관리 [조다혜]</b> (👈 Click)</summary>
   <br>
   <h3>제조지시/제조수행지시/공정정보관리 - 검색</h3>
   <ul>
@@ -237,7 +227,17 @@
 </details>
 
 <details>
-  <summary><b>8. 공정관리 [배지현]</b> (👈 Click)</summary>
+  <summary><b>7. 공정관리 - 작업자 스케쥴 조회: 월별 스케줄러 [이현주]</b> (👈 Click)</summary>
+  <br>
+  <h3>작업자 스케쥴 조회</h3>
+  <ul>
+    <li>구글 캘린더 API를 적용하여 작업자의 스케쥴을 조회할 수 있도록 했다.</li>
+    <img src="https://github.com/heyJSH/CNR_FURNITURE/assets/150403977/f89201c2-f113-4e08-91e1-25d5cc13d0ed" alt="작업자 스케쥴 조회">
+  </ul>
+</details>
+
+<details>
+  <summary><b>8. 공정관리 - 작업관리, 작업자관리 [배지현]</b> (👈 Click)</summary>
   <br>
   <h3>공정관리 - 작업관리 - 검색 및 조회</h3>
   <ul>
