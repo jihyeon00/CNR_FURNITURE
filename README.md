@@ -57,7 +57,7 @@
 원목 가구를 생산/제조하는 업체에서 사용하는 MES 시스템 프로그램을 제공한다.
 
 <details>
-  <summary><b>작업 및 작업자 관리 [배지현]</b> (👈 Click)</summary>
+  <summary><b>작업 관리 [배지현]</b> (👈 Click)</summary>
   <br>
   <h3>공정관리 - 작업관리 - 검색 및 조회</h3>
   <ul>
@@ -125,6 +125,9 @@
     <li>'투입수량'을 수정하고 [수정] 버튼을 누르면, DB에 저장된다.</li>
     <img src="https://github.com/heyJSH/CNR_FURNITURE/assets/150403977/3fb784fb-1651-49d8-afff-275d04a860d9" alt="자재투입 수정1">
   </ul>
+</details>
+<details>
+  <summary><b>작업자 관리 [배지현]</b> (👈 Click)</summary>
   <br>
   <h3>공정관리 - 작업자관리 - 등록/상세 및 수정/삭제</h3>
   <ul>
